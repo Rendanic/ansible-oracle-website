@@ -26,6 +26,7 @@ Default value common_packages_el6: - screen - facter - procps - module-init-tool
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="roles">
+    <meta property="article:modified_time" content="2024-09-24T14:10:40+00:00">
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="ansible-oracle Hompage">
@@ -39,6 +40,7 @@ Default value common_packages_el6: - screen - facter - procps - module-init-tool
 Table of content Requirements Default Variables common_packages common_packages_el6 common_packages_el7 common_packages_el8 common_packages_el9 common_packages_sles configure_epel_repo configure_motd configure_ntp configure_public_yum_repo epel6_rpm epel7_rpm epel8_rpm epel9_rpm install_os_packages motd_template ntp_type ol6_repo_file ol7_repo_file Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables common_packages This is an internal variable only. Do not define it!
 Default value common_packages: _unset_ common_packages_el6 List of RPMs for RHEL6 or OL6
 Default value common_packages_el6: - screen - facter - procps - module-init-tools - ethtool - lsof - bc - nc - bind-utils - nfs-utils - make - sysstat - unzip - openssh-clients - compat-libcap1 - collectl - rlwrap - tigervnc-server - ntp - expect - git - lvm2 - xfsprogs - btrfs-progs - tmux - python-devel - python-pip - libselinux-python - twm - autofs - parted - mlocate - ntp - ksh - lvm2 - xfsprogs - btrfs-progs - procps - psmisc common_packages_el7 List of RPMs for RHEL7 or OL7">
+  <meta itemprop="dateModified" content="2024-09-24T14:10:40+00:00">
   <meta itemprop="wordCount" content="638"></head>
 <body><div class="container"><header>
 <h1>ansible-oracle Hompage</h1>
@@ -368,9 +370,11 @@ The chrony or ntp is automatically chosen by <code>ntp_type</code>.</p>
 <h2 id="author">Author</h2>
 <p>[Mikael Sandström]</p>
 <div class="edit-meta">
+Last updated on 24 Sep 2024
+
 
 <br></div>
-<nav class="pagination"><a class="nav nav-next" href="https://www.ansible-oracle.eu/guides/" title="Guides">Next - Guides <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+<nav class="pagination"><a class="nav nav-next" href="https://www.ansible-oracle.eu/development/" title="Development">Next - Development <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
 </nav><footer><p class="powered">Powered by <a href="https://gohugo.io">Hugo</a>. Theme by <a href="https://themes.gohugo.io/hugo-theme-techdoc/">TechDoc</a>. Designed by <a href="https://github.com/thingsym/hugo-theme-techdoc">Thingsym</a>.</p>
 </footer>
 </main>
@@ -379,6 +383,15 @@ The chrony or ntp is automatically chosen by <code>ntp_type</code>.</p>
 <nav class="open-menu">
 <ul>
 <li class=""><a href="https://www.ansible-oracle.eu/">Home</a></li>
+
+<li class=""><a href="https://www.ansible-oracle.eu/development/">Development</a>
+  
+<ul class="sub-menu">
+<li class=""><a href="https://www.ansible-oracle.eu/development/development/">Setup Environment</a></li>
+<li class=""><a href="https://www.ansible-oracle.eu/development/website/">Website</a></li>
+</ul>
+  
+</li>
 
 <li class=""><a href="https://www.ansible-oracle.eu/guides/">Guides</a>
   
@@ -389,7 +402,6 @@ The chrony or ntp is automatically chosen by <code>ntp_type</code>.</p>
 <li class=""><a href="https://www.ansible-oracle.eu/guides/examples/">vagrant Examples</a>
   
 <ul class="sub-menu">
-<li class=""><a href="https://www.ansible-oracle.eu/guides/examples/beginner/">Database</a></li>
 <li class=""><a href="https://www.ansible-oracle.eu/guides/examples/advanced/">Database with Patching</a></li>
 </ul>
   
