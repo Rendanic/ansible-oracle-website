@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>ansible-oracle Hompage</title>
+<meta name="generator" content="Hugo 0.134.3">
+<link href="https://www.ansible-oracle.eu//index.xml" rel="alternate" type="application/rss+xml">
+<link rel="canonical" href="https://www.ansible-oracle.eu/roles/common/">
+<link rel="stylesheet" href="https://www.ansible-oracle.eu/css/theme.min.css">
+<link rel="stylesheet" href="https://www.ansible-oracle.eu/css/chroma.min.css">
+<script defer src="https://www.ansible-oracle.eu//js/fontawesome6/all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js" integrity="sha256-H3cjtrm/ztDeuhCN9I4yh4iN2Ybx/y1RM7rMmAesA0k=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck=" crossorigin="anonymous"></script>
+<script src="https://www.ansible-oracle.eu/js/bundle.js"></script><style>
+:root {}
+</style>
+<meta property="og:url" content="https://www.ansible-oracle.eu/roles/common/">
+  <meta property="og:site_name" content="ansible-oracle Hompage">
+  <meta property="og:title" content="ansible-oracle Hompage">
+  <meta property="og:description" content="common sets up the host generic stuff
+Table of content Requirements Default Variables common_packages common_packages_el6 common_packages_el7 common_packages_el8 common_packages_el9 common_packages_sles configure_epel_repo configure_motd configure_ntp configure_public_yum_repo epel6_rpm epel7_rpm epel8_rpm epel9_rpm install_os_packages motd_template ntp_type ol6_repo_file ol7_repo_file Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables common_packages This is an internal variable only. Do not define it!
+Default value common_packages: _unset_ common_packages_el6 List of RPMs for RHEL6 or OL6
+Default value common_packages_el6: - screen - facter - procps - module-init-tools - ethtool - lsof - bc - nc - bind-utils - nfs-utils - make - sysstat - unzip - openssh-clients - compat-libcap1 - collectl - rlwrap - tigervnc-server - ntp - expect - git - lvm2 - xfsprogs - btrfs-progs - tmux - python-devel - python-pip - libselinux-python - twm - autofs - parted - mlocate - ntp - ksh - lvm2 - xfsprogs - btrfs-progs - procps - psmisc common_packages_el7 List of RPMs for RHEL7 or OL7">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="roles">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="ansible-oracle Hompage">
+  <meta name="twitter:description" content="common sets up the host generic stuff
+Table of content Requirements Default Variables common_packages common_packages_el6 common_packages_el7 common_packages_el8 common_packages_el9 common_packages_sles configure_epel_repo configure_motd configure_ntp configure_public_yum_repo epel6_rpm epel7_rpm epel8_rpm epel9_rpm install_os_packages motd_template ntp_type ol6_repo_file ol7_repo_file Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables common_packages This is an internal variable only. Do not define it!
+Default value common_packages: _unset_ common_packages_el6 List of RPMs for RHEL6 or OL6
+Default value common_packages_el6: - screen - facter - procps - module-init-tools - ethtool - lsof - bc - nc - bind-utils - nfs-utils - make - sysstat - unzip - openssh-clients - compat-libcap1 - collectl - rlwrap - tigervnc-server - ntp - expect - git - lvm2 - xfsprogs - btrfs-progs - tmux - python-devel - python-pip - libselinux-python - twm - autofs - parted - mlocate - ntp - ksh - lvm2 - xfsprogs - btrfs-progs - procps - psmisc common_packages_el7 List of RPMs for RHEL7 or OL7">
+
+  <meta itemprop="name" content="ansible-oracle Hompage">
+  <meta itemprop="description" content="common sets up the host generic stuff
+Table of content Requirements Default Variables common_packages common_packages_el6 common_packages_el7 common_packages_el8 common_packages_el9 common_packages_sles configure_epel_repo configure_motd configure_ntp configure_public_yum_repo epel6_rpm epel7_rpm epel8_rpm epel9_rpm install_os_packages motd_template ntp_type ol6_repo_file ol7_repo_file Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables common_packages This is an internal variable only. Do not define it!
+Default value common_packages: _unset_ common_packages_el6 List of RPMs for RHEL6 or OL6
+Default value common_packages_el6: - screen - facter - procps - module-init-tools - ethtool - lsof - bc - nc - bind-utils - nfs-utils - make - sysstat - unzip - openssh-clients - compat-libcap1 - collectl - rlwrap - tigervnc-server - ntp - expect - git - lvm2 - xfsprogs - btrfs-progs - tmux - python-devel - python-pip - libselinux-python - twm - autofs - parted - mlocate - ntp - ksh - lvm2 - xfsprogs - btrfs-progs - procps - psmisc common_packages_el7 List of RPMs for RHEL7 or OL7">
+  <meta itemprop="wordCount" content="638"></head>
+<body><div class="container"><header>
+<h1>ansible-oracle Hompage</h1>
+</header>
+<div class="global-menu">
+<nav>
+<ul>
+<li id="home" class=""><a href="/"><i class='fa fa-heart'></i>&nbsp;Home</a></li></ul>
+</nav>
+</div>
+
+<div class="content-container">
+<main><h1></h1>
+<h1 id="common">common</h1>
+<p>sets up the host generic stuff</p>
+<h2 id="table-of-content">Table of content</h2>
+<ul>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#default-variables">Default Variables</a>
+<ul>
+<li><a href="#common_packages">common_packages</a></li>
+<li><a href="#common_packages_el6">common_packages_el6</a></li>
+<li><a href="#common_packages_el7">common_packages_el7</a></li>
+<li><a href="#common_packages_el8">common_packages_el8</a></li>
+<li><a href="#common_packages_el9">common_packages_el9</a></li>
+<li><a href="#common_packages_sles">common_packages_sles</a></li>
+<li><a href="#configure_epel_repo">configure_epel_repo</a></li>
+<li><a href="#configure_motd">configure_motd</a></li>
+<li><a href="#configure_ntp">configure_ntp</a></li>
+<li><a href="#configure_public_yum_repo">configure_public_yum_repo</a></li>
+<li><a href="#epel6_rpm">epel6_rpm</a></li>
+<li><a href="#epel7_rpm">epel7_rpm</a></li>
+<li><a href="#epel8_rpm">epel8_rpm</a></li>
+<li><a href="#epel9_rpm">epel9_rpm</a></li>
+<li><a href="#install_os_packages">install_os_packages</a></li>
+<li><a href="#motd_template">motd_template</a></li>
+<li><a href="#ntp_type">ntp_type</a></li>
+<li><a href="#ol6_repo_file">ol6_repo_file</a></li>
+<li><a href="#ol7_repo_file">ol7_repo_file</a></li>
+</ul>
+</li>
+<li><a href="#discovered-tags">Discovered Tags</a></li>
+<li><a href="#dependencies">Dependencies</a></li>
+<li><a href="#license">License</a></li>
+<li><a href="#author">Author</a></li>
+</ul>
+<hr>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>Minimum Ansible version: <code>2.14.0</code></li>
+</ul>
+<h2 id="default-variables">Default Variables</h2>
+<h3 id="common_packages">common_packages</h3>
+<p>This is an internal variable only. Do not define it!</p>
+<h4 id="default-value">Default value</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-YAML" data-lang="YAML"><span style="display:flex;"><span><span style="color:#f92672">common_packages</span>: <span style="color:#ae81ff">_unset_</span>
+</span></span></code></pre></div><h3 id="common_packages_el6">common_packages_el6</h3>
+<p>List of RPMs for RHEL6 or OL6</p>
+<h4 id="default-value-1">Default value</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-YAML" data-lang="YAML"><span style="display:flex;"><span><span style="color:#f92672">common_packages_el6</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">screen</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">facter</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">procps</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">module-init-tools</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">ethtool</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">lsof</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">bc</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">nc</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">bind-utils</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">nfs-utils</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">make</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">sysstat</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">unzip</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">openssh-clients</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">compat-libcap1</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">collectl</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">rlwrap</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">tigervnc-server</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">ntp</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">expect</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">git</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">lvm2</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">xfsprogs</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">btrfs-progs</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">tmux</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">python-devel</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">python-pip</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">libselinux-python</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">twm</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">autofs</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">parted</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">mlocate</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">ntp</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">ksh</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">lvm2</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">xfsprogs</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">btrfs-progs</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">procps</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">psmisc</span>
+</span></span></code></pre></div><h3 id="common_packages_el7">common_packages_el7</h3>
+<p>List of RPMs for RHEL7 or OL7</p>
+<h4 id="default-value-2">Default value</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-YAML" data-lang="YAML"><span style="display:flex;"><span><span style="color:#f92672">common_packages_el7</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">screen</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">facter</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">procps</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">module-init-tools</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">ethtool</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">lsof</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">bc</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">nc</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">bind-utils</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">nfs-utils</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">make</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">sysstat</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">unzip</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">openssh-clients</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">compat-libcap1</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">collectl</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">rlwrap</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">tigervnc-server</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">ntp</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">expect</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">git</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">lvm2</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">xfsprogs</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">btrfs-progs</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">python-devel</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">python-pip</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">libselinux-python</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">autofs</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">parted</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">mlocate</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">ntp</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">ksh</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">lvm2</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">xfsprogs</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">btrfs-progs</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">procps</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">psmisc</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">grubby</span>
+</span></span></code></pre></div><h3 id="common_packages_el8">common_packages_el8</h3>
+<p>List of RPMs for RHEL8 or OL8</p>
+<h4 id="default-value-3">Default value</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-YAML" data-lang="YAML"><span style="display:flex;"><span><span style="color:#f92672">common_packages_el8</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">screen</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">facter</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">procps</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">module-init-tools</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">ethtool</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">lsof</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">bc</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">binutils</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">elfutils-libelf</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">elfutils-libelf-devel</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">fontconfig-devel</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">glibc</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">glibc-devel</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">ksh</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">libaio</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">libaio-devel</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">libXrender</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">libX11</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">libXau</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">libXi</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">libXtst</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">libgcc</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">libnsl</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">librdmacm</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">libstdc++</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">libstdc++-devel</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">libxcb</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">libibverbs</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">make</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">smartmontools</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">sysstat</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">nc</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">bind-utils</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">nfs-utils</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">unzip</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">openssh-clients</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">rlwrap</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">tigervnc-server</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">expect</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">git</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">lvm2</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">xfsprogs</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">autofs</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">parted</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">mlocate</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">ksh</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">lvm2</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">xfsprogs</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">psmisc</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">python3</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">python3-pip</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">grubby</span>
+</span></span></code></pre></div><h3 id="common_packages_el9">common_packages_el9</h3>
+<h4 id="default-value-4">Default value</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-YAML" data-lang="YAML"><span style="display:flex;"><span><span style="color:#f92672">common_packages_el9</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">screen</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">facter</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">lsof</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">nc</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">rlwrap</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">expect</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">git</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">lvm2</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">xfsprogs</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">autofs</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">parted</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">mlocate</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">lvm2</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">python3</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">python3-pip</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">bind-utils</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">binutils</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">ethtool</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">glibc</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">glibc-devel</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">initscripts</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">ksh</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">libaio</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">libaio-devel</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">libgcc</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">libnsl</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">libstdc++</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">libstdc++-devel</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">make</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">module-init-tools</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">net-tools</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">nfs-utils</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">openssh-clients</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">pam</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">policycoreutils</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">policycoreutils-python-utils</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">procps</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">psmisc</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">smartmontools</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">sysstat</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">tar</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">unzip</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">util-linux-ng</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">xorg-x11-utils</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">xorg-x11-xauth</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">grubby</span>
+</span></span></code></pre></div><h3 id="common_packages_sles">common_packages_sles</h3>
+<p>List of RPMs for SuSE Linux Enterprise Server</p>
+<h4 id="default-value-5">Default value</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-YAML" data-lang="YAML"><span style="display:flex;"><span><span style="color:#f92672">common_packages_sles</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">screen</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">procps</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">module-init-tools</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">ethtool</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">bc</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">bind-utils</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">make</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">sysstat</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">unzip</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">chrony</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">expect</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">lvm2</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">autofs</span>
+</span></span></code></pre></div><h3 id="configure_epel_repo">configure_epel_repo</h3>
+<h4 id="default-value-6">Default value</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-YAML" data-lang="YAML"><span style="display:flex;"><span><span style="color:#f92672">configure_epel_repo</span>: <span style="color:#66d9ef">true</span>
+</span></span></code></pre></div><h3 id="configure_motd">configure_motd</h3>
+<p>Configure Message of the day</p>
+<h4 id="default-value-7">Default value</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-YAML" data-lang="YAML"><span style="display:flex;"><span><span style="color:#f92672">configure_motd</span>: <span style="color:#66d9ef">true</span>
+</span></span></code></pre></div><h3 id="configure_ntp">configure_ntp</h3>
+<p>Configure ntpd or chrony on target system.
+The chrony or ntp is automatically chosen by <code>ntp_type</code>.</p>
+<h4 id="default-value-8">Default value</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-YAML" data-lang="YAML"><span style="display:flex;"><span><span style="color:#f92672">configure_ntp</span>: <span style="color:#66d9ef">true</span>
+</span></span></code></pre></div><h3 id="configure_public_yum_repo">configure_public_yum_repo</h3>
+<h4 id="default-value-9">Default value</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-YAML" data-lang="YAML"><span style="display:flex;"><span><span style="color:#f92672">configure_public_yum_repo</span>: <span style="color:#66d9ef">true</span>
+</span></span></code></pre></div><h3 id="epel6_rpm">epel6_rpm</h3>
+<p>Url for epel-release-latest-6.noarch.rpm</p>
+<h4 id="default-value-10">Default value</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-YAML" data-lang="YAML"><span style="display:flex;"><span><span style="color:#f92672">epel6_rpm</span>: <span style="color:#ae81ff">https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm</span>
+</span></span></code></pre></div><h3 id="epel7_rpm">epel7_rpm</h3>
+<p>Url for epel-release-latest-7.noarch.rpm</p>
+<h4 id="default-value-11">Default value</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-YAML" data-lang="YAML"><span style="display:flex;"><span><span style="color:#f92672">epel7_rpm</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">https://archives.fedoraproject.org/pub/archive/epel/7/x86_64/Packages/e/epel-release-7-14.noarch.rpm</span>
+</span></span></code></pre></div><h3 id="epel8_rpm">epel8_rpm</h3>
+<p>Url for epel-release-latest-8.noarch.rpm</p>
+<h4 id="default-value-12">Default value</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-YAML" data-lang="YAML"><span style="display:flex;"><span><span style="color:#f92672">epel8_rpm</span>: <span style="color:#ae81ff">https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm</span>
+</span></span></code></pre></div><h3 id="epel9_rpm">epel9_rpm</h3>
+<p>Url for epel-release-latest-8.noarch.rpm</p>
+<h4 id="default-value-13">Default value</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-YAML" data-lang="YAML"><span style="display:flex;"><span><span style="color:#f92672">epel9_rpm</span>: <span style="color:#ae81ff">oracle-epel-release-el9</span>
+</span></span></code></pre></div><h3 id="install_os_packages">install_os_packages</h3>
+<h4 id="default-value-14">Default value</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-YAML" data-lang="YAML"><span style="display:flex;"><span><span style="color:#f92672">install_os_packages</span>: <span style="color:#66d9ef">true</span>
+</span></span></code></pre></div><h3 id="motd_template">motd_template</h3>
+<p>Used templatename for Message of the day</p>
+<h4 id="default-value-15">Default value</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-YAML" data-lang="YAML"><span style="display:flex;"><span><span style="color:#f92672">motd_template</span>: <span style="color:#ae81ff">motd.j2</span>
+</span></span></code></pre></div><h3 id="ntp_type">ntp_type</h3>
+<p>This is an internal variable only. Do not define it!</p>
+<h4 id="default-value-16">Default value</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-YAML" data-lang="YAML"><span style="display:flex;"><span><span style="color:#f92672">ntp_type</span>: <span style="color:#ae81ff">_unset_</span>
+</span></span></code></pre></div><h3 id="ol6_repo_file">ol6_repo_file</h3>
+<p>The variable is used to cleanup the yum repolist for old installations.</p>
+<h4 id="default-value-17">Default value</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-YAML" data-lang="YAML"><span style="display:flex;"><span><span style="color:#f92672">ol6_repo_file</span>: <span style="color:#ae81ff">public-yum-ol6.repo</span>
+</span></span></code></pre></div><h3 id="ol7_repo_file">ol7_repo_file</h3>
+<p>The variable is used to cleanup the yum repolist for old installations.</p>
+<h4 id="default-value-18">Default value</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-YAML" data-lang="YAML"><span style="display:flex;"><span><span style="color:#f92672">ol7_repo_file</span>: <span style="color:#ae81ff">public-yum-ol7.repo</span>
+</span></span></code></pre></div><h2 id="discovered-tags">Discovered Tags</h2>
+<p><strong><em>common_assert</em></strong></p>
+<p><strong><em>commonpackages</em></strong></p>
+<p><strong><em>epelrepo</em></strong></p>
+<p><strong><em>motd</em></strong></p>
+<p><strong><em>olrepo</em></strong></p>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li>global_handlers</li>
+</ul>
+<h2 id="license">License</h2>
+<p>license (MIT)</p>
+<h2 id="author">Author</h2>
+<p>[Mikael Sandström]</p>
+<div class="edit-meta">
+
+<br></div>
+<nav class="pagination"><a class="nav nav-next" href="https://www.ansible-oracle.eu/guides/" title="Guides">Next - Guides <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+</nav><footer><p class="powered">Powered by <a href="https://gohugo.io">Hugo</a>. Theme by <a href="https://themes.gohugo.io/hugo-theme-techdoc/">TechDoc</a>. Designed by <a href="https://github.com/thingsym/hugo-theme-techdoc">Thingsym</a>.</p>
+</footer>
+</main>
+<div class="sidebar">
+
+<nav class="open-menu">
+<ul>
+<li class=""><a href="https://www.ansible-oracle.eu/">Home</a></li>
+
+<li class=""><a href="https://www.ansible-oracle.eu/guides/">Guides</a>
+  
+<ul class="sub-menu">
+<li class=""><a href="https://www.ansible-oracle.eu/guides/ansible-controller/">Ansible Controller</a></li>
+<li class=""><a href="https://www.ansible-oracle.eu/guides/apex_ords/">Setup APEX and ORDS</a></li>
+
+<li class=""><a href="https://www.ansible-oracle.eu/guides/examples/">vagrant Examples</a>
+  
+<ul class="sub-menu">
+<li class=""><a href="https://www.ansible-oracle.eu/guides/examples/beginner/">Database</a></li>
+<li class=""><a href="https://www.ansible-oracle.eu/guides/examples/advanced/">Database with Patching</a></li>
+</ul>
+  
+</li>
+</ul>
+  
+</li>
+
+<li class=""><a href="https://www.ansible-oracle.eu/features/">Features</a>
+  
+<ul class="sub-menu">
+<li class=""><a href="https://www.ansible-oracle.eu/features/featurelist/">Featureliste</a></li>
+</ul>
+  
+</li>
+</ul>
+</nav>
+
+
+
+<div class="sidebar-footer"></div>
+</div>
+
+</div><a href="#" id="backtothetop-fixed" class="backtothetop"
+ data-backtothetop-duration="600"
+ data-backtothetop-easing="easeOutQuart"
+ data-backtothetop-fixed-fadeIn="1000"
+ data-backtothetop-fixed-fadeOut="1000"
+ data-backtothetop-fixed-bottom="10"
+ data-backtothetop-fixed-right="20">
+<span class="fa-layers fa-fw">
+<i class="fas fa-circle"></i>
+<i class="fas fa-arrow-circle-up"></i>
+</span></a>
+</div>
+</body>
+</html>
