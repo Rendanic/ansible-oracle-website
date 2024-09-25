@@ -1,0 +1,2621 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="canonical" type="text/html" href="https://www.ansible-oracle.eu/docs/">
+<meta name="robots" content="noindex, nofollow">
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+<title>Documentation | ansible-oracle Hompage</title>
+<meta name="description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins.">
+<meta property="og:url" content="https://www.ansible-oracle.eu/docs/">
+  <meta property="og:site_name" content="ansible-oracle Hompage">
+  <meta property="og:title" content="Documentation">
+  <meta property="og:description" content="ansible-oracle This is the Homepage of the project ansible-oraclehosted on https://github.com/oravirt/ansible-oracle.
+Automated installation of
+Oracle RAC databases RAC One Node database and single instance Oracle databases Start with one or more clean Linux machine(s), end up with a fully configured Oracle database system Documentation Features Full list of features of ansible-oracle https://github.com/oravirt/ansible-oracle/blob/master/doc/featurelist.adoc More details https://github.com/oravirt/ansible-oracle Getting Started Vagrant setup on Windows https://github.com/oravirt/ansible-oracle/blob/master/doc/vagrant.adoc Beginner https://github.com/oravirt/ansible-oracle/blob/master/doc/guides/beginner.adoc Next Steps APEX and ORDS in ansible-oracle How to develop in ansible-oracle List of roles in ansible-oracle Pre-requisites Ansible Version &gt;= 2.14">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="website">
+
+  <meta itemprop="name" content="Documentation">
+  <meta itemprop="description" content="ansible-oracle This is the Homepage of the project ansible-oraclehosted on https://github.com/oravirt/ansible-oracle.
+Automated installation of
+Oracle RAC databases RAC One Node database and single instance Oracle databases Start with one or more clean Linux machine(s), end up with a fully configured Oracle database system Documentation Features Full list of features of ansible-oracle https://github.com/oravirt/ansible-oracle/blob/master/doc/featurelist.adoc More details https://github.com/oravirt/ansible-oracle Getting Started Vagrant setup on Windows https://github.com/oravirt/ansible-oracle/blob/master/doc/vagrant.adoc Beginner https://github.com/oravirt/ansible-oracle/blob/master/doc/guides/beginner.adoc Next Steps APEX and ORDS in ansible-oracle How to develop in ansible-oracle List of roles in ansible-oracle Pre-requisites Ansible Version &gt;= 2.14">
+  <meta itemprop="dateModified" content="2024-09-25T06:21:56+00:00">
+  <meta itemprop="wordCount" content="108">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Documentation">
+  <meta name="twitter:description" content="ansible-oracle This is the Homepage of the project ansible-oraclehosted on https://github.com/oravirt/ansible-oracle.
+Automated installation of
+Oracle RAC databases RAC One Node database and single instance Oracle databases Start with one or more clean Linux machine(s), end up with a fully configured Oracle database system Documentation Features Full list of features of ansible-oracle https://github.com/oravirt/ansible-oracle/blob/master/doc/featurelist.adoc More details https://github.com/oravirt/ansible-oracle Getting Started Vagrant setup on Windows https://github.com/oravirt/ansible-oracle/blob/master/doc/vagrant.adoc Beginner https://github.com/oravirt/ansible-oracle/blob/master/doc/guides/beginner.adoc Next Steps APEX and ORDS in ansible-oracle How to develop in ansible-oracle List of roles in ansible-oracle Pre-requisites Ansible Version &gt;= 2.14">
+
+
+
+
+<link rel="preload" href="/scss/main.min.5118d334f4d49e78b43432d75232dda13144ff70fc9d784048f9c31c8751ea0f.css" as="style">
+<link href="/scss/main.min.5118d334f4d49e78b43432d75232dda13144ff70fc9d784048f9c31c8751ea0f.css" rel="stylesheet" integrity="">
+
+<script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+  crossorigin="anonymous"></script>
+
+  </head>
+  <body class="td-section">
+    <header>
+      <nav class="td-navbar js-navbar-scroll" data-bs-theme="dark">
+<div class="container-fluid flex-column flex-md-row">
+  <a class="navbar-brand" href="/"><span class="navbar-brand__logo navbar-logo"><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500"><g><path style="fill:#fff" d="M116.8525 421.9722c-5.7041.0-10.3442-4.3127-10.3442-9.6129V88.183c0-5.3002 4.6401-9.6117 10.3442-9.6117H320.858c3.0347.0 9.3959.5498 11.7506 2.6302l.3545.3442 58.905 63.2912c2.3101 2.491 2.9202 8.4928 2.9202 11.3184v256.2039c0 5.3002-4.6407 9.6129-10.3436 9.6129H116.8525z"/><g><g><g><path style="fill:#767676" d="M384.4445 423.2066H116.852c-6.3839.0-11.5786-4.8658-11.5786-10.8474V88.1831c0-5.9804 5.1947-10.8461 11.5786-10.8461h204.0062c.377.0 9.2786.0329 12.568 2.9389l.3947.3833 58.9508 63.337c3.2135 3.4652 3.2514 11.7924 3.2514 12.1593v256.2036C396.0231 418.3408 390.8284 423.2066 384.4445 423.2066zM116.5079 411.9189c.0848.0278.1999.0531.3441.0531h267.5925c.1442.0.2581-.0253.3441-.0531V156.1556c-.0076-.9033-.3593-3.7347-.7034-5.0037l-57.6527-61.9416c-1.4651-.3176-4.4533-.6389-5.5742-.6389H116.852c-.143.0-.2594.024-.3441.0531V411.9189zm267.4533-261.149zM327.0321 89.371v.0013V89.371z"/></g></g></g><g><g><path style="fill:#5b7fc0" d="M189.0874 210.1754l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4473C177.5953 212.627 183.0601 210.1742 189.0874 210.1754zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 234.1722 197.0804 232.033z"/><path style="opacity:.3;fill:#fff" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/><g><defs><path id="SVGID_1_" d="M194.7376 237.6875c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 234.2399 196.1861 236.239 194.7376 237.6875z"/></defs><clipPath id="SVGID_2_"><use xlink:href="#SVGID_1_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_2_);fill:#fff" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/><path style="opacity:.13;clip-path:url(#SVGID_2_);fill:#020202" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/></g><g><defs><path id="SVGID_3_" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/></defs><clipPath id="SVGID_4_"><use xlink:href="#SVGID_3_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_4_);fill:#5b7fc0" d="M172.6595 215.6045c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8475-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 209.1953 176.6171 211.647 172.6595 215.6045z"/></g></g><rect x="198.8952" y="225.1043" style="fill:#5b7fc0" width="122.6266" height="13.8671"/></g><g><path style="fill:#d95140" d="M189.0874 155.7611l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.0249 2.454-11.4897 6.4116-15.4473C177.5953 158.2128 183.0601 155.7599 189.0874 155.7611zm7.993 21.8577c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.2508 181.7667 197.0816 179.758 197.0804 177.6188z"/><path style="opacity:.3;fill:#fff" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/><g><defs><path id="SVGID_5_" d="M194.7376 183.2733c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 179.8256 196.1861 181.8248 194.7376 183.2733z"/></defs><clipPath id="SVGID_6_"><use xlink:href="#SVGID_5_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_6_);fill:#fff" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/><path style="opacity:.13;clip-path:url(#SVGID_6_);fill:#020202" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/></g><g><defs><path id="SVGID_7_" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/></defs><clipPath id="SVGID_8_"><use xlink:href="#SVGID_7_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_8_);fill:#d95140" d="M172.6595 161.1903c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 154.7811 176.6171 157.2327 172.6595 161.1903z"/></g><rect x="198.8952" y="170.69" style="fill:#d95140" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#56a55c" d="M189.5379 264.6147l.0012-.0012c7.7751.0012 15.0294 4.1862 18.932 10.9235 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032-5.8394.0-11.3281-2.2733-15.458-6.4032-4.13-4.13-6.4032-9.6186-6.4056-15.4628.0012-6.0249 2.454-11.4897 6.4116-15.4472C178.0458 267.0663 183.5105 264.6135 189.5379 264.6147zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6538 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.7013 290.6202 197.5321 288.6115 197.5309 286.4723z"/><path style="opacity:.3;fill:#fff" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/><g><defs><path id="SVGID_9_" d="M195.1881 292.1268c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9941 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.5344 288.6792 196.6366 290.6783 195.1881 292.1268z"/></defs><clipPath id="SVGID_10_"><use xlink:href="#SVGID_9_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_10_);fill:#fff" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/><path style="opacity:.13;clip-path:url(#SVGID_10_);fill:#020202" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/></g><g><defs><path id="SVGID_11_" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/></defs><clipPath id="SVGID_12_"><use xlink:href="#SVGID_11_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_12_);fill:#56a55c" d="M173.11 270.0439c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7325-11.1497-10.9151-18.926-10.9151C182.5311 263.6346 177.0676 266.0863 173.11 270.0439z"/></g></g><rect x="199.3456" y="279.5436" style="fill:#56a55c" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#f1bc42" d="M189.0874 318.7208l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3305-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4472C177.5953 321.1724 183.0601 318.7196 189.0874 318.7208zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 342.7176 197.0804 340.5784z"/><path style="opacity:.3;fill:#fff" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/><g><defs><path id="SVGID_13_" d="M194.7376 346.2329c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 342.7853 196.1861 344.7844 194.7376 346.2329z"/></defs><clipPath id="SVGID_14_"><use xlink:href="#SVGID_13_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_14_);fill:#fff" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/><path style="opacity:.13;clip-path:url(#SVGID_14_);fill:#020202" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/></g><g><defs><path id="SVGID_15_" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/></defs><clipPath id="SVGID_16_"><use xlink:href="#SVGID_15_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_16_);fill:#f1bc42" d="M172.6595 324.15c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8474-1.0151-7.6327-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 317.7407 176.6171 320.1924 172.6595 324.15z"/></g></g><rect x="198.8952" y="333.6497" style="fill:#f1bc42" width="122.6266" height="13.8671"/></g></g></svg></span><span class="navbar-brand__name">ansible-oracle Hompage</span></a>
+  <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/about/"><span>About</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/docs/"><span>Docs</span></a>
+      </li>
+      </ul>
+  </div>
+  <div class="d-none d-lg-block">
+    
+  </div>
+</div>
+</nav>
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <main class="col-12 col-md-9 col-xl-8 ps-md-5" role="main">
+            
+
+
+
+
+<div class="td-content">
+<div class="pageinfo pageinfo-primary d-print-none">
+<p>
+This is the multi-page printable view of this section.
+<a href="#" onclick="print();return false;">Click here to print</a>.
+</p><p>
+<a href="/docs/">Return to the regular view of this page</a>.
+</p>
+</div>
+
+
+
+<h1 class="title">Documentation</h1>
+
+
+
+
+
+    <ul>
+    
+  
+  
+  
+  
+
+  
+    
+    
+	
+<li>1: <a href="#pg-56dc2b1c45b2c6b0983526530ba75d01">Features</a></li>
+
+
+    
+    <ul>
+        
+  
+  
+  
+  
+
+  
+    
+    
+	
+<li>1.1: <a href="#pg-3e9ac728884fbf009c8e3cf21f35d233">Featureliste</a></li>
+
+
+    
+  
+
+    </ul>
+    
+  
+    
+    
+	
+<li>2: <a href="#pg-d2c6535126cca927d2a9c893abde92a0">Guides</a></li>
+
+
+    
+    <ul>
+        
+  
+  
+  
+  
+
+  
+    
+    
+	
+<li>2.1: <a href="#pg-1ecef3ccaf4921e1741405f703d81f14">Ansible Controller</a></li>
+
+
+    
+  
+    
+    
+	
+<li>2.2: <a href="#pg-5ab9874cfec6ab19006a50f18b994a71">Setup APEX and ORDS</a></li>
+
+
+    
+  
+    
+    
+	
+<li>2.3: <a href="#pg-e18394aedc29d5707faac851e58fb199">vagrant Examples</a></li>
+
+
+    
+    <ul>
+        
+  
+  
+  
+  
+
+  
+    
+    
+	
+<li>2.3.1: <a href="#pg-1034f85de36d013dc955a5cd81324e0d">Database with Patching</a></li>
+
+
+    
+  
+
+    </ul>
+    
+  
+
+    </ul>
+    
+  
+    
+    
+	
+<li>3: <a href="#pg-c995838bf718c1eeff1a9f27bbce59da">Development</a></li>
+
+
+    
+    <ul>
+        
+  
+  
+  
+  
+
+  
+    
+    
+	
+<li>3.1: <a href="#pg-48184263f45940bf9cddc4ee098bb8f3">Setup Environment</a></li>
+
+
+    
+  
+    
+    
+	
+<li>3.2: <a href="#pg-e42b2fdbd3fd77af24259d9dc1ca668b">Website</a></li>
+
+
+    
+  
+
+    </ul>
+    
+  
+
+    </ul>
+
+
+<div class="content">
+      <h2 id="ansible-oracle">ansible-oracle</h2>
+<p>This is the Homepage of the project <code>ansible-oracle</code>hosted on <a href="https://github.com/oravirt/ansible-oracle">https://github.com/oravirt/ansible-oracle</a>.</p>
+<p>Automated installation of</p>
+<ul>
+<li>Oracle RAC databases</li>
+<li>RAC One Node database and</li>
+<li>single instance Oracle databases</li>
+<li>Start with one or more clean Linux machine(s), end up with a fully configured Oracle database system</li>
+</ul>
+<h2 id="documentation">Documentation</h2>
+<h2 id="features">Features</h2>
+<ol>
+<li>Full list of features of ansible-oracle <a href="https://github.com/oravirt/ansible-oracle/blob/master/doc/featurelist.adoc">https://github.com/oravirt/ansible-oracle/blob/master/doc/featurelist.adoc</a></li>
+<li>More details <a href="https://github.com/oravirt/ansible-oracle">https://github.com/oravirt/ansible-oracle</a></li>
+</ol>
+<h2 id="getting-started">Getting Started</h2>
+<ol>
+<li>Vagrant setup on Windows <a href="https://github.com/oravirt/ansible-oracle/blob/master/doc/vagrant.adoc">https://github.com/oravirt/ansible-oracle/blob/master/doc/vagrant.adoc</a></li>
+<li>Beginner <a href="https://github.com/oravirt/ansible-oracle/blob/master/doc/guides/beginner.adoc">https://github.com/oravirt/ansible-oracle/blob/master/doc/guides/beginner.adoc</a></li>
+</ol>
+<h3 id="next-steps">Next Steps</h3>
+<ol>
+<li><a href="doc/guides/apex_ords.adoc">APEX and ORDS in <code>ansible-oracle</code></a></li>
+<li><a href="doc/development.adoc">How to develop in ansible-oracle</a></li>
+<li><a href="doc/roles.adoc">List of roles in ansible-oracle</a></li>
+</ol>
+<h2 id="pre-requisites">Pre-requisites</h2>
+<ul>
+<li>
+<p>Ansible Version &gt;= 2.14</p>
+<p>Version 2.14 or newer of Ansible is recommended</p>
+</li>
+<li>
+<p>Oracle Linux (or any RHEL-based Linux System) &gt;= 8</p>
+</li>
+<li>
+<p>Oracle Database/Grid Infrastructure 21.3.0.0, 19.3.0.0</p>
+</li>
+</ul>
+
+</div>
+</div>
+
+
+  
+  
+  
+  
+
+  
+  
+
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-56dc2b1c45b2c6b0983526530ba75d01">1 - Features</h1>
+    
+	<p>Everything about the development of <code>ansible-oracle</code>.</p>
+
+</div>
+
+
+
+    
+      
+  
+  
+  
+  
+
+  
+  
+
+  
+    
+    
+	
+    
+
+<div class="td-content" style="">
+    
+	<h1 id="pg-3e9ac728884fbf009c8e3cf21f35d233">1.1 - Featureliste</h1>
+    
+	<div class="sect1">
+<h2 id="_supported_features_in_ansible_oracle">Supported features in ansible-oracle</h2>
+<div class="sectionbody">
+<div class="admonitionblock warning">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+Please check the official Compatibilty List from Oracle for RDBMS and Restart/Grid-Infrastructure.<br/>
+<code>ansible-oracle</code> only supports combinations from Oracle with exceptions from the following table.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+All Editions from Oracle are supported.
+See documentation from Oracle for differences between Enterprise and Standard Edtion (SE, SE One and SE2)
+</td>
+</tr>
+</tbody></table>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Featurelist</caption>
+<colgroup>
+<col style="width: 20%;"/>
+<col style="width: 40%;"/>
+<col style="width: 40%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Group</th>
+<th class="tableblock halign-left valign-top">Option</th>
+<th class="tableblock halign-left valign-top">Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="5"><p class="tableblock">OS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OracleLinux<br/>
+Redhat Enterprise Linux</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6 <a href="#table1footnote"><sup>[1]</sup></a><br/>
+7 <a href="#table1footnote"><sup>[1]</sup></a><br/>
+8<br/>
+9</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SuSE Linux Enterprise Server<a href="#table1footnote"><sup>[3]</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">15, 15.3</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Management of LVM, Filesystems and swap</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">all versions of all OS</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ntp &amp; chrony</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">all versions of all OS</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">custom motd (message of the day)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">all versions of all OS</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="5"><p class="tableblock">Software</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ansible</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.14 or newer <a href="#table1footnote"><sup>[9]</sup></a><br/></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle RDBMS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11.2.0.3 <a href="#table1footnote">[1]</a> 11.2.0.4 <a href="#table1footnote">[1]</a><br/>
+12.1.0.2 <a href="#table1footnote">[1]</a><br/>
+12.2.0.1 <a href="#table1footnote">[1]</a><br/>
+18c <a href="#table1footnote">[1]</a><br/>
+19c<br/>
+21c</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Grid-Infrastructure</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12.1.0.2 <a href="#table1footnote">[1]</a><br/>
+12.2.0.1 <a href="#table1footnote">[1]</a><br/>
+18c <a href="#table1footnote">[1]</a><br/>
+19c<br/>
+21c</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Restart</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12.1.0.2 <a href="#table1footnote">[1]</a><br/>
+12.2.0.1 <a href="#table1footnote">[1]</a><br/>
+18c <a href="#table1footnote">[1]</a><br/>
+19c<br/>
+21c</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cxOracle for Python</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Python 3</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="3"><p class="tableblock">ASM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ASM Filter Driver (ASMFD)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c<br/>
+21c</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ASMlib</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12.1.0.2 <a href="#table1footnote">[1]</a><br/>
+12.2.0.1 <a href="#table1footnote">[1]</a><br/>
+18c <a href="#table1footnote">[1]</a><br/>
+19c<br/>
+21c</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">udev</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#table1footnote"><sup>[3]</sup></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="9"><p class="tableblock">Installation Options</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DB Options in Binaries</p></td>
+<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">12.1.0.2 <a href="#table1footnote">[1]</a><br/>
+12.2.0.1 <a href="#table1footnote">[1]</a><br/>
+18c <a href="#table1footnote">[1]</a><br/>
+19c<br/>
+21c</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Statspack for nonCDB, CDB and PDB</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>RMAN Backup with</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>cron management in /etc/cron.d</p>
+</li>
+<li>
+<p>Catalog</p>
+</li>
+<li>
+<p>Oracle-Wallet for Connection</p>
+</li>
+<li>
+<p>checkmk mk_job monitoring</p>
+</li>
+<li>
+<p>custom RMAN-scripts</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">dNFS (direct NFS)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Golden Image for RDBMS, Restart &amp; GI</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create from Installation</p>
+</li>
+<li>
+<p>Install from Image</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">19c<br/>
+21c</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">readonly Homes for RDBMS</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Oracle Data-Guard</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c (planned! <a href="#table1footnote"><sup>[5]</sup></a>)<br/>
+21c (planned! <a href="#table1footnote"><sup>[5]</sup></a>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>automatic Database Migrations</em></p></td>
+<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">not supported</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Prepatch installations <a href="#table1footnote"><sup>[10]</sup></a></em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="14"><p class="tableblock">Database Management</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Grants</p></td>
+<td class="tableblock halign-left valign-top" rowspan="13"><p class="tableblock">11.2.0.3 <a href="#table1footnote">[1]</a> 11.2.0.4 <a href="#table1footnote">[1]</a><br/>
+12.1.0.2 <a href="#table1footnote">[1]</a><br/>
+12.2.0.1 <a href="#table1footnote">[1]</a><br/>
+18c <a href="#table1footnote">[1]</a><br/>
+19c<br/>
+21c</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>init.ora Parameter <a href="#table1footnote"><sup>[7]</sup></a>)</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>possibility to set Parameters after DBCA execution</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pluggable Database Management <a href="#table1footnote"><sup>[8]</sup></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database Profiles</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Redolog Groups <a href="#table1footnote"><sup>[6]</sup></a></em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database Roles</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Database Services <a href="#table1footnote"><sup>[3]</sup></a></em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tablespaces</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Users</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scripts with SQLPlus</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Custom DBCA-Templates</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Define Characterset during DBCA</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enable/Disable Archivelogmode &amp; FRA</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timezone Upgrades</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12.1.0.2 <a href="#table1footnote">[1]</a><br/>
+12.2.0.1 <a href="#table1footnote">[1]</a><br/>
+18c <a href="#table1footnote">[1]</a><br/>
+19c<br/>
+21c</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">Database Patching</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Release Updates<a href="#table1footnote"><sup>[11]</sup></a></p></td>
+<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">12.1.0.2 <a href="#table1footnote">[1]</a><br/>
+12.2.0.1 <a href="#table1footnote">[1]</a><br/>
+18c <a href="#table1footnote">[1]</a><br/>
+19c<br/>
+21c</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>OneOff Patches<a href="#table1footnote"><sup>[11]</sup></a></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Install</p>
+</li>
+<li>
+<p>Remove with unique patch id option</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">automatic datapatch execution<a href="#table1footnote"><sup>[11]</sup></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Patch Download from Oracle</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle APEX (experimental!)</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Installation of APEX in PDB. Not supported for CDB or nonCDB.</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c<br/>
+21c</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Environment script</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>dynamic shell environment <a href="https://github.com/opitzconsulting/oracle-scripts"><code>ocenv</code></a> for Oracle</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12.1.0.2 <a href="#table1footnote">[1]</a><br/>
+12.2.0.1 <a href="#table1footnote">[1]</a><br/>
+18c <a href="#table1footnote">[1]</a><br/>
+19c<br/>
+21c</p></td>
+</tr>
+</tbody>
+</table>
+<div class="hdlist">
+<div class="title">Footnotes</div>
+<table>
+<tbody><tr>
+<td class="hdlist1">
+<a id="table1footnote"></a><sup>1</sup>
+</td>
+<td class="hdlist2">
+<p>Was supported by <code>ansible-oracle</code>. It is not tested anymore.</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<a id="table1footnote"></a><sup>2</sup>
+</td>
+<td class="hdlist2">
+<p>Still in development and not fully tested at the moment.
+Breaking changes in new commits are possible.<br/>
+Please do not use this feature in production environments.</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<a id="table1footnote"></a><sup>3</sup>
+</td>
+<td class="hdlist2">
+<p>Limited support. Not tested for Oracle Restart &amp; Grid-Infrastructure</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<a id="table1footnote"></a><sup>4</sup>
+</td>
+<td class="hdlist2">
+<p>Only tested with PDB on 19c+. May be work in nonCDB as well but noch in CDB.</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<a id="table1footnote"></a><sup>5</sup>
+</td>
+<td class="hdlist2">
+<p>in development and not implemented at the moment.</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<a id="table1footnote"></a><sup>6</sup>
+</td>
+<td class="hdlist2">
+<p>Not working in Real Application Cluster Setups</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<a id="table1footnote"></a><sup>7</sup>
+</td>
+<td class="hdlist2">
+<p>Limited to Parameter with SID=&#34;*&#34;</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<a id="table1footnote"></a><sup>8</sup>
+</td>
+<td class="hdlist2">
+<p>only create/drop PDB</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<a id="table1footnote"></a><sup>9</sup>
+</td>
+<td class="hdlist2">
+<p>Ansible 2.14 or newer is mandatory since <code>ansible-oracle</code> Version 4.2.</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<a id="table1footnote"></a><sup>10</sup>
+</td>
+<td class="hdlist2">
+<p>Use the Golden-Image feature as a workaround.</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<a id="table1footnote"></a><sup>11</sup>
+</td>
+<td class="hdlist2">
+<p>Supported for Single-Instance, Oracle Restart and Oracle Grid-Infrastructure.</p>
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+    
+	
+  
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-d2c6535126cca927d2a9c893abde92a0">2 - Guides</h1>
+    
+	
+</div>
+
+
+
+    
+      
+  
+  
+  
+  
+
+  
+  
+
+  
+    
+    
+	
+    
+
+<div class="td-content" style="">
+    
+	<h1 id="pg-1ecef3ccaf4921e1741405f703d81f14">2.1 - Ansible Controller</h1>
+    
+	
+<div class="admonitionblock warning">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+<strong>This guide is a work in progress!</strong>
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="sect1">
+<h2 id="_ansible_controller">1. Ansible Controller</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There a different ways to run a ansible controller.</p>
+</div>
+<div class="paragraph">
+<p>f</p>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-5ab9874cfec6ab19006a50f18b994a71">2.2 - Setup APEX and ORDS</h1>
+    
+	
+<div class="sect1">
+<h2 id="_setup_apex_and_ords">1. Setup APEX and ORDS</h2>
+<div class="sectionbody">
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The installation of APEX and ORDS with <code>ansible-oracle</code> is currently <em>experimental</em>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="sect2">
+<h3 id="_requirements">1.1. Requirements</h3>
+<div class="sect3">
+<h4 id="_apex">1.1.1. APEX</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>RDBMS 19c or newer</p>
+</li>
+<li>
+<p>APEX 20.x or newer is mandatory for RDBMS 19c</p>
+</li>
+<li>
+<p>Tested with APEX 23.2, 24.1 - may work with older versions as well</p>
+</li>
+<li>
+<p>Installation is tested with PDB only.</p>
+</li>
+<li>
+<p>CDB and nonCDB is not supported at the moment.</p>
+</li>
+<li>
+<p>Download ZIP from Oracle with Playbook <code>patch_download.yml</code> supported for Version 22.1 or newer</p>
+</li>
+<li>
+<p>APEX only with ORDS - no old APEX Listener</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Important Notes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Primary Note for Oracle APEX Upgrades (Doc ID 1088970.1)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Known Issues:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>ADMIN password of INTERNAL Workspace is wrong after APEX upgrade
+Silent script to reset ADMIN password depends on APEX Relöease.<br/>
+There was no reliable solution found for the moment…​</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ords">1.1.2. ORDS</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>OracleLinux 8 or 9 only</p>
+</li>
+<li>
+<p>Installation with ords.rpm from <code>public-yum.oracle.com</code></p>
+</li>
+<li>
+<p>Limited database configuration - see documentation</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_apex_configuration">1.2. APEX Configuration</h3>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Install APEX before ORDS - otherwise, the ORDS will not detect and configure APEX.<br/>
+ORDS is only tested with existing APEX installation.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="sect3">
+<h4 id="_mandatory_variables">1.2.1. Mandatory variables</h4>
+<div class="paragraph">
+<p>The following global variables are needed for an APEX installation.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Mandatory variables</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oraapex_default_admin_password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The parameter is mandatory, because it is the only way to configure a password for the admin user at the moment.</p></td>
+</tr>
+</tfoot>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Optional variables</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oraapex_base</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default: <code>{{ oracle_base }}/product</code><br/>
+The unzip is done into <code>{{ oraapex_base }}/apex_&lt;APEX Version&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oraapex_default_tablespace</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default: <code>SYSAUX</code><br/>
+Could be set in each PDB.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oraapex_default_files_tablespace</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default: <code>SYSAUX</code><br/>
+Could be set in each PDB.</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oraapex_default_temp_tablespace</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default: <code>TEMP</code><br/>
+Could be set in each PDB.</p></td>
+</tr>
+</tfoot>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_apex_in_pdb">1.2.2. APEX in PDB</h4>
+<div class="paragraph">
+<p>APEX can be installed in each PDB.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. mandatory Variables in <code>oracle_pdbs</code></caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>apex_state</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">State for APEX installation.<br/>
+Only <code>present</code> supported at the moment.</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>apex_version</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version of APEX.<br/>
+Is used to download the Archive from Oracle.</p></td>
+</tr>
+</tfoot>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. optional Variables in <code>oracle_pdbs</code></caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oraapex_tablespace</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Custom APEX Tablespace.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oraapex_files_tablespace</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Custom APEX Tablespace for files.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oraapex_temp_tablespace</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Custom APEX temporary Tablespace.</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>apex_patchid</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Patchid for <em>PSE BUNDLE FOR APEX</em></p></td>
+</tr>
+</tfoot>
+</table>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The example shows the minimum attributes for an APEX installation.<br/>
+That’s not the minimum needed to create a PDB.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Example <code>oracle_pdbs</code></div>
+<div class="content">
+<pre>oracle_pdbs:
+  - cdb: CDB1
+    pdb_name: PDB1
+    state: present
+    apex_state: present
+    apex_version: 24.1
+    apex_patchid: 36695709</pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<code>oraapex</code> does not use the default passwords from <code>ansible-oracle</code>.<br/>
+You have to define them in <code>dbpasswords</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>The user <code>APEX_PUBLIC_ROUTER</code> is new in APEX 24.1.<br/>
+<code>oraapex</code> checks for an existing password regardless of the version of APEX.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example <code>dbpasswords</code> for APEX in a PDB with mandatory values for <code>oraapex</code></div>
+<div class="content">
+<pre>dbpasswords:
+  CDB1:
+    PDB1:
+      apex_public_router: ords123
+      apex_public_user: ords123
+      apex_rest_public_user: ords123
+      ords_public_user: ords123</pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Do not forget to download the APEX Patch when <code>apex_patchid</code> is set in <code>oracle_pdbs</code>.<br/>
+<code>opatch_install</code> is very important, because these Patches are not applied with OPatch.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Example <code>oracle_sw_patches</code></div>
+<div class="content">
+<pre>oracle_sw_patches:
+  - filename: p36695709_2410_Generic.zip
+    patchid: 36695709
+    version: 24.1
+    description: PSE BUNDLE FOR APEX 24.1
+    opatch_needed: false</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_playbook_execution">1.2.3. Playbook execution</h4>
+<div class="paragraph">
+<p>The installation of APEX is part of <code>playbooks/manage_db.yml</code>.<br/>
+This allows the creation of custom Tablespaces, Profiles etc. for APEX, without the need to use a dedicated Playbook.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ords_configuration">1.3. ORDS Configuration</h3>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The configuration of ORDS is limited to the following variables at the moment.
+</td>
+</tr>
+</tbody></table>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. Mandatory variables in <code>oraords_db_pools</code></caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">db_pool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database Pool</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pdb_name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PDB-Name of Target</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database Service Name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">port</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Listener Port</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">host</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database Hostname</p></td>
+</tr>
+</tfoot>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. Optional variables in <code>oraords_db_pools</code></caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feature_db_api</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true / false (Default)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feature_rest_enabled_sql</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true / false (Default)</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feature_sdw</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true / false (Default)</p></td>
+</tr>
+</tfoot>
+</table>
+<div class="listingblock">
+<div class="content">
+<pre>oraords_db_pools:
+  - db_pool: default
+    pdb_name: PDB1
+    admin_user: sys
+    service: pdb1
+    port: 1521
+    host: &#34;{{ inventory_hostname }}&#34;
+    feature_db_api: true
+    feature_rest_enabled_sql: true
+    feature_sdw: true</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The passwords for Admin- and ORDS-User are defined in <code>oraords_db_pools_password</code>.<br/>
+They are set in a dedicated variable to prevent <code>no_log=true</code> in loops over <code>oraords_db_pools</code>.<br/>
+Referencing <code>dbpasswords</code> helps to reduce redundancy for passwords.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>oraords_db_pools_password:
+  default:
+    admin_password: &#34;{{ dbpasswords[&#39;DB1&#39;][&#39;sys&#39;] }}&#34;
+    ords_password: &#34;{{ dbpasswords[&#39;DB1&#39;][&#39;PDB1&#39;][&#39;ords_public_user&#39;] }}&#34;</pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_playbook_execution_2">1.3.1. Playbook execution</h4>
+<div class="paragraph">
+<p>The Playbook <code>playbooks/manage_ords.yml</code> is used to install ORDS.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-e18394aedc29d5707faac851e58fb199">2.3 - vagrant Examples</h1>
+    
+	
+</div>
+
+
+
+    
+      
+  
+  
+  
+  
+
+  
+  
+
+  
+    
+    
+	
+    
+
+<div class="td-content" style="">
+    
+	<h1 id="pg-1034f85de36d013dc955a5cd81324e0d">2.3.1 - Database with Patching</h1>
+    
+	
+<div class="admonitionblock warning">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+<strong>This guide is a work in progress!</strong>
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="sect1">
+<h2 id="_example_beginners_guide_with_patchingp">1. Example Beginners Guide with Patchingp</h2>
+<div class="sectionbody">
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The setup of Vagrant, VirtualBox and SSH is not part of this documentation.<br/>
+Please follow the <a href="../vagrant.adoc">documentation</a>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="sect2">
+<h3 id="_overview">1.1. Overview</h3>
+<div class="sect3">
+<h4 id="_architecture_overview">1.1.1. Architecture overview</h4>
+<div class="imageblock">
+<div class="content">
+<img src="http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/Rendanic/ansible-oracle/tbrdoc/doc/guides/advanced.puml" alt="Architecturview"/>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_defaults">1.1.2. Defaults</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Used defaults in this guide</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">~/git/ansible-oracle</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">git Repository on Host System</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">~/git/ansible-oracle</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">git Repository in VM</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">~/.ssh/id_rsa</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">private Key on Host System</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">vagrant</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSH-User for Login and Ansible</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">~/git/ansible-oracle/ansible-oracle/example/beginner</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vagrantfile location</p></td>
+</tr>
+</tfoot>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_setup_host_system">1.2. Setup Host System</h3>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+All steps are executed on the Host System inside a <code>git+bash</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">clone git Repository</div>
+<div class="content">
+<pre>mkdir ~/git
+cd ~/git
+
+git clone https://github.com/oravirt/ansible-oracle.git</pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_build_oracle_software_tree">1.2.1. Build Oracle Software tree</h4>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+It is highly recommended to use the following structure.<br/>
+Do not change this until you really know what you are doing.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>All installation media are searched in <code>oracle_stage_remote</code> on the database server.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+It is assumend that <code>oracle_stage_remote</code> is set to <code>/sw</code>
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="sect4">
+<h5 id="_installation_media">1.2.1.1. Installation media</h5>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Only <code>LINUX.X64_193000_db_home.zip</code> is needed as base media for the <em>Advanced Guide</em>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Example <code>oracle_stage_remote: /sw</code></div>
+<div class="content">
+<pre>/sw/LINUX.X64_180000_db_home.zip
+/sw/LINUX.X64_193000_grid_home.zip
+/sw/LINUX.X64_213000_grid_home.zip
+/sw/LINUX.X64_193000_db_home.zip
+/sw/LINUX.X64_213000_db_home.zip</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_opatch_archive">1.2.1.2. OPatch archive</h5>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Only <code>p6880880_190000_Linux-x86-64.zip</code> is needed for patching in the <em>Advanced Guide</em>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Example <code>oracle_stage_remote: /sw</code> for OPatch</div>
+<div class="content">
+<pre>/sw/oracle/linux64/p6880880_112000_Linux-x86-64.zip
+/sw/oracle/linux64/p6880880_180000_Linux-x86-64.zip
+/sw/oracle/linux64/p6880880_190000_Linux-x86-64.zip
+/sw/oracle/linux64/p6880880_210000_Linux-x86-64.zip</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_patch_structure">1.2.1.3. Patch structure</h5>
+<div class="paragraph">
+<p>&lt;todo wip&gt;</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Directory</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configure_ssh_key">1.2.2. Configure SSH-Key</h4>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Do not skip the preparation for Vagrant and SSH.<br/>
+Please follow the <a href="../vagrant.adoc">documentation</a>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Copy Public key into Vagrantfile directory</div>
+<div class="content">
+<pre>cp ~/.ssh/id_rsa.pub ~/git/ansible-oracle/ansible-oracle/example/beginner</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Start ssh-Agent</div>
+<div class="content">
+<pre>eval $(ssh-agent)</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Import the generated key</div>
+<div class="content">
+<pre>ssh-add ~/.ssh/id_rsa</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_start_vagrantbox">1.2.3. Start Vagrantbox</h4>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The Deployment und provisioning of the VM takes some minutes.<br/>
+It highly depends on the speed of the internet connection.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The SSH public key is configured during the provisioning phase of the VM.<br/>
+<strong>Do not forget to copy the file before starting the box with <code>vagrant up</code>.</strong>
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">vagrant up</div>
+<div class="content">
+<pre>cd ~/git/ansible-oracle/ansible-oracle/example/beginner
+VAGRANT_EXPERIMENTAL=disks vagrant up</pre>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_what_happens_when_i_start_vagrant">1.2.3.1. What happens when I start vagrant?</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Using the vagrantfile, an Oracle Linux VM is installed (2x CPU, 4096MB RAM, 150GB HDD). IP = 192.168.56.161</p>
+</li>
+<li>
+<p>A mount point /vagrant is available in the Oracle Linux VM. This is a shared folder from your Windows machine.</p>
+</li>
+<li>
+<p>Your ssh key is used to connect to the VM in a secure way</p>
+</li>
+<li>
+<p>docker is installed in the Oracle Linux VM</p>
+</li>
+<li>
+<p>docker-compose is installed in the Oracle Linux VM</p>
+</li>
+<li>
+<p>The ansible-oracle repository is cloned to the Oracle Linux VM</p>
+</li>
+<li>
+<p>A docker container &#34;Ansible Container&#34; is built with docker-compose. This runs in the Oracle Linux VM</p>
+</li>
+<li>
+<p>No Oracle database is yet installed. See below</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_working_inside_the_vm">1.3. Working inside the VM</h3>
+<div class="sect3">
+<h4 id="_connect_to_vm">1.3.1. Connect to VM</h4>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The next steps are done inside the VM.<br/>
+The SSH-Setup from the previous chapter must be completed before continuing!
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Connect into VM with SSH from <code>git+bash</code></div>
+<div class="content">
+<pre>ssh -A vagrant@192.168.56.161</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_note_about_installation_media">1.3.2. Note about Installation media</h4>
+<div class="paragraph">
+<p>The installation media is mounted with vboxsf from Vagrant into the Linux VM, mounted as <code>/vagrant</code>.<br/>
+Use the following command to check this…​</p>
+</div>
+<div class="listingblock">
+<div class="title">check for Installation media</div>
+<div class="content">
+<pre>[vagrant@beginner-dbfs-151-192-168-56-161 ~]$ ls /vagrant/LINUX.X64_193000_db_home.zip
+
+/vagrant/LINUX.X64_193000_db_home.zip</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_start_ansible_container_inside_vm">1.3.3. Start Ansible-Container inside VM</h4>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Check the prompt shown in this documentation, as to whether you should start the commands in the shell or inside the Ansible-Container.<br/>
+<code>ansible@ansible-oracle</code> is for working inside the container.
+.Start Ansible-Container
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cd ~/git/ansible-oracle/docker
+docker-compose run --rm -w /git/ansible-oracle/example/beginner/ansible ansible bash</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre>[vagrant@beginner-dbfs-151-192-168-56-161 docker]$ docker-compose run --rm -w /git/ansible-oracle/example/beginner/ansible ansible bash
+[+] Running 2/0
+ ⠿ Network docker_default          Created
+ ⠿ Volume &#34;docker_ansible_galaxy&#34;  Created
+
+ansible@ansible-oracle:/git/ansible-oracle/example/beginner/ansible$</pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The collection is installed once and stored on the docker volume.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Install Collections</div>
+<div class="content">
+<pre>ansible@ansible-oracle:/git/ansible-oracle/example/beginner/ansible$ ansible-galaxy collection install -r requirements.yml</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre>ansible@ansible-oracle:/git/ansible-oracle/example/beginner/ansible$ ansible-galaxy collection install -r requirements.yml
+Starting galaxy collection install process
+Process install dependency map
+Starting collection install process
+Downloading https://galaxy.ansible.com/download/devsec-hardening-8.2.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/devsec-hardening-8.2.0-0j9481f1
+Installing &#39;devsec.hardening:8.2.0&#39; to &#39;/ansible/galaxy/ansible_collections/devsec/hardening&#39;
+Downloading https://galaxy.ansible.com/download/opitzconsulting-ansible_oracle-3.2.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/opitzconsulting-ansible_oracle-3.2.0-x3wo4c3b
+devsec.hardening:8.2.0 was installed successfully
+Installing &#39;opitzconsulting.ansible_oracle:3.2.0&#39; to &#39;/ansible/galaxy/ansible_collections/opitzconsulting/ansible_oracle&#39;
+Downloading https://galaxy.ansible.com/download/ansible-posix-1.4.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/ansible-posix-1.4.0-1jub71c6
+opitzconsulting.ansible_oracle:3.2.0 was installed successfully
+Installing &#39;ansible.posix:1.4.0&#39; to &#39;/ansible/galaxy/ansible_collections/ansible/posix&#39;
+Downloading https://galaxy.ansible.com/download/community-mysql-3.5.1.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/community-mysql-3.5.1-lkcnbkd5
+ansible.posix:1.4.0 was installed successfully
+Installing &#39;community.mysql:3.5.1&#39; to &#39;/ansible/galaxy/ansible_collections/community/mysql&#39;
+Downloading https://galaxy.ansible.com/download/community-crypto-2.8.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/community-crypto-2.8.0-6sco_75m
+community.mysql:3.5.1 was installed successfully
+Installing &#39;community.crypto:2.8.0&#39; to &#39;/ansible/galaxy/ansible_collections/community/crypto&#39;
+Downloading https://galaxy.ansible.com/download/community-general-5.8.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/community-general-5.8.0-up2j_3iq
+community.crypto:2.8.0 was installed successfully
+Installing &#39;community.general:5.8.0&#39; to &#39;/ansible/galaxy/ansible_collections/community/general&#39;
+community.general:5.8.0 was installed successfully</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_start_installation_with_ansible">1.3.4. Start Installation with Ansible</h4>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Make sure to start the installation inside the Ansible Container.<br/>
+The prompt shows the correct location.<br/>
+The execution takes ~60 minutes.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Start installation with Ansible</div>
+<div class="content">
+<pre>cd /git/ansible-oracle/example/beginner/ansible
+ansible-playbook -i inventory/ -e hostgroup=dbfs playbooks/single-instance-fs.yml</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The Database creation is now complete.<br/>
+See the following chapter for details about how to work with the VM.
+=== How to work with installed database</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_login_as_vagrant">1.3.5. Login as vagrant</h4>
+<div class="listingblock">
+<div class="title">Login with SSH from <code>git+bash</code></div>
+<div class="content">
+<pre>ssh -A vagrant@192.168.56.161</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sudo_oracle">1.3.6. Sudo oracle</h4>
+<div class="listingblock">
+<div class="title">sudo oracle</div>
+<div class="content">
+<pre>[vagrant@beginner-dbfs-151-192-168-56-161 ~]$ sudo su - oracle</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre>[vagrant@beginner-dbfs-151-192-168-56-161 ~]$ sudo su - oracle
+Last login: Sun Nov  6 11:16:54 UTC 2022 on pts/2
+execute ocenv to source Oracle Environment</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_start_ocenv">1.3.7. Start ocenv</h4>
+<div class="listingblock">
+<div class="title">Initialize ocenv to set the environment variables</div>
+<div class="content">
+<pre>[oracle@beginner-dbfs-151-192-168-56-161 ~]$ ocenv</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre>[oracle@beginner-dbfs-151-192-168-56-161 ~]$ ocenv
+#####################################################################################
+## Version: 2022-08-10
+## get command overview by typing envhelp
+#####################################################################################
+home   oracle       OraHome_OraDB19Home1                       /u01/app/oracle/product/19/db1
+db     oracle       DB1              (up)                      /u01/app/oracle/product/19/db1
+lsnr   oracle       LISTENER                                   /u01/app/oracle/product/19/db1
+[oracle@beginner-dbfs-151-192-168-56-161] [] [~]</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_switch_to_db1">1.3.8. Switch to DB1</h4>
+<div class="listingblock">
+<div class="title">Set ORACLE_SID</div>
+<div class="content">
+<pre>[oracle@beginner-dbfs-151-192-168-56-161] [] [~]
+$ DB1</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre>[oracle@beginner-dbfs-151-192-168-56-161] [] [~]
+$ DB1
+=================================
+INSTANCE NAME       : DB1
+INSTANCE STATUS     : OPEN (READ WRITE)
+INSTANCE START TIME : 2022-11-06 11:34:06
+DB NAME             : DB1
+DB UNIQUE NAME      : DB1
+DB ID               : 1713907024
+DB LOGGING MODE     : NOARCHIVELOG
+DB ROLE             : PRIMARY
+DB FORCE LOGGING    : YES
+DB FLASHBACK ON     : NO
+DB is CDB           : YES
+PDBs
+   PDB NAME        STATUS     RESTRICTED OPEN TIME           LOCAL UNDO
+   --------------- ---------- ---------- ------------------- ----------
+   ORCLPDB         READ WRITE NO         2022-11-06 11:34:28 YES
+=================================
+[oracle@beginner-dbfs-151-192-168-56-161] [DB1] [~]</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_database_login">1.3.9. Database Login</h4>
+<div class="listingblock">
+<div class="title">Start SQLPlus</div>
+<div class="content">
+<pre>[oracle@beginner-dbfs-151-192-168-56-161] [DB1] [~]
+$ sql</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre>[oracle@beginner-dbfs-151-192-168-56-161] [DB1] [~]
+$ sql
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Sun Nov 6 11:41:40 2022
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+11:41:40 SYS@DB1
+SQL&gt;</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+    
+	
+  
+
+    
+	
+  
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-c995838bf718c1eeff1a9f27bbce59da">3 - Development</h1>
+    
+	<p>Everything about the development of <code>ansible-oracle</code>.</p>
+
+</div>
+
+
+
+    
+      
+  
+  
+  
+  
+
+  
+  
+
+  
+    
+    
+	
+    
+
+<div class="td-content" style="">
+    
+	<h1 id="pg-48184263f45940bf9cddc4ee098bb8f3">3.1 - Setup Environment</h1>
+    
+	
+<div class="sect1">
+<h2 id="_how_to_develop_in_ansible_oracle">1. How to develop in <code>ansible-oracle</code>?</h2>
+<div class="sectionbody">
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+This is an example how most of the development in <code>ansible-oracle</code> is done.<br/>
+A Pull-Request is only accepted, when all <code>github-Actions</code> are valid.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="sect2">
+<h3 id="_prepare_a_development_environment">1.1. Prepare a development environment</h3>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+This chapter shows, how the development envionment could look like.<br/>
+You need an Ansible-Controller with an Editor or IDE of your own choice.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_fork_on_github_and_contribute_to_the_project">1.2. Create Fork on github and contribute to the project</h3>
+<div class="paragraph">
+<p><a href="https://docs.github.com/en/get-started/quickstart/contributing-to-projects">github</a> has some great documentation with details about creating a fork and branch to contribute to <code>ansible-oracle</code>.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The <code>github-Actions</code> will automatically start, when the branchname starts with <code>pr</code> or in each Pull-Request.<br/>
+Please use a branch with &#39;pr&#39;--prefix, when <code>ansible-lint</code> should be checked for each commit.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pre_commit">1.3. pre-commit</h3>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<a href="https://pre-commit.com/">pre-commit</a> is a nice tool for git.<br/>
+Each commit is locally checked against multiple rules, to prevent failures in github-Actions after pushing commits to github.<br/>
+This tool is recommended but not mandatory for contributing to <code>ansible-oracle</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Installation (cd into repository before)</div>
+<div class="content">
+<pre>pip install --user pre-commit
+pre-commit install</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">run outside git</div>
+<div class="content">
+<pre>pre-commit run</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ansible_navigator">1.4. Ansible Navigator</h3>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+python3 should point to Python &gt;=3.10, otherwise <code>ansible-navigator</code> and <code>ansible-lint</code> could not be used.<br/>
+The <code>activate</code> script is used to change the Python environment in current shell.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">configure venv for ansible-oracle</div>
+<div class="content">
+<pre>python3.10 -V
+
+Python 3.10.6
+
+python3.10 -m venv ~/venv/ansible-oracle</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">install Python modules</div>
+<div class="content">
+<pre>. ~/venv/ansible-oracle/bin/activate
+pip --require-virtualenv -v install -r requirements_dev.txt</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Start ansible-navigator</div>
+<div class="content">
+<pre>. ~/venv/ansible-oracle/bin/activate
+ansible-navigator --version
+
+ansible-navigator 3.3.0</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_ansible_doctor">1.5. Using ansible-doctor</h3>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<code>ansible-doctor</code> has module dpendencies with conflicts between <code>ansible-lint</code>.
+We have to use a dedicated venv for `ansible-doctor&#39;
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">configure venv for ansible-oracle</div>
+<div class="content">
+<pre>python3 -m venv ~/venv/ansible-doctor</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">install Python modules</div>
+<div class="content">
+<pre>. ~/venv/ansible-doctor/bin/activate
+pip --require-virtualenv -v install -r requirements_doctor.txt</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Start ansible-doctor</div>
+<div class="content">
+<pre>~/venv/ansible-doctor/bin/ansible-doctor --version
+
+ansible-doctor 2.0.4</pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Do not forget to place change files in stage area of git before starting <code>pre-commit</code>.<br/>
+<code>pre-commit</code> works only on the data of the stage area!<br/>
+<code>pre-commit</code> could be executed without an active venv.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Start ansible-doctor with pre-commit</div>
+<div class="content">
+<pre>pre-commit run ansible-doctor</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Start ansible-doctor to create new README.md file</div>
+<div class="content">
+<pre>cd ansible-oracle
+~/venv/ansible-doctor/bin/ansible-doctor -f -r roles</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_start_ansible_container">1.6. Start Ansible-Container</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_start_playbook">1.7. Start Playbook</h3>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Don’t forget to set the working branch in <code>requirements.yml</code>.<br/>
+Remove/Disable <code>devsec.hardening</code> for faster installation of Ansible collection, when devsec should not be tested.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Edit requirements.yml</div>
+<div class="content">
+<pre>---
+collections:
+  # - name: devsec.hardening
+  #   version: 8.2.0
+  - name: https://github.com/Rendanic/ansible-oracle.git
+    type: git
+    version: devbranch</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Execute ansible-playbook</div>
+<div class="content">
+<pre>ansible-galaxy collection install --force -r requirements.yml &amp;&amp; ansible-playbook -i inventory/hasfd -e hostgroup=&#39;all&#39; playbooks/single-instance-asm.yml --limit &#39;*19c*&#39;</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_pull_requests">2. Pull-Requests</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_important_information">2.1. Important Information</h3>
+<div class="paragraph">
+<p>The ansible-oracle project introduced <code>antsibull-changelog</code> for managing the <code>CHANGELOG.rst</code> based on fragments in <code>changelogs/fragments</code>.</p>
+</div>
+<div class="paragraph">
+<p>The ID should point to the PR and the filename describe the PR in short form.
+The fragments are part of the PR.
+If multiple PRs are open, the upper rule makes sure that no duplicate files are created during merge.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Each Pull-Requests needs a fragment from Release 3.0.0 onwards!
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_create_new_releases_in_ansible_oracle">3. Create new Releases in <code>ansible-oracle</code></h2>
+<div class="sectionbody">
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+This is only needed for creating new Releases in <code>ansible-oracle</code> - not for development!
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="sect2">
+<h3 id="_install_antsibull_changelog">3.1. Install antsibull-changelog</h3>
+<div class="listingblock">
+<div class="content">
+<pre>cd ansible-oracle/docker
+docker-compose run --rm -w /git/ansible-oracle/example/beginner/ansible ansible bash
+
+pip3 install antsibull-changelog</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_working_with_antsibull_changelog">3.2. Working with antsibull-changelog</h3>
+<div class="paragraph">
+<p>Changelogs for Collections: <a href="https://github.com/ansible-community/antsibull-changelog/blob/main/docs/changelogs.rst#releasing-a-new-version-of-a-collection" class="bare">https://github.com/ansible-community/antsibull-changelog/blob/main/docs/changelogs.rst#releasing-a-new-version-of-a-collection</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_creating_new_releases">3.3. Creating new releases</h3>
+<div class="paragraph">
+<p><code>antsibull-changelog release</code> reads <code>galaxy.yml</code> to get the release version automatically.
+The execution is aborted, when a release with the version is existing in <code>CHANGELOG.rst</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The whole release process should be done with a dedicated Pull-Request.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>antsibull-changelog release</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_update_vagrantbox_on_vagrantcloud_for_examples">4. Update Vagrantbox on vagrantcloud for examples</h2>
+<div class="sectionbody">
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+This is only an example how to do it, when custom images should be used.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="sect2">
+<h3 id="_create_new_box">4.1. Create new Box</h3>
+<div class="listingblock">
+<div class="content">
+<pre>git clone https://github.com/Rendanic/bento.git
+cd bento
+git checkout oc
+cd packer_templates/oraclelinux/
+./oc_oracle-7.x_vbox.sh oracle-7.9-x86_64.json</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_upload_new_version">4.2. Upload new Version</h3>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Change the boxname to an account with write priviledges.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Upload new version after build:</div>
+<div class="content">
+<pre>boxname=&#34;Rendanic/oraclelinux-7.x&#34;
+vagrantversion=$(date +%y%m%d)
+
+vagrant cloud version create ${boxname} &#34;$vagrantversion&#34;
+vagrant cloud provider create ${boxname} virtualbox &#34;$vagrantversion&#34;
+vagrant cloud provider upload ${boxname} virtualbox &#34;$vagrantversion&#34; ../../builds/oracle-7.9.virtualbox.box
+vagrant cloud publish --release ${boxname} &#34;$vagrantversion&#34; virtualbox</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ansible_molecule">5. ansible molecule</h2>
+<div class="sectionbody">
+<div class="admonitionblock warning">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+The timeout for pulling docker Container in <code>molecule</code> is 15s at the moment.<br/>
+There is no parameter to increase the timeout. Pull container manually before starting the szenario. The image url is defined in <code>molecule.yml</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>The following szenarios are existing in the `ansible-oracle profect.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;"/>
+<col style="width: 80%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Stage</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">dbfs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Full stage for installation of RDBMS 19c + Patching and create database. Requires installation media in /vagrant on local host.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">dbfs-ol9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Full stage for installation of RDBMS 19c + Patching on OL9 and create database. Requires installation media in /vagrant on local host.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">default</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stage for testing common and orahost roles with different Distributions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">download</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Download Patches from support.oracle.com for dbfs stage.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">golden</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create Golden-Image for installation from dbfs.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_test_os_roles">5.1. Test OS roles</h3>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+This szenario is used, when changes at OS roles should be tested against different OS Distribuitions.<br/>
+Most of the tests are included in the <code>dbfs</code> szenario!
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>The execution time is ~10m for a full test.</p>
+</div>
+<div class="paragraph">
+<p>The <code>default</code> szenario requires no parameter <code>-s</code>!</p>
+</div>
+<div class="listingblock">
+<div class="title">Start download</div>
+<div class="content">
+<pre>cd extensions
+molecule test</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_download_patches_for_dbfs_stage">5.2. Download Patches for <code>dbfs</code> stage</h3>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Make sure that /vagrant has enough free space for installation media and patches.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">set environment variables for support.oracle.com login</div>
+<div class="content">
+<pre>export MOS_LOGIN=Username
+export MOS_PASSWORD=verySecret</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Start download</div>
+<div class="content">
+<pre>cd extensions
+molecule test -s download</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>molecule test</code> does the full test of the szenario.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_test_single_instance_in_filesystem_with_szenario_dbfs">5.3. Test Single Instance in Filesystem with szenario <code>dbfs</code></h3>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Make sure that the installation media and patches are placed in <code>/vagrant</code> before starting <code>molecule</code>.<br/>
+Use the szenario <code>download</code> for downloading the Patches from support.oracle.com.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>The execution time is ~2h for a full test.</p>
+</div>
+<div class="listingblock">
+<div class="title">Start download</div>
+<div class="content">
+<pre>cd extensions
+molecule test -s dbfs</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_golden_images_from_dbfs_installation">5.4. Create Golden-Images from <code>dbfs</code> installation</h3>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Make sure that all requirements for scenario <code>dbfs</code> are met.<br/>
+Executing a full test with <code>molicule test -s golden</code> will destroy an existing installation from <code>molecule converge -s dbfs</code>!
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Start Golden-Image creation</div>
+<div class="content">
+<pre>cd extensions
+molecule test -s golden</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_oracle_xe_not_used_at_the_moment">5.5. Oracle XE (not used at the moment!)</h3>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+This chapter was designed for testing the <code>oradb_managed_</code>-Roles.<br/>
+It is not clear if this will be added or not.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<div class="title">Docker pull Oracle XE</div>
+<p>Normal SSO-Login from Oracle is needed for login to docker registry.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>docker login container-registry.oracle.com
+docker pull container-registry.oracle.com/database/express:21.3.0-xe</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Start Oracle Container for test</div>
+<div class="content">
+<pre>docker run -d --name oracle-xe \
+  -e ORACLE_PWD=Oracle_123 \
+  -p 1521:1521 \
+  container-registry.oracle.com/database/express:21.3.0-xe</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-e42b2fdbd3fd77af24259d9dc1ca668b">3.2 - Website</h1>
+    
+	<div class="sect1">
+<h2 id="_info_about_the_website">Info about the Website</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Website <a href="http://www.ansible-oracle.eu" class="bare">http://www.ansible-oracle.eu</a>) is hosted as github Pages.<br/>
+The content is part of the github repository from <code>ansible-oracle</code>.<br/></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_who_owns_the_side">Who owns the side?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Website is hosted as a git repository (<a href="https://github.com/Rendanic/ansible-oracle-website" class="bare">https://github.com/Rendanic/ansible-oracle-website</a>) on github.</p>
+</div>
+<div class="paragraph">
+<p>The deomain is owned by Thorsten Bruhns.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_how_to_refresh_the_website">How to refresh the Website?</h2>
+<div class="sectionbody">
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Make sure that <code>hugo</code> and <code>asciidoctor</code> are installed.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>cd ansible-oracle/website
+hugo --destination ../../ansible-oracle-website/docs</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_initial_setup_hugo_for_ansible_oracle">Initial Setup Hugo for ansible-oracle</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>cd ansible-oracle/website
+hugo mod init github.com/oravirt/ansible-oracle</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>hugo mod get github.com/google/docsy@v0.10.0</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">add module to hugo.yaml</div>
+<div class="content">
+<pre>theme: docsy
+
+module:
+  proxy: direct
+  hugoVersion:
+    extended: true
+    min: 0.73.0
+  imports:
+    - path: github.com/google/docsy
+      disable: false
+    - path: github.com/google/docsy/dependencies
+      disable: false</pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+    
+	
+  
+
+    
+	
+  
+
+
+
+          </main>
+        </div>
+      </div>
+      <footer class="td-footer row d-print-none">
+  <div class="container-fluid">
+    <div class="row mx-md-2">
+      <div class="td-footer__left col-6 col-sm-4 order-sm-1">
+        
+      </div><div class="td-footer__right col-6 col-sm-4 order-sm-3">
+        <ul class="td-footer__links-list">
+  
+  <li class="td-footer__links-item" data-bs-toggle="tooltip" title="GitHub" aria-label="GitHub">
+    <a target="_blank" rel="noopener" href="https://github.com/oravirt/ansible-oracle" aria-label="GitHub">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+</ul>
+
+      </div><div class="td-footer__center col-12 col-sm-4 py-2 order-sm-2">
+        <span class="td-footer__copyright">&copy;
+    2024&ndash;2024
+    <span class="td-footer__authors">Thorsten Bruhns | <a href="https://creativecommons.org/licenses/by/4.0">MIT</a> |</span></span><span class="td-footer__all_rights_reserved">All Rights Reserved</span><span class="ms-2"><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a></span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <script src="/js/main.min.6c401cf9b65144325aed0e66c00e7db2bd7089ebb83621d118f19b9d60e7800c.js" integrity="sha256-bEAc&#43;bZRRDJa7Q5mwA59sr1wieu4NiHRGPGbnWDngAw=" crossorigin="anonymous"></script>
+<script defer src="/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
+<script src='/js/tabpane-persist.js'></script>
+
+  </body>
+</html>
