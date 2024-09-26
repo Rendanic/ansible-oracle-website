@@ -44,6 +44,7 @@
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
   crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/css/prism.css"/>
 
   </head>
   <body class="td-section">
@@ -113,7 +114,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>2: <a href="#pg-5ab9874cfec6ab19006a50f18b994a71">Setup APEX and ORDS</a></li>
+<li>2: <a href="#pg-5ab9874cfec6ab19006a50f18b994a71">APEX and ORDS</a></li>
 
 
     
@@ -121,7 +122,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>3: <a href="#pg-e18394aedc29d5707faac851e58fb199">vagrant Examples</a></li>
+<li>3: <a href="#pg-3d940166259f41aa139a3590b351f30f">Vagrant</a></li>
 
 
     
@@ -136,7 +137,34 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>3.1: <a href="#pg-1034f85de36d013dc955a5cd81324e0d">Database with Patching</a></li>
+<li>3.1: <a href="#pg-38456e60ceb9feb5d54df6bc554d97db">What is vagrant?</a></li>
+
+
+    
+  
+
+    </ul>
+    
+  
+    
+    
+	
+<li>4: <a href="#pg-e18394aedc29d5707faac851e58fb199">vagrant Examples</a></li>
+
+
+    
+    <ul>
+        
+  
+  
+  
+  
+
+  
+    
+    
+	
+<li>4.1: <a href="#pg-1034f85de36d013dc955a5cd81324e0d">Database with Patching</a></li>
 
 
     
@@ -212,13 +240,9 @@ This is the multi-page printable view of this section.
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-5ab9874cfec6ab19006a50f18b994a71">2 - Setup APEX and ORDS</h1>
+	<h1 id="pg-5ab9874cfec6ab19006a50f18b994a71">2 - APEX and ORDS</h1>
     
-	
-<div class="sect1">
-<h2 id="_setup_apex_and_ords">1. Setup APEX and ORDS</h2>
-<div class="sectionbody">
-<div class="admonitionblock important">
+	<div class="admonitionblock important">
 <table>
 <tbody><tr>
 <td class="icon">
@@ -230,10 +254,11 @@ The installation of APEX and ORDS with <code>ansible-oracle</code> is currently 
 </tr>
 </tbody></table>
 </div>
+<div class="sect1">
+<h2 id="_requirements">Requirements</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_requirements">1.1. Requirements</h3>
-<div class="sect3">
-<h4 id="_apex">1.1.1. APEX</h4>
+<h3 id="_apex">APEX</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -265,7 +290,7 @@ The installation of APEX and ORDS with <code>ansible-oracle</code> is currently 
 <div class="ulist">
 <ul>
 <li>
-<p>Primary Note for Oracle APEX Upgrades (Doc ID 1088970.1)</p>
+<p>Primary Note for Oracle APEX Upgrades (Doc ID [1088970.1](<a href="https://support.oracle.com/epmos/faces/DocumentDisplay?id=1088970.1" class="bare">https://support.oracle.com/epmos/faces/DocumentDisplay?id=1088970.1</a>))</p>
 </li>
 </ul>
 </div>
@@ -275,22 +300,22 @@ The installation of APEX and ORDS with <code>ansible-oracle</code> is currently 
 <div class="ulist">
 <ul>
 <li>
-<p>ADMIN password of INTERNAL Workspace is wrong after APEX upgrade
+<p>ADMIN password of INTERNAL Workspace is wrong after APEX upgrade.<br/>
 Silent script to reset ADMIN password depends on APEX Relöease.<br/>
-There was no reliable solution found for the moment…​</p>
+There was no reliable solution found at the moment…​</p>
 </li>
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_ords">1.1.2. ORDS</h4>
+<div class="sect2">
+<h3 id="_ords">ORDS</h3>
 <div class="ulist">
 <ul>
 <li>
 <p>OracleLinux 8 or 9 only</p>
 </li>
 <li>
-<p>Installation with ords.rpm from <code>public-yum.oracle.com</code></p>
+<p>Installation with <code>ords.rpm</code> from <a href="https://public-yum.oracle.com" class="bare">https://public-yum.oracle.com</a></p>
 </li>
 <li>
 <p>Limited database configuration - see documentation</p>
@@ -299,8 +324,10 @@ There was no reliable solution found for the moment…​</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_apex_configuration">1.2. APEX Configuration</h3>
+</div>
+<div class="sect1">
+<h2 id="_apex_configuration">APEX Configuration</h2>
+<div class="sectionbody">
 <div class="admonitionblock important">
 <table>
 <tbody><tr>
@@ -314,8 +341,8 @@ ORDS is only tested with existing APEX installation.
 </tr>
 </tbody></table>
 </div>
-<div class="sect3">
-<h4 id="_mandatory_variables">1.2.1. Mandatory variables</h4>
+<div class="sect2">
+<h3 id="_mandatory_variables">Mandatory variables</h3>
 <div class="paragraph">
 <p>The following global variables are needed for an APEX installation.</p>
 </div>
@@ -376,8 +403,8 @@ Could be set in each PDB.</p></td>
 </tfoot>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_apex_in_pdb">1.2.2. APEX in PDB</h4>
+<div class="sect2">
+<h3 id="_apex_in_pdb">APEX in PDB</h3>
 <div class="paragraph">
 <p>APEX can be installed in each PDB.</p>
 </div>
@@ -520,16 +547,18 @@ Do not forget to download the APEX Patch when <code>apex_patchid</code> is set i
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_playbook_execution">1.2.3. Playbook execution</h4>
+<div class="sect2">
+<h3 id="_playbook_execution">Playbook execution</h3>
 <div class="paragraph">
 <p>The installation of APEX is part of <code>playbooks/manage_db.yml</code>.<br/>
 This allows the creation of custom Tablespaces, Profiles etc. for APEX, without the need to use a dedicated Playbook.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_ords_configuration">1.3. ORDS Configuration</h3>
+</div>
+<div class="sect1">
+<h2 id="_ords_configuration">ORDS Configuration</h2>
+<div class="sectionbody">
 <div class="admonitionblock important">
 <table>
 <tbody><tr>
@@ -635,11 +664,10 @@ Referencing <code>dbpasswords</code> helps to reduce redundancy for passwords.</
     ords_password: &#34;{{ dbpasswords[&#39;DB1&#39;][&#39;PDB1&#39;][&#39;ords_public_user&#39;] }}&#34;</pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_playbook_execution_2">1.3.1. Playbook execution</h4>
+<div class="sect2">
+<h3 id="_playbook_execution_2">Playbook execution</h3>
 <div class="paragraph">
 <p>The Playbook <code>playbooks/manage_ords.yml</code> is used to install ORDS.</p>
-</div>
 </div>
 </div>
 </div>
@@ -659,7 +687,7 @@ Referencing <code>dbpasswords</code> helps to reduce redundancy for passwords.</
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-e18394aedc29d5707faac851e58fb199">3 - vagrant Examples</h1>
+	<h1 id="pg-3d940166259f41aa139a3590b351f30f">3 - Vagrant</h1>
     
 	
 </div>
@@ -684,7 +712,124 @@ Referencing <code>dbpasswords</code> helps to reduce redundancy for passwords.</
 
 <div class="td-content" style="">
     
-	<h1 id="pg-1034f85de36d013dc955a5cd81324e0d">3.1 - Database with Patching</h1>
+	<h1 id="pg-38456e60ceb9feb5d54df6bc554d97db">3.1 - What is vagrant?</h1>
+    
+	<p>Vagrant is a tool that makes it EASIER and FASTER to setup virtual machines. Vagrant Boxes are pre-built base images (e.g. Oracle Linux) that can be imported into Vagrant as a starting point.</p>
+<p>For our use-case, we will use Vagrant together with Virtualbox and Oracle Linux</p>
+<h2 id="installation">Installation</h2>
+<ol>
+<li>Download and install Vagrant</li>
+<li>Download and install Oracle Virtualbox</li>
+</ol>
+<h2 id="lets-start">Let&rsquo;s start</h2>
+<p>Using Tim Halls&rsquo;s guide, let&rsquo;s play
+<a href="https://oracle-base.com/articles/vm/vagrant-a-beginners-guide">https://oracle-base.com/articles/vm/vagrant-a-beginners-guide</a></p>
+<ol>
+<li>hmm, cannot download that first OL box, let&rsquo;s see the oracle doc <a href="https://yum.oracle.com/boxes/">https://yum.oracle.com/boxes/</a></li>
+<li>Note also that the default provider for vagrant has changed to libvirt (was virtualbox), so we will need to add &ldquo;&ndash;provider virtualbox&rdquo; to our vagrant add commands</li>
+</ol>
+<h2 id="download-vagrant-boxes">Download Vagrant boxes</h2>
+<ul>
+<li>Instead of downloading a large DVD image, we can download a small vagrant box.</li>
+<li>We can manually download a new box using the vagrant box add command.</li>
+<li>We only need to do this once for each vagrant box (e.g. one time for Oracle Linux 7 and one time for Oracle Linux 8).</li>
+<li>This download process would also happen automatically if required, when you reference a new box in a Vagrantfile</li>
+</ul>
+<p>In a DOS command prompt&hellip;</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cmd" data-lang="cmd"><span style="display:flex;"><span>vagrant box add --provider virtualbox https://oracle.github.io/vagrant-projects/boxes/oraclelinux/7.json
+</span></span><span style="display:flex;"><span>vagrant box add --provider virtualbox https://oracle.github.io/vagrant-projects/boxes/oraclelinux/8.json
+</span></span></code></pre></div><h2 id="some-vagrant-addons">Some vagrant addons</h2>
+<ol>
+<li>allows us to resize disks (optional)</li>
+</ol>
+<p>In a DOS command prompt&hellip;</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cmd" data-lang="cmd"><span style="display:flex;"><span>vagrant plugin install vagrant-disksize
+</span></span></code></pre></div><ol>
+<li>ensure the virtualbox guest additions is updated, required to ensure that the guest additions are automatically updated for all new vagrant boxes</li>
+</ol>
+<p>In a DOS command prompt&hellip;</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cmd" data-lang="cmd"><span style="display:flex;"><span>vagrant plugin install vagrant-vbguest
+</span></span></code></pre></div><ol>
+<li>Automatically update the /etc/hosts</li>
+</ol>
+<p>In a DOS command prompt&hellip;</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cmd" data-lang="cmd"><span style="display:flex;"><span>vagrant plugin install vagrant-hostsupdater
+</span></span></code></pre></div><h2 id="create-the-initial-vagrantfile">Create the initial vagrantfile</h2>
+<p>To create the virtual machine, we first of all create a new directory, change to it and create the initial &ldquo;vagrantfile&rdquo;</p>
+<p>In a DOS command prompt&hellip;</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cmd" data-lang="cmd"><span style="display:flex;"><span><span style="color:#66d9ef">mkdir</span> D:\vagrant\vol7db19
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">cd</span> /D D:\vagrant\vol7db19
+</span></span><span style="display:flex;"><span>vagrant init
+</span></span></code></pre></div><h2 id="start-the-vm">Start the VM</h2>
+<p>edit the vagrantfile (see Tim Hall&rsquo;s website above) and when ready with our configuration, we can install, create and start the VM with the following command&hellip;</p>
+<p>In a DOS command prompt&hellip;</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cmd" data-lang="cmd"><span style="display:flex;"><span>vagrant up
+</span></span></code></pre></div><h2 id="changing-the-vagrantfile">Changing the vagrantfile</h2>
+<p>if you change the vagrantfile, destroy and recreate your virtual machine</p>
+<p>In a DOS command prompt&hellip;</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cmd" data-lang="cmd"><span style="display:flex;"><span>vagrant destroy -f
+</span></span><span style="display:flex;"><span>vagrant up
+</span></span></code></pre></div><h2 id="accessing-the-vm">accessing the VM</h2>
+<ol>
+<li>use the command &ldquo;vagrant ssh&rdquo; to access the VM per shh in your DOS command prompt</li>
+<li>or connect with ssh to 127.0.0.1, port 2222 with your favourite tool</li>
+</ol>
+<h2 id="removing-vagrant-boxes">Removing Vagrant boxes</h2>
+<ul>
+<li>We can remove any old boxes we are no longer using, with the vagrant box remove command.</li>
+<li>These boxes will be automatically downloaded again if required.</li>
+<li>It is best not to remove them, if still used regularly, as it takes a few minutes to download them</li>
+</ul>
+<p>In a DOS command prompt&hellip;</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cmd" data-lang="cmd"><span style="display:flex;"><span>vagrant box remove oraclelinux/7
+</span></span><span style="display:flex;"><span>vagrant box remove oraclelinux/8
+</span></span></code></pre></div>
+</div>
+
+
+
+    
+	
+  
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-e18394aedc29d5707faac851e58fb199">4 - vagrant Examples</h1>
+    
+	<p>The examples are part of the project.</p>
+<p>They are located in <a href="https://github.com/oravirt/ansible-oracle/tree/master/example">examples</a>.</p>
+
+</div>
+
+
+
+    
+      
+  
+  
+  
+  
+
+  
+  
+
+  
+    
+    
+	
+    
+
+<div class="td-content" style="">
+    
+	<h1 id="pg-1034f85de36d013dc955a5cd81324e0d">4.1 - Database with Patching</h1>
     
 	
 <div class="admonitionblock warning">
@@ -1289,8 +1434,8 @@ SQL&gt;</pre>
 
       </div><div class="td-footer__center col-12 col-sm-4 py-2 order-sm-2">
         <span class="td-footer__copyright">&copy;
-    2024&ndash;2024
-    <span class="td-footer__authors">Thorsten Bruhns | <a href="https://creativecommons.org/licenses/by/4.0">MIT</a> |</span></span><span class="td-footer__all_rights_reserved">All Rights Reserved</span><span class="ms-2"><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a></span>
+    2016&ndash;2024
+    <span class="td-footer__authors">Thorsten Bruhns | <a href="https://github.com/oravirt/ansible-oracle/blob/master/LICENSE">MIT</a> |</span></span><span class="td-footer__all_rights_reserved">All Rights Reserved</span><span class="ms-2"><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a></span>
       </div>
     </div>
   </div>
@@ -1298,7 +1443,7 @@ SQL&gt;</pre>
 
     </div>
     <script src="/js/main.js"></script>
-<script defer src="/js/click-to-copy.js" crossorigin="anonymous"></script>
+<script src='/js/prism.js'></script>
 <script src='/js/tabpane-persist.js'></script>
 
   </body>

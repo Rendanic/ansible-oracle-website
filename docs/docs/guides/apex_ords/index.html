@@ -17,8 +17,8 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>Setup APEX and ORDS | Hompage of ansible-oracle Project</title>
-<meta name="description" content=" 1. Setup APEX and ORDS Important The installation of APEX and ORDS with ansible-oracle is currently experimental. 1.1. Requirements 1.1.1. APEX RDBMS 19c or newer
+<title>APEX and ORDS | Hompage of ansible-oracle Project</title>
+<meta name="description" content=" Important The installation of APEX and ORDS with ansible-oracle is currently experimental. Requirements APEX RDBMS 19c or newer
 APEX 20.x or newer is mandatory for RDBMS 19c
 Tested with APEX 23.2, 24.1 - may work with older versions as well
 Installation is tested with PDB only.
@@ -27,8 +27,8 @@ Download ZIP from Oracle with Playbook patch_download.yml supported for Version 
 APEX only with ORDS - no old APEX Listener">
 <meta property="og:url" content="https://www.ansible-oracle.eu/docs/guides/apex_ords/">
   <meta property="og:site_name" content="Hompage of ansible-oracle Project">
-  <meta property="og:title" content="Setup APEX and ORDS">
-  <meta property="og:description" content=" 1. Setup APEX and ORDS Important The installation of APEX and ORDS with ansible-oracle is currently experimental. 1.1. Requirements 1.1.1. APEX RDBMS 19c or newer
+  <meta property="og:title" content="APEX and ORDS">
+  <meta property="og:description" content=" Important The installation of APEX and ORDS with ansible-oracle is currently experimental. Requirements APEX RDBMS 19c or newer
 APEX 20.x or newer is mandatory for RDBMS 19c
 Tested with APEX 23.2, 24.1 - may work with older versions as well
 Installation is tested with PDB only.
@@ -38,21 +38,21 @@ APEX only with ORDS - no old APEX Listener">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
-    <meta property="article:modified_time" content="2024-09-25T06:21:56+00:00">
+    <meta property="article:modified_time" content="2024-09-26T06:15:16+00:00">
 
-  <meta itemprop="name" content="Setup APEX and ORDS">
-  <meta itemprop="description" content=" 1. Setup APEX and ORDS Important The installation of APEX and ORDS with ansible-oracle is currently experimental. 1.1. Requirements 1.1.1. APEX RDBMS 19c or newer
+  <meta itemprop="name" content="APEX and ORDS">
+  <meta itemprop="description" content=" Important The installation of APEX and ORDS with ansible-oracle is currently experimental. Requirements APEX RDBMS 19c or newer
 APEX 20.x or newer is mandatory for RDBMS 19c
 Tested with APEX 23.2, 24.1 - may work with older versions as well
 Installation is tested with PDB only.
 CDB and nonCDB is not supported at the moment.
 Download ZIP from Oracle with Playbook patch_download.yml supported for Version 22.1 or newer
 APEX only with ORDS - no old APEX Listener">
-  <meta itemprop="dateModified" content="2024-09-25T06:21:56+00:00">
-  <meta itemprop="wordCount" content="641">
+  <meta itemprop="dateModified" content="2024-09-26T06:15:16+00:00">
+  <meta itemprop="wordCount" content="627">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Setup APEX and ORDS">
-  <meta name="twitter:description" content=" 1. Setup APEX and ORDS Important The installation of APEX and ORDS with ansible-oracle is currently experimental. 1.1. Requirements 1.1.1. APEX RDBMS 19c or newer
+  <meta name="twitter:title" content="APEX and ORDS">
+  <meta name="twitter:description" content=" Important The installation of APEX and ORDS with ansible-oracle is currently experimental. Requirements APEX RDBMS 19c or newer
 APEX 20.x or newer is mandatory for RDBMS 19c
 Tested with APEX 23.2, 24.1 - may work with older versions as well
 Installation is tested with PDB only.
@@ -70,6 +70,7 @@ APEX only with ORDS - no old APEX Listener">
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
   crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/css/prism.css"/>
 
   </head>
   <body class="td-page">
@@ -98,12 +99,15 @@ APEX only with ORDS - no old APEX Listener">
         <div class="row flex-xl-nowrap">
           <aside class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
             <div id="td-sidebar-menu" class="td-sidebar__inner">
+  <div id="content-mobile">
   <form class="td-sidebar__search d-flex align-items-center">
     
     <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ms-3 fas fa-bars" type="button" data-bs-toggle="collapse" data-bs-target="#td-section-nav" aria-controls="td-section-nav" aria-expanded="false" aria-label="Toggle section navigation">
     </button>
   </form>
-  <nav class="td-sidebar-nav collapse" id="td-section-nav">
+  </div>
+  <div id="content-desktop"></div>
+  <nav class="td-sidebar-nav collapse td-sidebar-nav--search-disabled" id="td-section-nav">
     <ul class="td-sidebar-nav__section pe-md-3 ul-0">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docs-li">
   <a href="/docs/" title="Documentation" class="align-left ps-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-docs"><span class="">Docs</span></a>
@@ -121,7 +125,14 @@ APEX only with ORDS - no old APEX Listener">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesansible-controller-li">
   <a href="/docs/guides/ansible-controller/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesansible-controller"><span class="">Ansible Controller</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguidesapex_ords-li">
-  <a href="/docs/guides/apex_ords/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguidesapex_ords"><span class="td-sidebar-nav-active-item">Setup APEX and ORDS</span></a>
+  <a href="/docs/guides/apex_ords/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguidesapex_ords"><span class="td-sidebar-nav-active-item">APEX and ORDS</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguidesvagrant-li">
+  <a href="/docs/guides/vagrant/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsguidesvagrant"><span class="">Vagrant</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesvagrantvagrant_basics-li">
+  <a href="/docs/guides/vagrant/vagrant_basics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesvagrantvagrant_basics"><span class="">What is vagrant?</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguidesexamples-li">
   <a href="/docs/guides/examples/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsguidesexamples"><span class="">vagrant Examples</span></a>
   <ul class="ul-3 foldable">
@@ -153,41 +164,13 @@ APEX only with ORDS - no old APEX Listener">
 <a href="https://github.com/oravirt/ansible-oracle/tree/master/website/content/docs/guides/apex_ords.adoc" class="td-page-meta--view td-page-meta__view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines fa-fw"></i> View page source</a>
   <a href="https://github.com/oravirt/ansible-oracle/edit/master/website/content/docs/guides/apex_ords.adoc" class="td-page-meta--edit td-page-meta__edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Edit this page</a>
   <a href="https://github.com/oravirt/ansible-oracle/new/master/website/content/docs/guides?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" class="td-page-meta--child td-page-meta__child" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Create child page</a>
-  <a href="https://github.com/oravirt/ansible-oracle/issues/new?title=Setup%20APEX%20and%20ORDS" class="td-page-meta--issue td-page-meta__issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create documentation issue</a>
+  <a href="https://github.com/oravirt/ansible-oracle/issues/new?title=APEX%20and%20ORDS" class="td-page-meta--issue td-page-meta__issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create documentation issue</a>
   <a href="https://github.com/oravirt/ansible-oracle/issues/new" class="td-page-meta--project td-page-meta__project-issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create project issue</a>
   <a id="print" href="/docs/guides/_print/"><i class="fa-solid fa-print fa-fw"></i> Print entire section</a>
 
 </div>
 
-            <div class="td-toc">
-        <nav id="TableOfContents">
-  <ul>
-    <li><a href="#_setup_apex_and_ords">1. Setup APEX and ORDS</a>
-      <ul>
-        <li><a href="#_requirements">1.1. Requirements</a>
-          <ul>
-            <li><a href="#_apex">1.1.1. APEX</a></li>
-            <li><a href="#_ords">1.1.2. ORDS</a></li>
-          </ul>
-        </li>
-        <li><a href="#_apex_configuration">1.2. APEX Configuration</a>
-          <ul>
-            <li><a href="#_mandatory_variables">1.2.1. Mandatory variables</a></li>
-            <li><a href="#_apex_in_pdb">1.2.2. APEX in PDB</a></li>
-            <li><a href="#_playbook_execution">1.2.3. Playbook execution</a></li>
-          </ul>
-        </li>
-        <li><a href="#_ords_configuration">1.3. ORDS Configuration</a>
-          <ul>
-            <li><a href="#_playbook_execution_2">1.3.1. Playbook execution</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-      </div>
-    
+            
             
 	
           </aside>
@@ -202,21 +185,17 @@ APEX only with ORDS - no old APEX Listener">
   <li class="breadcrumb-item">
     <a href="/docs/guides/">Guides</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    Setup APEX and ORDS</li>
+    APEX and ORDS</li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Setup APEX and ORDS</h1>
+	<h1>APEX and ORDS</h1>
 	
 	<header class="article-meta">
 		
   </header>
-	
-<div class="sect1">
-<h2 id="_setup_apex_and_ords">1. Setup APEX and ORDS</h2>
-<div class="sectionbody">
-<div class="admonitionblock important">
+	<div class="admonitionblock important">
 <table>
 <tbody><tr>
 <td class="icon">
@@ -228,10 +207,11 @@ The installation of APEX and ORDS with <code>ansible-oracle</code> is currently 
 </tr>
 </tbody></table>
 </div>
+<div class="sect1">
+<h2 id="_requirements">Requirements</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_requirements">1.1. Requirements</h3>
-<div class="sect3">
-<h4 id="_apex">1.1.1. APEX</h4>
+<h3 id="_apex">APEX</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -263,7 +243,7 @@ The installation of APEX and ORDS with <code>ansible-oracle</code> is currently 
 <div class="ulist">
 <ul>
 <li>
-<p>Primary Note for Oracle APEX Upgrades (Doc ID 1088970.1)</p>
+<p>Primary Note for Oracle APEX Upgrades (Doc ID [1088970.1](<a href="https://support.oracle.com/epmos/faces/DocumentDisplay?id=1088970.1" class="bare">https://support.oracle.com/epmos/faces/DocumentDisplay?id=1088970.1</a>))</p>
 </li>
 </ul>
 </div>
@@ -273,22 +253,22 @@ The installation of APEX and ORDS with <code>ansible-oracle</code> is currently 
 <div class="ulist">
 <ul>
 <li>
-<p>ADMIN password of INTERNAL Workspace is wrong after APEX upgrade
+<p>ADMIN password of INTERNAL Workspace is wrong after APEX upgrade.<br/>
 Silent script to reset ADMIN password depends on APEX Relöease.<br/>
-There was no reliable solution found for the moment…​</p>
+There was no reliable solution found at the moment…​</p>
 </li>
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_ords">1.1.2. ORDS</h4>
+<div class="sect2">
+<h3 id="_ords">ORDS</h3>
 <div class="ulist">
 <ul>
 <li>
 <p>OracleLinux 8 or 9 only</p>
 </li>
 <li>
-<p>Installation with ords.rpm from <code>public-yum.oracle.com</code></p>
+<p>Installation with <code>ords.rpm</code> from <a href="https://public-yum.oracle.com" class="bare">https://public-yum.oracle.com</a></p>
 </li>
 <li>
 <p>Limited database configuration - see documentation</p>
@@ -297,8 +277,10 @@ There was no reliable solution found for the moment…​</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_apex_configuration">1.2. APEX Configuration</h3>
+</div>
+<div class="sect1">
+<h2 id="_apex_configuration">APEX Configuration</h2>
+<div class="sectionbody">
 <div class="admonitionblock important">
 <table>
 <tbody><tr>
@@ -312,8 +294,8 @@ ORDS is only tested with existing APEX installation.
 </tr>
 </tbody></table>
 </div>
-<div class="sect3">
-<h4 id="_mandatory_variables">1.2.1. Mandatory variables</h4>
+<div class="sect2">
+<h3 id="_mandatory_variables">Mandatory variables</h3>
 <div class="paragraph">
 <p>The following global variables are needed for an APEX installation.</p>
 </div>
@@ -374,8 +356,8 @@ Could be set in each PDB.</p></td>
 </tfoot>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_apex_in_pdb">1.2.2. APEX in PDB</h4>
+<div class="sect2">
+<h3 id="_apex_in_pdb">APEX in PDB</h3>
 <div class="paragraph">
 <p>APEX can be installed in each PDB.</p>
 </div>
@@ -518,16 +500,18 @@ Do not forget to download the APEX Patch when <code>apex_patchid</code> is set i
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_playbook_execution">1.2.3. Playbook execution</h4>
+<div class="sect2">
+<h3 id="_playbook_execution">Playbook execution</h3>
 <div class="paragraph">
 <p>The installation of APEX is part of <code>playbooks/manage_db.yml</code>.<br/>
 This allows the creation of custom Tablespaces, Profiles etc. for APEX, without the need to use a dedicated Playbook.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_ords_configuration">1.3. ORDS Configuration</h3>
+</div>
+<div class="sect1">
+<h2 id="_ords_configuration">ORDS Configuration</h2>
+<div class="sectionbody">
 <div class="admonitionblock important">
 <table>
 <tbody><tr>
@@ -633,18 +617,17 @@ Referencing <code>dbpasswords</code> helps to reduce redundancy for passwords.</
     ords_password: &#34;{{ dbpasswords[&#39;DB1&#39;][&#39;PDB1&#39;][&#39;ords_public_user&#39;] }}&#34;</pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_playbook_execution_2">1.3.1. Playbook execution</h4>
+<div class="sect2">
+<h3 id="_playbook_execution_2">Playbook execution</h3>
 <div class="paragraph">
 <p>The Playbook <code>playbooks/manage_ords.yml</code> is used to install ORDS.</p>
 </div>
 </div>
 </div>
 </div>
-</div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified September 25, 2024: <a href="https://github.com/oravirt/ansible-oracle/commit/f1963ade0c14e6ace0585037f195bc194cb00486">hugo-docsy (f1963ade)</a>
+  Last modified September 26, 2024: <a href="https://github.com/oravirt/ansible-oracle/commit/5fdbb3f32de9e96678a2f042b427b9cd4c9aba24">hugo (5fdbb3f3)</a>
 </div>
 
 </div>
@@ -671,8 +654,8 @@ Referencing <code>dbpasswords</code> helps to reduce redundancy for passwords.</
 
       </div><div class="td-footer__center col-12 col-sm-4 py-2 order-sm-2">
         <span class="td-footer__copyright">&copy;
-    2024&ndash;2024
-    <span class="td-footer__authors">Thorsten Bruhns | [MIT](<a href="https://creativecommons.org/licenses/by/4.0" class="bare">https://creativecommons.org/licenses/by/4.0</a>) |</span></span><span class="td-footer__all_rights_reserved">All Rights Reserved</span><span class="ms-2"><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a></span>
+    2016&ndash;2024
+    <span class="td-footer__authors">Thorsten Bruhns | [MIT](<a href="https://github.com/oravirt/ansible-oracle/blob/master/LICENSE" class="bare">https://github.com/oravirt/ansible-oracle/blob/master/LICENSE</a>) |</span></span><span class="td-footer__all_rights_reserved">All Rights Reserved</span><span class="ms-2"><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a></span>
       </div>
     </div>
   </div>
@@ -680,7 +663,7 @@ Referencing <code>dbpasswords</code> helps to reduce redundancy for passwords.</
 
     </div>
     <script src="/js/main.js"></script>
-<script defer src="/js/click-to-copy.js" crossorigin="anonymous"></script>
+<script src='/js/prism.js'></script>
 <script src='/js/tabpane-persist.js'></script>
 
   </body>
