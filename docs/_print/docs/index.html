@@ -15395,6 +15395,10 @@ tools/release/galaxy_version.sh fix</pre>
 <dd>
 <p>Sync <code>master</code> of your fork with <code>master</code> of the upstream repository.</p>
 </dd>
+<dt class="hdlist1"><code>-m docs</code></dt>
+<dd>
+<p>Update the website, without creating a release.</p>
+</dd>
 </dl>
 </div>
 <div class="admonitionblock note">
@@ -15507,14 +15511,49 @@ An existing tag is used, when it points to the same commit, otherwise the script
 <p>Create the draft release <code>Release &lt;version&gt;</code> with the description of the Pull-Request as text.
 The text of an existing draft release is updated, an already published release aborts the script.</p>
 </li>
+<li>
+<p>Update the website with <code>tools/release/build_website.sh -m push</code>, see <a href="/docs/development/website/">website.adoc</a>.
+The website is built from the local checkout of the release branch and published at once.
+This step is skipped for tests against a fork (<code>-r</code> other than <code>oravirt/ansible-oracle</code>).</p>
+</li>
 </ol>
 </div>
 <div class="paragraph">
 <p>The draft release must be published manually on GitHub.</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The website step needs <code>docker</code>, <code>rsync</code> and <code>task</code> and committed sources in <code>website/</code>, <code>doc/</code>, <code>roles/</code> and <code>docker/hugo/</code>.
+When it fails, fix the problem and run <code>-m release</code> again: the existing tag and draft release are reused.
+</td>
+</tr>
+</tbody></table>
+</div>
 </div>
 <div class="sect3">
-<h4 id="_sync_fork_m_galaxy">3.5.3. Sync fork (<code>-m galaxy</code>)</h4>
+<h4 id="_update_the_website_m_docs">3.5.3. Update the website (<code>-m docs</code>)</h4>
+<div class="listingblock">
+<div class="content">
+<pre>tools/release/build_release.sh -m docs</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Builds and publishes the website with <code>tools/release/build_website.sh -m push</code>, like the last step of <code>-m release</code>.
+Use it to update the website without a release, e.g. after changes in <code>doc/</code> or <code>website/</code>, or to repeat a failed website step of <code>-m release</code>.
+No release branch is needed, the website is built from the current local checkout.
+The step is skipped with <code>-r</code> other than <code>oravirt/ansible-oracle</code>.</p>
+</div>
+<div class="paragraph">
+<p>For more options (commit only, Pull-Request in the website repository) use <code>tools/release/build_website.sh</code> directly, see <a href="/docs/development/website/">website.adoc</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sync_fork_m_galaxy">3.5.4. Sync fork (<code>-m galaxy</code>)</h4>
 <div class="listingblock">
 <div class="content">
 <pre>tools/release/build_release.sh -m galaxy</pre>
@@ -15542,7 +15581,7 @@ The sync is refused, when <code>master</code> of the fork contains own commits -
 </div>
 </div>
 <div class="sect3">
-<h4 id="_tasks">3.5.4. Tasks</h4>
+<h4 id="_tasks">3.5.5. Tasks</h4>
 <div class="paragraph">
 <p>The modes are also available as tasks from the repository root.
 Options are passed after <code>--</code>.</p>
@@ -15550,7 +15589,8 @@ Options are passed after <code>--</code>.</p>
 <div class="listingblock">
 <div class="content">
 <pre>task release:pr        # -m pr
-task release:draft     # -m release
+task release:draft     # -m release (incl. website)
+task release:docs      # -m docs
 task release:galaxy    # -m galaxy</pre>
 </div>
 </div>
@@ -15584,10 +15624,10 @@ Revert all changes in the working tree after the test.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_options">3.5.5. Options</h4>
+<h4 id="_options">3.5.6. Options</h4>
 <div class="dlist">
 <dl>
-<dt class="hdlist1"><code>-m pr|release|galaxy</code></dt>
+<dt class="hdlist1"><code>-m pr|release|galaxy|docs</code></dt>
 <dd>
 <p>Mode of the script, see above.</p>
 </dd>
