@@ -38,7 +38,7 @@ TOP Note: Solutions for Typical Grid Infrastructure/RAC Database runInstaller/DB
 This role has a dependency to orahost_meta and orasw_meta for default parameter.
 Known Issues from Oracle:
 TOP Note: Solutions for Typical Grid Infrastructure/RAC Database runInstaller/DBCA for RAC Issues (Doc ID 1056713.1) INS-06006 GI RunInstaller Fails If OpenSSH Is Upgraded to 8.x (Doc ID 2555697.1) Table of content Requirements Default Variables cvuqdisk_rpm default_dbpass default_gipass endoracle_scan_port gi_ignoreprereq oracle_asm_init_dg oracle_asm_storage_option oracle_cluster_mgmdb oracle_cluster_name oracle_gi_cluster_type oracle_gi_gns_subdomain oracle_gi_gns_vip oracle_gi_nic_priv oracle_gi_nic_pub oracle_ic_net oracle_scan oracle_scan_port oracle_sw_image_gi oracle_vip run_configtoolallcommand Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables cvuqdisk_rpm Name of RPM for cvuqdisk.">
-	<meta itemprop="wordCount" content="637">
+	<meta itemprop="wordCount" content="599">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="oraswgi_install">
 	<meta name="twitter:description" content="Install Grid Infrastructure / ORacle Restart software.
@@ -443,7 +443,6 @@ TOP Note: Solutions for Typical Grid Infrastructure/RAC Database runInstaller/DB
 <h3 id="cvuqdisk_rpm">cvuqdisk_rpm</h3>
 <p>Name of RPM for cvuqdisk.</p>
 <p>RPM is installed from {{ oracle_home_gi }}/cv/rpm/</p>
-<p>Only used for GI &lt; 19c. For 19c+ the filename is determined from {{ oracle_home_gi }}/cv/rpm/.</p>
 <h4 id="default-value">Default value</h4>
 <pre><code class="language-YAML">cvuqdisk_rpm: cvuqdisk-1.0.10-1.rpm
 </code></pre>
@@ -589,9 +588,6 @@ unless a <code>filesource</code> dict element provides a full path / complete UR
 <ul>
 <li>(bug): ConfigTools should not depend on olr.loc&hellip;</li>
 <li>(bug): ConfigTools should not depend on olr.loc&hellip;</li>
-<li>(bug): ConfigTools should not depend on olr.loc&hellip;</li>
-<li>(information): add selectattr to asm_diskgroups</li>
-<li>(information): Check if path for patches is ok with patch_id/patch_id</li>
 <li>(information): add selectattr to asm_diskgroups</li>
 <li>(information): Check if path for patches is ok with patch_id/patch_id</li>
 <li>(information): add selectattr to asm_diskgroups</li>
@@ -609,7 +605,7 @@ unless a <code>filesource</code> dict element provides a full path / complete UR
 <p>Mikael Sandström, Thorsten Bruhns</p>
 
 	<div class="td-page-meta__lastmod">
-  Last modified January 1, 0001: <a href="https://github.com/oravirt/ansible-oracle/commit/842f4eb0365f894b0610fb0d319c439bd15f3a3b">website: new website for ansible-oracle (842f4eb0)</a>
+  Last modified January 1, 0001: <a href="https://github.com/oravirt/ansible-oracle/commit/a01ddedce0d5343558172671a30cfae0cd1f4870">website: new website for ansible-oracle (a01ddedc)</a>
 </div>
 
 </div>

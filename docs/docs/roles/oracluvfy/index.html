@@ -19,32 +19,32 @@
 
 <title>oracluvfy | ansible-oracle Project</title>
 <meta name="description" content="Manage Cluster Verification Utility from Oracle
-Table of content Requirements Default Variables oracluvfy_archive oracluvfy_archive_filesource oracluvfy_executable oracluvfy_force_update oracluvfy_home Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables oracluvfy_archive ZIP Archive used by the role.
+Table of content Requirements Default Variables oracluvfy_archive oracluvfy_archive_filesource oracluvfy_force_update oracluvfy_home Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables oracluvfy_archive ZIP Archive used by the role.
 Default value oracluvfy_archive: cvupack_linux_ol7_x86_64.zip oracluvfy_archive_filesource If oracluvfy_archive ist not placed under oracle_sw_source_local / oracle_sw_source_www, path can be forced using oracluvfy_archive_filesource instead. oracluvfy_archive_filesource must be the full path/URL, including the filename.
-Example usage oracluvfy_archive_filesource: /full/path/to/cvupack_linux_ol7_x86_64.zip oracluvfy_executable Executable for cluvfy.">
+Example usage oracluvfy_archive_filesource: /full/path/to/cvupack_linux_ol7_x86_64.zip oracluvfy_force_update Force unarchive of cluvfy in oracluvfy_home.">
 <meta property="og:url" content="https://www.ansible-oracle.eu/docs/roles/oracluvfy/">
 	<meta property="og:site_name" content="ansible-oracle Project">
 	<meta property="og:title" content="oracluvfy">
 	<meta property="og:description" content="Manage Cluster Verification Utility from Oracle
-Table of content Requirements Default Variables oracluvfy_archive oracluvfy_archive_filesource oracluvfy_executable oracluvfy_force_update oracluvfy_home Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables oracluvfy_archive ZIP Archive used by the role.
+Table of content Requirements Default Variables oracluvfy_archive oracluvfy_archive_filesource oracluvfy_force_update oracluvfy_home Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables oracluvfy_archive ZIP Archive used by the role.
 Default value oracluvfy_archive: cvupack_linux_ol7_x86_64.zip oracluvfy_archive_filesource If oracluvfy_archive ist not placed under oracle_sw_source_local / oracle_sw_source_www, path can be forced using oracluvfy_archive_filesource instead. oracluvfy_archive_filesource must be the full path/URL, including the filename.
-Example usage oracluvfy_archive_filesource: /full/path/to/cvupack_linux_ol7_x86_64.zip oracluvfy_executable Executable for cluvfy.">
+Example usage oracluvfy_archive_filesource: /full/path/to/cvupack_linux_ol7_x86_64.zip oracluvfy_force_update Force unarchive of cluvfy in oracluvfy_home.">
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
 
 	<meta itemprop="name" content="oracluvfy">
 	<meta itemprop="description" content="Manage Cluster Verification Utility from Oracle
-Table of content Requirements Default Variables oracluvfy_archive oracluvfy_archive_filesource oracluvfy_executable oracluvfy_force_update oracluvfy_home Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables oracluvfy_archive ZIP Archive used by the role.
+Table of content Requirements Default Variables oracluvfy_archive oracluvfy_archive_filesource oracluvfy_force_update oracluvfy_home Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables oracluvfy_archive ZIP Archive used by the role.
 Default value oracluvfy_archive: cvupack_linux_ol7_x86_64.zip oracluvfy_archive_filesource If oracluvfy_archive ist not placed under oracle_sw_source_local / oracle_sw_source_www, path can be forced using oracluvfy_archive_filesource instead. oracluvfy_archive_filesource must be the full path/URL, including the filename.
-Example usage oracluvfy_archive_filesource: /full/path/to/cvupack_linux_ol7_x86_64.zip oracluvfy_executable Executable for cluvfy.">
-	<meta itemprop="wordCount" content="143">
+Example usage oracluvfy_archive_filesource: /full/path/to/cvupack_linux_ol7_x86_64.zip oracluvfy_force_update Force unarchive of cluvfy in oracluvfy_home.">
+	<meta itemprop="wordCount" content="99">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="oracluvfy">
 	<meta name="twitter:description" content="Manage Cluster Verification Utility from Oracle
-Table of content Requirements Default Variables oracluvfy_archive oracluvfy_archive_filesource oracluvfy_executable oracluvfy_force_update oracluvfy_home Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables oracluvfy_archive ZIP Archive used by the role.
+Table of content Requirements Default Variables oracluvfy_archive oracluvfy_archive_filesource oracluvfy_force_update oracluvfy_home Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables oracluvfy_archive ZIP Archive used by the role.
 Default value oracluvfy_archive: cvupack_linux_ol7_x86_64.zip oracluvfy_archive_filesource If oracluvfy_archive ist not placed under oracle_sw_source_local / oracle_sw_source_www, path can be forced using oracluvfy_archive_filesource instead. oracluvfy_archive_filesource must be the full path/URL, including the filename.
-Example usage oracluvfy_archive_filesource: /full/path/to/cvupack_linux_ol7_x86_64.zip oracluvfy_executable Executable for cluvfy.">
+Example usage oracluvfy_archive_filesource: /full/path/to/cvupack_linux_ol7_x86_64.zip oracluvfy_force_update Force unarchive of cluvfy in oracluvfy_home.">
 
 
 
@@ -280,20 +280,14 @@ Example usage oracluvfy_archive_filesource: /full/path/to/cvupack_linux_ol7_x86_
             <li><a href="#example-usage">Example usage</a></li>
           </ul>
         </li>
-        <li><a href="#oracluvfy_executable">oracluvfy_executable</a>
-          <ul>
-            <li><a href="#default-value-1">Default value</a></li>
-            <li><a href="#example-usage-1">Example usage</a></li>
-          </ul>
-        </li>
         <li><a href="#oracluvfy_force_update">oracluvfy_force_update</a>
           <ul>
-            <li><a href="#default-value-2">Default value</a></li>
+            <li><a href="#default-value-1">Default value</a></li>
           </ul>
         </li>
         <li><a href="#oracluvfy_home">oracluvfy_home</a>
           <ul>
-            <li><a href="#default-value-3">Default value</a></li>
+            <li><a href="#default-value-2">Default value</a></li>
           </ul>
         </li>
       </ul>
@@ -338,7 +332,6 @@ Example usage oracluvfy_archive_filesource: /full/path/to/cvupack_linux_ol7_x86_
 <ul>
 <li><a href="#oracluvfy_archive">oracluvfy_archive</a></li>
 <li><a href="#oracluvfy_archive_filesource">oracluvfy_archive_filesource</a></li>
-<li><a href="#oracluvfy_executable">oracluvfy_executable</a></li>
 <li><a href="#oracluvfy_force_update">oracluvfy_force_update</a></li>
 <li><a href="#oracluvfy_home">oracluvfy_home</a></li>
 </ul>
@@ -366,24 +359,13 @@ path can be forced using <code>oracluvfy_archive_filesource</code> instead.
 <h4 id="example-usage">Example usage</h4>
 <pre><code class="language-YAML">oracluvfy_archive_filesource: /full/path/to/cvupack_linux_ol7_x86_64.zip
 </code></pre>
-<h3 id="oracluvfy_executable">oracluvfy_executable</h3>
-<p>Executable for cluvfy.</p>
-<p><code>oracluvfy_archive</code> is only installed, when <code>oracluvfy_executable</code> does not exist.
-The default uses the cluvfy from <code>oracluvfy_archive</code>.
-<code>runcluvfy.sh</code> from an unpacked Grid-Infrastructure home can be used as well.</p>
-<h4 id="default-value-1">Default value</h4>
-<pre><code class="language-YAML">oracluvfy_executable: '{{ oracluvfy_home }}/bin/cluvfy'
-</code></pre>
-<h4 id="example-usage-1">Example usage</h4>
-<pre><code class="language-YAML">oracluvfy_executable: &quot;{{ oracle_home_gi }}/runcluvfy.sh&quot;
-</code></pre>
 <h3 id="oracluvfy_force_update">oracluvfy_force_update</h3>
 <p>Force unarchive of cluvfy in <code>oracluvfy_home</code>.</p>
-<h4 id="default-value-2">Default value</h4>
+<h4 id="default-value-1">Default value</h4>
 <pre><code class="language-YAML">oracluvfy_force_update: false
 </code></pre>
 <h3 id="oracluvfy_home">oracluvfy_home</h3>
-<h4 id="default-value-3">Default value</h4>
+<h4 id="default-value-2">Default value</h4>
 <pre><code class="language-YAML">oracluvfy_home: '{{ oracle_base }}/product/cluvfy'
 </code></pre>
 <h2 id="discovered-tags">Discovered Tags</h2>
@@ -399,7 +381,7 @@ The default uses the cluvfy from <code>oracluvfy_archive</code>.
 <p>[Thorsten Bruhns]</p>
 
 	<div class="td-page-meta__lastmod">
-  Last modified January 1, 0001: <a href="https://github.com/oravirt/ansible-oracle/commit/842f4eb0365f894b0610fb0d319c439bd15f3a3b">website: new website for ansible-oracle (842f4eb0)</a>
+  Last modified January 1, 0001: <a href="https://github.com/oravirt/ansible-oracle/commit/a01ddedce0d5343558172671a30cfae0cd1f4870">website: new website for ansible-oracle (a01ddedc)</a>
 </div>
 
 </div>

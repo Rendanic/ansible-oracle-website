@@ -19,24 +19,24 @@
 
 <title>orahost | ansible-oracle Project</title>
 <meta name="description" content="Role to configure the hostsystem for ansible-oracle
-Table of content Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib_rpm_el7 asmlib_rpm_el8 asmlib_rpm_el9 asmlib_rpm_sles asmlibsupport_rpm asmlibsupport_rpm_el6 asmlibsupport_rpm_el7 asmlibsupport_rpm_el8 configure_etc_hosts configure_hugepages configure_hugepages_by configure_interconnect configure_limits configure_limits_pam configure_oracle_sudo configure_ssh disable_firewall disable_numa_boot disable_selinux etc_hosts_entries etc_hosts_ip extra_hugepages_per_instance extrarepos_disabled extrarepos_enabled firewall_service grid_users host_fs_layout install_os_packages keyfile max_size_in_gb_hugepages nr_hugepages nr_hugepages_memory nr_hugepages_percent old_ssh_config oracle_asm_packages oracle_asm_packages_sles oracle_groups oracle_hugepages oracle_hugepages_sysctl_file oracle_ic_net oracle_packages oracle_packages_sles_multi oracle_sysctl oracle_sysctl_file oracle_users os_family_supported os_min_supported_version percent_hugepages size_in_gb_hugepages ssh_keys sudoers_template transparent_hugepage_disable transparent_hugepage_disable_by_grub Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables asmlib_rpm Install oracleasm-support from RPM-Repo on OracleLinux. Value depends on OS-Release from RHEL/OL. Uses variables asmlib_rpm_el6, asmlib_rpm_el7 or asmlib_rpm_el8">
+Table of content Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib_rpm_el7 asmlib_rpm_el8 asmlib_rpm_sles asmlibsupport_rpm asmlibsupport_rpm_el6 asmlibsupport_rpm_el7 asmlibsupport_rpm_el8 configure_etc_hosts configure_hugepages configure_hugepages_by configure_interconnect configure_limits configure_limits_pam configure_oracle_sudo configure_ssh disable_firewall disable_numa_boot disable_selinux etc_hosts_entries etc_hosts_ip extra_hugepages_per_instance extrarepos_disabled extrarepos_enabled firewall_service grid_users host_fs_layout install_os_packages keyfile max_size_in_gb_hugepages nr_hugepages nr_hugepages_memory nr_hugepages_percent old_ssh_config oracle_asm_packages oracle_asm_packages_sles oracle_groups oracle_hugepages oracle_hugepages_sysctl_file oracle_ic_net oracle_packages oracle_packages_sles_multi oracle_sysctl oracle_sysctl_file oracle_users os_family_supported os_min_supported_version percent_hugepages size_in_gb_hugepages ssh_keys sudoers_template transparent_hugepage_disable transparent_hugepage_disable_by_grub Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables asmlib_rpm Install oracleasm-support from RPM-Repo on OracleLinux. Value depends on OS-Release from RHEL/OL. Uses variables asmlib_rpm_el6, asmlib_rpm_el7 or asmlib_rpm_el8">
 <meta property="og:url" content="https://www.ansible-oracle.eu/docs/roles/orahost/">
 	<meta property="og:site_name" content="ansible-oracle Project">
 	<meta property="og:title" content="orahost">
 	<meta property="og:description" content="Role to configure the hostsystem for ansible-oracle
-Table of content Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib_rpm_el7 asmlib_rpm_el8 asmlib_rpm_el9 asmlib_rpm_sles asmlibsupport_rpm asmlibsupport_rpm_el6 asmlibsupport_rpm_el7 asmlibsupport_rpm_el8 configure_etc_hosts configure_hugepages configure_hugepages_by configure_interconnect configure_limits configure_limits_pam configure_oracle_sudo configure_ssh disable_firewall disable_numa_boot disable_selinux etc_hosts_entries etc_hosts_ip extra_hugepages_per_instance extrarepos_disabled extrarepos_enabled firewall_service grid_users host_fs_layout install_os_packages keyfile max_size_in_gb_hugepages nr_hugepages nr_hugepages_memory nr_hugepages_percent old_ssh_config oracle_asm_packages oracle_asm_packages_sles oracle_groups oracle_hugepages oracle_hugepages_sysctl_file oracle_ic_net oracle_packages oracle_packages_sles_multi oracle_sysctl oracle_sysctl_file oracle_users os_family_supported os_min_supported_version percent_hugepages size_in_gb_hugepages ssh_keys sudoers_template transparent_hugepage_disable transparent_hugepage_disable_by_grub Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables asmlib_rpm Install oracleasm-support from RPM-Repo on OracleLinux. Value depends on OS-Release from RHEL/OL. Uses variables asmlib_rpm_el6, asmlib_rpm_el7 or asmlib_rpm_el8">
+Table of content Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib_rpm_el7 asmlib_rpm_el8 asmlib_rpm_sles asmlibsupport_rpm asmlibsupport_rpm_el6 asmlibsupport_rpm_el7 asmlibsupport_rpm_el8 configure_etc_hosts configure_hugepages configure_hugepages_by configure_interconnect configure_limits configure_limits_pam configure_oracle_sudo configure_ssh disable_firewall disable_numa_boot disable_selinux etc_hosts_entries etc_hosts_ip extra_hugepages_per_instance extrarepos_disabled extrarepos_enabled firewall_service grid_users host_fs_layout install_os_packages keyfile max_size_in_gb_hugepages nr_hugepages nr_hugepages_memory nr_hugepages_percent old_ssh_config oracle_asm_packages oracle_asm_packages_sles oracle_groups oracle_hugepages oracle_hugepages_sysctl_file oracle_ic_net oracle_packages oracle_packages_sles_multi oracle_sysctl oracle_sysctl_file oracle_users os_family_supported os_min_supported_version percent_hugepages size_in_gb_hugepages ssh_keys sudoers_template transparent_hugepage_disable transparent_hugepage_disable_by_grub Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables asmlib_rpm Install oracleasm-support from RPM-Repo on OracleLinux. Value depends on OS-Release from RHEL/OL. Uses variables asmlib_rpm_el6, asmlib_rpm_el7 or asmlib_rpm_el8">
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
 
 	<meta itemprop="name" content="orahost">
 	<meta itemprop="description" content="Role to configure the hostsystem for ansible-oracle
-Table of content Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib_rpm_el7 asmlib_rpm_el8 asmlib_rpm_el9 asmlib_rpm_sles asmlibsupport_rpm asmlibsupport_rpm_el6 asmlibsupport_rpm_el7 asmlibsupport_rpm_el8 configure_etc_hosts configure_hugepages configure_hugepages_by configure_interconnect configure_limits configure_limits_pam configure_oracle_sudo configure_ssh disable_firewall disable_numa_boot disable_selinux etc_hosts_entries etc_hosts_ip extra_hugepages_per_instance extrarepos_disabled extrarepos_enabled firewall_service grid_users host_fs_layout install_os_packages keyfile max_size_in_gb_hugepages nr_hugepages nr_hugepages_memory nr_hugepages_percent old_ssh_config oracle_asm_packages oracle_asm_packages_sles oracle_groups oracle_hugepages oracle_hugepages_sysctl_file oracle_ic_net oracle_packages oracle_packages_sles_multi oracle_sysctl oracle_sysctl_file oracle_users os_family_supported os_min_supported_version percent_hugepages size_in_gb_hugepages ssh_keys sudoers_template transparent_hugepage_disable transparent_hugepage_disable_by_grub Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables asmlib_rpm Install oracleasm-support from RPM-Repo on OracleLinux. Value depends on OS-Release from RHEL/OL. Uses variables asmlib_rpm_el6, asmlib_rpm_el7 or asmlib_rpm_el8">
-	<meta itemprop="wordCount" content="1583">
+Table of content Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib_rpm_el7 asmlib_rpm_el8 asmlib_rpm_sles asmlibsupport_rpm asmlibsupport_rpm_el6 asmlibsupport_rpm_el7 asmlibsupport_rpm_el8 configure_etc_hosts configure_hugepages configure_hugepages_by configure_interconnect configure_limits configure_limits_pam configure_oracle_sudo configure_ssh disable_firewall disable_numa_boot disable_selinux etc_hosts_entries etc_hosts_ip extra_hugepages_per_instance extrarepos_disabled extrarepos_enabled firewall_service grid_users host_fs_layout install_os_packages keyfile max_size_in_gb_hugepages nr_hugepages nr_hugepages_memory nr_hugepages_percent old_ssh_config oracle_asm_packages oracle_asm_packages_sles oracle_groups oracle_hugepages oracle_hugepages_sysctl_file oracle_ic_net oracle_packages oracle_packages_sles_multi oracle_sysctl oracle_sysctl_file oracle_users os_family_supported os_min_supported_version percent_hugepages size_in_gb_hugepages ssh_keys sudoers_template transparent_hugepage_disable transparent_hugepage_disable_by_grub Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables asmlib_rpm Install oracleasm-support from RPM-Repo on OracleLinux. Value depends on OS-Release from RHEL/OL. Uses variables asmlib_rpm_el6, asmlib_rpm_el7 or asmlib_rpm_el8">
+	<meta itemprop="wordCount" content="1564">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="orahost">
 	<meta name="twitter:description" content="Role to configure the hostsystem for ansible-oracle
-Table of content Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib_rpm_el7 asmlib_rpm_el8 asmlib_rpm_el9 asmlib_rpm_sles asmlibsupport_rpm asmlibsupport_rpm_el6 asmlibsupport_rpm_el7 asmlibsupport_rpm_el8 configure_etc_hosts configure_hugepages configure_hugepages_by configure_interconnect configure_limits configure_limits_pam configure_oracle_sudo configure_ssh disable_firewall disable_numa_boot disable_selinux etc_hosts_entries etc_hosts_ip extra_hugepages_per_instance extrarepos_disabled extrarepos_enabled firewall_service grid_users host_fs_layout install_os_packages keyfile max_size_in_gb_hugepages nr_hugepages nr_hugepages_memory nr_hugepages_percent old_ssh_config oracle_asm_packages oracle_asm_packages_sles oracle_groups oracle_hugepages oracle_hugepages_sysctl_file oracle_ic_net oracle_packages oracle_packages_sles_multi oracle_sysctl oracle_sysctl_file oracle_users os_family_supported os_min_supported_version percent_hugepages size_in_gb_hugepages ssh_keys sudoers_template transparent_hugepage_disable transparent_hugepage_disable_by_grub Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables asmlib_rpm Install oracleasm-support from RPM-Repo on OracleLinux. Value depends on OS-Release from RHEL/OL. Uses variables asmlib_rpm_el6, asmlib_rpm_el7 or asmlib_rpm_el8">
+Table of content Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib_rpm_el7 asmlib_rpm_el8 asmlib_rpm_sles asmlibsupport_rpm asmlibsupport_rpm_el6 asmlibsupport_rpm_el7 asmlibsupport_rpm_el8 configure_etc_hosts configure_hugepages configure_hugepages_by configure_interconnect configure_limits configure_limits_pam configure_oracle_sudo configure_ssh disable_firewall disable_numa_boot disable_selinux etc_hosts_entries etc_hosts_ip extra_hugepages_per_instance extrarepos_disabled extrarepos_enabled firewall_service grid_users host_fs_layout install_os_packages keyfile max_size_in_gb_hugepages nr_hugepages nr_hugepages_memory nr_hugepages_percent old_ssh_config oracle_asm_packages oracle_asm_packages_sles oracle_groups oracle_hugepages oracle_hugepages_sysctl_file oracle_ic_net oracle_packages oracle_packages_sles_multi oracle_sysctl oracle_sysctl_file oracle_users os_family_supported os_min_supported_version percent_hugepages size_in_gb_hugepages ssh_keys sudoers_template transparent_hugepage_disable transparent_hugepage_disable_by_grub Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables asmlib_rpm Install oracleasm-support from RPM-Repo on OracleLinux. Value depends on OS-Release from RHEL/OL. Uses variables asmlib_rpm_el6, asmlib_rpm_el7 or asmlib_rpm_el8">
 
 
 
@@ -282,264 +282,259 @@ Table of content Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib
             <li><a href="#default-value-3">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#asmlib_rpm_el9">asmlib_rpm_el9</a>
+        <li><a href="#asmlib_rpm_sles">asmlib_rpm_sles</a>
           <ul>
             <li><a href="#default-value-4">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#asmlib_rpm_sles">asmlib_rpm_sles</a>
+        <li><a href="#asmlibsupport_rpm">asmlibsupport_rpm</a>
           <ul>
             <li><a href="#default-value-5">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#asmlibsupport_rpm">asmlibsupport_rpm</a>
+        <li><a href="#asmlibsupport_rpm_el6">asmlibsupport_rpm_el6</a>
           <ul>
             <li><a href="#default-value-6">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#asmlibsupport_rpm_el6">asmlibsupport_rpm_el6</a>
+        <li><a href="#asmlibsupport_rpm_el7">asmlibsupport_rpm_el7</a>
           <ul>
             <li><a href="#default-value-7">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#asmlibsupport_rpm_el7">asmlibsupport_rpm_el7</a>
+        <li><a href="#asmlibsupport_rpm_el8">asmlibsupport_rpm_el8</a>
           <ul>
             <li><a href="#default-value-8">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#asmlibsupport_rpm_el8">asmlibsupport_rpm_el8</a>
+        <li><a href="#configure_etc_hosts">configure_etc_hosts</a>
           <ul>
             <li><a href="#default-value-9">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#configure_etc_hosts">configure_etc_hosts</a>
+        <li><a href="#configure_hugepages">configure_hugepages</a>
           <ul>
             <li><a href="#default-value-10">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#configure_hugepages">configure_hugepages</a>
-          <ul>
-            <li><a href="#default-value-11">Default value</a></li>
-          </ul>
-        </li>
         <li><a href="#configure_hugepages_by">configure_hugepages_by</a>
           <ul>
-            <li><a href="#default-value-12">Default value</a></li>
+            <li><a href="#default-value-11">Default value</a></li>
             <li><a href="#example-usage">Example usage</a></li>
           </ul>
         </li>
         <li><a href="#configure_interconnect">configure_interconnect</a>
           <ul>
-            <li><a href="#default-value-13">Default value</a></li>
+            <li><a href="#default-value-12">Default value</a></li>
           </ul>
         </li>
         <li><a href="#configure_limits">configure_limits</a>
           <ul>
-            <li><a href="#default-value-14">Default value</a></li>
+            <li><a href="#default-value-13">Default value</a></li>
           </ul>
         </li>
         <li><a href="#configure_limits_pam">configure_limits_pam</a>
           <ul>
-            <li><a href="#default-value-15">Default value</a></li>
+            <li><a href="#default-value-14">Default value</a></li>
           </ul>
         </li>
         <li><a href="#configure_oracle_sudo">configure_oracle_sudo</a>
           <ul>
-            <li><a href="#default-value-16">Default value</a></li>
+            <li><a href="#default-value-15">Default value</a></li>
           </ul>
         </li>
         <li><a href="#configure_ssh">configure_ssh</a>
           <ul>
-            <li><a href="#default-value-17">Default value</a></li>
+            <li><a href="#default-value-16">Default value</a></li>
           </ul>
         </li>
         <li><a href="#disable_firewall">disable_firewall</a>
           <ul>
-            <li><a href="#default-value-18">Default value</a></li>
+            <li><a href="#default-value-17">Default value</a></li>
           </ul>
         </li>
         <li><a href="#disable_numa_boot">disable_numa_boot</a>
           <ul>
-            <li><a href="#default-value-19">Default value</a></li>
+            <li><a href="#default-value-18">Default value</a></li>
           </ul>
         </li>
         <li><a href="#disable_selinux">disable_selinux</a>
           <ul>
-            <li><a href="#default-value-20">Default value</a></li>
+            <li><a href="#default-value-19">Default value</a></li>
           </ul>
         </li>
         <li><a href="#etc_hosts_entries">etc_hosts_entries</a>
           <ul>
-            <li><a href="#default-value-21">Default value</a></li>
+            <li><a href="#default-value-20">Default value</a></li>
             <li><a href="#example-usage-1">Example usage</a></li>
           </ul>
         </li>
         <li><a href="#etc_hosts_ip">etc_hosts_ip</a>
           <ul>
-            <li><a href="#default-value-22">Default value</a></li>
+            <li><a href="#default-value-21">Default value</a></li>
           </ul>
         </li>
         <li><a href="#extra_hugepages_per_instance">extra_hugepages_per_instance</a>
           <ul>
-            <li><a href="#default-value-23">Default value</a></li>
+            <li><a href="#default-value-22">Default value</a></li>
           </ul>
         </li>
         <li><a href="#extrarepos_disabled">extrarepos_disabled</a>
           <ul>
-            <li><a href="#default-value-24">Default value</a></li>
+            <li><a href="#default-value-23">Default value</a></li>
           </ul>
         </li>
         <li><a href="#extrarepos_enabled">extrarepos_enabled</a>
           <ul>
-            <li><a href="#default-value-25">Default value</a></li>
+            <li><a href="#default-value-24">Default value</a></li>
           </ul>
         </li>
         <li><a href="#firewall_service">firewall_service</a>
           <ul>
-            <li><a href="#default-value-26">Default value</a></li>
+            <li><a href="#default-value-25">Default value</a></li>
           </ul>
         </li>
         <li><a href="#grid_users">grid_users</a>
           <ul>
-            <li><a href="#default-value-27">Default value</a></li>
+            <li><a href="#default-value-26">Default value</a></li>
           </ul>
         </li>
         <li><a href="#host_fs_layout">host_fs_layout</a>
           <ul>
-            <li><a href="#default-value-28">Default value</a></li>
+            <li><a href="#default-value-27">Default value</a></li>
             <li><a href="#example-usage-2">Example usage</a></li>
           </ul>
         </li>
         <li><a href="#install_os_packages">install_os_packages</a>
           <ul>
-            <li><a href="#default-value-29">Default value</a></li>
+            <li><a href="#default-value-28">Default value</a></li>
           </ul>
         </li>
         <li><a href="#keyfile">keyfile</a>
           <ul>
-            <li><a href="#default-value-30">Default value</a></li>
+            <li><a href="#default-value-29">Default value</a></li>
           </ul>
         </li>
         <li><a href="#max_size_in_gb_hugepages">max_size_in_gb_hugepages</a>
           <ul>
-            <li><a href="#default-value-31">Default value</a></li>
+            <li><a href="#default-value-30">Default value</a></li>
           </ul>
         </li>
         <li><a href="#nr_hugepages">nr_hugepages</a>
           <ul>
-            <li><a href="#default-value-32">Default value</a></li>
+            <li><a href="#default-value-31">Default value</a></li>
           </ul>
         </li>
         <li><a href="#nr_hugepages_memory">nr_hugepages_memory</a>
           <ul>
-            <li><a href="#default-value-33">Default value</a></li>
+            <li><a href="#default-value-32">Default value</a></li>
           </ul>
         </li>
         <li><a href="#nr_hugepages_percent">nr_hugepages_percent</a>
           <ul>
-            <li><a href="#default-value-34">Default value</a></li>
+            <li><a href="#default-value-33">Default value</a></li>
           </ul>
         </li>
         <li><a href="#old_ssh_config">old_ssh_config</a>
           <ul>
-            <li><a href="#default-value-35">Default value</a></li>
+            <li><a href="#default-value-34">Default value</a></li>
           </ul>
         </li>
         <li><a href="#oracle_asm_packages">oracle_asm_packages</a>
           <ul>
-            <li><a href="#default-value-36">Default value</a></li>
+            <li><a href="#default-value-35">Default value</a></li>
           </ul>
         </li>
         <li><a href="#oracle_asm_packages_sles">oracle_asm_packages_sles</a>
           <ul>
-            <li><a href="#default-value-37">Default value</a></li>
+            <li><a href="#default-value-36">Default value</a></li>
           </ul>
         </li>
         <li><a href="#oracle_groups">oracle_groups</a>
           <ul>
-            <li><a href="#default-value-38">Default value</a></li>
+            <li><a href="#default-value-37">Default value</a></li>
           </ul>
         </li>
         <li><a href="#oracle_hugepages">oracle_hugepages</a>
           <ul>
-            <li><a href="#default-value-39">Default value</a></li>
+            <li><a href="#default-value-38">Default value</a></li>
           </ul>
         </li>
         <li><a href="#oracle_hugepages_sysctl_file">oracle_hugepages_sysctl_file</a>
           <ul>
-            <li><a href="#default-value-40">Default value</a></li>
+            <li><a href="#default-value-39">Default value</a></li>
             <li><a href="#example-usage-3">Example usage</a></li>
           </ul>
         </li>
         <li><a href="#oracle_ic_net">oracle_ic_net</a>
           <ul>
-            <li><a href="#default-value-41">Default value</a></li>
+            <li><a href="#default-value-40">Default value</a></li>
           </ul>
         </li>
         <li><a href="#oracle_packages">oracle_packages</a>
           <ul>
-            <li><a href="#default-value-42">Default value</a></li>
+            <li><a href="#default-value-41">Default value</a></li>
           </ul>
         </li>
         <li><a href="#oracle_packages_sles_multi">oracle_packages_sles_multi</a>
           <ul>
-            <li><a href="#default-value-43">Default value</a></li>
+            <li><a href="#default-value-42">Default value</a></li>
           </ul>
         </li>
         <li><a href="#oracle_sysctl">oracle_sysctl</a>
           <ul>
-            <li><a href="#default-value-44">Default value</a></li>
+            <li><a href="#default-value-43">Default value</a></li>
           </ul>
         </li>
         <li><a href="#oracle_sysctl_file">oracle_sysctl_file</a>
           <ul>
-            <li><a href="#default-value-45">Default value</a></li>
+            <li><a href="#default-value-44">Default value</a></li>
             <li><a href="#example-usage-4">Example usage</a></li>
           </ul>
         </li>
         <li><a href="#oracle_users">oracle_users</a>
           <ul>
-            <li><a href="#default-value-46">Default value</a></li>
+            <li><a href="#default-value-45">Default value</a></li>
           </ul>
         </li>
         <li><a href="#os_family_supported">os_family_supported</a>
           <ul>
-            <li><a href="#default-value-47">Default value</a></li>
+            <li><a href="#default-value-46">Default value</a></li>
           </ul>
         </li>
         <li><a href="#os_min_supported_version">os_min_supported_version</a>
           <ul>
-            <li><a href="#default-value-48">Default value</a></li>
+            <li><a href="#default-value-47">Default value</a></li>
           </ul>
         </li>
         <li><a href="#percent_hugepages">percent_hugepages</a>
           <ul>
-            <li><a href="#default-value-49">Default value</a></li>
+            <li><a href="#default-value-48">Default value</a></li>
           </ul>
         </li>
         <li><a href="#size_in_gb_hugepages">size_in_gb_hugepages</a>
           <ul>
-            <li><a href="#default-value-50">Default value</a></li>
+            <li><a href="#default-value-49">Default value</a></li>
           </ul>
         </li>
         <li><a href="#ssh_keys">ssh_keys</a>
           <ul>
-            <li><a href="#default-value-51">Default value</a></li>
+            <li><a href="#default-value-50">Default value</a></li>
           </ul>
         </li>
         <li><a href="#sudoers_template">sudoers_template</a>
           <ul>
-            <li><a href="#default-value-52">Default value</a></li>
+            <li><a href="#default-value-51">Default value</a></li>
           </ul>
         </li>
         <li><a href="#transparent_hugepage_disable">transparent_hugepage_disable</a>
           <ul>
-            <li><a href="#default-value-53">Default value</a></li>
+            <li><a href="#default-value-52">Default value</a></li>
           </ul>
         </li>
         <li><a href="#transparent_hugepage_disable_by_grub">transparent_hugepage_disable_by_grub</a>
           <ul>
-            <li><a href="#default-value-54">Default value</a></li>
+            <li><a href="#default-value-53">Default value</a></li>
           </ul>
         </li>
       </ul>
@@ -587,7 +582,6 @@ Table of content Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib
 <li><a href="#asmlib_rpm_el6">asmlib_rpm_el6</a></li>
 <li><a href="#asmlib_rpm_el7">asmlib_rpm_el7</a></li>
 <li><a href="#asmlib_rpm_el8">asmlib_rpm_el8</a></li>
-<li><a href="#asmlib_rpm_el9">asmlib_rpm_el9</a></li>
 <li><a href="#asmlib_rpm_sles">asmlib_rpm_sles</a></li>
 <li><a href="#asmlibsupport_rpm">asmlibsupport_rpm</a></li>
 <li><a href="#asmlibsupport_rpm_el6">asmlibsupport_rpm_el6</a></li>
@@ -677,15 +671,9 @@ Uses variables <code>asmlib_rpm_el6</code>, <code>asmlib_rpm_el7</code> or <code
 <pre><code class="language-YAML">asmlib_rpm_el8: 
   https://download.oracle.com/otn_software/asmlib/oracleasmlib-2.0.17-1.el8.x86_64.rpm
 </code></pre>
-<h3 id="asmlib_rpm_el9">asmlib_rpm_el9</h3>
-<p>Name / Url for rpm oracleasm-support for RHEL8/OL8.</p>
-<h4 id="default-value-4">Default value</h4>
-<pre><code class="language-YAML">asmlib_rpm_el9: 
-  https://download.oracle.com/otn_software/asmlib/oracleasmlib-2.0.17-1.el8.x86_64.rpm
-</code></pre>
 <h3 id="asmlib_rpm_sles">asmlib_rpm_sles</h3>
 <p>Name / Url for rpm oracleasm-support for SLES.</p>
-<h4 id="default-value-5">Default value</h4>
+<h4 id="default-value-4">Default value</h4>
 <pre><code class="language-YAML">asmlib_rpm_sles: 
   http://oss.oracle.com/projects/oracleasm-support/dist/files/RPMS/sles12/amd64/2.1.8/oracleasm-support-2.1.8-1.SLE12.x86_64.rpm
 </code></pre>
@@ -695,39 +683,39 @@ Value depends on OS-Release from RHEL/OL.</p>
 <p>important</p>
 <p>Do NOT set this variable.</p>
 <p>Set the used variables <code>asmlibsupport_rpm_el6</code>, <code>asmlibsupport_rpm_el7</code> or <code>asmlibsupport_rpm_el8</code>.</p>
-<h4 id="default-value-6">Default value</h4>
+<h4 id="default-value-5">Default value</h4>
 <pre><code class="language-YAML">asmlibsupport_rpm: Value from `asmlibsupport_rpm_el6`, `asmlibsupport_rpm_el7` or
   `asmlibsupport_rpm_el8`
 </code></pre>
 <h3 id="asmlibsupport_rpm_el6">asmlibsupport_rpm_el6</h3>
-<h4 id="default-value-7">Default value</h4>
+<h4 id="default-value-6">Default value</h4>
 <pre><code class="language-YAML">asmlibsupport_rpm_el6: 
   http://oss.oracle.com/projects/oracleasm-support/dist/files/RPMS/rhel6/amd64/2.1.8/oracleasm-support-2.1.8-1.el6.x86_64.rpm
 </code></pre>
 <h3 id="asmlibsupport_rpm_el7">asmlibsupport_rpm_el7</h3>
-<h4 id="default-value-8">Default value</h4>
+<h4 id="default-value-7">Default value</h4>
 <pre><code class="language-YAML">asmlibsupport_rpm_el7: 
   https://yum.oracle.com/repo/OracleLinux/OL7/latest/x86_64/getPackage/oracleasm-support-2.1.11-2.el7.x86_64.rpm
 </code></pre>
 <h3 id="asmlibsupport_rpm_el8">asmlibsupport_rpm_el8</h3>
-<h4 id="default-value-9">Default value</h4>
+<h4 id="default-value-8">Default value</h4>
 <pre><code class="language-YAML">asmlibsupport_rpm_el8: 
   https://yum.oracle.com/repo/OracleLinux/OL8/latest/x86_64/getPackage/oracleasm-support-2.1.11-2.el8.x86_64.rpm
 </code></pre>
 <h3 id="configure_etc_hosts">configure_etc_hosts</h3>
 <p>Add <code>{{ ansible_hostname }} {{ ansible_fqdn }}</code> to /etc/hosts`?</p>
-<h4 id="default-value-10">Default value</h4>
+<h4 id="default-value-9">Default value</h4>
 <pre><code class="language-YAML">configure_etc_hosts: false
 </code></pre>
 <h3 id="configure_hugepages">configure_hugepages</h3>
 <p>Configure Hugepages?</p>
-<h4 id="default-value-11">Default value</h4>
+<h4 id="default-value-10">Default value</h4>
 <pre><code class="language-YAML">configure_hugepages: true
 </code></pre>
 <h3 id="configure_hugepages_by">configure_hugepages_by</h3>
 <p>Defines if percent_hugepages or size_in_gb_hugepages is used to define the Hugepages.
 Allowed values: percentage or memory.</p>
-<h4 id="default-value-12">Default value</h4>
+<h4 id="default-value-11">Default value</h4>
 <pre><code class="language-YAML">configure_hugepages_by: memory
 </code></pre>
 <h4 id="example-usage">Example usage</h4>
@@ -737,45 +725,45 @@ configure_hugepages_by: percentage
 </code></pre>
 <h3 id="configure_interconnect">configure_interconnect</h3>
 <p>Should the Interconnect network be configured by Ansible</p>
-<h4 id="default-value-13">Default value</h4>
+<h4 id="default-value-12">Default value</h4>
 <pre><code class="language-YAML">configure_interconnect: false
 </code></pre>
 <h3 id="configure_limits">configure_limits</h3>
 <p>Configure <code>/etc/security.d/limits.d/99-oracle-limits.conf</code>?</p>
-<h4 id="default-value-14">Default value</h4>
+<h4 id="default-value-13">Default value</h4>
 <pre><code class="language-YAML">configure_limits: true
 </code></pre>
 <h3 id="configure_limits_pam">configure_limits_pam</h3>
 <p>Configure <code>/etc/pam.d/limits</code>?</p>
-<h4 id="default-value-15">Default value</h4>
+<h4 id="default-value-14">Default value</h4>
 <pre><code class="language-YAML">configure_limits_pam: true
 </code></pre>
 <h3 id="configure_oracle_sudo">configure_oracle_sudo</h3>
 <p>Add oracle to sudoers for root.</p>
-<h4 id="default-value-16">Default value</h4>
+<h4 id="default-value-15">Default value</h4>
 <pre><code class="language-YAML">configure_oracle_sudo: false
 </code></pre>
 <h3 id="configure_ssh">configure_ssh</h3>
 <p>Should passwordless ssh be configured between clusternodes. Only applicable to RAC-installs</p>
-<h4 id="default-value-17">Default value</h4>
+<h4 id="default-value-16">Default value</h4>
 <pre><code class="language-YAML">configure_ssh: false
 </code></pre>
 <h3 id="disable_firewall">disable_firewall</h3>
-<h4 id="default-value-18">Default value</h4>
+<h4 id="default-value-17">Default value</h4>
 <pre><code class="language-YAML">disable_firewall: true
 </code></pre>
 <h3 id="disable_numa_boot">disable_numa_boot</h3>
 <p>Disable numa support during boot.</p>
-<h4 id="default-value-19">Default value</h4>
+<h4 id="default-value-18">Default value</h4>
 <pre><code class="language-YAML">disable_numa_boot: true
 </code></pre>
 <h3 id="disable_selinux">disable_selinux</h3>
-<h4 id="default-value-20">Default value</h4>
+<h4 id="default-value-19">Default value</h4>
 <pre><code class="language-YAML">disable_selinux: true
 </code></pre>
 <h3 id="etc_hosts_entries">etc_hosts_entries</h3>
 <p>List of additional entries, optionally along with aliases, to be put into /etc/hosts. E.g. on non-DNS environments or if we don&rsquo;t rely on DNS</p>
-<h4 id="default-value-21">Default value</h4>
+<h4 id="default-value-20">Default value</h4>
 <pre><code class="language-YAML">etc_hosts_entries: []
 </code></pre>
 <h4 id="example-usage-1">Example usage</h4>
@@ -792,7 +780,7 @@ would create following entries in /etc/hosts:
 </code></pre>
 <h3 id="etc_hosts_ip">etc_hosts_ip</h3>
 <p>Set IP to 2nd Interface on virtualbox and 1st for all otehr installations</p>
-<h4 id="default-value-22">Default value</h4>
+<h4 id="default-value-21">Default value</h4>
 <pre><code class="language-YAML">etc_hosts_ip: &quot;{% if 'virtualbox' in ansible_virtualization_type %}{{ ansible_all_ipv4_addresses[1]
   }}{% else %}{{ ansible_default_ipv4.address }}{% endif %}&quot;
 </code></pre>
@@ -801,27 +789,27 @@ would create following entries in /etc/hosts:
 Empirically, instances allocate 4 segments each on Linux.
 This overhead is considered when computing <code>nr_hugepages_memory</code></p>
 <p><strong><em>Type:</em></strong> integer<br /></p>
-<h4 id="default-value-23">Default value</h4>
+<h4 id="default-value-22">Default value</h4>
 <pre><code class="language-YAML">extra_hugepages_per_instance: 4
 </code></pre>
 <h3 id="extrarepos_disabled">extrarepos_disabled</h3>
 <p>List of disabled yum repos during installation for RHEL/OL.</p>
-<h4 id="default-value-24">Default value</h4>
+<h4 id="default-value-23">Default value</h4>
 <pre><code class="language-YAML">extrarepos_disabled: '[]'
 </code></pre>
 <h3 id="extrarepos_enabled">extrarepos_enabled</h3>
-<h4 id="default-value-25">Default value</h4>
+<h4 id="default-value-24">Default value</h4>
 <pre><code class="language-YAML">extrarepos_enabled: &quot;{%- if ansible_distribution == 'OracleLinux' -%}ol{{ ansible_distribution_major_version
   }}_addons{%- else -%}{%- endif %}&quot;
 </code></pre>
 <h3 id="firewall_service">firewall_service</h3>
 <p>Used firewall service in OS. Value depends on used Distribution and version.</p>
-<h4 id="default-value-26">Default value</h4>
+<h4 id="default-value-25">Default value</h4>
 <pre><code class="language-YAML">firewall_service: firewalld or iptables
 </code></pre>
 <h3 id="grid_users">grid_users</h3>
 <p>grid OS-User</p>
-<h4 id="default-value-27">Default value</h4>
+<h4 id="default-value-26">Default value</h4>
 <pre><code class="language-YAML">grid_users:
   - username: grid
     uid: 54320
@@ -832,7 +820,7 @@ This overhead is considered when computing <code>nr_hugepages_memory</code></p>
 <h3 id="host_fs_layout">host_fs_layout</h3>
 <p>Define physical Disk, Volume Group, logical Volume, Filesystem and swap Devices.
 See example configuration</p>
-<h4 id="default-value-28">Default value</h4>
+<h4 id="default-value-27">Default value</h4>
 <pre><code class="language-YAML">host_fs_layout: '[]'
 </code></pre>
 <h4 id="example-usage-2">Example usage</h4>
@@ -847,41 +835,41 @@ See example configuration</p>
 </code></pre>
 <h3 id="install_os_packages">install_os_packages</h3>
 <p>Install addional RPMs for Oracle?</p>
-<h4 id="default-value-29">Default value</h4>
+<h4 id="default-value-28">Default value</h4>
 <pre><code class="language-YAML">install_os_packages: true
 </code></pre>
 <h3 id="keyfile">keyfile</h3>
-<h4 id="default-value-30">Default value</h4>
+<h4 id="default-value-29">Default value</h4>
 <pre><code class="language-YAML">keyfile: /tmp/known_hosts
 </code></pre>
 <h3 id="max_size_in_gb_hugepages">max_size_in_gb_hugepages</h3>
 <p>Cap HugePages to 70% of physical memory to prevent overcomitting. Only valid when configure_hugepages_by: memory</p>
-<h4 id="default-value-31">Default value</h4>
+<h4 id="default-value-30">Default value</h4>
 <pre><code class="language-YAML">max_size_in_gb_hugepages: '{{ ansible_memtotal_mb / 1024 * 0.7 }}'
 </code></pre>
 <h3 id="nr_hugepages">nr_hugepages</h3>
 <p>This is an internal variable only. Do not define it!</p>
-<h4 id="default-value-32">Default value</h4>
+<h4 id="default-value-31">Default value</h4>
 <pre><code class="language-YAML">nr_hugepages: _unset_
 </code></pre>
 <h3 id="nr_hugepages_memory">nr_hugepages_memory</h3>
 <p>This is an internal variable only. Do not define it!</p>
-<h4 id="default-value-33">Default value</h4>
+<h4 id="default-value-32">Default value</h4>
 <pre><code class="language-YAML">nr_hugepages_memory: _unset_
 </code></pre>
 <h3 id="nr_hugepages_percent">nr_hugepages_percent</h3>
 <p>This is an internal variable only. Do not define it!</p>
-<h4 id="default-value-34">Default value</h4>
+<h4 id="default-value-33">Default value</h4>
 <pre><code class="language-YAML">nr_hugepages_percent: _unset_
 </code></pre>
 <h3 id="old_ssh_config">old_ssh_config</h3>
-<h4 id="default-value-35">Default value</h4>
+<h4 id="default-value-34">Default value</h4>
 <pre><code class="language-YAML">old_ssh_config: true
 </code></pre>
 <h3 id="oracle_asm_packages">oracle_asm_packages</h3>
 <p>List of RPMs installed during ASM preparation for RHEL/OL.</p>
 <p>There should be no reason to change this variable.</p>
-<h4 id="default-value-36">Default value</h4>
+<h4 id="default-value-35">Default value</h4>
 <pre><code class="language-YAML">oracle_asm_packages:
   - '{{ asmlib_rpm }}'
   - '{{ asmlibsupport_rpm }}'
@@ -890,7 +878,7 @@ See example configuration</p>
 <h3 id="oracle_asm_packages_sles">oracle_asm_packages_sles</h3>
 <p>List of RPMs installed during ASM preparation for SLES.</p>
 <p>There should be no reason to change this variable.</p>
-<h4 id="default-value-37">Default value</h4>
+<h4 id="default-value-36">Default value</h4>
 <pre><code class="language-YAML">oracle_asm_packages_sles:
   - oracleasm-kmp-default
   - oracleasm-kmp-xen
@@ -899,7 +887,7 @@ See example configuration</p>
 <h3 id="oracle_groups">oracle_groups</h3>
 <p>List of OS-groups for Oracle
 Dependent variables are defined in orahost_meta/defaults/main.yml</p>
-<h4 id="default-value-38">Default value</h4>
+<h4 id="default-value-37">Default value</h4>
 <pre><code class="language-YAML">oracle_groups:
   - {group: '{{ asmdba_group }}', gid: 54318}
   - {group: '{{ asmoper_group }}', gid: 54319}
@@ -913,7 +901,7 @@ Dependent variables are defined in orahost_meta/defaults/main.yml</p>
 </code></pre>
 <h3 id="oracle_hugepages">oracle_hugepages</h3>
 <p>This is an internal variable. Do not change it!</p>
-<h4 id="default-value-39">Default value</h4>
+<h4 id="default-value-38">Default value</h4>
 <pre><code class="language-YAML">oracle_hugepages:
   - {name: vm.nr_hugepages, value: '{{ nr_hugepages }}'}
   - {name: vm.hugetlb_shm_group, value: &quot;{{ oracle_user_getent['ansible_facts']['getent_passwd'][oracle_user][2]
@@ -923,7 +911,7 @@ Dependent variables are defined in orahost_meta/defaults/main.yml</p>
 <p>Allows to specify the file in which sysctl settings for huge pages will be stored.
 When unspecified it will first fallback to be <code>oracle_sysctl_file</code>
 and then to module defaults (<code>/etc/sysctl.conf</code>) should that one also be not defined.</p>
-<h4 id="default-value-40">Default value</h4>
+<h4 id="default-value-39">Default value</h4>
 <pre><code class="language-YAML">oracle_hugepages_sysctl_file: _unset_
 </code></pre>
 <h4 id="example-usage-3">Example usage</h4>
@@ -932,13 +920,13 @@ and then to module defaults (<code>/etc/sysctl.conf</code>) should that one also
 <h3 id="oracle_ic_net">oracle_ic_net</h3>
 <p>Picks the last octet from the public ip to use for
 cluster-interconnect ip (e.g 3.3.3.51)</p>
-<h4 id="default-value-41">Default value</h4>
+<h4 id="default-value-40">Default value</h4>
 <pre><code class="language-YAML">oracle_ic_net: 3.3.3.{{ ansible_all_ipv4_addresses[0].split(&quot;.&quot;)[-1] }}
 </code></pre>
 <h3 id="oracle_packages">oracle_packages</h3>
 <p>List of additinal RPMs for RHEL/OL.</p>
 <p><code>install_os_packages: true</code> is needed to install the RPMs.</p>
-<h4 id="default-value-42">Default value</h4>
+<h4 id="default-value-41">Default value</h4>
 <pre><code class="language-YAML">oracle_packages:
   - bind-utils
   - nfs-utils
@@ -1001,7 +989,7 @@ cluster-interconnect ip (e.g 3.3.3.51)</p>
 <p>List of additinal RPMs for different SLES version.</p>
 <p>List is based on: <a href="https://docs.oracle.com/en/database/oracle/oracle-database/19/ladbi/database-installation-guide-linux.pdf">https://docs.oracle.com/en/database/oracle/oracle-database/19/ladbi/database-installation-guide-linux.pdf</a></p>
 <p><code>install_os_packages: true</code> is needed to install the RPMs.</p>
-<h4 id="default-value-43">Default value</h4>
+<h4 id="default-value-42">Default value</h4>
 <pre><code class="language-YAML">oracle_packages_sles_multi:
   - name: SLES common packages
     condition: true
@@ -1066,7 +1054,7 @@ cluster-interconnect ip (e.g 3.3.3.51)</p>
 <p>Configure parameter in sysctl.</p>
 <p><em>Important</em></p>
 <p>Do not add configurations for Hugepages here!</p>
-<h4 id="default-value-44">Default value</h4>
+<h4 id="default-value-43">Default value</h4>
 <pre><code class="language-YAML">oracle_sysctl:
   - {name: kernel.shmall, value: 4294967296}
   - {name: kernel.shmmax, value: 68719476736}
@@ -1080,13 +1068,12 @@ cluster-interconnect ip (e.g 3.3.3.51)</p>
   - {name: net.core.wmem_default, value: 262144}
   - {name: net.core.wmem_max, value: 1048576}
   - {name: kernel.panic_on_oops, value: 1}
-  - {name: kernel.panic, value: 10}
   - {name: vm.min_free_kbytes, value: 524288}
 </code></pre>
 <h3 id="oracle_sysctl_file">oracle_sysctl_file</h3>
 <p>Allows to specify the file in which sysctl settings will be stored. When unspecified it will
 be put to <code>/etc/sysctl.conf</code> by the module defaults (omit)</p>
-<h4 id="default-value-45">Default value</h4>
+<h4 id="default-value-44">Default value</h4>
 <pre><code class="language-YAML">oracle_sysctl_file: _unset_
 </code></pre>
 <h4 id="example-usage-4">Example usage</h4>
@@ -1094,7 +1081,7 @@ be put to <code>/etc/sysctl.conf</code> by the module defaults (omit)</p>
 </code></pre>
 <h3 id="oracle_users">oracle_users</h3>
 <p>oracle OS-User</p>
-<h4 id="default-value-46">Default value</h4>
+<h4 id="default-value-45">Default value</h4>
 <pre><code class="language-YAML">oracle_users:
   - username: oracle
     uid: 54321
@@ -1104,28 +1091,28 @@ be put to <code>/etc/sysctl.conf</code> by the module defaults (omit)</p>
 </code></pre>
 <h3 id="os_family_supported">os_family_supported</h3>
 <p>Support is limited to RHE/OL and SuSE</p>
-<h4 id="default-value-47">Default value</h4>
+<h4 id="default-value-46">Default value</h4>
 <pre><code class="language-YAML">os_family_supported: &quot;{% if ansible_os_family == 'Suse' %}Suse{% else %}RedHat{% endif
   %}&quot;
 </code></pre>
 <h3 id="os_min_supported_version">os_min_supported_version</h3>
 <p>Minimum supported versions for SLES is 12.1 and RHEL/OL &gt;= 6.4</p>
-<h4 id="default-value-48">Default value</h4>
+<h4 id="default-value-47">Default value</h4>
 <pre><code class="language-YAML">os_min_supported_version: &quot;{% if ansible_os_family == 'Suse' %}12.1{% else %}6.4{%
   endif %}&quot;
 </code></pre>
 <h3 id="percent_hugepages">percent_hugepages</h3>
 <p>Define percentage from RAM for Hugepages. Only valud when configure_hugepages_by: percentage</p>
-<h4 id="default-value-49">Default value</h4>
+<h4 id="default-value-48">Default value</h4>
 <pre><code class="language-YAML">percent_hugepages: 50
 </code></pre>
 <h3 id="size_in_gb_hugepages">size_in_gb_hugepages</h3>
 <p>Size in GB for Hugepages. Only valud when configure_hugepages_by: memory</p>
-<h4 id="default-value-50">Default value</h4>
+<h4 id="default-value-49">Default value</h4>
 <pre><code class="language-YAML">size_in_gb_hugepages: 1
 </code></pre>
 <h3 id="ssh_keys">ssh_keys</h3>
-<h4 id="default-value-51">Default value</h4>
+<h4 id="default-value-50">Default value</h4>
 <pre><code class="language-YAML">ssh_keys:
   - /tmp/id_rsa
   - /tmp/id_rsa.pub
@@ -1133,14 +1120,14 @@ be put to <code>/etc/sysctl.conf</code> by the module defaults (omit)</p>
 </code></pre>
 <h3 id="sudoers_template">sudoers_template</h3>
 <p>Used ansible template for sudoers configuration.</p>
-<h4 id="default-value-52">Default value</h4>
+<h4 id="default-value-51">Default value</h4>
 <pre><code class="language-YAML">sudoers_template: sudoers.j2
 </code></pre>
 <h3 id="transparent_hugepage_disable">transparent_hugepage_disable</h3>
 <p>Disable Transparent Hugepages during boot.</p>
 <p><em>Important</em></p>
 <p>It is strongly recommended to disable Transparent Hugepages. Do not change this variable.</p>
-<h4 id="default-value-53">Default value</h4>
+<h4 id="default-value-52">Default value</h4>
 <pre><code class="language-YAML">transparent_hugepage_disable:
   - {disable: echo never &gt;, path: /sys/kernel/mm/transparent_hugepage/enabled, rclocal: /etc/rc.d/rc.local}
   - {disable: echo never &gt;, path: /sys/kernel/mm/transparent_hugepage/defrag, rclocal: /etc/rc.d/rc.local}
@@ -1149,7 +1136,7 @@ be put to <code>/etc/sysctl.conf</code> by the module defaults (omit)</p>
 <p>Alternatively to dynamically disabling transparent hugepages using rc.local,
 disable transparent hugepages using kernel command line.</p>
 <p><em>Note</em>: Setting transparent_hugepage_disable_by_grub true obsoletes transparent_hugepage_disable</p>
-<h4 id="default-value-54">Default value</h4>
+<h4 id="default-value-53">Default value</h4>
 <pre><code class="language-YAML">transparent_hugepage_disable_by_grub: false
 </code></pre>
 <h2 id="discovered-tags">Discovered Tags</h2>
@@ -1191,7 +1178,7 @@ disable transparent hugepages using kernel command line.</p>
 <p>[Mikael Sandström]</p>
 
 	<div class="td-page-meta__lastmod">
-  Last modified January 1, 0001: <a href="https://github.com/oravirt/ansible-oracle/commit/842f4eb0365f894b0610fb0d319c439bd15f3a3b">website: new website for ansible-oracle (842f4eb0)</a>
+  Last modified January 1, 0001: <a href="https://github.com/oravirt/ansible-oracle/commit/a01ddedce0d5343558172671a30cfae0cd1f4870">website: new website for ansible-oracle (a01ddedc)</a>
 </div>
 
 </div>
