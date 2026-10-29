@@ -1,0 +1,1253 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+<title>Out-of-Place Patching - Switch ORACLE_HOME | ansible-oracle Project</title>
+<meta name="description" content=" Important Out-of-Place Patching is supported for Single Instance primary databases without Grid Infrastructure/Oracle Restart only.
+The guide describes the concept, all dependencies and the gaps in the current implementation. Out-of-Place Patching switches a database from its current ORACLE_HOME to another, already installed and patched ORACLE_HOME. The installation and patching of the new ORACLE_HOME is not part of Out-of-Place Patching. It is done before with other roles (oraswdb_install, oraswdb_manage_patches or from a Golden Image).">
+<meta property="og:url" content="https://www.ansible-oracle.eu/docs/guides/out_of_place_patching/">
+	<meta property="og:site_name" content="ansible-oracle Project">
+	<meta property="og:title" content="Out-of-Place Patching - Switch ORACLE_HOME">
+	<meta property="og:description" content="Important Out-of-Place Patching is supported for Single Instance primary databases without Grid Infrastructure/Oracle Restart only.
+The guide describes the concept, all dependencies and the gaps in the current implementation. Out-of-Place Patching switches a database from its current ORACLE_HOME to another, already installed and patched ORACLE_HOME. The installation and patching of the new ORACLE_HOME is not part of Out-of-Place Patching. It is done before with other roles (oraswdb_install, oraswdb_manage_patches or from a Golden Image).">
+	<meta property="og:locale" content="en_us">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="docs">
+
+	<meta itemprop="name" content="Out-of-Place Patching - Switch ORACLE_HOME">
+	<meta itemprop="description" content="Important Out-of-Place Patching is supported for Single Instance primary databases without Grid Infrastructure/Oracle Restart only.
+The guide describes the concept, all dependencies and the gaps in the current implementation. Out-of-Place Patching switches a database from its current ORACLE_HOME to another, already installed and patched ORACLE_HOME. The installation and patching of the new ORACLE_HOME is not part of Out-of-Place Patching. It is done before with other roles (oraswdb_install, oraswdb_manage_patches or from a Golden Image).">
+	<meta itemprop="wordCount" content="2047">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Out-of-Place Patching - Switch ORACLE_HOME">
+	<meta name="twitter:description" content="Important Out-of-Place Patching is supported for Single Instance primary databases without Grid Infrastructure/Oracle Restart only.
+The guide describes the concept, all dependencies and the gaps in the current implementation. Out-of-Place Patching switches a database from its current ORACLE_HOME to another, already installed and patched ORACLE_HOME. The installation and patching of the new ORACLE_HOME is not part of Out-of-Place Patching. It is done before with other roles (oraswdb_install, oraswdb_manage_patches or from a Golden Image).">
+
+
+
+
+
+<link href="/scss/main.css" rel="stylesheet">
+
+<script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+  crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/css/prism.css"/>
+
+  </head>
+  <body class="td-page">
+    <header>
+      <nav class="td-navbar js-navbar-scroll" data-bs-theme="light">
+<div class="container-fluid flex-column flex-md-row">
+  <a class="navbar-brand" href="/"><span class="navbar-brand__logo navbar-logo"><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500"><g><path style="fill:#fff" d="M116.8525 421.9722c-5.7041.0-10.3442-4.3127-10.3442-9.6129V88.183c0-5.3002 4.6401-9.6117 10.3442-9.6117H320.858c3.0347.0 9.3959.5498 11.7506 2.6302l.3545.3442 58.905 63.2912c2.3101 2.491 2.9202 8.4928 2.9202 11.3184v256.2039c0 5.3002-4.6407 9.6129-10.3436 9.6129H116.8525z"/><g><g><g><path style="fill:#767676" d="M384.4445 423.2066H116.852c-6.3839.0-11.5786-4.8658-11.5786-10.8474V88.1831c0-5.9804 5.1947-10.8461 11.5786-10.8461h204.0062c.377.0 9.2786.0329 12.568 2.9389l.3947.3833 58.9508 63.337c3.2135 3.4652 3.2514 11.7924 3.2514 12.1593v256.2036C396.0231 418.3408 390.8284 423.2066 384.4445 423.2066zM116.5079 411.9189c.0848.0278.1999.0531.3441.0531h267.5925c.1442.0.2581-.0253.3441-.0531V156.1556c-.0076-.9033-.3593-3.7347-.7034-5.0037l-57.6527-61.9416c-1.4651-.3176-4.4533-.6389-5.5742-.6389H116.852c-.143.0-.2594.024-.3441.0531V411.9189zm267.4533-261.149zM327.0321 89.371v.0013V89.371z"/></g></g></g><g><g><path style="fill:#5b7fc0" d="M189.0874 210.1754l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4473C177.5953 212.627 183.0601 210.1742 189.0874 210.1754zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 234.1722 197.0804 232.033z"/><path style="opacity:.3;fill:#fff" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/><g><defs><path id="SVGID_1_" d="M194.7376 237.6875c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 234.2399 196.1861 236.239 194.7376 237.6875z"/></defs><clipPath id="SVGID_2_"><use xlink:href="#SVGID_1_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_2_);fill:#fff" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/><path style="opacity:.13;clip-path:url(#SVGID_2_);fill:#020202" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/></g><g><defs><path id="SVGID_3_" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/></defs><clipPath id="SVGID_4_"><use xlink:href="#SVGID_3_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_4_);fill:#5b7fc0" d="M172.6595 215.6045c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8475-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 209.1953 176.6171 211.647 172.6595 215.6045z"/></g></g><rect x="198.8952" y="225.1043" style="fill:#5b7fc0" width="122.6266" height="13.8671"/></g><g><path style="fill:#d95140" d="M189.0874 155.7611l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.0249 2.454-11.4897 6.4116-15.4473C177.5953 158.2128 183.0601 155.7599 189.0874 155.7611zm7.993 21.8577c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.2508 181.7667 197.0816 179.758 197.0804 177.6188z"/><path style="opacity:.3;fill:#fff" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/><g><defs><path id="SVGID_5_" d="M194.7376 183.2733c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 179.8256 196.1861 181.8248 194.7376 183.2733z"/></defs><clipPath id="SVGID_6_"><use xlink:href="#SVGID_5_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_6_);fill:#fff" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/><path style="opacity:.13;clip-path:url(#SVGID_6_);fill:#020202" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/></g><g><defs><path id="SVGID_7_" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/></defs><clipPath id="SVGID_8_"><use xlink:href="#SVGID_7_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_8_);fill:#d95140" d="M172.6595 161.1903c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 154.7811 176.6171 157.2327 172.6595 161.1903z"/></g><rect x="198.8952" y="170.69" style="fill:#d95140" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#56a55c" d="M189.5379 264.6147l.0012-.0012c7.7751.0012 15.0294 4.1862 18.932 10.9235 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032-5.8394.0-11.3281-2.2733-15.458-6.4032-4.13-4.13-6.4032-9.6186-6.4056-15.4628.0012-6.0249 2.454-11.4897 6.4116-15.4472C178.0458 267.0663 183.5105 264.6135 189.5379 264.6147zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6538 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.7013 290.6202 197.5321 288.6115 197.5309 286.4723z"/><path style="opacity:.3;fill:#fff" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/><g><defs><path id="SVGID_9_" d="M195.1881 292.1268c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9941 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.5344 288.6792 196.6366 290.6783 195.1881 292.1268z"/></defs><clipPath id="SVGID_10_"><use xlink:href="#SVGID_9_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_10_);fill:#fff" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/><path style="opacity:.13;clip-path:url(#SVGID_10_);fill:#020202" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/></g><g><defs><path id="SVGID_11_" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/></defs><clipPath id="SVGID_12_"><use xlink:href="#SVGID_11_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_12_);fill:#56a55c" d="M173.11 270.0439c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7325-11.1497-10.9151-18.926-10.9151C182.5311 263.6346 177.0676 266.0863 173.11 270.0439z"/></g></g><rect x="199.3456" y="279.5436" style="fill:#56a55c" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#f1bc42" d="M189.0874 318.7208l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3305-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4472C177.5953 321.1724 183.0601 318.7196 189.0874 318.7208zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 342.7176 197.0804 340.5784z"/><path style="opacity:.3;fill:#fff" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/><g><defs><path id="SVGID_13_" d="M194.7376 346.2329c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 342.7853 196.1861 344.7844 194.7376 346.2329z"/></defs><clipPath id="SVGID_14_"><use xlink:href="#SVGID_13_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_14_);fill:#fff" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/><path style="opacity:.13;clip-path:url(#SVGID_14_);fill:#020202" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/></g><g><defs><path id="SVGID_15_" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/></defs><clipPath id="SVGID_16_"><use xlink:href="#SVGID_15_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_16_);fill:#f1bc42" d="M172.6595 324.15c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8474-1.0151-7.6327-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 317.7407 176.6171 320.1924 172.6595 324.15z"/></g></g><rect x="198.8952" y="333.6497" style="fill:#f1bc42" width="122.6266" height="13.8671"/></g></g></svg></span><span class="navbar-brand__name">ansible-oracle Project</span></a>
+  <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/about/"><span>About</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/docs/"><span>Documentation</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/oravirt/ansible-oracle/releases" target="_blank" rel="noopener"><span>Releases</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/oravirt/ansible-oracle" target="_blank" rel="noopener"><span>Github</span></a>
+      </li>
+      </ul>
+  </div>
+  <div class="d-none d-lg-block">
+    
+  </div>
+</div>
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <aside class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            <div id="td-sidebar-menu" class="td-sidebar__inner">
+  <div id="content-mobile">
+  <form class="td-sidebar__search d-flex align-items-center">
+    
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ms-3 fas fa-bars" type="button" data-bs-toggle="collapse" data-bs-target="#td-section-nav" aria-controls="td-section-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  </div>
+  <div id="content-desktop"></div>
+  <nav class="td-sidebar-nav collapse td-sidebar-nav--search-disabled" id="td-section-nav">
+    <ul class="td-sidebar-nav__section pe-md-3 ul-0">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docs-li">
+  <a href="/docs/" title="Documentation" class="align-left ps-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-docs"><span class="">Docs</span></a>
+  <ul class="ul-1">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsfeatures-li">
+  <a href="/docs/features/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsfeatures"><span class="">Features</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsfeaturesfeaturelist-li">
+  <a href="/docs/features/featurelist/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsfeaturesfeaturelist"><span class="">Supported features in ansible-oracle</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docsguides-li">
+  <a href="/docs/guides/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsguides"><span class="">Guides</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguidesvagrant-li">
+  <a href="/docs/guides/vagrant/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsguidesvagrant"><span class="">Vagrant</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesvagrantwindows-li">
+  <a href="/docs/guides/vagrant/windows/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesvagrantwindows"><span class="">Vagrant on Windows</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesvagrantvagrant_basics-li">
+  <a href="/docs/guides/vagrant/vagrant_basics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesvagrantvagrant_basics"><span class="">Vagrant Basics</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbeginner-li">
+  <a href="/docs/guides/beginner/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbeginner"><span class="">Beginners Guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesadvanced-li">
+  <a href="/docs/guides/advanced/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesadvanced"><span class="">Advanced Guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesansible-container-li">
+  <a href="/docs/guides/ansible-container/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesansible-container"><span class="">Ansible as a Docker Container</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguideslocal-install-howto-li">
+  <a href="/docs/guides/local-install-howto/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguideslocal-install-howto"><span class="">HOWTO: Local Installation of Ansible-Oracle</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesinstall-and-patch-settings-li">
+  <a href="/docs/guides/install-and-patch-settings/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesinstall-and-patch-settings"><span class="">Installation &amp; Patching Settings for the Inventory</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesapex_ords-li">
+  <a href="/docs/guides/apex_ords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesapex_ords"><span class="">Setup APEX and ORDS</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesautoupgrade-li">
+  <a href="/docs/guides/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade"><span class="">Oracle AutoUpgrade</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesautoupgrade_upgrade-li">
+  <a href="/docs/guides/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguidesout_of_place_patching-li">
+  <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="td-sidebar-nav-active-item">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
+  <a href="/docs/guides/restart_rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="">Setup ASM for Oracle Grid Infrastructure / Restart</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsroles-li">
+  <a href="/docs/roles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsroles"><span class="">Ansible Roles</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
+  <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesautoupgrade-li">
+  <a href="/docs/roles/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesautoupgrade"><span class="">autoupgrade</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
+  <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescxoracle-li">
+  <a href="/docs/roles/cxoracle/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescxoracle"><span class="">cxoracle</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesglobal_handlers-li">
+  <a href="/docs/roles/global_handlers/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesglobal_handlers"><span class="">global_handlers</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraapex-li">
+  <a href="/docs/roles/oraapex/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraapex"><span class="">oraapex</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraasm_manage_diskgroups-li">
+  <a href="/docs/roles/oraasm_manage_diskgroups/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraasm_manage_diskgroups"><span class="">oraasm_manage_diskgroups</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoracluvfy-li">
+  <a href="/docs/roles/oracluvfy/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoracluvfy"><span class="">oracluvfy</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_datapatch-li">
+  <a href="/docs/roles/oradb_datapatch/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_datapatch"><span class="">oradb_datapatch</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_facts-li">
+  <a href="/docs/roles/oradb_facts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_facts"><span class="">oradb_facts</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_grants-li">
+  <a href="/docs/roles/oradb_manage_grants/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_grants"><span class="">oradb_manage_grants</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_parameters-li">
+  <a href="/docs/roles/oradb_manage_parameters/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_parameters"><span class="">oradb_manage_parameters</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_pdb-li">
+  <a href="/docs/roles/oradb_manage_pdb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_pdb"><span class="">oradb_manage_pdb</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_profiles-li">
+  <a href="/docs/roles/oradb_manage_profiles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_profiles"><span class="">oradb_manage_profiles</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_redo-li">
+  <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="">oradb_manage_redo</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_roles-li">
+  <a href="/docs/roles/oradb_manage_roles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_roles"><span class="">oradb_manage_roles</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_services-li">
+  <a href="/docs/roles/oradb_manage_services/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_services"><span class="">oradb_manage_services</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_statspack-li">
+  <a href="/docs/roles/oradb_manage_statspack/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_statspack"><span class="">oradb_manage_statspack</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_tablespace-li">
+  <a href="/docs/roles/oradb_manage_tablespace/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_tablespace"><span class="">oradb_manage_tablespace</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_users-li">
+  <a href="/docs/roles/oradb_manage_users/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_users"><span class="">oradb_manage_users</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_wallet-li">
+  <a href="/docs/roles/oradb_manage_wallet/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_wallet"><span class="">oradb_manage_wallet</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
+  <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_tzupgrade-li">
+  <a href="/docs/roles/oradb_tzupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_tzupgrade"><span class="">oradb_tzupgrade</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
+  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_cron-li">
+  <a href="/docs/roles/orahost_cron/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_cron"><span class="">orahost_cron</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_logrotate-li">
+  <a href="/docs/roles/orahost_logrotate/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_logrotate"><span class="">orahost_logrotate</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_ssh-li">
+  <a href="/docs/roles/orahost_ssh/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_ssh"><span class="">orahost_ssh</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_storage-li">
+  <a href="/docs/roles/orahost_storage/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_storage"><span class="">orahost_storage</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraords-li">
+  <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
+  <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
+  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
+  <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswahf_install-li">
+  <a href="/docs/roles/oraswahf_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswahf_install"><span class="">oraswahf_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_golden_image-li">
+  <a href="/docs/roles/oraswdb_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_golden_image"><span class="">oraswdb_golden_image</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
+  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
+  <a href="/docs/roles/oraswdb_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_manage_patches"><span class="">oraswdb_manage_patches</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_golden_image-li">
+  <a href="/docs/roles/oraswgi_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_golden_image"><span class="">oraswgi_golden_image</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_manage_patches-li">
+  <a href="/docs/roles/oraswgi_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_manage_patches"><span class="">oraswgi_manage_patches</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_meta-li">
+  <a href="/docs/roles/oraswgi_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_meta"><span class="">oraswgi_meta</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsdevelopment-li">
+  <a href="/docs/development/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsdevelopment"><span class="">Development</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsdevelopmentdevelopment-li">
+  <a href="/docs/development/development/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsdevelopmentdevelopment"><span class="">How to develop</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsdevelopmentwebsite-li">
+  <a href="/docs/development/website/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsdevelopmentwebsite"><span class="">Website</span></a>
+</li>
+  </ul>
+</li>
+  </ul>
+</li>
+    </ul>
+  </nav>
+</div>
+
+          </aside>
+          <aside class="d-none d-xl-block col-xl-2 td-sidebar-toc d-print-none">
+            <div class="td-page-meta ms-2 pb-1 pt-2 mb-0">
+<a href="https://github.com/oravirt/ansible-oracle/tree/master/doc/guides/out_of_place_patching.adoc" class="td-page-meta--view td-page-meta__view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines fa-fw"></i> View page source</a>
+  <a href="https://github.com/oravirt/ansible-oracle/edit/master/doc/guides/out_of_place_patching.adoc" class="td-page-meta--edit td-page-meta__edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Edit this page</a>
+  <a href="https://github.com/oravirt/ansible-oracle/new/master/doc/guides?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" class="td-page-meta--child td-page-meta__child" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Create child page</a>
+  <a href="https://github.com/oravirt/ansible-oracle/issues/new?title=Out-of-Place%20Patching%20-%20Switch%20ORACLE_HOME" class="td-page-meta--issue td-page-meta__issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create documentation issue</a>
+  <a href="https://github.com/oravirt/ansible-oracle/issues/new" class="td-page-meta--project td-page-meta__project-issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create project issue</a>
+  <a id="print" href="/_print/docs/guides/"><i class="fa-solid fa-print fa-fw"></i> Print entire section</a>
+
+</div>
+
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#_requirements">1. Requirements</a></li>
+    <li><a href="#_read_only_oracle_home">2. Read-Only Oracle Home</a></li>
+    <li><a href="#_process_overview">3. Process overview</a></li>
+    <li><a href="#_preparation_of_the_new_oracle_home">4. Preparation of the new ORACLE_HOME</a></li>
+    <li><a href="#_dependencies">5. Dependencies</a>
+      <ul>
+        <li><a href="#_registration_of_the_oracle_home">5.1. Registration of the ORACLE_HOME</a></li>
+        <li><a href="#_stop_and_start">5.2. Stop and Start</a></li>
+        <li><a href="#_listener">5.3. Listener</a></li>
+        <li><a href="#_network_configuration_and_wallets">5.4. Network configuration and wallets</a></li>
+        <li><a href="#_datapatch">5.5. datapatch</a></li>
+        <li><a href="#_directory_objects">5.6. Directory objects</a></li>
+        <li><a href="#_content_of_the_oracle_home">5.7. Content of the ORACLE_HOME</a></li>
+        <li><a href="#_data_guard">5.8. Data Guard</a>
+          <ul>
+            <li><a href="#_physical_standby">5.8.1. Physical Standby</a></li>
+          </ul>
+        </li>
+        <li><a href="#_external_dependencies">5.9. External dependencies</a></li>
+      </ul>
+    </li>
+    <li><a href="#_implementation_in_ansible_oracle">6. Implementation in ansible-oracle</a>
+      <ul>
+        <li><a href="#_existing_features">6.1. Existing features</a></li>
+        <li><a href="#_gaps">6.2. Gaps</a></li>
+        <li><a href="#_oracle_home_without_database">6.3. ORACLE_HOME without database</a></li>
+      </ul>
+    </li>
+    <li><a href="#_inventory_example">7. Inventory example</a></li>
+    <li><a href="#_open_questions">8. Open questions</a></li>
+  </ul>
+</nav>
+      </div>
+    
+            
+	
+          </aside>
+          <main class="col-12 col-md-9 col-xl-8 ps-md-5" role="main">
+            
+  
+
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
+  <ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="/docs/">Docs</a></li>
+  <li class="breadcrumb-item">
+    <a href="/docs/guides/">Guides</a></li>
+  <li class="breadcrumb-item active" aria-current="page">
+    Out-of-Place Patching - Switch ORACLE_HOME</li>
+  </ol>
+</nav>
+            
+<div class="td-content">
+	<h1>Out-of-Place Patching - Switch ORACLE_HOME</h1>
+	
+	<header class="article-meta">
+		
+  </header>
+	
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Out-of-Place Patching is supported for Single Instance primary databases without Grid Infrastructure/Oracle Restart only.<br/>
+The guide describes the concept, all dependencies and the gaps in the current implementation.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>Out-of-Place Patching switches a database from its current <code>ORACLE_HOME</code> to another, already installed and patched <code>ORACLE_HOME</code>.
+The installation and patching of the new <code>ORACLE_HOME</code> is not part of Out-of-Place Patching.
+It is done before with other roles (<code>oraswdb_install</code>, <code>oraswdb_manage_patches</code> or from a Golden Image).</p>
+</div>
+<div class="paragraph">
+<p>Advantages compared to In-Place Patching with <code>opatch apply</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The new <code>ORACLE_HOME</code> is installed and patched before the switch without downtime, because no database is running from it.</p>
+</li>
+<li>
+<p>The downtime is reduced to a restart of the database and <code>datapatch</code>.</p>
+</li>
+<li>
+<p>Fallback is easy: the old <code>ORACLE_HOME</code> is still available.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+A Golden Image is recommended, but <em>not</em> required.<br/>
+The new <code>ORACLE_HOME</code> can also be installed and patched with <code>ansible-oracle</code> on the database server.
+The switch of the database is independent from the way the new <code>ORACLE_HOME</code> was created.
+See <a href="#_preparation_of_the_new_oracle_home">Preparation of the new ORACLE_HOME</a>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="sect1">
+<h2 id="_requirements">1. Requirements</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Oracle Database 19c or newer</p>
+</li>
+<li>
+<p><em>Read-Only Oracle Homes</em> (<code>readonly_home: true</code>) are recommended, but not required</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Configuration files like SPFile and password file are not part of the <code>ORACLE_HOME</code>
+and are shared between all Read-Only `ORACLE_HOME`s.</p>
+</li>
+<li>
+<p>The switch copies SPFile, PFile and password file, when the location differs between old and new <code>ORACLE_HOME</code>
+(e.g. switch from a Read-Write into a Read-Only <code>ORACLE_HOME</code>).</p>
+</li>
+<li>
+<p><code>readonly_home</code> must not be changed for an installed <code>ORACLE_HOME</code>.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Each Read-Only <code>ORACLE_HOME</code> needs 2 attributes in <code>db_homes_config</code>:</p>
+<div class="listingblock">
+<div class="content">
+<pre>db_homes_config:
+  db1932-si-ee:
+    readonly_home: true
+    oracle_home_name: db1932siee</pre>
+</div>
+</div>
+</li>
+<li>
+<p><code>oracle_home_name</code> is mandatory:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>It cannot be derived from the key in <code>db_homes_config</code>.
+Oracle allows only characters, numbers and <code>_</code> in the name of an <code>ORACLE_HOME</code> in the Oracle Inventory.
+YAML keys are much less restrictive (e.g. <code>db1932-si-ee</code> is a valid key, but not a valid <code>oracle_home_name</code>).</p>
+</li>
+<li>
+<p>It must be unique over all <code>ORACLE_HOME`s on a server.
+It defines the `ORACLE_BASE_HOME</code> (<code>$ORACLE_BASE/homes/&lt;oracle_home_name&gt;</code>), which must not be shared between the old and the new <code>ORACLE_HOME</code>.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Enough disk space for at least 2 `ORACLE_HOME`s at the same time</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_read_only_oracle_home">2. Read-Only Oracle Home</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A Read-Only Oracle Home separates the software from the configuration.
+The locations are reported by <code>orabasehome</code> and <code>orabaseconfig</code>.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Locations in a Read-Only Oracle Home</caption>
+<colgroup>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Location</th>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Shared between ORACLE_HOMEs</th>
+<th class="tableblock halign-left valign-top">Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORACLE_HOME</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">e.g. <code>/u01/app/oracle/product/19/db19_2610</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Software only</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORACLE_BASE_CONFIG</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>$ORACLE_BASE/dbs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SPFile, password file, <code>hc_*.dat</code>, <code>lk*</code></p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORACLE_BASE_HOME</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>$ORACLE_BASE/homes/&lt;oracle_home_name&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>network/admin</code> (<code>listener.ora</code>, <code>sqlnet.ora</code>, <code>tnsnames.ora</code>), <code>log</code>, <code>rdbms/log</code></p></td>
+</tr>
+</tfoot>
+</table>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<code>ORACLE_BASE_CONFIG</code> is shared, but <code>ORACLE_BASE_HOME</code> is <em>not</em>.<br/>
+All files in <code>$ORACLE_BASE/homes/&lt;oracle_home_name&gt;/network/admin</code> must exist in the new <code>ORACLE_HOME</code> before the switch.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_process_overview">3. Process overview</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Prepare the new <code>ORACLE_HOME</code> (no downtime)</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Install the new <code>ORACLE_HOME</code> with <code>oraswdb_install</code> / <code>oraswdb_manage_patches</code> (not part of Out-of-Place Patching), one of:</p>
+<div class="olist lowerroman">
+<ol class="lowerroman" type="i">
+<li>
+<p>from a Golden Image (recommended)</p>
+</li>
+<li>
+<p>from the base release, followed by <code>opatch apply</code> for all patches</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Create the network configuration in the new <code>ORACLE_BASE_HOME</code></p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Switch the database (downtime) - Out-of-Place Patching with <code>oradb_manage_db</code></p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Stop the database (and listener) from the old <code>ORACLE_HOME</code></p>
+</li>
+<li>
+<p>Change the <code>ORACLE_HOME</code> in <code>/etc/oratab</code> or in Oracle Clusterware (<code>srvctl</code>)</p>
+</li>
+<li>
+<p>Start the listener and database from the new <code>ORACLE_HOME</code></p>
+</li>
+<li>
+<p>Execute <code>datapatch</code></p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Post tasks</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>APEX, time zone, statistics, etc. (optional)</p>
+</li>
+<li>
+<p>Remove the old <code>ORACLE_HOME</code> after a successful test period</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_preparation_of_the_new_oracle_home">4. Preparation of the new ORACLE_HOME</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The new <code>ORACLE_HOME</code> can be prepared in 2 ways.
+Both are supported by <code>ansible-oracle</code> and both lead to the same result for the switch.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Ways to prepare the new ORACLE_HOME</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Topic</th>
+<th class="tableblock halign-left valign-top">Golden Image</th>
+<th class="tableblock halign-left valign-top">Install and patch on the server</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Source</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Golden Image (<code>imagename</code> or <code>filesource</code> in <code>db_homes_config</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Base release (e.g. 19.3) + patches from <code>oracle_sw_patches</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Patching</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Included in the Golden Image. Additional patches are possible like for the base release.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oraswdb_manage_patches</code> with <code>opatch</code>/<code>opatchauto</code> from <code>db_homes_config</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Duration on the database server</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Short (unzip + <code>runInstaller</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Long (<code>opatch apply</code> for each patch)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Identical `ORACLE_HOME`s on all servers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Guaranteed by the Golden Image</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Depends on identical patch lists in the inventory</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Software needed on the server</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Golden Image only</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Base release, OPatch and all patches</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Relink options (e.g. Unified Auditing, dNFS)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Included in the Golden Image, checked by <code>oraswdb_install</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set by <code>oraswdb_install</code></p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Downtime</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None - no database is running from the new <code>ORACLE_HOME</code>, <code>stop_processes</code> is not needed</p></td>
+</tr>
+</tfoot>
+</table>
+<div class="paragraph">
+<p>Recommendation: download the Golden Image created by Oracle with the role <code>autoupgrade</code>
+(<code>gold_image</code> in <code>autoupgrade_download_patches</code> or <code>autoupgrade_download_gold_image</code>).
+This is the way with the least effort, because no <code>ORACLE_HOME</code> has to be installed and patched for creating the Golden Image.</p>
+</div>
+<div class="paragraph">
+<p>Alternative: create the Golden Image once from an <code>ORACLE_HOME</code> installed and patched by <code>ansible-oracle</code> (role <code>oraswdb_golden_image</code>),
+e.g. when one-off patches are needed, which are not part of the Golden Image from Oracle.</p>
+</div>
+<div class="paragraph">
+<p>Use the Golden Image for all servers.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The implementation of the switch must not depend on the way the new <code>ORACLE_HOME</code> was prepared.<br/>
+The only requirement for the switch is an installed and fully patched <code>ORACLE_HOME</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dependencies">5. Dependencies</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_registration_of_the_oracle_home">5.1. Registration of the ORACLE_HOME</h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. Registration of the ORACLE_HOME for a database</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Environment</th>
+<th class="tableblock halign-left valign-top">Registration</th>
+<th class="tableblock halign-left valign-top">Switch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Single Instance without GI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/etc/oratab</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Replace the line <code>&lt;SID&gt;:&lt;old ORACLE_HOME&gt;:&lt;Y/N&gt;</code> with the new <code>ORACLE_HOME</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Restart</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Clusterware (OCR/OLR)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>srvctl modify database -db &lt;db_unique_name&gt; -oraclehome &lt;new ORACLE_HOME&gt;</code><br/>
+<code>/etc/oratab</code> is maintained by Oracle Clusterware.</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle RAC</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Clusterware (OCR)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rolling switch node by node. Not covered in this guide yet.</p></td>
+</tr>
+</tfoot>
+</table>
+<div class="paragraph">
+<p>The following parts of <code>ansible-oracle</code> read the <code>ORACLE_HOME</code> from <code>/etc/oratab</code> and follow the switch automatically:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>systemd service / <code>manage_oracle_rdbms_procs.sh</code> (start/stop of databases)</p>
+</li>
+<li>
+<p><code>ocenv</code> / <code>.profile_&lt;ORACLE_SID&gt;</code></p>
+</li>
+<li>
+<p><code>rman_backup.sh</code> from role <code>oradb_rman</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_stop_and_start">5.2. Stop and Start</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>The database must be stopped from the <em>old</em> <code>ORACLE_HOME</code>.</p>
+</li>
+<li>
+<p>With Oracle Restart/RAC the stop must be done with <code>srvctl</code> from the old <code>ORACLE_HOME</code>, before <code>srvctl modify database</code> is executed.</p>
+</li>
+<li>
+<p>The start is done from the <em>new</em> <code>ORACLE_HOME</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_listener">5.3. Listener</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>A listener running from the database <code>ORACLE_HOME</code> must be restarted from the new <code>ORACLE_HOME</code>.</p>
+</li>
+<li>
+<p>All databases served by this listener must be switched together.
+Recommendation: run the listener from Grid Infrastructure or from a dedicated <code>ORACLE_HOME</code>.</p>
+</li>
+<li>
+<p>Static registrations in <code>SID_LIST_&lt;LISTENER&gt;</code> contain the <code>ORACLE_HOME</code>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Data Guard Broker (<code>&lt;db_unique_name&gt;_DGMGRL</code>)</p>
+</li>
+<li>
+<p><code>extproc</code></p>
+</li>
+<li>
+<p>Static service entries</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_network_configuration_and_wallets">5.4. Network configuration and wallets</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sqlnet.ora</code>, <code>tnsnames.ora</code> and <code>listener.ora</code> must exist in <code>$ORACLE_BASE/homes/&lt;new oracle_home_name&gt;/network/admin</code>.
+Alternative: a central <code>TNS_ADMIN</code>.</p>
+</li>
+<li>
+<p><code>WALLET_LOCATION</code> or <code>ENCRYPTION_WALLET_LOCATION</code> in <code>sqlnet.ora</code> must not point into the old <code>ORACLE_HOME</code>.</p>
+</li>
+<li>
+<p>TDE with the init parameter <code>WALLET_ROOT</code> is independent from the <code>ORACLE_HOME</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_datapatch">5.5. datapatch</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>datapatch</code> is mandatory after the start from the new <code>ORACLE_HOME</code>.</p>
+</li>
+<li>
+<p><code>datapatch</code> must be executed for the CDB and all PDBs.</p>
+</li>
+<li>
+<p>OJVM patches may need a startup in upgrade mode, depending on the release.</p>
+</li>
+<li>
+<p>Data Guard: <code>datapatch</code> is executed on the primary database only.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_directory_objects">5.6. Directory objects</h3>
+<div class="paragraph">
+<p>Directory objects can point into the old <code>ORACLE_HOME</code>.
+The OPatch directories are changed by <code>datapatch</code>, own directories are not.</p>
+</div>
+<div class="listingblock">
+<div class="title">Find directory objects in the old ORACLE_HOME</div>
+<div class="content">
+<pre>select directory_name, directory_path
+from dba_directories
+where directory_path like &#39;/u01/app/oracle/product/19/db19_2601%&#39;;</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_content_of_the_oracle_home">5.7. Content of the ORACLE_HOME</h3>
+<div class="paragraph">
+<p>The new <code>ORACLE_HOME</code> must contain all customizations of the old <code>ORACLE_HOME</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Relink options (e.g. Unified Auditing, dNFS) - included in a Golden Image or set by <code>oraswdb_install</code></p>
+</li>
+<li>
+<p>One-off patches - included in a Golden Image or defined in <code>db_homes_config[].opatch</code> for the new <code>ORACLE_HOME</code></p>
+</li>
+<li>
+<p><code>oranfstab</code></p>
+</li>
+<li>
+<p>Custom DBCA templates</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_data_guard">5.8. Data Guard</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>The standby databases are switched first.</p>
+</li>
+<li>
+<p>The primary database is switched afterwards, followed by <code>datapatch</code>.</p>
+</li>
+<li>
+<p>Static listener registrations for the Data Guard Broker must be changed (see <a href="#_listener">Listener</a>).</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_physical_standby">5.8.1. Physical Standby</h4>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Not implemented yet.<br/>
+The current implementation opens every database after the switch and executes <code>datapatch</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>A physical standby database must be handled differently from a primary database:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The standby database is started in <code>MOUNT</code> only.
+Opening the database while Redo Apply is running uses Active Data Guard,
+which needs an extra license.
+This is valid even when the standby database was opened <code>READ ONLY WITH APPLY</code> before the switch.</p>
+</li>
+<li>
+<p><code>datapatch</code> must not be executed on a standby database.
+The SQL changes are applied with Redo Apply from the primary database.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The role of the database is read after <code>startup mount</code> from the controlfile:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>startup mount
+select database_role from v$database;</pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. Actions after <code>startup mount</code> depending on <code>DATABASE_ROLE</code></caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">DATABASE_ROLE</th>
+<th class="tableblock halign-left valign-top">Open database</th>
+<th class="tableblock halign-left valign-top"><code>datapatch</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PRIMARY</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes (+ all PDBs)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PHYSICAL STANDBY</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no, remains in <code>MOUNT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+</tr>
+</tfoot>
+</table>
+<div class="paragraph">
+<p>Redo Apply after the switch:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>With Data Guard Broker (<code>dg_broker_start=TRUE</code>) the broker restarts Redo Apply automatically.</p>
+</li>
+<li>
+<p>Without Data Guard Broker Redo Apply must be restarted manually.
+<code>ansible-oracle</code> does not start Redo Apply, because it does not manage Data Guard configurations.</p>
+<div class="listingblock">
+<div class="content">
+<pre>alter database recover managed standby database disconnect;</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_external_dependencies">5.9. External dependencies</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Enterprise Manager and other monitoring targets</p>
+</li>
+<li>
+<p>Scripts and crontabs with a hard coded <code>ORACLE_HOME</code></p>
+</li>
+<li>
+<p>Applications with a local <code>ORACLE_HOME</code> (e.g. Bequeath connections)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_implementation_in_ansible_oracle">6. Implementation in ansible-oracle</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_existing_features">6.1. Existing features</h3>
+<div class="paragraph">
+<p>Out-of-Place Patching itself is the switch of the <code>ORACLE_HOME</code> in <code>oradb_manage_db</code>.
+The other features prepare the new <code>ORACLE_HOME</code> and are used before the switch.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. Existing features used for Out-of-Place Patching</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Feature</th>
+<th class="tableblock halign-left valign-top">Role</th>
+<th class="tableblock halign-left valign-top">Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read-Only Oracle Home</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oraswdb_install</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readonly_home: true</code> and <code>oracle_home_name</code> in <code>db_homes_config</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Install from base release</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oraswdb_install</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Without <code>imagename</code> in <code>db_homes_config</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Patch the new <code>ORACLE_HOME</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oraswdb_manage_patches</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>opatch</code>/<code>opatchauto</code> in <code>db_homes_config</code>, <code>apply_patches: true</code> in <code>db_homes_installed</code>.
+No <code>stop_processes</code> needed, because no database is running from the new <code>ORACLE_HOME</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Download Golden Image from Oracle (recommended)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade</code> (<code>download_patches.yml</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gold_image</code> in <code>autoupgrade_download_patches</code> or <code>autoupgrade_download_gold_image</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create Golden Image (optional)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oraswdb_golden_image</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Install from Golden Image (optional)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oraswdb_install</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imagename</code> or <code>filesource</code> in <code>db_homes_config</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Relink options</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oraswdb_install</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enforced for every <code>ORACLE_HOME</code>, independent from the source</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Network configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_manage_db</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Files are created in <code>ORACLE_BASE_HOME</code> of the <code>ORACLE_HOME</code> of the listener (<code>listener_installed[].home</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>datapatch</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_datapatch</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Remove <code>ORACLE_HOME</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oraswdb_install</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>state: absent</code> in <code>db_homes_installed</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Switch <code>ORACLE_HOME</code> of database</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_manage_db</code> (<code>switch_home.yml</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Change of <code>oracle_databases[].home</code>. Single Instance without GI only.
+Stop from old <code>ORACLE_HOME</code>, copy of SPFile/PFile/password file (when the location differs), change of <code>/etc/oratab</code>,
+start from new <code>ORACLE_HOME</code>, <code>datapatch</code>.
+Flag file <code>$ORACLE_BASE/switch_home_&lt;SID&gt;.pending</code> for an incomplete switch.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Switch <code>ORACLE_HOME</code> of listener</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_manage_db</code> (<code>loop_listener_details.yml</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Change of <code>listener_installed[].home</code>. Stop from old <code>ORACLE_HOME</code>, start from new <code>ORACLE_HOME</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/etc/oratab</code> without duplicate entries</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_manage_db</code> (<code>manage-db.yml</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lineinfile</code> with <code>regexp</code> replaces the entry for the SID.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORACLE_HOME</code> without database</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>orasw_meta</code>, <code>oraswdb_install</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An <code>ORACLE_HOME</code> in <code>db_homes_installed</code> without a database in <code>oracle_databases</code> is valid
+(e.g. new <code>ORACLE_HOME</code> before the switch, dedicated listener home).</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORACLE_HOME</code> of listener, tnsnames and sqlnet must be installed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>orasw_meta</code> (<code>assert_sqlnet.yml</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>home</code> in <code>listener_installed</code>, <code>sqlnet_installed</code> and <code>tnsnames_installed</code> must be in <code>db_homes_installed</code> without <code>state: absent</code>
+(unless <code>state: absent</code> or <code>use_gi_home: true</code> for the entry).</p></td>
+</tr>
+</tfoot>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_gaps">6.2. Gaps</h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. Missing features for Out-of-Place Patching</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Gap</th>
+<th class="tableblock halign-left valign-top">Location</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Incomplete check of <code>oracle_home_name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>roles/oraswdb_install/tasks/roohctl.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Only the existence of <code>oracle_home_name</code> is checked for <code>readonly_home: true</code>, and only during the installation.
+Missing: check for allowed characters, unique value over all <code>ORACLE_HOME`s in `db_homes_installed</code>, check in <code>orasw_meta</code> before any change on the server.</p></td>
+</tr>
+</tfoot>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_oracle_home_without_database">6.3. ORACLE_HOME without database</h3>
+<div class="paragraph">
+<p>An <code>ORACLE_HOME</code> in <code>db_homes_installed</code> without a database in <code>oracle_databases</code> is a valid configuration:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The new <code>ORACLE_HOME</code> has no database before the switch.</p>
+</li>
+<li>
+<p>The old <code>ORACLE_HOME</code> has no database after the switch, until it is removed.</p>
+</li>
+<li>
+<p>Listeners can run from a dedicated <code>ORACLE_HOME</code> without database.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <code>oracle_db_type</code> must still be identical for all databases in the same <code>ORACLE_HOME</code>.
+All roles and asserts must support an <code>ORACLE_HOME</code> without database.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_inventory_example">7. Inventory example</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>ORACLE_HOME</code> for each Release Update gets its own entry in <code>db_homes_config</code> with a unique <code>oracle_home</code> and <code>oracle_home_name</code>.
+Both ways to prepare the new <code>ORACLE_HOME</code> can be mixed, e.g. the old <code>ORACLE_HOME</code> from a Golden Image and the new one installed and patched on the server.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example <code>db_homes_config</code> with Golden Image</div>
+<div class="content">
+<pre>db_homes_config:
+  db19_2601:
+    version: 19.3.0.0
+    oracle_home: /u01/app/oracle/product/19/db19_2601
+    oracle_home_name: db19_2601
+    readonly_home: true
+    edition: EE
+    imagename: db_home_19.30.zip</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Example <code>db_homes_config</code> installed and patched on the server</div>
+<div class="content">
+<pre>db_homes_config:
+  db19_2604:
+    version: 19.3.0.0
+    oracle_home: /u01/app/oracle/product/19/db19_2604
+    oracle_home_name: db19_2604
+    readonly_home: true
+    edition: EE
+    opatch_minversion: 12.2.0.1.48
+    opatch:
+      - patchid: &lt;RU patch id&gt;
+        # Database Release Update 19.31
+        state: present
+      - patchid: &lt;OJVM patch id&gt;
+        # Oracle JavaVM Component Release Update 19.31
+        state: present</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<code>stop_processes</code> is not needed for the patches of the new <code>ORACLE_HOME</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Example: switch of database <code>ORCL</code> from <code>db19_2601</code> to <code>db19_2604</code></div>
+<div class="content">
+<pre>db_homes_installed:
+  - home: db19_2601
+    state: present
+  - home: db19_2604
+    state: present
+
+oracle_databases:
+  - home: db19_2604    # <b class="conum">(1)</b>
+    oracle_db_name: ORCL
+    state: present</pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Changing <code>home</code> is the trigger for the switch. See <a href="#_existing_features">Existing features</a>.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_open_questions">8. Open questions</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Support for Oracle Restart and RAC in the 1st implementation?</p>
+</li>
+<li>
+<p><code>oraswdb_install</code> derives the type of an <code>ORACLE_HOME</code> (SI or cluster installation) from the databases in <code>oracle_databases</code>.
+An <code>ORACLE_HOME</code> without database is installed as <code>SI</code>.
+A new RAC <code>ORACLE_HOME</code> needs the cluster installation before the switch
+⇒ explicit type in <code>db_homes_config</code> (e.g. <code>oracle_db_type</code>)?</p>
+</li>
+<li>
+<p>Handling of a listener shared by databases in different `ORACLE_HOME`s</p>
+</li>
+<li>
+<p>Fallback to the old <code>ORACLE_HOME</code> (<code>datapatch</code> rollback)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+	<div class="td-page-meta__lastmod">
+  Last modified January 1, 0001: <a href="https://github.com/oravirt/ansible-oracle/commit/a8710d7e5d581082b15865777d2702346124e01d">website: new website for ansible-oracle (a8710d7e)</a>
+</div>
+
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      <footer class="td-footer row d-print-none">
+  <div class="container-fluid">
+    <div class="row mx-md-2">
+      <div class="td-footer__left col-6 col-sm-4 order-sm-1">
+        
+      </div><div class="td-footer__right col-6 col-sm-4 order-sm-3">
+        <ul class="td-footer__links-list">
+  
+  <li class="td-footer__links-item" data-bs-toggle="tooltip" title="GitHub" aria-label="GitHub">
+    <a target="_blank" rel="noopener" href="https://github.com/oravirt/ansible-oracle" aria-label="GitHub">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+</ul>
+
+      </div><div class="td-footer__center col-12 col-sm-4 py-2 order-sm-2">
+        <span class="td-footer__copyright">&copy;
+    2016&ndash;2026
+    <span class="td-footer__authors">Thorsten Bruhns | [MIT](<a class="bare" href="https://github.com/oravirt/ansible-oracle/blob/master/LICENSE">https://github.com/oravirt/ansible-oracle/blob/master/LICENSE</a>)</span></span><nav aria-label="Legal" class="td-footer__legal mt-2">
+  <ul class="list-inline mb-0">
+    <li class="list-inline-item"><a href="/legal-notice/">Legal Notice</a></li>
+    <li class="list-inline-item"><a href="/privacy/">Privacy</a></li>
+    <li class="list-inline-item"><a href="/accessibility/">Accessibility</a></li>
+    </ul>
+</nav>
+
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <script src="/js/main.js"></script>
+<script src='/js/prism.js'></script>
+<script src='/js/tabpane-persist.js'></script>
+
+  </body>
+</html>

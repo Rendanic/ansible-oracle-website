@@ -1,0 +1,1991 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+<title>Upgrade of PDBs with AutoUpgrade (Unplug/Plug) | ansible-oracle Project</title>
+<meta name="description" content=" Important The upgrade of PDBs is experimental.
+Supported is the Unplug/Plug upgrade of PDBs from a CDB of the old release (e.g. 19c) into an existing CDB of the new release (e.g. 26ai) on the same host. The role autoupgrade upgrades PDBs with Oracle AutoUpgrade (autoupgrade.jar). AutoUpgrade unplugs the PDBs from the source CDB, plugs them into the target CDB and upgrades them there. The installation of AutoUpgrade and the general settings are described in autoupgrade.adoc.">
+<meta property="og:url" content="https://www.ansible-oracle.eu/docs/guides/autoupgrade_upgrade/">
+	<meta property="og:site_name" content="ansible-oracle Project">
+	<meta property="og:title" content="Upgrade of PDBs with AutoUpgrade (Unplug/Plug)">
+	<meta property="og:description" content="Important The upgrade of PDBs is experimental.
+Supported is the Unplug/Plug upgrade of PDBs from a CDB of the old release (e.g. 19c) into an existing CDB of the new release (e.g. 26ai) on the same host. The role autoupgrade upgrades PDBs with Oracle AutoUpgrade (autoupgrade.jar). AutoUpgrade unplugs the PDBs from the source CDB, plugs them into the target CDB and upgrades them there. The installation of AutoUpgrade and the general settings are described in autoupgrade.adoc.">
+	<meta property="og:locale" content="en_us">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="docs">
+
+	<meta itemprop="name" content="Upgrade of PDBs with AutoUpgrade (Unplug/Plug)">
+	<meta itemprop="description" content="Important The upgrade of PDBs is experimental.
+Supported is the Unplug/Plug upgrade of PDBs from a CDB of the old release (e.g. 19c) into an existing CDB of the new release (e.g. 26ai) on the same host. The role autoupgrade upgrades PDBs with Oracle AutoUpgrade (autoupgrade.jar). AutoUpgrade unplugs the PDBs from the source CDB, plugs them into the target CDB and upgrades them there. The installation of AutoUpgrade and the general settings are described in autoupgrade.adoc.">
+	<meta itemprop="wordCount" content="3740">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Upgrade of PDBs with AutoUpgrade (Unplug/Plug)">
+	<meta name="twitter:description" content="Important The upgrade of PDBs is experimental.
+Supported is the Unplug/Plug upgrade of PDBs from a CDB of the old release (e.g. 19c) into an existing CDB of the new release (e.g. 26ai) on the same host. The role autoupgrade upgrades PDBs with Oracle AutoUpgrade (autoupgrade.jar). AutoUpgrade unplugs the PDBs from the source CDB, plugs them into the target CDB and upgrades them there. The installation of AutoUpgrade and the general settings are described in autoupgrade.adoc.">
+
+
+
+
+
+<link href="/scss/main.css" rel="stylesheet">
+
+<script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+  crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/css/prism.css"/>
+
+  </head>
+  <body class="td-page">
+    <header>
+      <nav class="td-navbar js-navbar-scroll" data-bs-theme="light">
+<div class="container-fluid flex-column flex-md-row">
+  <a class="navbar-brand" href="/"><span class="navbar-brand__logo navbar-logo"><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500"><g><path style="fill:#fff" d="M116.8525 421.9722c-5.7041.0-10.3442-4.3127-10.3442-9.6129V88.183c0-5.3002 4.6401-9.6117 10.3442-9.6117H320.858c3.0347.0 9.3959.5498 11.7506 2.6302l.3545.3442 58.905 63.2912c2.3101 2.491 2.9202 8.4928 2.9202 11.3184v256.2039c0 5.3002-4.6407 9.6129-10.3436 9.6129H116.8525z"/><g><g><g><path style="fill:#767676" d="M384.4445 423.2066H116.852c-6.3839.0-11.5786-4.8658-11.5786-10.8474V88.1831c0-5.9804 5.1947-10.8461 11.5786-10.8461h204.0062c.377.0 9.2786.0329 12.568 2.9389l.3947.3833 58.9508 63.337c3.2135 3.4652 3.2514 11.7924 3.2514 12.1593v256.2036C396.0231 418.3408 390.8284 423.2066 384.4445 423.2066zM116.5079 411.9189c.0848.0278.1999.0531.3441.0531h267.5925c.1442.0.2581-.0253.3441-.0531V156.1556c-.0076-.9033-.3593-3.7347-.7034-5.0037l-57.6527-61.9416c-1.4651-.3176-4.4533-.6389-5.5742-.6389H116.852c-.143.0-.2594.024-.3441.0531V411.9189zm267.4533-261.149zM327.0321 89.371v.0013V89.371z"/></g></g></g><g><g><path style="fill:#5b7fc0" d="M189.0874 210.1754l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4473C177.5953 212.627 183.0601 210.1742 189.0874 210.1754zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 234.1722 197.0804 232.033z"/><path style="opacity:.3;fill:#fff" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/><g><defs><path id="SVGID_1_" d="M194.7376 237.6875c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 234.2399 196.1861 236.239 194.7376 237.6875z"/></defs><clipPath id="SVGID_2_"><use xlink:href="#SVGID_1_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_2_);fill:#fff" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/><path style="opacity:.13;clip-path:url(#SVGID_2_);fill:#020202" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/></g><g><defs><path id="SVGID_3_" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/></defs><clipPath id="SVGID_4_"><use xlink:href="#SVGID_3_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_4_);fill:#5b7fc0" d="M172.6595 215.6045c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8475-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 209.1953 176.6171 211.647 172.6595 215.6045z"/></g></g><rect x="198.8952" y="225.1043" style="fill:#5b7fc0" width="122.6266" height="13.8671"/></g><g><path style="fill:#d95140" d="M189.0874 155.7611l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.0249 2.454-11.4897 6.4116-15.4473C177.5953 158.2128 183.0601 155.7599 189.0874 155.7611zm7.993 21.8577c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.2508 181.7667 197.0816 179.758 197.0804 177.6188z"/><path style="opacity:.3;fill:#fff" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/><g><defs><path id="SVGID_5_" d="M194.7376 183.2733c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 179.8256 196.1861 181.8248 194.7376 183.2733z"/></defs><clipPath id="SVGID_6_"><use xlink:href="#SVGID_5_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_6_);fill:#fff" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/><path style="opacity:.13;clip-path:url(#SVGID_6_);fill:#020202" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/></g><g><defs><path id="SVGID_7_" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/></defs><clipPath id="SVGID_8_"><use xlink:href="#SVGID_7_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_8_);fill:#d95140" d="M172.6595 161.1903c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 154.7811 176.6171 157.2327 172.6595 161.1903z"/></g><rect x="198.8952" y="170.69" style="fill:#d95140" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#56a55c" d="M189.5379 264.6147l.0012-.0012c7.7751.0012 15.0294 4.1862 18.932 10.9235 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032-5.8394.0-11.3281-2.2733-15.458-6.4032-4.13-4.13-6.4032-9.6186-6.4056-15.4628.0012-6.0249 2.454-11.4897 6.4116-15.4472C178.0458 267.0663 183.5105 264.6135 189.5379 264.6147zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6538 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.7013 290.6202 197.5321 288.6115 197.5309 286.4723z"/><path style="opacity:.3;fill:#fff" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/><g><defs><path id="SVGID_9_" d="M195.1881 292.1268c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9941 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.5344 288.6792 196.6366 290.6783 195.1881 292.1268z"/></defs><clipPath id="SVGID_10_"><use xlink:href="#SVGID_9_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_10_);fill:#fff" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/><path style="opacity:.13;clip-path:url(#SVGID_10_);fill:#020202" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/></g><g><defs><path id="SVGID_11_" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/></defs><clipPath id="SVGID_12_"><use xlink:href="#SVGID_11_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_12_);fill:#56a55c" d="M173.11 270.0439c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7325-11.1497-10.9151-18.926-10.9151C182.5311 263.6346 177.0676 266.0863 173.11 270.0439z"/></g></g><rect x="199.3456" y="279.5436" style="fill:#56a55c" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#f1bc42" d="M189.0874 318.7208l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3305-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4472C177.5953 321.1724 183.0601 318.7196 189.0874 318.7208zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 342.7176 197.0804 340.5784z"/><path style="opacity:.3;fill:#fff" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/><g><defs><path id="SVGID_13_" d="M194.7376 346.2329c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 342.7853 196.1861 344.7844 194.7376 346.2329z"/></defs><clipPath id="SVGID_14_"><use xlink:href="#SVGID_13_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_14_);fill:#fff" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/><path style="opacity:.13;clip-path:url(#SVGID_14_);fill:#020202" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/></g><g><defs><path id="SVGID_15_" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/></defs><clipPath id="SVGID_16_"><use xlink:href="#SVGID_15_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_16_);fill:#f1bc42" d="M172.6595 324.15c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8474-1.0151-7.6327-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 317.7407 176.6171 320.1924 172.6595 324.15z"/></g></g><rect x="198.8952" y="333.6497" style="fill:#f1bc42" width="122.6266" height="13.8671"/></g></g></svg></span><span class="navbar-brand__name">ansible-oracle Project</span></a>
+  <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/about/"><span>About</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/docs/"><span>Documentation</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/oravirt/ansible-oracle/releases" target="_blank" rel="noopener"><span>Releases</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/oravirt/ansible-oracle" target="_blank" rel="noopener"><span>Github</span></a>
+      </li>
+      </ul>
+  </div>
+  <div class="d-none d-lg-block">
+    
+  </div>
+</div>
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <aside class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            <div id="td-sidebar-menu" class="td-sidebar__inner">
+  <div id="content-mobile">
+  <form class="td-sidebar__search d-flex align-items-center">
+    
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ms-3 fas fa-bars" type="button" data-bs-toggle="collapse" data-bs-target="#td-section-nav" aria-controls="td-section-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  </div>
+  <div id="content-desktop"></div>
+  <nav class="td-sidebar-nav collapse td-sidebar-nav--search-disabled" id="td-section-nav">
+    <ul class="td-sidebar-nav__section pe-md-3 ul-0">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docs-li">
+  <a href="/docs/" title="Documentation" class="align-left ps-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-docs"><span class="">Docs</span></a>
+  <ul class="ul-1">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsfeatures-li">
+  <a href="/docs/features/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsfeatures"><span class="">Features</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsfeaturesfeaturelist-li">
+  <a href="/docs/features/featurelist/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsfeaturesfeaturelist"><span class="">Supported features in ansible-oracle</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docsguides-li">
+  <a href="/docs/guides/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsguides"><span class="">Guides</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguidesvagrant-li">
+  <a href="/docs/guides/vagrant/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsguidesvagrant"><span class="">Vagrant</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesvagrantwindows-li">
+  <a href="/docs/guides/vagrant/windows/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesvagrantwindows"><span class="">Vagrant on Windows</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesvagrantvagrant_basics-li">
+  <a href="/docs/guides/vagrant/vagrant_basics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesvagrantvagrant_basics"><span class="">Vagrant Basics</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbeginner-li">
+  <a href="/docs/guides/beginner/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbeginner"><span class="">Beginners Guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesadvanced-li">
+  <a href="/docs/guides/advanced/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesadvanced"><span class="">Advanced Guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesansible-container-li">
+  <a href="/docs/guides/ansible-container/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesansible-container"><span class="">Ansible as a Docker Container</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguideslocal-install-howto-li">
+  <a href="/docs/guides/local-install-howto/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguideslocal-install-howto"><span class="">HOWTO: Local Installation of Ansible-Oracle</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesinstall-and-patch-settings-li">
+  <a href="/docs/guides/install-and-patch-settings/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesinstall-and-patch-settings"><span class="">Installation &amp; Patching Settings for the Inventory</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesapex_ords-li">
+  <a href="/docs/guides/apex_ords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesapex_ords"><span class="">Setup APEX and ORDS</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesautoupgrade-li">
+  <a href="/docs/guides/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade"><span class="">Oracle AutoUpgrade</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguidesautoupgrade_upgrade-li">
+  <a href="/docs/guides/autoupgrade_upgrade/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade_upgrade"><span class="td-sidebar-nav-active-item">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
+  <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
+  <a href="/docs/guides/restart_rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="">Setup ASM for Oracle Grid Infrastructure / Restart</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsroles-li">
+  <a href="/docs/roles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsroles"><span class="">Ansible Roles</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
+  <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesautoupgrade-li">
+  <a href="/docs/roles/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesautoupgrade"><span class="">autoupgrade</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
+  <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescxoracle-li">
+  <a href="/docs/roles/cxoracle/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescxoracle"><span class="">cxoracle</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesglobal_handlers-li">
+  <a href="/docs/roles/global_handlers/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesglobal_handlers"><span class="">global_handlers</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraapex-li">
+  <a href="/docs/roles/oraapex/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraapex"><span class="">oraapex</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraasm_manage_diskgroups-li">
+  <a href="/docs/roles/oraasm_manage_diskgroups/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraasm_manage_diskgroups"><span class="">oraasm_manage_diskgroups</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoracluvfy-li">
+  <a href="/docs/roles/oracluvfy/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoracluvfy"><span class="">oracluvfy</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_datapatch-li">
+  <a href="/docs/roles/oradb_datapatch/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_datapatch"><span class="">oradb_datapatch</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_facts-li">
+  <a href="/docs/roles/oradb_facts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_facts"><span class="">oradb_facts</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_grants-li">
+  <a href="/docs/roles/oradb_manage_grants/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_grants"><span class="">oradb_manage_grants</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_parameters-li">
+  <a href="/docs/roles/oradb_manage_parameters/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_parameters"><span class="">oradb_manage_parameters</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_pdb-li">
+  <a href="/docs/roles/oradb_manage_pdb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_pdb"><span class="">oradb_manage_pdb</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_profiles-li">
+  <a href="/docs/roles/oradb_manage_profiles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_profiles"><span class="">oradb_manage_profiles</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_redo-li">
+  <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="">oradb_manage_redo</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_roles-li">
+  <a href="/docs/roles/oradb_manage_roles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_roles"><span class="">oradb_manage_roles</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_services-li">
+  <a href="/docs/roles/oradb_manage_services/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_services"><span class="">oradb_manage_services</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_statspack-li">
+  <a href="/docs/roles/oradb_manage_statspack/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_statspack"><span class="">oradb_manage_statspack</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_tablespace-li">
+  <a href="/docs/roles/oradb_manage_tablespace/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_tablespace"><span class="">oradb_manage_tablespace</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_users-li">
+  <a href="/docs/roles/oradb_manage_users/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_users"><span class="">oradb_manage_users</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_wallet-li">
+  <a href="/docs/roles/oradb_manage_wallet/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_wallet"><span class="">oradb_manage_wallet</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
+  <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_tzupgrade-li">
+  <a href="/docs/roles/oradb_tzupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_tzupgrade"><span class="">oradb_tzupgrade</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
+  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_cron-li">
+  <a href="/docs/roles/orahost_cron/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_cron"><span class="">orahost_cron</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_logrotate-li">
+  <a href="/docs/roles/orahost_logrotate/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_logrotate"><span class="">orahost_logrotate</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_ssh-li">
+  <a href="/docs/roles/orahost_ssh/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_ssh"><span class="">orahost_ssh</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_storage-li">
+  <a href="/docs/roles/orahost_storage/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_storage"><span class="">orahost_storage</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraords-li">
+  <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
+  <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
+  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
+  <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswahf_install-li">
+  <a href="/docs/roles/oraswahf_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswahf_install"><span class="">oraswahf_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_golden_image-li">
+  <a href="/docs/roles/oraswdb_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_golden_image"><span class="">oraswdb_golden_image</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
+  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
+  <a href="/docs/roles/oraswdb_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_manage_patches"><span class="">oraswdb_manage_patches</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_golden_image-li">
+  <a href="/docs/roles/oraswgi_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_golden_image"><span class="">oraswgi_golden_image</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_manage_patches-li">
+  <a href="/docs/roles/oraswgi_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_manage_patches"><span class="">oraswgi_manage_patches</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_meta-li">
+  <a href="/docs/roles/oraswgi_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_meta"><span class="">oraswgi_meta</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsdevelopment-li">
+  <a href="/docs/development/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsdevelopment"><span class="">Development</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsdevelopmentdevelopment-li">
+  <a href="/docs/development/development/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsdevelopmentdevelopment"><span class="">How to develop</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsdevelopmentwebsite-li">
+  <a href="/docs/development/website/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsdevelopmentwebsite"><span class="">Website</span></a>
+</li>
+  </ul>
+</li>
+  </ul>
+</li>
+    </ul>
+  </nav>
+</div>
+
+          </aside>
+          <aside class="d-none d-xl-block col-xl-2 td-sidebar-toc d-print-none">
+            <div class="td-page-meta ms-2 pb-1 pt-2 mb-0">
+<a href="https://github.com/oravirt/ansible-oracle/tree/master/doc/guides/autoupgrade_upgrade.adoc" class="td-page-meta--view td-page-meta__view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines fa-fw"></i> View page source</a>
+  <a href="https://github.com/oravirt/ansible-oracle/edit/master/doc/guides/autoupgrade_upgrade.adoc" class="td-page-meta--edit td-page-meta__edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Edit this page</a>
+  <a href="https://github.com/oravirt/ansible-oracle/new/master/doc/guides?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" class="td-page-meta--child td-page-meta__child" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Create child page</a>
+  <a href="https://github.com/oravirt/ansible-oracle/issues/new?title=Upgrade%20of%20PDBs%20with%20AutoUpgrade%20%28Unplug/Plug%29" class="td-page-meta--issue td-page-meta__issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create documentation issue</a>
+  <a href="https://github.com/oravirt/ansible-oracle/issues/new" class="td-page-meta--project td-page-meta__project-issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create project issue</a>
+  <a id="print" href="/_print/docs/guides/"><i class="fa-solid fa-print fa-fw"></i> Print entire section</a>
+
+</div>
+
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#_end_state_in_oracle_pdbs">1. End state in oracle_pdbs</a></li>
+    <li><a href="#_upgrade_vs_out_of_place_patching">2. Upgrade vs. Out-of-Place Patching</a></li>
+    <li><a href="#_requirements">3. Requirements</a></li>
+    <li><a href="#_configuration">4. Configuration</a>
+      <ul>
+        <li><a href="#_attribute_autoupgrade_in_oracle_pdbs">4.1. Attribute autoupgrade in oracle_pdbs</a></li>
+        <li><a href="#_autoupgrade_jobs">4.2. AutoUpgrade jobs</a></li>
+        <li><a href="#_further_parameters">4.3. Further parameters</a></li>
+        <li><a href="#_variables_of_the_role">4.4. Variables of the role</a></li>
+      </ul>
+    </li>
+    <li><a href="#_datafiles_nocopy_or_copy">5. Datafiles: NOCOPY or copy</a>
+      <ul>
+        <li><a href="#_nocopy_default">5.1. NOCOPY (default)</a></li>
+        <li><a href="#_copy_as_oracle_managed_files">5.2. Copy as Oracle Managed Files</a></li>
+        <li><a href="#_copy_with_path_conversion">5.3. Copy with path conversion</a></li>
+        <li><a href="#_fallback_after_a_copy">5.4. Fallback after a copy</a></li>
+        <li><a href="#_recommendation">5.5. Recommendation</a></li>
+      </ul>
+    </li>
+    <li><a href="#_process_overview">6. Process overview</a></li>
+    <li><a href="#_analyze_phase">7. Analyze phase</a>
+      <ul>
+        <li><a href="#_evaluation_of_the_prechecks">7.1. Evaluation of the prechecks</a></li>
+      </ul>
+    </li>
+    <li><a href="#_fixups_phase">8. Fixups phase</a></li>
+    <li><a href="#_deploy_phase">9. Deploy phase</a>
+      <ul>
+        <li><a href="#_repeated_execution">9.1. Repeated execution</a></li>
+        <li><a href="#_recovery_data_of_autoupgrade">9.2. Recovery data of AutoUpgrade</a></li>
+        <li><a href="#_fallback">9.3. Fallback</a></li>
+      </ul>
+    </li>
+    <li><a href="#_after_the_upgrade">10. After the upgrade</a></li>
+    <li><a href="#_molecule_scenario_upgrade">11. Molecule scenario upgrade</a></li>
+    <li><a href="#_known_limitations">12. Known limitations</a></li>
+  </ul>
+</nav>
+      </div>
+    
+            
+	
+          </aside>
+          <main class="col-12 col-md-9 col-xl-8 ps-md-5" role="main">
+            
+  
+
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
+  <ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="/docs/">Docs</a></li>
+  <li class="breadcrumb-item">
+    <a href="/docs/guides/">Guides</a></li>
+  <li class="breadcrumb-item active" aria-current="page">
+    Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</li>
+  </ol>
+</nav>
+            
+<div class="td-content">
+	<h1>Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</h1>
+	
+	<header class="article-meta">
+		
+  </header>
+	
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The upgrade of PDBs is <em>experimental</em>.<br/>
+Supported is the Unplug/Plug upgrade of PDBs from a CDB of the old release (e.g. 19c)
+into an existing CDB of the new release (e.g. 26ai) on the same host.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>The role <code>autoupgrade</code> upgrades PDBs with Oracle AutoUpgrade (<code>autoupgrade.jar</code>).
+AutoUpgrade unplugs the PDBs from the source CDB, plugs them into the target CDB and upgrades them there.
+The installation of AutoUpgrade and the general settings are described in <a href="/docs/guides/autoupgrade/">autoupgrade.adoc</a>.</p>
+</div>
+<div class="paragraph">
+<p>The upgrade is split into 3 phases. The names are the AutoUpgrade modes:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Phases of the upgrade</caption>
+<colgroup>
+<col style="width: 16.6666%;"/>
+<col style="width: 16.6666%;"/>
+<col style="width: 16.6666%;"/>
+<col style="width: 16.6666%;"/>
+<col style="width: 16.6666%;"/>
+<col style="width: 16.667%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Phase</th>
+<th class="tableblock halign-left valign-top">Task file</th>
+<th class="tableblock halign-left valign-top">Playbook</th>
+<th class="tableblock halign-left valign-top">AutoUpgrade</th>
+<th class="tableblock halign-left valign-top">Downtime</th>
+<th class="tableblock halign-left valign-top">Database changed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Analyze</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>upgrade_analyze.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_upgrade_analyze.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-mode analyze</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fixups</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>upgrade_fixups.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_upgrade_fixups.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-mode fixups</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes, the source CDB/PDBs (e.g. statistics, recyclebin)</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Deploy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>upgrade_deploy.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_upgrade.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">analyze phase, then <code>-mode deploy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes, for the PDBs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+</tr>
+</tfoot>
+</table>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The analyze phase is always the first step.<br/>
+<code>upgrade_deploy.yml</code> executes <code>upgrade_analyze.yml</code> first and starts the upgrade only, when the analyze phase was successful.<br/>
+The fixups phase is optional. It applies the fixups some time before the deploy and shortens the downtime.
+Without it, AutoUpgrade applies the fixups during the deploy.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="sect1">
+<h2 id="_end_state_in_oracle_pdbs">1. End state in oracle_pdbs</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>oracle_pdbs</code> always defines the <em>end state</em> of a PDB.
+For the upgrade this is the PDB in the target CDB of the new release:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>cdb</code>: the target CDB</p>
+</li>
+<li>
+<p><code>home</code>: the target <code>ORACLE_HOME</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The source of the PDB is defined with the attribute <code>autoupgrade</code> of the PDB.
+It is used by the role <code>autoupgrade</code> only.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><strong>Do not execute playbook <code>manage_db</code> between the change of <code>oracle_pdbs</code> and the upgrade!</strong></p>
+</div>
+<div class="paragraph">
+<p>As soon as a PDB in <code>oracle_pdbs</code> points to the target CDB, <code>oradb_manage_pdb</code> (playbook <code>manage_db</code>)
+tries to reach this end state. It does not know AutoUpgrade and <strong>creates a new, empty PDB</strong> in the target CDB
+instead of migrating the existing PDB.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The analyze phase detects this situation (PDB exists in source <em>and</em> target CDB, state <code>conflict</code>) and fails.
+The empty PDB must be dropped manually before the upgrade.</p>
+</li>
+<li>
+<p>Execute <code>manage_db</code> again only after a successful upgrade (<code>autoupgrade_upgrade.yml</code>).</p>
+</li>
+<li>
+<p>Prepare everything, which needs <code>manage_db</code> (e.g. the target CDB), <em>before</em> <code>oracle_pdbs</code> is changed.</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_upgrade_vs_out_of_place_patching">2. Upgrade vs. Out-of-Place Patching</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Both procedures move a database into a new <code>ORACLE_HOME</code>. They must not be mixed up.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Upgrade vs. Out-of-Place Patching</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Topic</th>
+<th class="tableblock halign-left valign-top">Upgrade (this guide)</th>
+<th class="tableblock halign-left valign-top"><a href="/docs/guides/out_of_place_patching/">Out-of-Place Patching</a></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Release of the new <code>ORACLE_HOME</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">new release, e.g. 19c ⇒ 26ai</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">same release, new Release Update, e.g. 19.32 ⇒ 19.33</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PDB, moved into another CDB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CDB with all PDBs</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Executed by</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">role <code>autoupgrade</code> (<code>upgrade_deploy.yml</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">role <code>oradb_manage_db</code> (<code>switch_home.yml</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Inventory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cdb</code>/<code>home</code> in <code>oracle_pdbs</code> (end state) + attribute <code>autoupgrade</code> (source)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">change of <code>home</code> in <code>oracle_databases</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Playbook</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_upgrade.yml</code> - <em>not</em> <code>manage_db</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>manage_db</code></p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dictionary</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">upgraded by AutoUpgrade</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>datapatch</code></p></td>
+</tr>
+</tfoot>
+</table>
+<div class="paragraph">
+<p><code>oradb_manage_db</code> refuses the switch of the <code>ORACLE_HOME</code> of a CDB, when the release of the old and the new
+<code>ORACLE_HOME</code> differs (<code>oraversion -majorVersion</code>).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_requirements">3. Requirements</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Source and target <code>ORACLE_HOME</code> are installed (<code>db_homes_config</code>, <code>db_homes_installed</code>, playbook <code>swdb</code>)</p>
+</li>
+<li>
+<p>The source CDB is running from the source <code>ORACLE_HOME</code></p>
+</li>
+<li>
+<p>The target CDB exists and is running from the target <code>ORACLE_HOME</code>.
+It is created with playbook <code>manage_db</code> <em>before</em> the PDBs are changed in <code>oracle_pdbs</code>.
+26ai supports Container Databases only.</p>
+</li>
+<li>
+<p>AutoUpgrade (<code>autoupgrade.jar</code>) in the software repository. It is installed on the database server by the task files.</p>
+</li>
+<li>
+<p>Java: the JDK of the target <code>ORACLE_HOME</code> is used, when <code>autoupgrade_java_home</code> is empty</p>
+</li>
+<li>
+<p>AutoUpgrade is executed on the database server as <code>oracle_user</code>.
+The playbooks set <code>autoupgrade_run_local: false</code>.
+The task files fail with <code>autoupgrade_run_local: true</code>.</p>
+</li>
+<li>
+<p>The Python module <code>pexpect</code> is <em>not</em> needed for the upgrade</p>
+</li>
+<li>
+<p>Upgrade paths, minimum Release Updates, character sets, components etc. follow the rules of Oracle for AutoUpgrade</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuration">4. Configuration</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_attribute_autoupgrade_in_oracle_pdbs">4.1. Attribute autoupgrade in oracle_pdbs</h3>
+<div class="paragraph">
+<p>Only PDBs with the attribute <code>autoupgrade</code> and <code>state: present</code> are processed.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. Attributes of <code>autoupgrade</code> in <code>oracle_pdbs</code></caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Mandatory</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>source_cdb</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_db_name</code> of the source CDB. Must differ from <code>cdb</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>source_home</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Key in <code>db_homes_config</code> of the source <code>ORACLE_HOME</code>. Default: <code>home</code> of <code>source_cdb</code> in <code>oracle_databases</code>. Mandatory, when the source CDB is not in <code>oracle_databases</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>source_sid</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SID of the source CDB. Default: <code>oracle_db_instance_name</code>, <code>oracle_db_unique_name</code> or <code>oracle_db_name</code> of <code>source_cdb</code> in <code>oracle_databases</code>, otherwise <code>source_cdb</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>source_pdb_name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the PDB in the source CDB. Default: <code>pdb_name</code>. A different name renames the PDB (<code>upg1.target_pdb_name.&lt;pdb&gt;</code>).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>copy_option</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>upg1.target_pdb_copy_option.&lt;pdb&gt;</code>, e.g. <code>file_name_convert=NONE</code>. Default: NOCOPY - the datafiles are reused, no fallback with the source CDB. See <a href="#_datafiles_nocopy_or_copy">Datafiles: NOCOPY or copy</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>restoration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code>: Guaranteed Restore Point before the upgrade. Default: <code>autoupgrade_upgrade_restoration</code> (<code>false</code>)</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>parameters</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dict with AutoUpgrade parameters (<code>upg1.&lt;key&gt;=&lt;value&gt;</code>). Overrides <code>autoupgrade_upgrade_parameters</code>.</p></td>
+</tr>
+</tfoot>
+</table>
+<div class="paragraph">
+<p>The target is taken from the PDB itself (end state):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>cdb</code>: target CDB. It must be defined in <code>oracle_databases</code>.</p>
+</li>
+<li>
+<p><code>home</code>: target <code>ORACLE_HOME</code>. It must be the same as <code>home</code> of the target CDB in <code>oracle_databases</code>.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">Example: move ORCLPDB1 from DB2 (19c) into DB26 (26ai)</div>
+<div class="content">
+<pre>db_homes_config:
+  db1932-si-ee:
+    version: 19.3.0.0
+    oracle_home: /u01/app/oracle/product/19/db_19.32
+    edition: EE
+    readonly_home: true
+    oracle_home_name: db1932siee
+  db26-si-ee:
+    version: 26.1.0.0
+    oracle_home: /u01/app/oracle/product/26/db_26.1
+    edition: EE
+    readonly_home: true
+    oracle_home_name: db261siee
+
+oracle_databases:
+  - oracle_db_name: DB2          # source CDB in 19c
+    home: db1932-si-ee
+    state: present
+    # ...
+  - oracle_db_name: DB26         # target CDB in 26ai - created before the upgrade
+    home: db26-si-ee
+    is_container: true
+    state: present
+    # ...
+
+oracle_pdbs:
+  - cdb: DB26                    # end state: target CDB
+    home: db26-si-ee             # end state: target ORACLE_HOME
+    pdb_name: ORCLPDB1
+    state: present
+    autoupgrade:
+      source_cdb: DB2            # source CDB
+      parameters:
+        timezone_upg: &#34;yes&#34;</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_autoupgrade_jobs">4.2. AutoUpgrade jobs</h3>
+<div class="paragraph">
+<p>All PDBs with the same source CDB and the same target CDB are upgraded in one AutoUpgrade job.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Config file: <code>autoupgrade_home</code>/cfg/<code>upgrade_&lt;source SID&gt;_&lt;target SID&gt;.cfg</code></p>
+</li>
+<li>
+<p>Log directory: <code>autoupgrade_log_dir</code>/<code>&lt;source SID&gt;_&lt;target SID&gt;</code></p>
+</li>
+<li>
+<p><code>restoration</code> and <code>parameters</code> must be identical for all PDBs of a job</p>
+</li>
+<li>
+<p>Only PDBs, which are still in the source CDB, are written into <code>upg1.pdbs</code>.
+An interrupted upgrade continues with the remaining PDBs.</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. Parameters set by the role</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">AutoUpgrade</th>
+<th class="tableblock halign-left valign-top">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>upg1.sid</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SID of the source CDB</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>upg1.source_home</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_home</code> of the source <code>ORACLE_HOME</code> in <code>db_homes_config</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>upg1.target_home</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_home</code> of <code>home</code> of the PDB in <code>db_homes_config</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>upg1.target_cdb</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SID of <code>cdb</code> of the PDB</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>upg1.pdbs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PDBs in the source CDB (<code>source_pdb_name</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>upg1.target_pdb_name.&lt;pdb&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pdb_name</code>, when it differs from <code>source_pdb_name</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>upg1.target_pdb_copy_option.&lt;pdb&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>copy_option</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>upg1.log_dir</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_log_dir</code>/&lt;job&gt;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>upg1.restoration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>restoration</code> or <code>autoupgrade_upgrade_restoration</code> ⇒ <code>yes</code>/<code>no</code></p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>global.global_log_dir</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_log_dir</code>/&lt;job&gt; - recovery data of AutoUpgrade per job</p></td>
+</tr>
+</tfoot>
+</table>
+<div class="paragraph">
+<p><code>sid</code>, <code>source_home</code>, <code>target_home</code>, <code>target_cdb</code>, <code>pdbs</code>, <code>log_dir</code> and <code>restoration</code>
+must not be used in <code>parameters</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">Resulting config file upgrade_DB2_DB26.cfg</div>
+<div class="content">
+<pre>global.global_log_dir=/u01/app/oracle/cfgtoollogs/autoupgrade
+
+upg1.sid=DB2
+upg1.source_home=/u01/app/oracle/product/19/db_19.32
+upg1.target_home=/u01/app/oracle/product/26/db_26.1
+upg1.target_cdb=DB26
+upg1.pdbs=ORCLPDB1
+upg1.log_dir=/u01/app/oracle/cfgtoollogs/autoupgrade/DB2_DB26
+upg1.restoration=no
+upg1.timezone_upg=yes</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_further_parameters">4.3. Further parameters</h3>
+<div class="paragraph">
+<p>All other AutoUpgrade parameters are passed unchanged.
+Booleans are converted into <code>yes</code>/<code>no</code>.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. Parameters for the upgrade</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Scope</th>
+<th class="tableblock halign-left valign-top">Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_upgrade_parameters</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">all jobs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>upg1.&lt;key&gt;=&lt;value&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade.parameters</code> in <code>oracle_pdbs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">one job, overrides <code>autoupgrade_upgrade_parameters</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>upg1.&lt;key&gt;=&lt;value&gt;</code></p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_upgrade_global_parameters</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">config file</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>global.&lt;key&gt;=&lt;value&gt;</code></p></td>
+</tr>
+</tfoot>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. Frequently used AutoUpgrade parameters (see Oracle documentation)</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>timezone_upg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>yes</code>: upgrade the time zone file of the PDB during the upgrade</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>drop_grp_after_upgrade</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>yes</code>: drop the guaranteed restore point after a successful upgrade</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>run_utlrp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Recompile invalid objects after the upgrade</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>before_action</code> / <code>after_action</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scripts before/after the upgrade</p></td>
+</tr>
+</tfoot>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_variables_of_the_role">4.4. Variables of the role</h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 7. Variables for the upgrade</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_upgrade_pdbs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Limit to these PDBs (<code>pdb_name</code>). Empty: all PDBs with attribute <code>autoupgrade</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_upgrade_restoration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Guaranteed Restore Point before the upgrade (<code>upg1.restoration</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_upgrade_parameters</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>{}</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AutoUpgrade parameters for all jobs</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_upgrade_global_parameters</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>{}</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Additional <code>global.*</code> parameters</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_upgrade_fail_on_precheck_errors</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fail the analyze/fixups phase on errors without automatic fixup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_upgrade_clear_recovery_data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Discard the recovery data of AutoUpgrade before the analyze phase. See <a href="#_recovery_data_of_autoupgrade">Recovery data of AutoUpgrade</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_upgrade_timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>21600</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum runtime in seconds of the deploy per job</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_upgrade_poll</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>60</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Poll interval in seconds during the deploy</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_java_home</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&#39;&#39;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JAVA_HOME. Empty: <code>&lt;target ORACLE_HOME&gt;/jdk</code></p></td>
+</tr>
+</tfoot>
+</table>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The attribute <code>autoupgrade</code> in <code>oracle_databases</code> is not supported.
+The analyze phase fails, when it is found.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_datafiles_nocopy_or_copy">5. Datafiles: NOCOPY or copy</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>During the Unplug/Plug upgrade AutoUpgrade unplugs the PDB from the source CDB into an XML file
+and creates the PDB in the target CDB with <code>create pluggable database …​ using &#39;&lt;xml file&gt;&#39;</code>.
+The attribute <code>copy_option</code> in <code>oracle_pdbs</code> (AutoUpgrade parameter <code>target_pdb_copy_option.&lt;pdb&gt;</code>)
+defines, what happens with the datafiles.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 8. Options for the datafiles</caption>
+<colgroup>
+<col style="width: 20%;"/>
+<col style="width: 20%;"/>
+<col style="width: 20%;"/>
+<col style="width: 20%;"/>
+<col style="width: 20%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><code>copy_option</code></th>
+<th class="tableblock halign-left valign-top">Datafiles</th>
+<th class="tableblock halign-left valign-top">Disk space</th>
+<th class="tableblock halign-left valign-top">Duration</th>
+<th class="tableblock halign-left valign-top">Fallback into the source CDB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">not set (default)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NOCOPY</code>: the target CDB uses the existing datafiles. They stay in their directory, e.g. <code>oradata/DB2/&lt;GUID&gt;/datafile</code>.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">short, independent of the size</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>no</strong> - the datafiles are upgraded to the new release</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>file_name_convert=NONE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">copied as Oracle Managed Files into <code>db_create_file_dest</code> of the target CDB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">size of the PDB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">copy of all datafiles</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes - the source datafiles stay unchanged</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>file_name_convert=(&#39;&lt;old&gt;&#39;, &#39;&lt;new&gt;&#39;)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">copied, <code>&lt;old&gt;</code> in the path is replaced by <code>&lt;new&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">size of the PDB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">copy of all datafiles</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes - the source datafiles stay unchanged</p></td>
+</tr>
+</tfoot>
+</table>
+<div class="sect2">
+<h3 id="_nocopy_default">5.1. NOCOPY (default)</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_pdbs:
+  - cdb: DB1
+    home: db26-si-ee
+    pdb_name: ORCLPDB1
+    state: present
+    autoupgrade:
+      source_cdb: DB2
+      # no copy_option =&gt; NOCOPY</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Fastest way. Recommended for big PDBs, when a backup of the PDB exists.</p>
+</li>
+<li>
+<p>After the upgrade the datafiles of the PDB in the target CDB are still in the directory of the source CDB,
+e.g. <code>/u01/app/oracle/oradata/DB2/&lt;GUID of the PDB&gt;/datafile/</code>.
+They can be moved later online with <code>alter database move datafile</code> in the target CDB.</p>
+</li>
+<li>
+<p>There is no way back. Oracle: <em>&#34;Backups are the only fallback strategy.&#34;</em>
+Flashback Database (<code>restoration</code>) does not work across the Unplug/Plug.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>With NOCOPY the target CDB uses datafiles in the directories of the source CDB.<br/>
+Do not remove these directories (e.g. <code>rm -rf /u01/app/oracle/oradata/DB2</code>), when the source CDB is dropped later.
+Check the datafiles of the target CDB first:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>select name from v$datafile where con_id = (select con_id from v$pdbs where name = &#39;ORCLPDB1&#39;);</pre>
+</div>
+</div>
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_copy_as_oracle_managed_files">5.2. Copy as Oracle Managed Files</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_pdbs:
+  - cdb: DB1
+    home: db26-si-ee
+    pdb_name: ORCLPDB1
+    state: present
+    autoupgrade:
+      source_cdb: DB2
+      copy_option: file_name_convert=NONE</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Recommended for OMF and ASM (AutoUpgrade: <em>&#34;For ASM/OMF, use: file_name_convert=none&#34;</em>).</p>
+</li>
+<li>
+<p>The target CDB needs <code>db_create_file_dest</code> (or <code>pdb_file_name_convert</code>).
+Otherwise the analyze phase reports <em>&#34;The target database …​ requires the PDB_FILE_NAME_CONVERT or DB_CREATE_FILE_DEST
+system parameter defined when the target_pdb_copy_option config parameter is set to file_name_convert=NONE&#34;</em>.
+Set it with <code>init_parameters</code> of the target CDB in <code>oracle_databases</code>.</p>
+</li>
+<li>
+<p>The datafiles are created in the directory of the target CDB, e.g. <code>oradata/DB1/&lt;GUID&gt;/datafile</code>.</p>
+</li>
+<li>
+<p>Needs disk space and time for a complete copy of the PDB. The downtime of the PDB includes the copy.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_copy_with_path_conversion">5.3. Copy with path conversion</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_pdbs:
+  - cdb: DB1
+    home: db26-si-ee
+    pdb_name: ORCLPDB1
+    state: present
+    autoupgrade:
+      source_cdb: DB2
+      copy_option: &#34;file_name_convert=(&#39;/u01/app/oracle/oradata/DB2/&#39;, &#39;/u01/app/oracle/oradata/DB1/&#39;)&#34;</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>For datafiles with fixed paths (no OMF). Each occurrence of <code>&lt;old&gt;</code> in the path of a datafile is replaced by <code>&lt;new&gt;</code>.</p>
+</li>
+<li>
+<p>More than one pair is possible: <code>file_name_convert=(&#39;/a/&#39;, &#39;/x/&#39;, &#39;/b/&#39;, &#39;/y/&#39;)</code>.</p>
+</li>
+<li>
+<p>The target directories must exist and must be writable for <code>oracle_user</code>.</p>
+</li>
+<li>
+<p>Quote the value in YAML because of the brackets and quotes.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fallback_after_a_copy">5.4. Fallback after a copy</h3>
+<div class="paragraph">
+<p>With a copy the datafiles of the source PDB stay unchanged in the release of the source CDB.
+AutoUpgrade has unplugged the PDB into an XML file in the job directory:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;autoupgrade_log_dir&gt;/&lt;job&gt;/&lt;source SID&gt;/&lt;job number&gt;/drain/&lt;source SID&gt;-&lt;PDB&gt;.xml</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>keep_source_pdb</code> (AutoUpgrade parameter, set with <code>parameters</code>) controls the source CDB:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 9. keep_source_pdb</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Source CDB after the upgrade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>no</code> (default)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The PDB is dropped from the source CDB (<code>drop pluggable database …​ keep datafiles</code>). The datafiles are kept.</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>yes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The PDB is kept in the source CDB in a closed state (AutoUpgrade: <em>&#34;kept in a closed state instead of being removed from the source CDB&#34;</em>).</p></td>
+</tr>
+</tfoot>
+</table>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">    autoupgrade:
+      source_cdb: DB2
+      copy_option: file_name_convert=NONE
+      parameters:
+        keep_source_pdb: &#34;yes&#34;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The role ignores PDBs with status <code>UNPLUGGED</code> in the source CDB. A kept source PDB is not reported as <code>conflict</code>.</p>
+</div>
+<div class="paragraph">
+<p>The fallback itself is a manual task and is not implemented in the role:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Drop the upgraded PDB from the target CDB, if needed (<code>drop pluggable database ORCLPDB1 including datafiles</code> -
+only with a copy, never with NOCOPY!)</p>
+</li>
+<li>
+<p>Plug the PDB into the source CDB again, e.g. with the XML file and the unchanged datafiles:
+<code>create pluggable database ORCLPDB1 using &#39;&lt;xml file&gt;&#39; nocopy;</code> and open it</p>
+</li>
+<li>
+<p>Change <code>oracle_pdbs</code> back to the source state</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The fallback with <code>keep_source_pdb</code> and the copy options is not tested with molecule yet.
+Test the procedure before you use it in production.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_recommendation">5.5. Recommendation</h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 10. Which option to use</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Situation</th>
+<th class="tableblock halign-left valign-top">Option</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Big PDB, short downtime, backup available</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NOCOPY (default)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fallback into the source CDB needed, enough disk space</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>file_name_convert=NONE</code> + <code>keep_source_pdb: &#34;yes&#34;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OMF/ASM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>file_name_convert=NONE</code></p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fixed paths without OMF, new directory for the target CDB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>file_name_convert=(&#39;&lt;old&gt;&#39;, &#39;&lt;new&gt;&#39;)</code></p></td>
+</tr>
+</tfoot>
+</table>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Take a backup of the PDB before the deploy phase - independent of the option.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_process_overview">6. Process overview</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Preparation with <code>manage_db</code> (no downtime) - <code>oracle_pdbs</code> still points to the source CDB</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Install the target <code>ORACLE_HOME</code> with playbook <code>swdb</code> (<code>db_homes_installed</code>)</p>
+</li>
+<li>
+<p>Add the target CDB to <code>oracle_databases</code> and create it with playbook <code>manage_db</code></p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Change the inventory to the end state</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><code>cdb</code> and <code>home</code> of the PDBs in <code>oracle_pdbs</code>: target CDB and target <code>ORACLE_HOME</code></p>
+</li>
+<li>
+<p>Add the attribute <code>autoupgrade</code> with <code>source_cdb</code> to the PDBs</p>
+</li>
+<li>
+<p><strong>From now on: no <code>manage_db</code> until the upgrade is done!</strong></p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Analyze phase (no downtime): <code>autoupgrade_upgrade_analyze.yml</code></p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Install <code>autoupgrade.jar</code> on the database server</p>
+</li>
+<li>
+<p>Read the PDBs of the source and the target CDB (<code>v$pdbs</code>)</p>
+</li>
+<li>
+<p>AutoUpgrade <code>analyze</code> for the PDBs in the source CDB</p>
+</li>
+<li>
+<p>Evaluate the prechecks. Fail on errors without automatic fixup.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Fix the reported problems and repeat the analyze phase until it is successful</p>
+</li>
+<li>
+<p>Fixups phase (no downtime, optional): <code>autoupgrade_upgrade_fixups.yml</code></p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>AutoUpgrade <code>fixups</code> for the PDBs in the source CDB, e.g. some days before the deploy</p>
+</li>
+<li>
+<p>Evaluate the prechecks like the analyze phase</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Deploy phase (downtime of the PDBs): <code>autoupgrade_upgrade.yml</code></p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Analyze phase (again)</p>
+</li>
+<li>
+<p>AutoUpgrade <code>deploy</code>: prechecks, fixups, unplug, plug, upgrade, postupgrade</p>
+</li>
+<li>
+<p>Check that the PDBs are open <code>READ WRITE</code> in the target CDB</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Post tasks</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Execute playbook <code>manage_db</code> - the PDBs are in their end state now</p>
+</li>
+<li>
+<p>Remove the attribute <code>autoupgrade</code> from <code>oracle_pdbs</code> (optional - upgraded PDBs are skipped)</p>
+</li>
+<li>
+<p>Remove the source CDB, when it is not needed anymore (<code>state: absent</code> in <code>oracle_databases</code>)</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_analyze_phase">7. Analyze phase</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">ansible-playbook -i inventory/ -e hostgroup=dbservers playbooks/autoupgrade_upgrade_analyze.yml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The role reads the PDBs of the source and the target CDB from <code>v$pdbs</code>.
+The <code>ORACLE_HOME</code> of a CDB is taken from the running instance (<code>/proc/&lt;pid of pmon&gt;/exe</code>).</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 11. State of a PDB in the analyze phase</caption>
+<colgroup>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Source CDB</th>
+<th class="tableblock halign-left valign-top">Target CDB</th>
+<th class="tableblock halign-left valign-top">State</th>
+<th class="tableblock halign-left valign-top">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PDB exists</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PDB missing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pending</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AutoUpgrade <code>analyze</code> (fixups phase: <code>fixups</code>), upgrade in the deploy phase</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PDB missing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PDB exists</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>upgraded</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">nothing - the PDB is skipped</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PDB exists</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PDB exists</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>conflict</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">fail. Usually <code>manage_db</code> was executed after the change of <code>oracle_pdbs</code> and created an empty PDB in the target CDB.</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PDB missing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PDB missing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>missing</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">fail</p></td>
+</tr>
+</tfoot>
+</table>
+<div class="paragraph">
+<p>Further checks:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The target CDB must be running from the target <code>ORACLE_HOME</code>.</p>
+</li>
+<li>
+<p>The source CDB must be running from the source <code>ORACLE_HOME</code>, when PDBs are <code>pending</code>.
+It is not needed anymore, when all PDBs are <code>upgraded</code>.</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_evaluation_of_the_prechecks">7.1. Evaluation of the prechecks</h3>
+<div class="paragraph">
+<p>AutoUpgrade writes the results of the prechecks into the job directory:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;autoupgrade_log_dir&gt;/&lt;job&gt;/&lt;source SID&gt;/&lt;job number&gt;/
+  autoupgrade_&lt;date&gt;.log
+  autoupgrade_&lt;date&gt;_user.log
+  prechecks/
+    *_checklist.json
+    *_preupgrade.html</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The role reads all <code>*_checklist.json</code> of the newest job and evaluates each check with the attribute <code>severity</code>:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 12. Evaluation of the prechecks</caption>
+<colgroup>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><code>severity</code></th>
+<th class="tableblock halign-left valign-top"><code>fixup_available</code></th>
+<th class="tableblock halign-left valign-top"><code>runfix</code></th>
+<th class="tableblock halign-left valign-top">Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ERROR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">not <code>YES</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">blocking</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ERROR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>YES</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NO</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">blocking</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ERROR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>YES</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>YES</code> or missing</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">fixed by AutoUpgrade in the deploy</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WARNING</code>, <code>RECOMMEND</code>, <code>INFO</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reported only</p></td>
+</tr>
+</tfoot>
+</table>
+<div class="paragraph">
+<p>The analyze phase fails, when at least one check is blocking (<code>autoupgrade_upgrade_fail_on_precheck_errors: true</code>)
+or when no <code>*_checklist.json</code> was found.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Oracle does not document the structure of <code>*_checklist.json</code>.
+The role collects all objects with an attribute <code>severity</code> at any level of the files.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>At the end of the analyze phase the role shows for each job:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Logfile</code>: detailed logfile of the AutoUpgrade job (<code>&lt;job number&gt;/autoupgrade_&lt;date&gt;.log</code>)</p>
+</li>
+<li>
+<p><code>User log</code>: summary of the AutoUpgrade job (<code>&lt;job number&gt;/autoupgrade_&lt;date&gt;_user.log</code>)</p>
+</li>
+<li>
+<p><code>Reports</code>: HTML reports of the prechecks (<code>*_preupgrade.html</code>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The paths are shown before the evaluation fails, so they are available in case of blocking checks, too.</p>
+</div>
+<div class="listingblock">
+<div class="title">Result of the analyze phase</div>
+<div class="content">
+<pre>&#34;_autoupgrade_upgrade_state&#34;: {
+    &#34;DB2_DB26&#34;: {
+        &#34;blocking&#34;: [],
+        &#34;checks&#34;: 51,
+        &#34;errors&#34;: 0,
+        &#34;warnings&#34;: 12,
+        &#34;log_dir&#34;: &#34;/u01/app/oracle/cfgtoollogs/autoupgrade/DB2_DB26&#34;,
+        &#34;logfile&#34;: &#34;/u01/app/oracle/cfgtoollogs/autoupgrade/DB2_DB26/DB2/100/autoupgrade_20261025.log&#34;,
+        &#34;user_logfile&#34;: &#34;/u01/app/oracle/cfgtoollogs/autoupgrade/DB2_DB26/DB2/100/autoupgrade_20261025_user.log&#34;,
+        &#34;mode&#34;: &#34;analyze&#34;,
+        &#34;pdbs&#34;: [&#34;ORCLPDB1&#34;],
+        &#34;upgraded_pdbs&#34;: [],
+        &#34;reports&#34;: [&#34;...&#34;],
+        &#34;state&#34;: &#34;analyzed&#34;
+    }
+}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fixups_phase">8. Fixups phase</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">ansible-playbook -i inventory/ -e hostgroup=dbservers playbooks/autoupgrade_upgrade_fixups.yml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The fixups phase is the analyze phase with AutoUpgrade in mode <code>fixups</code> (<code>upgrade_fixups.yml</code> includes <code>upgrade_analyze.yml</code>):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Same checks of the source and the target CDB and the same states of the PDBs</p>
+</li>
+<li>
+<p>AutoUpgrade executes the prechecks and applies the fixups (e.g. dictionary statistics, purge recyclebin)
+in the source CDB/PDBs. The PDBs <em>are</em> changed, but stay in the source CDB.</p>
+</li>
+<li>
+<p>Same evaluation of the prechecks, logfiles and reports as the analyze phase.
+It fails on errors without automatic fixup.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The fixups phase is optional. Execute it some time before the deploy to shorten the downtime.
+Without it, AutoUpgrade applies the fixups during the deploy.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_deploy_phase">9. Deploy phase</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">ansible-playbook -i inventory/ -e hostgroup=dbservers playbooks/autoupgrade_upgrade.yml
+
+# one PDB only
+ansible-playbook -i inventory/ -e hostgroup=dbservers -e &#39;{&#34;autoupgrade_upgrade_pdbs&#34;: [&#34;ORCLPDB1&#34;]}&#39; \
+  playbooks/autoupgrade_upgrade.yml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>upgrade_deploy.yml</code>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>executes the analyze phase (<code>upgrade_analyze.yml</code>)</p>
+</li>
+<li>
+<p>executes <code>autoupgrade.jar -config upgrade_&lt;job&gt;.cfg -mode deploy -noconsole</code> for each job in state <code>analyzed</code>
+(<code>async</code>: <code>autoupgrade_upgrade_timeout</code>, <code>poll</code>: <code>autoupgrade_upgrade_poll</code>)</p>
+</li>
+<li>
+<p>checks that all PDBs of the job are open <code>READ WRITE</code> in the target CDB and are gone from the source CDB</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The jobs are executed one after the other.</p>
+</div>
+<div class="listingblock">
+<div class="title">Follow the progress on the database server</div>
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">tail -f /u01/app/oracle/cfgtoollogs/autoupgrade/DB2_DB1/cfgtoollogs/upgrade/auto/autoupgrade.log</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_repeated_execution">9.1. Repeated execution</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>PDBs in the target CDB are skipped (state <code>upgraded</code>). The playbook can be executed again without changes.</p>
+</li>
+<li>
+<p>An interrupted or failed deploy is resumed by the next execution of <code>autoupgrade_upgrade.yml</code>,
+see <a href="#_recovery_data_of_autoupgrade">Recovery data of AutoUpgrade</a>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_recovery_data_of_autoupgrade">9.2. Recovery data of AutoUpgrade</h3>
+<div class="paragraph">
+<p>AutoUpgrade keeps recovery data after each deploy in
+<code>autoupgrade_log_dir/&lt;job&gt;/cfgtoollogs/upgrade/auto</code> (<code>config_files/upgradeJobs.bin</code>, <code>state.txt</code>) -
+for a finished deploy as well as for an interrupted or failed one.
+As long as the recovery data exists, AutoUpgrade refuses <code>analyze</code>, <code>fixups</code> and a new <code>deploy</code> with the same config file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>There is an unfinished execution of a deploy mode. Run the AutoUpgrade in deploy mode to resume from failure point</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The role reads <code>[Status]</code> of the jobs from <code>state.txt</code> before the PDBs are checked:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 13. Handling of the recovery data</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Recovery data</th>
+<th class="tableblock halign-left valign-top">Analyze/fixups phase</th>
+<th class="tableblock halign-left valign-top">Deploy phase</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">normal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">normal</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">finished deploy (<code>FINISHED</code>), PDBs <code>pending</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cleared automatically (<code>-clear_recovery_data</code>), then normal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cleared automatically, then normal</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">finished deploy (<code>FINISHED</code>), all PDBs <code>upgraded</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">kept - needed for <code>-restore</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">kept</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">unfinished deploy (other status or no <code>state.txt</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">fails with a hint to resume with the deploy phase</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">state <code>resume</code>: no checks of the PDBs, AutoUpgrade <code>deploy</code> resumes the job with the existing config file</p></td>
+</tr>
+</tfoot>
+</table>
+<div class="paragraph">
+<p>The checks of the PDBs are skipped for <code>resume</code>, because the PDB can be in any intermediate state during a deploy
+(e.g. unplugged from the source CDB, but not plugged into the target CDB yet).
+After the resumed deploy the PDBs are checked like after a normal deploy.</p>
+</div>
+<div class="paragraph">
+<p><code>autoupgrade_upgrade_clear_recovery_data: true</code> discards the recovery data in any case.
+Use it only, when the PDBs were restored manually and the upgrade must start from the beginning.
+An unfinished deploy cannot be resumed anymore afterwards.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">ansible-playbook -i inventory/ -e hostgroup=dbservers -e autoupgrade_upgrade_clear_recovery_data=true \
+  playbooks/autoupgrade_upgrade_analyze.yml</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fallback">9.3. Fallback</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>See <a href="#_datafiles_nocopy_or_copy">Datafiles: NOCOPY or copy</a>: a fallback into the source CDB is possible with a copy of the datafiles only.</p>
+</li>
+<li>
+<p><code>restoration: true</code> / <code>autoupgrade_upgrade_restoration: true</code>: AutoUpgrade creates a Guaranteed Restore Point
+(<code>upg1.restoration=yes</code>). Requires a Fast Recovery Area and Enterprise Edition.
+Check the Oracle documentation, how the restore point is used for an Unplug/Plug upgrade.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The fallback is not implemented in the role.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Take a backup before the upgrade.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_after_the_upgrade">10. After the upgrade</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>oracle_pdbs</code> describes the end state already. Nothing has to be changed for the PDBs.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Execute playbook <code>manage_db</code>. It manages the PDBs in the target CDB now (tablespaces, users, services, …​).</p>
+</li>
+<li>
+<p>The attribute <code>autoupgrade</code> can be removed from <code>oracle_pdbs</code>. Upgraded PDBs are skipped anyway.</p>
+</li>
+<li>
+<p>Services, <code>tnsnames.ora</code> entries and wallets, which point to the source CDB, must be changed to the target CDB.</p>
+</li>
+<li>
+<p>Remove the source CDB, when it is not needed anymore (<code>state: absent</code> in <code>oracle_databases</code>),
+and the source <code>ORACLE_HOME</code> (<code>db_homes_installed</code>).</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_molecule_scenario_upgrade">11. Molecule scenario upgrade</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The scenario <code>extensions/molecule/upgrade</code> tests the Unplug/Plug upgrade of <code>ORCLPDB1</code>
+from <code>DB2</code> (19c, <code>db1932-si-ee</code>) into <code>DB1</code> (26ai, <code>db26-si-ee</code>).
+The inventory is in <code>extensions/molecule/shared_config/inventory/host_vars/dbfs-upg.yml</code>.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 14. Steps in scenario upgrade</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Step</th>
+<th class="tableblock halign-left valign-top">Playbooks</th>
+<th class="tableblock halign-left valign-top">Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>converge</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>os</code>, <code>swdb</code>, <code>sql_zauberkasten</code>, <code>manage_db</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c and 26ai installed, <code>DB2</code> with <code>ORCLPDB1</code> in 19c, empty target CDB <code>DB1</code> in 26ai, listener from 26ai. <code>oracle_pdbs</code> points to <code>DB2</code> (source state).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>side_effect</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_upgrade_analyze</code>, <code>autoupgrade_upgrade_fixups</code>, <code>autoupgrade_upgrade</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_pdbs</code> is set to the end state in <code>side_effect.yml</code> (never in the inventory used by converge). Analyze, fixups and deploy phase for <code>ORCLPDB1</code>, controlled by <code>AUTOUPGRADE_PHASE</code>.</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>verify</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORCLPDB1</code> is open <code>READ WRITE</code> in <code>DB1</code> (26ai). Only valid after the deploy phase.</p></td>
+</tr>
+</tfoot>
+</table>
+<div class="paragraph">
+<p>The listener runs from the 26ai <code>ORACLE_HOME</code>: a listener can serve databases of the same or an older release only.</p>
+</div>
+<div class="paragraph">
+<p>Installation media in <code>MOLECULE_SW_DIR</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>db_home_19.32.zip</code> (Golden Image 19.32, e.g. from scenario <code>download</code> with <code>autoupgrade_download_gold_image_rename: true</code>)</p>
+</li>
+<li>
+<p><code>LINUX.X64_2326100_db_home.zip</code> (26ai)</p>
+</li>
+<li>
+<p><code>autoupgrade.jar</code></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">Execute scenario upgrade</div>
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">cd extensions
+task converge S=upgrade
+task side-effect S=upgrade</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The phases in <code>side_effect.yml</code> are controlled with the environment variable <code>AUTOUPGRADE_PHASE</code>.
+It is a comma separated list of phases. The phases are always executed in the order analyze, fixups, deploy.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 15. AUTOUPGRADE_PHASE for side_effect.yml</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Executed</th>
+<th class="tableblock halign-left valign-top">Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>all</code> (default, not set)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">analyze, fixups, deploy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">complete test</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>analyze</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">analyze phase only. The databases are not changed.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">analyze changes before the deploy, repeat as often as needed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>fixups</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">fixups phase only. The source CDB/PDB is changed, the PDB stays in the source CDB.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">test the fixups</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>deploy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">deploy phase only (<code>upgrade_deploy.yml</code> executes the analyze checks internally)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">test the deploy without the separate analyze/fixups plays</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>analyze,fixups</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">analyze and fixups phase</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">everything before the deploy</p></td>
+</tr>
+</tfoot>
+</table>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">cd extensions
+AUTOUPGRADE_PHASE=analyze task side-effect S=upgrade
+AUTOUPGRADE_PHASE=fixups task side-effect S=upgrade
+AUTOUPGRADE_PHASE=analyze,fixups task side-effect S=upgrade
+AUTOUPGRADE_PHASE=deploy task side-effect S=upgrade
+task side-effect S=upgrade        # analyze + fixups + deploy</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The deploy phase moves <code>ORCLPDB1</code> into <code>DB1</code>. A new test of the deploy needs a new environment
+(<code>task destroy S=upgrade</code> and <code>task converge S=upgrade</code>).</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+Do not execute <code>task converge S=upgrade</code> during or after the deploy phase without <code>task destroy S=upgrade</code>.
+The inventory of converge contains the source state (<code>ORCLPDB1</code> in <code>DB2</code>).
+<code>manage_db</code> creates a new, empty <code>ORCLPDB1</code> in <code>DB2</code> after AutoUpgrade has unplugged it.
+The deploy phase reports this as <code>conflict</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<code>side_effect.yml</code> must never import playbook <code>manage_db</code>.
+With <code>oracle_pdbs</code> in the end state it would create an empty <code>ORCLPDB1</code> in <code>DB1</code> (see warning above).
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_known_limitations">12. Known limitations</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Unplug/Plug upgrade of PDBs into an existing CDB on the same host only.
+Upgrade of a whole CDB, non-CDB to PDB conversion, RAC, Oracle Restart and Data Guard are not supported.</p>
+</li>
+<li>
+<p>The jobs are executed one after the other. AutoUpgrade can execute jobs in parallel - not used by the role.</p>
+</li>
+<li>
+<p>The fallback is not implemented in the role.</p>
+</li>
+<li>
+<p><code>manage_db</code> must not be executed between the change of <code>oracle_pdbs</code> and the upgrade (see warning above).</p>
+</li>
+<li>
+<p>The evaluation of the prechecks depends on <code>*_checklist.json</code>, which is not documented by Oracle.</p>
+</li>
+<li>
+<p>Patching of databases with AutoUpgrade (<code>-patch</code>) is not implemented.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+	<div class="td-page-meta__lastmod">
+  Last modified January 1, 0001: <a href="https://github.com/oravirt/ansible-oracle/commit/a8710d7e5d581082b15865777d2702346124e01d">website: new website for ansible-oracle (a8710d7e)</a>
+</div>
+
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      <footer class="td-footer row d-print-none">
+  <div class="container-fluid">
+    <div class="row mx-md-2">
+      <div class="td-footer__left col-6 col-sm-4 order-sm-1">
+        
+      </div><div class="td-footer__right col-6 col-sm-4 order-sm-3">
+        <ul class="td-footer__links-list">
+  
+  <li class="td-footer__links-item" data-bs-toggle="tooltip" title="GitHub" aria-label="GitHub">
+    <a target="_blank" rel="noopener" href="https://github.com/oravirt/ansible-oracle" aria-label="GitHub">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+</ul>
+
+      </div><div class="td-footer__center col-12 col-sm-4 py-2 order-sm-2">
+        <span class="td-footer__copyright">&copy;
+    2016&ndash;2026
+    <span class="td-footer__authors">Thorsten Bruhns | [MIT](<a class="bare" href="https://github.com/oravirt/ansible-oracle/blob/master/LICENSE">https://github.com/oravirt/ansible-oracle/blob/master/LICENSE</a>)</span></span><nav aria-label="Legal" class="td-footer__legal mt-2">
+  <ul class="list-inline mb-0">
+    <li class="list-inline-item"><a href="/legal-notice/">Legal Notice</a></li>
+    <li class="list-inline-item"><a href="/privacy/">Privacy</a></li>
+    <li class="list-inline-item"><a href="/accessibility/">Accessibility</a></li>
+    </ul>
+</nav>
+
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <script src="/js/main.js"></script>
+<script src='/js/prism.js'></script>
+<script src='/js/tabpane-persist.js'></script>
+
+  </body>
+</html>

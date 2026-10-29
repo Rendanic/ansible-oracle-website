@@ -1,0 +1,1242 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+<title>orahost | ansible-oracle Project</title>
+<meta name="description" content="Role to configure the hostsystem for ansible-oracle
+Table of content Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib_rpm_el7 asmlib_rpm_el8 asmlib_rpm_el9 asmlib_rpm_sles asmlibsupport_rpm asmlibsupport_rpm_el6 asmlibsupport_rpm_el7 asmlibsupport_rpm_el8 configure_etc_hosts configure_hugepages configure_hugepages_by configure_interconnect configure_limits configure_limits_pam configure_oracle_sudo configure_ssh disable_firewall disable_numa_boot disable_selinux etc_hosts_entries etc_hosts_ip extra_hugepages_per_instance extrarepos_disabled extrarepos_enabled firewall_service grid_users host_fs_layout install_os_packages keyfile max_size_in_gb_hugepages nr_hugepages nr_hugepages_memory nr_hugepages_percent old_ssh_config oracle_asm_packages oracle_asm_packages_sles oracle_groups oracle_hugepages oracle_hugepages_sysctl_file oracle_ic_net oracle_packages oracle_packages_sles_multi oracle_sysctl oracle_sysctl_file oracle_users os_family_supported os_min_supported_version percent_hugepages size_in_gb_hugepages ssh_keys sudoers_template transparent_hugepage_disable transparent_hugepage_disable_by_grub Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables asmlib_rpm Install oracleasm-support from RPM-Repo on OracleLinux. Value depends on OS-Release from RHEL/OL. Uses variables asmlib_rpm_el6, asmlib_rpm_el7 or asmlib_rpm_el8">
+<meta property="og:url" content="https://www.ansible-oracle.eu/docs/roles/orahost/">
+	<meta property="og:site_name" content="ansible-oracle Project">
+	<meta property="og:title" content="orahost">
+	<meta property="og:description" content="Role to configure the hostsystem for ansible-oracle
+Table of content Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib_rpm_el7 asmlib_rpm_el8 asmlib_rpm_el9 asmlib_rpm_sles asmlibsupport_rpm asmlibsupport_rpm_el6 asmlibsupport_rpm_el7 asmlibsupport_rpm_el8 configure_etc_hosts configure_hugepages configure_hugepages_by configure_interconnect configure_limits configure_limits_pam configure_oracle_sudo configure_ssh disable_firewall disable_numa_boot disable_selinux etc_hosts_entries etc_hosts_ip extra_hugepages_per_instance extrarepos_disabled extrarepos_enabled firewall_service grid_users host_fs_layout install_os_packages keyfile max_size_in_gb_hugepages nr_hugepages nr_hugepages_memory nr_hugepages_percent old_ssh_config oracle_asm_packages oracle_asm_packages_sles oracle_groups oracle_hugepages oracle_hugepages_sysctl_file oracle_ic_net oracle_packages oracle_packages_sles_multi oracle_sysctl oracle_sysctl_file oracle_users os_family_supported os_min_supported_version percent_hugepages size_in_gb_hugepages ssh_keys sudoers_template transparent_hugepage_disable transparent_hugepage_disable_by_grub Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables asmlib_rpm Install oracleasm-support from RPM-Repo on OracleLinux. Value depends on OS-Release from RHEL/OL. Uses variables asmlib_rpm_el6, asmlib_rpm_el7 or asmlib_rpm_el8">
+	<meta property="og:locale" content="en_us">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="docs">
+
+	<meta itemprop="name" content="orahost">
+	<meta itemprop="description" content="Role to configure the hostsystem for ansible-oracle
+Table of content Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib_rpm_el7 asmlib_rpm_el8 asmlib_rpm_el9 asmlib_rpm_sles asmlibsupport_rpm asmlibsupport_rpm_el6 asmlibsupport_rpm_el7 asmlibsupport_rpm_el8 configure_etc_hosts configure_hugepages configure_hugepages_by configure_interconnect configure_limits configure_limits_pam configure_oracle_sudo configure_ssh disable_firewall disable_numa_boot disable_selinux etc_hosts_entries etc_hosts_ip extra_hugepages_per_instance extrarepos_disabled extrarepos_enabled firewall_service grid_users host_fs_layout install_os_packages keyfile max_size_in_gb_hugepages nr_hugepages nr_hugepages_memory nr_hugepages_percent old_ssh_config oracle_asm_packages oracle_asm_packages_sles oracle_groups oracle_hugepages oracle_hugepages_sysctl_file oracle_ic_net oracle_packages oracle_packages_sles_multi oracle_sysctl oracle_sysctl_file oracle_users os_family_supported os_min_supported_version percent_hugepages size_in_gb_hugepages ssh_keys sudoers_template transparent_hugepage_disable transparent_hugepage_disable_by_grub Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables asmlib_rpm Install oracleasm-support from RPM-Repo on OracleLinux. Value depends on OS-Release from RHEL/OL. Uses variables asmlib_rpm_el6, asmlib_rpm_el7 or asmlib_rpm_el8">
+	<meta itemprop="wordCount" content="1583">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="orahost">
+	<meta name="twitter:description" content="Role to configure the hostsystem for ansible-oracle
+Table of content Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib_rpm_el7 asmlib_rpm_el8 asmlib_rpm_el9 asmlib_rpm_sles asmlibsupport_rpm asmlibsupport_rpm_el6 asmlibsupport_rpm_el7 asmlibsupport_rpm_el8 configure_etc_hosts configure_hugepages configure_hugepages_by configure_interconnect configure_limits configure_limits_pam configure_oracle_sudo configure_ssh disable_firewall disable_numa_boot disable_selinux etc_hosts_entries etc_hosts_ip extra_hugepages_per_instance extrarepos_disabled extrarepos_enabled firewall_service grid_users host_fs_layout install_os_packages keyfile max_size_in_gb_hugepages nr_hugepages nr_hugepages_memory nr_hugepages_percent old_ssh_config oracle_asm_packages oracle_asm_packages_sles oracle_groups oracle_hugepages oracle_hugepages_sysctl_file oracle_ic_net oracle_packages oracle_packages_sles_multi oracle_sysctl oracle_sysctl_file oracle_users os_family_supported os_min_supported_version percent_hugepages size_in_gb_hugepages ssh_keys sudoers_template transparent_hugepage_disable transparent_hugepage_disable_by_grub Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables asmlib_rpm Install oracleasm-support from RPM-Repo on OracleLinux. Value depends on OS-Release from RHEL/OL. Uses variables asmlib_rpm_el6, asmlib_rpm_el7 or asmlib_rpm_el8">
+
+
+
+
+
+<link href="/scss/main.css" rel="stylesheet">
+
+<script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+  crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/css/prism.css"/>
+
+  </head>
+  <body class="td-page">
+    <header>
+      <nav class="td-navbar js-navbar-scroll" data-bs-theme="light">
+<div class="container-fluid flex-column flex-md-row">
+  <a class="navbar-brand" href="/"><span class="navbar-brand__logo navbar-logo"><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500"><g><path style="fill:#fff" d="M116.8525 421.9722c-5.7041.0-10.3442-4.3127-10.3442-9.6129V88.183c0-5.3002 4.6401-9.6117 10.3442-9.6117H320.858c3.0347.0 9.3959.5498 11.7506 2.6302l.3545.3442 58.905 63.2912c2.3101 2.491 2.9202 8.4928 2.9202 11.3184v256.2039c0 5.3002-4.6407 9.6129-10.3436 9.6129H116.8525z"/><g><g><g><path style="fill:#767676" d="M384.4445 423.2066H116.852c-6.3839.0-11.5786-4.8658-11.5786-10.8474V88.1831c0-5.9804 5.1947-10.8461 11.5786-10.8461h204.0062c.377.0 9.2786.0329 12.568 2.9389l.3947.3833 58.9508 63.337c3.2135 3.4652 3.2514 11.7924 3.2514 12.1593v256.2036C396.0231 418.3408 390.8284 423.2066 384.4445 423.2066zM116.5079 411.9189c.0848.0278.1999.0531.3441.0531h267.5925c.1442.0.2581-.0253.3441-.0531V156.1556c-.0076-.9033-.3593-3.7347-.7034-5.0037l-57.6527-61.9416c-1.4651-.3176-4.4533-.6389-5.5742-.6389H116.852c-.143.0-.2594.024-.3441.0531V411.9189zm267.4533-261.149zM327.0321 89.371v.0013V89.371z"/></g></g></g><g><g><path style="fill:#5b7fc0" d="M189.0874 210.1754l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4473C177.5953 212.627 183.0601 210.1742 189.0874 210.1754zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 234.1722 197.0804 232.033z"/><path style="opacity:.3;fill:#fff" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/><g><defs><path id="SVGID_1_" d="M194.7376 237.6875c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 234.2399 196.1861 236.239 194.7376 237.6875z"/></defs><clipPath id="SVGID_2_"><use xlink:href="#SVGID_1_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_2_);fill:#fff" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/><path style="opacity:.13;clip-path:url(#SVGID_2_);fill:#020202" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/></g><g><defs><path id="SVGID_3_" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/></defs><clipPath id="SVGID_4_"><use xlink:href="#SVGID_3_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_4_);fill:#5b7fc0" d="M172.6595 215.6045c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8475-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 209.1953 176.6171 211.647 172.6595 215.6045z"/></g></g><rect x="198.8952" y="225.1043" style="fill:#5b7fc0" width="122.6266" height="13.8671"/></g><g><path style="fill:#d95140" d="M189.0874 155.7611l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.0249 2.454-11.4897 6.4116-15.4473C177.5953 158.2128 183.0601 155.7599 189.0874 155.7611zm7.993 21.8577c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.2508 181.7667 197.0816 179.758 197.0804 177.6188z"/><path style="opacity:.3;fill:#fff" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/><g><defs><path id="SVGID_5_" d="M194.7376 183.2733c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 179.8256 196.1861 181.8248 194.7376 183.2733z"/></defs><clipPath id="SVGID_6_"><use xlink:href="#SVGID_5_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_6_);fill:#fff" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/><path style="opacity:.13;clip-path:url(#SVGID_6_);fill:#020202" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/></g><g><defs><path id="SVGID_7_" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/></defs><clipPath id="SVGID_8_"><use xlink:href="#SVGID_7_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_8_);fill:#d95140" d="M172.6595 161.1903c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 154.7811 176.6171 157.2327 172.6595 161.1903z"/></g><rect x="198.8952" y="170.69" style="fill:#d95140" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#56a55c" d="M189.5379 264.6147l.0012-.0012c7.7751.0012 15.0294 4.1862 18.932 10.9235 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032-5.8394.0-11.3281-2.2733-15.458-6.4032-4.13-4.13-6.4032-9.6186-6.4056-15.4628.0012-6.0249 2.454-11.4897 6.4116-15.4472C178.0458 267.0663 183.5105 264.6135 189.5379 264.6147zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6538 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.7013 290.6202 197.5321 288.6115 197.5309 286.4723z"/><path style="opacity:.3;fill:#fff" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/><g><defs><path id="SVGID_9_" d="M195.1881 292.1268c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9941 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.5344 288.6792 196.6366 290.6783 195.1881 292.1268z"/></defs><clipPath id="SVGID_10_"><use xlink:href="#SVGID_9_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_10_);fill:#fff" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/><path style="opacity:.13;clip-path:url(#SVGID_10_);fill:#020202" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/></g><g><defs><path id="SVGID_11_" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/></defs><clipPath id="SVGID_12_"><use xlink:href="#SVGID_11_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_12_);fill:#56a55c" d="M173.11 270.0439c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7325-11.1497-10.9151-18.926-10.9151C182.5311 263.6346 177.0676 266.0863 173.11 270.0439z"/></g></g><rect x="199.3456" y="279.5436" style="fill:#56a55c" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#f1bc42" d="M189.0874 318.7208l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3305-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4472C177.5953 321.1724 183.0601 318.7196 189.0874 318.7208zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 342.7176 197.0804 340.5784z"/><path style="opacity:.3;fill:#fff" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/><g><defs><path id="SVGID_13_" d="M194.7376 346.2329c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 342.7853 196.1861 344.7844 194.7376 346.2329z"/></defs><clipPath id="SVGID_14_"><use xlink:href="#SVGID_13_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_14_);fill:#fff" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/><path style="opacity:.13;clip-path:url(#SVGID_14_);fill:#020202" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/></g><g><defs><path id="SVGID_15_" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/></defs><clipPath id="SVGID_16_"><use xlink:href="#SVGID_15_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_16_);fill:#f1bc42" d="M172.6595 324.15c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8474-1.0151-7.6327-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 317.7407 176.6171 320.1924 172.6595 324.15z"/></g></g><rect x="198.8952" y="333.6497" style="fill:#f1bc42" width="122.6266" height="13.8671"/></g></g></svg></span><span class="navbar-brand__name">ansible-oracle Project</span></a>
+  <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/about/"><span>About</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/docs/"><span>Documentation</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/oravirt/ansible-oracle/releases" target="_blank" rel="noopener"><span>Releases</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/oravirt/ansible-oracle" target="_blank" rel="noopener"><span>Github</span></a>
+      </li>
+      </ul>
+  </div>
+  <div class="d-none d-lg-block">
+    
+  </div>
+</div>
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <aside class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            <div id="td-sidebar-menu" class="td-sidebar__inner">
+  <div id="content-mobile">
+  <form class="td-sidebar__search d-flex align-items-center">
+    
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ms-3 fas fa-bars" type="button" data-bs-toggle="collapse" data-bs-target="#td-section-nav" aria-controls="td-section-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  </div>
+  <div id="content-desktop"></div>
+  <nav class="td-sidebar-nav collapse td-sidebar-nav--search-disabled" id="td-section-nav">
+    <ul class="td-sidebar-nav__section pe-md-3 ul-0">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docs-li">
+  <a href="/docs/" title="Documentation" class="align-left ps-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-docs"><span class="">Docs</span></a>
+  <ul class="ul-1">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsfeatures-li">
+  <a href="/docs/features/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsfeatures"><span class="">Features</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsfeaturesfeaturelist-li">
+  <a href="/docs/features/featurelist/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsfeaturesfeaturelist"><span class="">Supported features in ansible-oracle</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguides-li">
+  <a href="/docs/guides/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsguides"><span class="">Guides</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguidesvagrant-li">
+  <a href="/docs/guides/vagrant/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsguidesvagrant"><span class="">Vagrant</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesvagrantwindows-li">
+  <a href="/docs/guides/vagrant/windows/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesvagrantwindows"><span class="">Vagrant on Windows</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesvagrantvagrant_basics-li">
+  <a href="/docs/guides/vagrant/vagrant_basics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesvagrantvagrant_basics"><span class="">Vagrant Basics</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbeginner-li">
+  <a href="/docs/guides/beginner/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbeginner"><span class="">Beginners Guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesadvanced-li">
+  <a href="/docs/guides/advanced/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesadvanced"><span class="">Advanced Guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesansible-container-li">
+  <a href="/docs/guides/ansible-container/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesansible-container"><span class="">Ansible as a Docker Container</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguideslocal-install-howto-li">
+  <a href="/docs/guides/local-install-howto/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguideslocal-install-howto"><span class="">HOWTO: Local Installation of Ansible-Oracle</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesinstall-and-patch-settings-li">
+  <a href="/docs/guides/install-and-patch-settings/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesinstall-and-patch-settings"><span class="">Installation &amp; Patching Settings for the Inventory</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesapex_ords-li">
+  <a href="/docs/guides/apex_ords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesapex_ords"><span class="">Setup APEX and ORDS</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesautoupgrade-li">
+  <a href="/docs/guides/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade"><span class="">Oracle AutoUpgrade</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesautoupgrade_upgrade-li">
+  <a href="/docs/guides/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
+  <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
+  <a href="/docs/guides/restart_rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="">Setup ASM for Oracle Grid Infrastructure / Restart</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docsroles-li">
+  <a href="/docs/roles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsroles"><span class="">Ansible Roles</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
+  <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesautoupgrade-li">
+  <a href="/docs/roles/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesautoupgrade"><span class="">autoupgrade</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
+  <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescxoracle-li">
+  <a href="/docs/roles/cxoracle/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescxoracle"><span class="">cxoracle</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesglobal_handlers-li">
+  <a href="/docs/roles/global_handlers/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesglobal_handlers"><span class="">global_handlers</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraapex-li">
+  <a href="/docs/roles/oraapex/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraapex"><span class="">oraapex</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraasm_manage_diskgroups-li">
+  <a href="/docs/roles/oraasm_manage_diskgroups/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraasm_manage_diskgroups"><span class="">oraasm_manage_diskgroups</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoracluvfy-li">
+  <a href="/docs/roles/oracluvfy/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoracluvfy"><span class="">oracluvfy</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_datapatch-li">
+  <a href="/docs/roles/oradb_datapatch/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_datapatch"><span class="">oradb_datapatch</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_facts-li">
+  <a href="/docs/roles/oradb_facts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_facts"><span class="">oradb_facts</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_grants-li">
+  <a href="/docs/roles/oradb_manage_grants/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_grants"><span class="">oradb_manage_grants</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_parameters-li">
+  <a href="/docs/roles/oradb_manage_parameters/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_parameters"><span class="">oradb_manage_parameters</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_pdb-li">
+  <a href="/docs/roles/oradb_manage_pdb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_pdb"><span class="">oradb_manage_pdb</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_profiles-li">
+  <a href="/docs/roles/oradb_manage_profiles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_profiles"><span class="">oradb_manage_profiles</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_redo-li">
+  <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="">oradb_manage_redo</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_roles-li">
+  <a href="/docs/roles/oradb_manage_roles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_roles"><span class="">oradb_manage_roles</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_services-li">
+  <a href="/docs/roles/oradb_manage_services/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_services"><span class="">oradb_manage_services</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_statspack-li">
+  <a href="/docs/roles/oradb_manage_statspack/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_statspack"><span class="">oradb_manage_statspack</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_tablespace-li">
+  <a href="/docs/roles/oradb_manage_tablespace/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_tablespace"><span class="">oradb_manage_tablespace</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_users-li">
+  <a href="/docs/roles/oradb_manage_users/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_users"><span class="">oradb_manage_users</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_wallet-li">
+  <a href="/docs/roles/oradb_manage_wallet/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_wallet"><span class="">oradb_manage_wallet</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
+  <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_tzupgrade-li">
+  <a href="/docs/roles/oradb_tzupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_tzupgrade"><span class="">oradb_tzupgrade</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesorahost-li">
+  <a href="/docs/roles/orahost/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="td-sidebar-nav-active-item">orahost</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_cron-li">
+  <a href="/docs/roles/orahost_cron/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_cron"><span class="">orahost_cron</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_logrotate-li">
+  <a href="/docs/roles/orahost_logrotate/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_logrotate"><span class="">orahost_logrotate</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_ssh-li">
+  <a href="/docs/roles/orahost_ssh/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_ssh"><span class="">orahost_ssh</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_storage-li">
+  <a href="/docs/roles/orahost_storage/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_storage"><span class="">orahost_storage</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraords-li">
+  <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
+  <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
+  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
+  <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswahf_install-li">
+  <a href="/docs/roles/oraswahf_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswahf_install"><span class="">oraswahf_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_golden_image-li">
+  <a href="/docs/roles/oraswdb_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_golden_image"><span class="">oraswdb_golden_image</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
+  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
+  <a href="/docs/roles/oraswdb_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_manage_patches"><span class="">oraswdb_manage_patches</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_golden_image-li">
+  <a href="/docs/roles/oraswgi_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_golden_image"><span class="">oraswgi_golden_image</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_manage_patches-li">
+  <a href="/docs/roles/oraswgi_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_manage_patches"><span class="">oraswgi_manage_patches</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_meta-li">
+  <a href="/docs/roles/oraswgi_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_meta"><span class="">oraswgi_meta</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsdevelopment-li">
+  <a href="/docs/development/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsdevelopment"><span class="">Development</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsdevelopmentdevelopment-li">
+  <a href="/docs/development/development/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsdevelopmentdevelopment"><span class="">How to develop</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsdevelopmentwebsite-li">
+  <a href="/docs/development/website/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsdevelopmentwebsite"><span class="">Website</span></a>
+</li>
+  </ul>
+</li>
+  </ul>
+</li>
+    </ul>
+  </nav>
+</div>
+
+          </aside>
+          <aside class="d-none d-xl-block col-xl-2 td-sidebar-toc d-print-none">
+            <div class="td-page-meta ms-2 pb-1 pt-2 mb-0">
+<a href="https://github.com/oravirt/ansible-oracle/tree/master/roles/orahost/README.md" class="td-page-meta--view td-page-meta__view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines fa-fw"></i> View page source</a>
+  <a href="https://github.com/oravirt/ansible-oracle/edit/master/roles/orahost/README.md" class="td-page-meta--edit td-page-meta__edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Edit this page</a>
+  <a href="https://github.com/oravirt/ansible-oracle/new/master/roles/orahost?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" class="td-page-meta--child td-page-meta__child" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Create child page</a>
+  <a href="https://github.com/oravirt/ansible-oracle/issues/new?title=orahost" class="td-page-meta--issue td-page-meta__issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create documentation issue</a>
+  <a href="https://github.com/oravirt/ansible-oracle/issues/new" class="td-page-meta--project td-page-meta__project-issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create project issue</a>
+  <a id="print" href="/_print/docs/roles/"><i class="fa-solid fa-print fa-fw"></i> Print entire section</a>
+
+</div>
+
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#table-of-content">Table of content</a></li>
+    <li><a href="#requirements">Requirements</a></li>
+    <li><a href="#default-variables">Default Variables</a>
+      <ul>
+        <li><a href="#asmlib_rpm">asmlib_rpm</a>
+          <ul>
+            <li><a href="#default-value">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#asmlib_rpm_el6">asmlib_rpm_el6</a>
+          <ul>
+            <li><a href="#default-value-1">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#asmlib_rpm_el7">asmlib_rpm_el7</a>
+          <ul>
+            <li><a href="#default-value-2">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#asmlib_rpm_el8">asmlib_rpm_el8</a>
+          <ul>
+            <li><a href="#default-value-3">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#asmlib_rpm_el9">asmlib_rpm_el9</a>
+          <ul>
+            <li><a href="#default-value-4">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#asmlib_rpm_sles">asmlib_rpm_sles</a>
+          <ul>
+            <li><a href="#default-value-5">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#asmlibsupport_rpm">asmlibsupport_rpm</a>
+          <ul>
+            <li><a href="#default-value-6">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#asmlibsupport_rpm_el6">asmlibsupport_rpm_el6</a>
+          <ul>
+            <li><a href="#default-value-7">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#asmlibsupport_rpm_el7">asmlibsupport_rpm_el7</a>
+          <ul>
+            <li><a href="#default-value-8">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#asmlibsupport_rpm_el8">asmlibsupport_rpm_el8</a>
+          <ul>
+            <li><a href="#default-value-9">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#configure_etc_hosts">configure_etc_hosts</a>
+          <ul>
+            <li><a href="#default-value-10">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#configure_hugepages">configure_hugepages</a>
+          <ul>
+            <li><a href="#default-value-11">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#configure_hugepages_by">configure_hugepages_by</a>
+          <ul>
+            <li><a href="#default-value-12">Default value</a></li>
+            <li><a href="#example-usage">Example usage</a></li>
+          </ul>
+        </li>
+        <li><a href="#configure_interconnect">configure_interconnect</a>
+          <ul>
+            <li><a href="#default-value-13">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#configure_limits">configure_limits</a>
+          <ul>
+            <li><a href="#default-value-14">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#configure_limits_pam">configure_limits_pam</a>
+          <ul>
+            <li><a href="#default-value-15">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#configure_oracle_sudo">configure_oracle_sudo</a>
+          <ul>
+            <li><a href="#default-value-16">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#configure_ssh">configure_ssh</a>
+          <ul>
+            <li><a href="#default-value-17">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#disable_firewall">disable_firewall</a>
+          <ul>
+            <li><a href="#default-value-18">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#disable_numa_boot">disable_numa_boot</a>
+          <ul>
+            <li><a href="#default-value-19">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#disable_selinux">disable_selinux</a>
+          <ul>
+            <li><a href="#default-value-20">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#etc_hosts_entries">etc_hosts_entries</a>
+          <ul>
+            <li><a href="#default-value-21">Default value</a></li>
+            <li><a href="#example-usage-1">Example usage</a></li>
+          </ul>
+        </li>
+        <li><a href="#etc_hosts_ip">etc_hosts_ip</a>
+          <ul>
+            <li><a href="#default-value-22">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#extra_hugepages_per_instance">extra_hugepages_per_instance</a>
+          <ul>
+            <li><a href="#default-value-23">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#extrarepos_disabled">extrarepos_disabled</a>
+          <ul>
+            <li><a href="#default-value-24">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#extrarepos_enabled">extrarepos_enabled</a>
+          <ul>
+            <li><a href="#default-value-25">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#firewall_service">firewall_service</a>
+          <ul>
+            <li><a href="#default-value-26">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#grid_users">grid_users</a>
+          <ul>
+            <li><a href="#default-value-27">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#host_fs_layout">host_fs_layout</a>
+          <ul>
+            <li><a href="#default-value-28">Default value</a></li>
+            <li><a href="#example-usage-2">Example usage</a></li>
+          </ul>
+        </li>
+        <li><a href="#install_os_packages">install_os_packages</a>
+          <ul>
+            <li><a href="#default-value-29">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#keyfile">keyfile</a>
+          <ul>
+            <li><a href="#default-value-30">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#max_size_in_gb_hugepages">max_size_in_gb_hugepages</a>
+          <ul>
+            <li><a href="#default-value-31">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#nr_hugepages">nr_hugepages</a>
+          <ul>
+            <li><a href="#default-value-32">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#nr_hugepages_memory">nr_hugepages_memory</a>
+          <ul>
+            <li><a href="#default-value-33">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#nr_hugepages_percent">nr_hugepages_percent</a>
+          <ul>
+            <li><a href="#default-value-34">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#old_ssh_config">old_ssh_config</a>
+          <ul>
+            <li><a href="#default-value-35">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#oracle_asm_packages">oracle_asm_packages</a>
+          <ul>
+            <li><a href="#default-value-36">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#oracle_asm_packages_sles">oracle_asm_packages_sles</a>
+          <ul>
+            <li><a href="#default-value-37">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#oracle_groups">oracle_groups</a>
+          <ul>
+            <li><a href="#default-value-38">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#oracle_hugepages">oracle_hugepages</a>
+          <ul>
+            <li><a href="#default-value-39">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#oracle_hugepages_sysctl_file">oracle_hugepages_sysctl_file</a>
+          <ul>
+            <li><a href="#default-value-40">Default value</a></li>
+            <li><a href="#example-usage-3">Example usage</a></li>
+          </ul>
+        </li>
+        <li><a href="#oracle_ic_net">oracle_ic_net</a>
+          <ul>
+            <li><a href="#default-value-41">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#oracle_packages">oracle_packages</a>
+          <ul>
+            <li><a href="#default-value-42">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#oracle_packages_sles_multi">oracle_packages_sles_multi</a>
+          <ul>
+            <li><a href="#default-value-43">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#oracle_sysctl">oracle_sysctl</a>
+          <ul>
+            <li><a href="#default-value-44">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#oracle_sysctl_file">oracle_sysctl_file</a>
+          <ul>
+            <li><a href="#default-value-45">Default value</a></li>
+            <li><a href="#example-usage-4">Example usage</a></li>
+          </ul>
+        </li>
+        <li><a href="#oracle_users">oracle_users</a>
+          <ul>
+            <li><a href="#default-value-46">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#os_family_supported">os_family_supported</a>
+          <ul>
+            <li><a href="#default-value-47">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#os_min_supported_version">os_min_supported_version</a>
+          <ul>
+            <li><a href="#default-value-48">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#percent_hugepages">percent_hugepages</a>
+          <ul>
+            <li><a href="#default-value-49">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#size_in_gb_hugepages">size_in_gb_hugepages</a>
+          <ul>
+            <li><a href="#default-value-50">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ssh_keys">ssh_keys</a>
+          <ul>
+            <li><a href="#default-value-51">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#sudoers_template">sudoers_template</a>
+          <ul>
+            <li><a href="#default-value-52">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#transparent_hugepage_disable">transparent_hugepage_disable</a>
+          <ul>
+            <li><a href="#default-value-53">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#transparent_hugepage_disable_by_grub">transparent_hugepage_disable_by_grub</a>
+          <ul>
+            <li><a href="#default-value-54">Default value</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#discovered-tags">Discovered Tags</a></li>
+    <li><a href="#open-tasks">Open Tasks</a></li>
+    <li><a href="#dependencies">Dependencies</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#author">Author</a></li>
+  </ul>
+</nav>
+      </div>
+    
+            
+	
+          </aside>
+          <main class="col-12 col-md-9 col-xl-8 ps-md-5" role="main">
+            
+  
+
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
+  <ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="/docs/">Docs</a></li>
+  <li class="breadcrumb-item">
+    <a href="/docs/roles/">Ansible Roles</a></li>
+  <li class="breadcrumb-item active" aria-current="page">
+    orahost</li>
+  </ol>
+</nav>
+            
+<div class="td-content">
+	<h1>orahost</h1>
+	
+	<header class="article-meta">
+		
+  </header>
+	<p>Role to configure the hostsystem for ansible-oracle</p>
+<h2 id="table-of-content">Table of content</h2>
+<ul>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#default-variables">Default Variables</a>
+<ul>
+<li><a href="#asmlib_rpm">asmlib_rpm</a></li>
+<li><a href="#asmlib_rpm_el6">asmlib_rpm_el6</a></li>
+<li><a href="#asmlib_rpm_el7">asmlib_rpm_el7</a></li>
+<li><a href="#asmlib_rpm_el8">asmlib_rpm_el8</a></li>
+<li><a href="#asmlib_rpm_el9">asmlib_rpm_el9</a></li>
+<li><a href="#asmlib_rpm_sles">asmlib_rpm_sles</a></li>
+<li><a href="#asmlibsupport_rpm">asmlibsupport_rpm</a></li>
+<li><a href="#asmlibsupport_rpm_el6">asmlibsupport_rpm_el6</a></li>
+<li><a href="#asmlibsupport_rpm_el7">asmlibsupport_rpm_el7</a></li>
+<li><a href="#asmlibsupport_rpm_el8">asmlibsupport_rpm_el8</a></li>
+<li><a href="#configure_etc_hosts">configure_etc_hosts</a></li>
+<li><a href="#configure_hugepages">configure_hugepages</a></li>
+<li><a href="#configure_hugepages_by">configure_hugepages_by</a></li>
+<li><a href="#configure_interconnect">configure_interconnect</a></li>
+<li><a href="#configure_limits">configure_limits</a></li>
+<li><a href="#configure_limits_pam">configure_limits_pam</a></li>
+<li><a href="#configure_oracle_sudo">configure_oracle_sudo</a></li>
+<li><a href="#configure_ssh">configure_ssh</a></li>
+<li><a href="#disable_firewall">disable_firewall</a></li>
+<li><a href="#disable_numa_boot">disable_numa_boot</a></li>
+<li><a href="#disable_selinux">disable_selinux</a></li>
+<li><a href="#etc_hosts_entries">etc_hosts_entries</a></li>
+<li><a href="#etc_hosts_ip">etc_hosts_ip</a></li>
+<li><a href="#extra_hugepages_per_instance">extra_hugepages_per_instance</a></li>
+<li><a href="#extrarepos_disabled">extrarepos_disabled</a></li>
+<li><a href="#extrarepos_enabled">extrarepos_enabled</a></li>
+<li><a href="#firewall_service">firewall_service</a></li>
+<li><a href="#grid_users">grid_users</a></li>
+<li><a href="#host_fs_layout">host_fs_layout</a></li>
+<li><a href="#install_os_packages">install_os_packages</a></li>
+<li><a href="#keyfile">keyfile</a></li>
+<li><a href="#max_size_in_gb_hugepages">max_size_in_gb_hugepages</a></li>
+<li><a href="#nr_hugepages">nr_hugepages</a></li>
+<li><a href="#nr_hugepages_memory">nr_hugepages_memory</a></li>
+<li><a href="#nr_hugepages_percent">nr_hugepages_percent</a></li>
+<li><a href="#old_ssh_config">old_ssh_config</a></li>
+<li><a href="#oracle_asm_packages">oracle_asm_packages</a></li>
+<li><a href="#oracle_asm_packages_sles">oracle_asm_packages_sles</a></li>
+<li><a href="#oracle_groups">oracle_groups</a></li>
+<li><a href="#oracle_hugepages">oracle_hugepages</a></li>
+<li><a href="#oracle_hugepages_sysctl_file">oracle_hugepages_sysctl_file</a></li>
+<li><a href="#oracle_ic_net">oracle_ic_net</a></li>
+<li><a href="#oracle_packages">oracle_packages</a></li>
+<li><a href="#oracle_packages_sles_multi">oracle_packages_sles_multi</a></li>
+<li><a href="#oracle_sysctl">oracle_sysctl</a></li>
+<li><a href="#oracle_sysctl_file">oracle_sysctl_file</a></li>
+<li><a href="#oracle_users">oracle_users</a></li>
+<li><a href="#os_family_supported">os_family_supported</a></li>
+<li><a href="#os_min_supported_version">os_min_supported_version</a></li>
+<li><a href="#percent_hugepages">percent_hugepages</a></li>
+<li><a href="#size_in_gb_hugepages">size_in_gb_hugepages</a></li>
+<li><a href="#ssh_keys">ssh_keys</a></li>
+<li><a href="#sudoers_template">sudoers_template</a></li>
+<li><a href="#transparent_hugepage_disable">transparent_hugepage_disable</a></li>
+<li><a href="#transparent_hugepage_disable_by_grub">transparent_hugepage_disable_by_grub</a></li>
+</ul>
+</li>
+<li><a href="#discovered-tags">Discovered Tags</a></li>
+<li><a href="#open-tasks">Open Tasks</a></li>
+<li><a href="#dependencies">Dependencies</a></li>
+<li><a href="#license">License</a></li>
+<li><a href="#author">Author</a></li>
+</ul>
+<hr>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>Minimum Ansible version: <code>2.14.0</code></li>
+</ul>
+<h2 id="default-variables">Default Variables</h2>
+<h3 id="asmlib_rpm">asmlib_rpm</h3>
+<p>Install oracleasm-support from RPM-Repo on OracleLinux.
+Value depends on OS-Release from RHEL/OL.
+Uses variables <code>asmlib_rpm_el6</code>, <code>asmlib_rpm_el7</code> or <code>asmlib_rpm_el8</code></p>
+<h4 id="default-value">Default value</h4>
+<pre><code class="language-YAML">asmlib_rpm: Value from `asmlib_rpm_el6`, `asmlib_rpm_el7` or `asmlib_rpm_el8`
+</code></pre>
+<h3 id="asmlib_rpm_el6">asmlib_rpm_el6</h3>
+<p>Name / Url for rpm oracleasm-support for RHEL6/OL6.</p>
+<h4 id="default-value-1">Default value</h4>
+<pre><code class="language-YAML">asmlib_rpm_el6: 
+  http://download.oracle.com/otn_software/asmlib/oracleasmlib-2.0.4-1.el6.x86_64.rpm
+</code></pre>
+<h3 id="asmlib_rpm_el7">asmlib_rpm_el7</h3>
+<p>Name / Url for rpm oracleasm-support for RHEL7/OL7.</p>
+<h4 id="default-value-2">Default value</h4>
+<pre><code class="language-YAML">asmlib_rpm_el7: 
+  http://download.oracle.com/otn_software/asmlib/oracleasmlib-2.0.12-1.el7.x86_64.rpm
+</code></pre>
+<h3 id="asmlib_rpm_el8">asmlib_rpm_el8</h3>
+<p>Name / Url for rpm oracleasm-support for RHEL8/OL8.</p>
+<h4 id="default-value-3">Default value</h4>
+<pre><code class="language-YAML">asmlib_rpm_el8: 
+  https://download.oracle.com/otn_software/asmlib/oracleasmlib-2.0.17-1.el8.x86_64.rpm
+</code></pre>
+<h3 id="asmlib_rpm_el9">asmlib_rpm_el9</h3>
+<p>Name / Url for rpm oracleasm-support for RHEL8/OL8.</p>
+<h4 id="default-value-4">Default value</h4>
+<pre><code class="language-YAML">asmlib_rpm_el9: 
+  https://download.oracle.com/otn_software/asmlib/oracleasmlib-2.0.17-1.el8.x86_64.rpm
+</code></pre>
+<h3 id="asmlib_rpm_sles">asmlib_rpm_sles</h3>
+<p>Name / Url for rpm oracleasm-support for SLES.</p>
+<h4 id="default-value-5">Default value</h4>
+<pre><code class="language-YAML">asmlib_rpm_sles: 
+  http://oss.oracle.com/projects/oracleasm-support/dist/files/RPMS/sles12/amd64/2.1.8/oracleasm-support-2.1.8-1.SLE12.x86_64.rpm
+</code></pre>
+<h3 id="asmlibsupport_rpm">asmlibsupport_rpm</h3>
+<p>Install oracleasmlib-support from RPM-Repo on OracleLinux.
+Value depends on OS-Release from RHEL/OL.</p>
+<p>important</p>
+<p>Do NOT set this variable.</p>
+<p>Set the used variables <code>asmlibsupport_rpm_el6</code>, <code>asmlibsupport_rpm_el7</code> or <code>asmlibsupport_rpm_el8</code>.</p>
+<h4 id="default-value-6">Default value</h4>
+<pre><code class="language-YAML">asmlibsupport_rpm: Value from `asmlibsupport_rpm_el6`, `asmlibsupport_rpm_el7` or
+  `asmlibsupport_rpm_el8`
+</code></pre>
+<h3 id="asmlibsupport_rpm_el6">asmlibsupport_rpm_el6</h3>
+<h4 id="default-value-7">Default value</h4>
+<pre><code class="language-YAML">asmlibsupport_rpm_el6: 
+  http://oss.oracle.com/projects/oracleasm-support/dist/files/RPMS/rhel6/amd64/2.1.8/oracleasm-support-2.1.8-1.el6.x86_64.rpm
+</code></pre>
+<h3 id="asmlibsupport_rpm_el7">asmlibsupport_rpm_el7</h3>
+<h4 id="default-value-8">Default value</h4>
+<pre><code class="language-YAML">asmlibsupport_rpm_el7: 
+  https://yum.oracle.com/repo/OracleLinux/OL7/latest/x86_64/getPackage/oracleasm-support-2.1.11-2.el7.x86_64.rpm
+</code></pre>
+<h3 id="asmlibsupport_rpm_el8">asmlibsupport_rpm_el8</h3>
+<h4 id="default-value-9">Default value</h4>
+<pre><code class="language-YAML">asmlibsupport_rpm_el8: 
+  https://yum.oracle.com/repo/OracleLinux/OL8/latest/x86_64/getPackage/oracleasm-support-2.1.11-2.el8.x86_64.rpm
+</code></pre>
+<h3 id="configure_etc_hosts">configure_etc_hosts</h3>
+<p>Add <code>{{ ansible_hostname }} {{ ansible_fqdn }}</code> to /etc/hosts`?</p>
+<h4 id="default-value-10">Default value</h4>
+<pre><code class="language-YAML">configure_etc_hosts: false
+</code></pre>
+<h3 id="configure_hugepages">configure_hugepages</h3>
+<p>Configure Hugepages?</p>
+<h4 id="default-value-11">Default value</h4>
+<pre><code class="language-YAML">configure_hugepages: true
+</code></pre>
+<h3 id="configure_hugepages_by">configure_hugepages_by</h3>
+<p>Defines if percent_hugepages or size_in_gb_hugepages is used to define the Hugepages.
+Allowed values: percentage or memory.</p>
+<h4 id="default-value-12">Default value</h4>
+<pre><code class="language-YAML">configure_hugepages_by: memory
+</code></pre>
+<h4 id="example-usage">Example usage</h4>
+<pre><code class="language-YAML">configure_hugepages_by: memory
+
+configure_hugepages_by: percentage
+</code></pre>
+<h3 id="configure_interconnect">configure_interconnect</h3>
+<p>Should the Interconnect network be configured by Ansible</p>
+<h4 id="default-value-13">Default value</h4>
+<pre><code class="language-YAML">configure_interconnect: false
+</code></pre>
+<h3 id="configure_limits">configure_limits</h3>
+<p>Configure <code>/etc/security.d/limits.d/99-oracle-limits.conf</code>?</p>
+<h4 id="default-value-14">Default value</h4>
+<pre><code class="language-YAML">configure_limits: true
+</code></pre>
+<h3 id="configure_limits_pam">configure_limits_pam</h3>
+<p>Configure <code>/etc/pam.d/limits</code>?</p>
+<h4 id="default-value-15">Default value</h4>
+<pre><code class="language-YAML">configure_limits_pam: true
+</code></pre>
+<h3 id="configure_oracle_sudo">configure_oracle_sudo</h3>
+<p>Add oracle to sudoers for root.</p>
+<h4 id="default-value-16">Default value</h4>
+<pre><code class="language-YAML">configure_oracle_sudo: false
+</code></pre>
+<h3 id="configure_ssh">configure_ssh</h3>
+<p>Should passwordless ssh be configured between clusternodes. Only applicable to RAC-installs</p>
+<h4 id="default-value-17">Default value</h4>
+<pre><code class="language-YAML">configure_ssh: false
+</code></pre>
+<h3 id="disable_firewall">disable_firewall</h3>
+<h4 id="default-value-18">Default value</h4>
+<pre><code class="language-YAML">disable_firewall: true
+</code></pre>
+<h3 id="disable_numa_boot">disable_numa_boot</h3>
+<p>Disable numa support during boot.</p>
+<h4 id="default-value-19">Default value</h4>
+<pre><code class="language-YAML">disable_numa_boot: true
+</code></pre>
+<h3 id="disable_selinux">disable_selinux</h3>
+<h4 id="default-value-20">Default value</h4>
+<pre><code class="language-YAML">disable_selinux: true
+</code></pre>
+<h3 id="etc_hosts_entries">etc_hosts_entries</h3>
+<p>List of additional entries, optionally along with aliases, to be put into /etc/hosts. E.g. on non-DNS environments or if we don&rsquo;t rely on DNS</p>
+<h4 id="default-value-21">Default value</h4>
+<pre><code class="language-YAML">etc_hosts_entries: []
+</code></pre>
+<h4 id="example-usage-1">Example usage</h4>
+<pre><code class="language-YAML">etc_hosts_entries:
+  - fqdn: clusternode1.example.com
+    ip: 192.168.1.1
+  - fqdn: clusternode2.example.com
+    ip: 192.168.1.2
+    aliases:
+      - myalias.example.com
+would create following entries in /etc/hosts:
+192.168.1.1 clusternode1  clusternode1.example.com
+192.168.1.2 clusternode2  clusternode2.example.com  myalias.example.com
+</code></pre>
+<h3 id="etc_hosts_ip">etc_hosts_ip</h3>
+<p>Set IP to 2nd Interface on virtualbox and 1st for all otehr installations</p>
+<h4 id="default-value-22">Default value</h4>
+<pre><code class="language-YAML">etc_hosts_ip: &quot;{% if 'virtualbox' in ansible_virtualization_type %}{{ ansible_all_ipv4_addresses[1]
+  }}{% else %}{{ ansible_default_ipv4.address }}{% endif %}&quot;
+</code></pre>
+<h3 id="extra_hugepages_per_instance">extra_hugepages_per_instance</h3>
+<p>According to MOS KB151310&rsquo;s hugepages_settings.sh we&rsquo;ve to add 1 page per shm segment.
+Empirically, instances allocate 4 segments each on Linux.
+This overhead is considered when computing <code>nr_hugepages_memory</code></p>
+<p><strong><em>Type:</em></strong> integer<br /></p>
+<h4 id="default-value-23">Default value</h4>
+<pre><code class="language-YAML">extra_hugepages_per_instance: 4
+</code></pre>
+<h3 id="extrarepos_disabled">extrarepos_disabled</h3>
+<p>List of disabled yum repos during installation for RHEL/OL.</p>
+<h4 id="default-value-24">Default value</h4>
+<pre><code class="language-YAML">extrarepos_disabled: '[]'
+</code></pre>
+<h3 id="extrarepos_enabled">extrarepos_enabled</h3>
+<h4 id="default-value-25">Default value</h4>
+<pre><code class="language-YAML">extrarepos_enabled: &quot;{%- if ansible_distribution == 'OracleLinux' -%}ol{{ ansible_distribution_major_version
+  }}_addons{%- else -%}{%- endif %}&quot;
+</code></pre>
+<h3 id="firewall_service">firewall_service</h3>
+<p>Used firewall service in OS. Value depends on used Distribution and version.</p>
+<h4 id="default-value-26">Default value</h4>
+<pre><code class="language-YAML">firewall_service: firewalld or iptables
+</code></pre>
+<h3 id="grid_users">grid_users</h3>
+<p>grid OS-User</p>
+<h4 id="default-value-27">Default value</h4>
+<pre><code class="language-YAML">grid_users:
+  - username: grid
+    uid: 54320
+    primgroup: '{{ oracle_group }}'
+    othergroups: '{{ asmadmin_group }},{{ asmdba_group }},{{ asmoper_group }},{{ dba_group
+      }}'
+</code></pre>
+<h3 id="host_fs_layout">host_fs_layout</h3>
+<p>Define physical Disk, Volume Group, logical Volume, Filesystem and swap Devices.
+See example configuration</p>
+<h4 id="default-value-28">Default value</h4>
+<pre><code class="language-YAML">host_fs_layout: '[]'
+</code></pre>
+<h4 id="example-usage-2">Example usage</h4>
+<pre><code class="language-YAML">host_fs_layout:
+  - vgname: vgora
+    state: present
+    filesystem:
+      - { mntp: /u01, lvname: lvorabase, lvsize: 25G, fstype: xfs }
+      - { mntp: /u02, lvname: lvoradata, lvsize: 25G, fstype: xfs, fsopts: &quot;-m reflink=1 -m crc=1&quot; }
+    disk:
+      - { device: /dev/sdb, pvname: /dev/sdb1 }
+</code></pre>
+<h3 id="install_os_packages">install_os_packages</h3>
+<p>Install addional RPMs for Oracle?</p>
+<h4 id="default-value-29">Default value</h4>
+<pre><code class="language-YAML">install_os_packages: true
+</code></pre>
+<h3 id="keyfile">keyfile</h3>
+<h4 id="default-value-30">Default value</h4>
+<pre><code class="language-YAML">keyfile: /tmp/known_hosts
+</code></pre>
+<h3 id="max_size_in_gb_hugepages">max_size_in_gb_hugepages</h3>
+<p>Cap HugePages to 70% of physical memory to prevent overcomitting. Only valid when configure_hugepages_by: memory</p>
+<h4 id="default-value-31">Default value</h4>
+<pre><code class="language-YAML">max_size_in_gb_hugepages: '{{ ansible_memtotal_mb / 1024 * 0.7 }}'
+</code></pre>
+<h3 id="nr_hugepages">nr_hugepages</h3>
+<p>This is an internal variable only. Do not define it!</p>
+<h4 id="default-value-32">Default value</h4>
+<pre><code class="language-YAML">nr_hugepages: _unset_
+</code></pre>
+<h3 id="nr_hugepages_memory">nr_hugepages_memory</h3>
+<p>This is an internal variable only. Do not define it!</p>
+<h4 id="default-value-33">Default value</h4>
+<pre><code class="language-YAML">nr_hugepages_memory: _unset_
+</code></pre>
+<h3 id="nr_hugepages_percent">nr_hugepages_percent</h3>
+<p>This is an internal variable only. Do not define it!</p>
+<h4 id="default-value-34">Default value</h4>
+<pre><code class="language-YAML">nr_hugepages_percent: _unset_
+</code></pre>
+<h3 id="old_ssh_config">old_ssh_config</h3>
+<h4 id="default-value-35">Default value</h4>
+<pre><code class="language-YAML">old_ssh_config: true
+</code></pre>
+<h3 id="oracle_asm_packages">oracle_asm_packages</h3>
+<p>List of RPMs installed during ASM preparation for RHEL/OL.</p>
+<p>There should be no reason to change this variable.</p>
+<h4 id="default-value-36">Default value</h4>
+<pre><code class="language-YAML">oracle_asm_packages:
+  - '{{ asmlib_rpm }}'
+  - '{{ asmlibsupport_rpm }}'
+  - kmod-oracleasm
+</code></pre>
+<h3 id="oracle_asm_packages_sles">oracle_asm_packages_sles</h3>
+<p>List of RPMs installed during ASM preparation for SLES.</p>
+<p>There should be no reason to change this variable.</p>
+<h4 id="default-value-37">Default value</h4>
+<pre><code class="language-YAML">oracle_asm_packages_sles:
+  - oracleasm-kmp-default
+  - oracleasm-kmp-xen
+  - '{{ asmlib_rpm_sles }}'
+</code></pre>
+<h3 id="oracle_groups">oracle_groups</h3>
+<p>List of OS-groups for Oracle
+Dependent variables are defined in orahost_meta/defaults/main.yml</p>
+<h4 id="default-value-38">Default value</h4>
+<pre><code class="language-YAML">oracle_groups:
+  - {group: '{{ asmdba_group }}', gid: 54318}
+  - {group: '{{ asmoper_group }}', gid: 54319}
+  - {group: '{{ asmadmin_group }}', gid: 54320}
+  - {group: '{{ oracle_group }}', gid: 54321}
+  - {group: '{{ dba_group }}', gid: 54322}
+  - {group: '{{ oper_group }}', gid: 54324}
+  - {group: backupdba, gid: 54323}
+  - {group: dgdba, gid: 54325}
+  - {group: kmdba, gid: 54326}
+</code></pre>
+<h3 id="oracle_hugepages">oracle_hugepages</h3>
+<p>This is an internal variable. Do not change it!</p>
+<h4 id="default-value-39">Default value</h4>
+<pre><code class="language-YAML">oracle_hugepages:
+  - {name: vm.nr_hugepages, value: '{{ nr_hugepages }}'}
+  - {name: vm.hugetlb_shm_group, value: &quot;{{ oracle_user_getent['ansible_facts']['getent_passwd'][oracle_user][2]
+      }}&quot;}
+</code></pre>
+<h3 id="oracle_hugepages_sysctl_file">oracle_hugepages_sysctl_file</h3>
+<p>Allows to specify the file in which sysctl settings for huge pages will be stored.
+When unspecified it will first fallback to be <code>oracle_sysctl_file</code>
+and then to module defaults (<code>/etc/sysctl.conf</code>) should that one also be not defined.</p>
+<h4 id="default-value-40">Default value</h4>
+<pre><code class="language-YAML">oracle_hugepages_sysctl_file: _unset_
+</code></pre>
+<h4 id="example-usage-3">Example usage</h4>
+<pre><code class="language-YAML">oracle_hugepages_sysctl_file: '/etc/sysctl.d/oracle-hugepages.conf'
+</code></pre>
+<h3 id="oracle_ic_net">oracle_ic_net</h3>
+<p>Picks the last octet from the public ip to use for
+cluster-interconnect ip (e.g 3.3.3.51)</p>
+<h4 id="default-value-41">Default value</h4>
+<pre><code class="language-YAML">oracle_ic_net: 3.3.3.{{ ansible_all_ipv4_addresses[0].split(&quot;.&quot;)[-1] }}
+</code></pre>
+<h3 id="oracle_packages">oracle_packages</h3>
+<p>List of additinal RPMs for RHEL/OL.</p>
+<p><code>install_os_packages: true</code> is needed to install the RPMs.</p>
+<h4 id="default-value-42">Default value</h4>
+<pre><code class="language-YAML">oracle_packages:
+  - bind-utils
+  - nfs-utils
+  - util-linux-ng
+  - xorg-x11-utils
+  - xorg-x11-xauth
+  - binutils
+  - compat-libstdc++-33
+  - compat-libstdc++-33.i686
+  - unixODBC-devel
+  - unixODBC-devel.i686
+  - gcc
+  - gcc-c++
+  - glibc
+  - glibc.i686
+  - glibc-devel
+  - glibc-devel.i686
+  - libaio
+  - libaio-devel
+  - libaio.i686
+  - libaio-devel.i686
+  - libgcc
+  - libgcc.i686
+  - libstdc++
+  - libstdc++-devel
+  - libstdc++.i686
+  - libstdc++-devel.i686
+  - libXext
+  - libXext.i686
+  - zlib-devel
+  - zlib-devel.i686
+  - make
+  - sysstat
+  - openssh-clients
+  - compat-libcap1
+  - xorg-x11-xauth
+  - xorg-x11-xinit
+  - libXtst
+  - xdpyinfo
+  - xterm
+  - xsetroot
+  - libXp
+  - libXt
+  - libXau
+  - libXau.i686
+  - libXi
+  - libXi.i686
+  - libX11
+  - libX11.i686
+  - smartmontools
+  - elfutils-libelf-devel.i686
+  - elfutils-libelf-devel
+  - cpp
+  - lsof
+  - compat-openssl11
+  - fontconfig
+  - glibc-langpack-en
+</code></pre>
+<h3 id="oracle_packages_sles_multi">oracle_packages_sles_multi</h3>
+<p>List of additinal RPMs for different SLES version.</p>
+<p>List is based on: <a href="https://docs.oracle.com/en/database/oracle/oracle-database/19/ladbi/database-installation-guide-linux.pdf">https://docs.oracle.com/en/database/oracle/oracle-database/19/ladbi/database-installation-guide-linux.pdf</a></p>
+<p><code>install_os_packages: true</code> is needed to install the RPMs.</p>
+<h4 id="default-value-43">Default value</h4>
+<pre><code class="language-YAML">oracle_packages_sles_multi:
+  - name: SLES common packages
+    condition: true
+    packages:
+      - bc
+      - binutils
+      - glibc
+      - glibc-devel
+      - libaio-devel
+      - libaio1
+      - libcap-ng-utils
+      - libcap-ng0
+      - libcap-progs
+      - libcap2
+      - libgcc_s1
+      - libpcap1
+      - libpcre1
+      - libpcre16-0
+      - libpng16-16
+      - libstdc++6
+      - libtiff5
+      - libXau6
+      - libXrender1
+      - libXtst6
+      - make
+      - mksh
+      - pixz
+      - rdma-core
+      - rdma-core-devel
+      - smartmontools
+      - sysstat
+      - xorg-x11-libs
+      - xz
+  - name: SLES 12 packages
+    condition: &quot;{{ ansible_distribution_major_version == '12' }}&quot;
+    packages:
+      - libcap1
+      - libelf-devel
+      - libjpeg-turbo
+      - libjpeg62
+      - libjpeg62-turbo
+      - libX11
+  - name: SLES 15 packages
+    condition: &quot;{{ ansible_distribution_major_version == '15' }}&quot;
+    packages:
+      - insserv-compat
+      - libelf1
+      - libgfortran4
+      - libjpeg8
+      - libX11-6
+      - libXext-devel
+      - libXext6
+      - libXi-devel
+      - libXi6
+      - libXrender-devel
+  - name: SLES 15 SP3+ extra packages
+    condition: &quot;{{ ansible_distribution_version is version('15.3', 'ge') }}&quot;
+    packages:
+      - compat-libpthread-nonshared
+</code></pre>
+<h3 id="oracle_sysctl">oracle_sysctl</h3>
+<p>Configure parameter in sysctl.</p>
+<p><em>Important</em></p>
+<p>Do not add configurations for Hugepages here!</p>
+<h4 id="default-value-44">Default value</h4>
+<pre><code class="language-YAML">oracle_sysctl:
+  - {name: kernel.shmall, value: 4294967296}
+  - {name: kernel.shmmax, value: 68719476736}
+  - {name: kernel.shmmni, value: 4096}
+  - {name: kernel.sem, value: 250 32000 100 128}
+  - {name: fs.file-max, value: 6815744}
+  - {name: fs.aio-max-nr, value: 3145728}
+  - {name: net.ipv4.ip_local_port_range, value: 9000 65500}
+  - {name: net.core.rmem_default, value: 262144}
+  - {name: net.core.rmem_max, value: 4194304}
+  - {name: net.core.wmem_default, value: 262144}
+  - {name: net.core.wmem_max, value: 1048576}
+  - {name: kernel.panic_on_oops, value: 1}
+  - {name: kernel.panic, value: 10}
+  - {name: vm.min_free_kbytes, value: 524288}
+</code></pre>
+<h3 id="oracle_sysctl_file">oracle_sysctl_file</h3>
+<p>Allows to specify the file in which sysctl settings will be stored. When unspecified it will
+be put to <code>/etc/sysctl.conf</code> by the module defaults (omit)</p>
+<h4 id="default-value-45">Default value</h4>
+<pre><code class="language-YAML">oracle_sysctl_file: _unset_
+</code></pre>
+<h4 id="example-usage-4">Example usage</h4>
+<pre><code class="language-YAML">oracle_sysctl_file: '/etc/sysctl.d/oracle.conf'
+</code></pre>
+<h3 id="oracle_users">oracle_users</h3>
+<p>oracle OS-User</p>
+<h4 id="default-value-46">Default value</h4>
+<pre><code class="language-YAML">oracle_users:
+  - username: oracle
+    uid: 54321
+    primgroup: '{{ oracle_group }}'
+    othergroups: '{{ dba_group }},{{ asmadmin_group }},{{ asmdba_group }},{{ asmoper_group
+      }},backupdba,dgdba,kmdba,{{ oper_group }}'
+</code></pre>
+<h3 id="os_family_supported">os_family_supported</h3>
+<p>Support is limited to RHE/OL and SuSE</p>
+<h4 id="default-value-47">Default value</h4>
+<pre><code class="language-YAML">os_family_supported: &quot;{% if ansible_os_family == 'Suse' %}Suse{% else %}RedHat{% endif
+  %}&quot;
+</code></pre>
+<h3 id="os_min_supported_version">os_min_supported_version</h3>
+<p>Minimum supported versions for SLES is 12.1 and RHEL/OL &gt;= 6.4</p>
+<h4 id="default-value-48">Default value</h4>
+<pre><code class="language-YAML">os_min_supported_version: &quot;{% if ansible_os_family == 'Suse' %}12.1{% else %}6.4{%
+  endif %}&quot;
+</code></pre>
+<h3 id="percent_hugepages">percent_hugepages</h3>
+<p>Define percentage from RAM for Hugepages. Only valud when configure_hugepages_by: percentage</p>
+<h4 id="default-value-49">Default value</h4>
+<pre><code class="language-YAML">percent_hugepages: 50
+</code></pre>
+<h3 id="size_in_gb_hugepages">size_in_gb_hugepages</h3>
+<p>Size in GB for Hugepages. Only valud when configure_hugepages_by: memory</p>
+<h4 id="default-value-50">Default value</h4>
+<pre><code class="language-YAML">size_in_gb_hugepages: 1
+</code></pre>
+<h3 id="ssh_keys">ssh_keys</h3>
+<h4 id="default-value-51">Default value</h4>
+<pre><code class="language-YAML">ssh_keys:
+  - /tmp/id_rsa
+  - /tmp/id_rsa.pub
+  - /tmp/authorized_keys
+</code></pre>
+<h3 id="sudoers_template">sudoers_template</h3>
+<p>Used ansible template for sudoers configuration.</p>
+<h4 id="default-value-52">Default value</h4>
+<pre><code class="language-YAML">sudoers_template: sudoers.j2
+</code></pre>
+<h3 id="transparent_hugepage_disable">transparent_hugepage_disable</h3>
+<p>Disable Transparent Hugepages during boot.</p>
+<p><em>Important</em></p>
+<p>It is strongly recommended to disable Transparent Hugepages. Do not change this variable.</p>
+<h4 id="default-value-53">Default value</h4>
+<pre><code class="language-YAML">transparent_hugepage_disable:
+  - {disable: echo never &gt;, path: /sys/kernel/mm/transparent_hugepage/enabled, rclocal: /etc/rc.d/rc.local}
+  - {disable: echo never &gt;, path: /sys/kernel/mm/transparent_hugepage/defrag, rclocal: /etc/rc.d/rc.local}
+</code></pre>
+<h3 id="transparent_hugepage_disable_by_grub">transparent_hugepage_disable_by_grub</h3>
+<p>Alternatively to dynamically disabling transparent hugepages using rc.local,
+disable transparent hugepages using kernel command line.</p>
+<p><em>Note</em>: Setting transparent_hugepage_disable_by_grub true obsoletes transparent_hugepage_disable</p>
+<h4 id="default-value-54">Default value</h4>
+<pre><code class="language-YAML">transparent_hugepage_disable_by_grub: false
+</code></pre>
+<h2 id="discovered-tags">Discovered Tags</h2>
+<p><strong><em>always</em></strong></p>
+<p><strong><em>asmlibconfig</em></strong></p>
+<p><strong><em>etchosts</em></strong></p>
+<p><strong><em>eth1</em></strong></p>
+<p><strong><em>group</em></strong></p>
+<p><strong><em>hostfs</em></strong></p>
+<p><strong><em>hugepages</em></strong></p>
+<p><strong><em>molecule-idempotence-notest</em></strong></p>
+<p><strong><em>nozeroconf</em></strong></p>
+<p><strong><em>orahost_assert</em></strong></p>
+<p><strong><em>os_packages, oscheck</em></strong></p>
+<p><strong><em>os_packages, oscheck, asm1</em></strong></p>
+<p><strong><em>oscheck</em></strong></p>
+<p><strong><em>pamconfig</em></strong></p>
+<p><strong><em>seclimit</em></strong></p>
+<p><strong><em>selinux</em></strong></p>
+<p><strong><em>sshkeys</em></strong></p>
+<p><strong><em>stagedir</em></strong></p>
+<p><strong><em>sudoadd</em></strong></p>
+<p><strong><em>sysctl</em></strong></p>
+<p><strong><em>tphnuma</em></strong></p>
+<p><strong><em>tphnuma,molecule-idempotence-notest</em></strong></p>
+<p><strong><em>user</em></strong></p>
+<h2 id="open-tasks">Open Tasks</h2>
+<ul>
+<li>(improvement): SSH-Setup needs a rework&hellip;</li>
+</ul>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li>global_handlers</li>
+<li>orahost_meta</li>
+</ul>
+<h2 id="license">License</h2>
+<p>license (MIT)</p>
+<h2 id="author">Author</h2>
+<p>[Mikael Sandström]</p>
+
+	<div class="td-page-meta__lastmod">
+  Last modified January 1, 0001: <a href="https://github.com/oravirt/ansible-oracle/commit/a8710d7e5d581082b15865777d2702346124e01d">website: new website for ansible-oracle (a8710d7e)</a>
+</div>
+
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      <footer class="td-footer row d-print-none">
+  <div class="container-fluid">
+    <div class="row mx-md-2">
+      <div class="td-footer__left col-6 col-sm-4 order-sm-1">
+        
+      </div><div class="td-footer__right col-6 col-sm-4 order-sm-3">
+        <ul class="td-footer__links-list">
+  
+  <li class="td-footer__links-item" data-bs-toggle="tooltip" title="GitHub" aria-label="GitHub">
+    <a target="_blank" rel="noopener" href="https://github.com/oravirt/ansible-oracle" aria-label="GitHub">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+</ul>
+
+      </div><div class="td-footer__center col-12 col-sm-4 py-2 order-sm-2">
+        <span class="td-footer__copyright">&copy;
+    2016&ndash;2026
+    <span class="td-footer__authors">Thorsten Bruhns | <a href="https://github.com/oravirt/ansible-oracle/blob/master/LICENSE">MIT</a></span></span><nav aria-label="Legal" class="td-footer__legal mt-2">
+  <ul class="list-inline mb-0">
+    <li class="list-inline-item"><a href="/legal-notice/">Legal Notice</a></li>
+    <li class="list-inline-item"><a href="/privacy/">Privacy</a></li>
+    <li class="list-inline-item"><a href="/accessibility/">Accessibility</a></li>
+    </ul>
+</nav>
+
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <script src="/js/main.js"></script>
+<script src='/js/prism.js'></script>
+<script src='/js/tabpane-persist.js'></script>
+
+  </body>
+</html>

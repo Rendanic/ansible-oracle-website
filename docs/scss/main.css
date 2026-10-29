@@ -19710,12 +19710,98 @@ div.drawioframe {
     height: 5rem;
     visibility: hidden; } }
 
-/*
+html {
+  scroll-padding-top: 5rem; }
 
-Nothing defined here. The Hugo project that uses this theme can override Bootstrap by adding a file to:
+.td-content a:not(.btn) {
+  color: #0a58ca; }
 
-assets/scss/_styles_project.scss
+.td-navbar,
+.navbar-bg-onscroll {
+  background: #fff !important;
+  border-bottom: 1px solid #dee2e6; }
+  .td-navbar .navbar-brand,
+  .td-navbar .nav-link,
+  .navbar-bg-onscroll .navbar-brand,
+  .navbar-bg-onscroll .nav-link {
+    color: #212529; }
+  .td-navbar .nav-link:hover,
+  .td-navbar .nav-link:focus,
+  .td-navbar .nav-link.active,
+  .navbar-bg-onscroll .nav-link:hover,
+  .navbar-bg-onscroll .nav-link:focus,
+  .navbar-bg-onscroll .nav-link.active {
+    color: #30638e;
+    text-decoration: underline; }
 
-*/
+.td-box p > a.btn-primary,
+.td-box p > a.btn-outline-primary:hover,
+.td-box p > a.btn-outline-primary:focus {
+  color: #fff; }
+
+.td-box p > a.btn-outline-primary {
+  color: #30638e;
+  border-color: #30638e; }
+  .td-box p > a.btn-outline-primary:hover, .td-box p > a.btn-outline-primary:focus {
+    background-color: #30638e; }
+
+.td-footer {
+  color: #212529;
+  background-color: #fff;
+  border-top: 1px solid #dee2e6; }
+  .td-footer a,
+  .td-footer p > a,
+  .td-footer span > a,
+  .td-footer .td-footer__links-item a {
+    color: #30638e; }
+    .td-footer a:hover,
+    .td-footer p > a:hover,
+    .td-footer span > a:hover,
+    .td-footer .td-footer__links-item a:hover {
+      color: #224563; }
+
+.td-content .token.cdata,
+.td-content .token.comment,
+.td-content .token.doctype,
+.td-content .token.prolog {
+  color: #5a6570; }
+
+.td-content .token.punctuation {
+  color: #555; }
+
+.td-content .token.attr-name,
+.td-content .token.builtin,
+.td-content .token.char,
+.td-content .token.inserted,
+.td-content .token.selector,
+.td-content .token.string {
+  color: #3f6e00; }
+
+.td-content .token.entity,
+.td-content .token.operator,
+.td-content .token.url,
+.td-content .language-css .token.string,
+.td-content .style .token.string {
+  color: #7a5428;
+  background: none; }
+
+.td-content .token.atrule,
+.td-content .token.attr-value,
+.td-content .token.keyword {
+  color: #006a99; }
+
+.td-content .token.class-name,
+.td-content .token.function {
+  color: #b8284a; }
+
+.td-content .token.important,
+.td-content .token.regex,
+.td-content .token.variable {
+  color: #9a5a00; }
+
+.td-content pre {
+  color: #212529;
+  background-color: #f5f2f0;
+  border: 1px solid #dee2e6; }
 
 /*# sourceMappingURL=main.css.map */

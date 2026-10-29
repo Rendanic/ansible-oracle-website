@@ -1,0 +1,1918 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="canonical" type="text/html" href="https://www.ansible-oracle.eu/docs/development/">
+<meta name="robots" content="noindex, nofollow">
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+<title>Development | ansible-oracle Project</title>
+<meta name="description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins.">
+<meta property="og:url" content="https://www.ansible-oracle.eu/docs/development/">
+	<meta property="og:site_name" content="ansible-oracle Project">
+	<meta property="og:title" content="Development">
+	<meta property="og:description" content="Everything about the development of ansible-oracle.">
+	<meta property="og:locale" content="en_us">
+	<meta property="og:type" content="website">
+
+	<meta itemprop="name" content="Development">
+	<meta itemprop="description" content="Everything about the development of ansible-oracle.">
+	<meta itemprop="dateModified" content="2026-10-28T21:52:27+01:00">
+	<meta itemprop="wordCount" content="6">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Development">
+	<meta name="twitter:description" content="Everything about the development of ansible-oracle.">
+
+
+
+
+
+<link href="/scss/main.css" rel="stylesheet">
+
+<script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+  crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/css/prism.css"/>
+
+  </head>
+  <body class="td-section">
+    <header>
+      <nav class="td-navbar js-navbar-scroll" data-bs-theme="light">
+<div class="container-fluid flex-column flex-md-row">
+  <a class="navbar-brand" href="/"><span class="navbar-brand__logo navbar-logo"><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500"><g><path style="fill:#fff" d="M116.8525 421.9722c-5.7041.0-10.3442-4.3127-10.3442-9.6129V88.183c0-5.3002 4.6401-9.6117 10.3442-9.6117H320.858c3.0347.0 9.3959.5498 11.7506 2.6302l.3545.3442 58.905 63.2912c2.3101 2.491 2.9202 8.4928 2.9202 11.3184v256.2039c0 5.3002-4.6407 9.6129-10.3436 9.6129H116.8525z"/><g><g><g><path style="fill:#767676" d="M384.4445 423.2066H116.852c-6.3839.0-11.5786-4.8658-11.5786-10.8474V88.1831c0-5.9804 5.1947-10.8461 11.5786-10.8461h204.0062c.377.0 9.2786.0329 12.568 2.9389l.3947.3833 58.9508 63.337c3.2135 3.4652 3.2514 11.7924 3.2514 12.1593v256.2036C396.0231 418.3408 390.8284 423.2066 384.4445 423.2066zM116.5079 411.9189c.0848.0278.1999.0531.3441.0531h267.5925c.1442.0.2581-.0253.3441-.0531V156.1556c-.0076-.9033-.3593-3.7347-.7034-5.0037l-57.6527-61.9416c-1.4651-.3176-4.4533-.6389-5.5742-.6389H116.852c-.143.0-.2594.024-.3441.0531V411.9189zm267.4533-261.149zM327.0321 89.371v.0013V89.371z"/></g></g></g><g><g><path style="fill:#5b7fc0" d="M189.0874 210.1754l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4473C177.5953 212.627 183.0601 210.1742 189.0874 210.1754zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 234.1722 197.0804 232.033z"/><path style="opacity:.3;fill:#fff" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/><g><defs><path id="SVGID_1_" d="M194.7376 237.6875c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 234.2399 196.1861 236.239 194.7376 237.6875z"/></defs><clipPath id="SVGID_2_"><use xlink:href="#SVGID_1_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_2_);fill:#fff" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/><path style="opacity:.13;clip-path:url(#SVGID_2_);fill:#020202" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/></g><g><defs><path id="SVGID_3_" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/></defs><clipPath id="SVGID_4_"><use xlink:href="#SVGID_3_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_4_);fill:#5b7fc0" d="M172.6595 215.6045c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8475-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 209.1953 176.6171 211.647 172.6595 215.6045z"/></g></g><rect x="198.8952" y="225.1043" style="fill:#5b7fc0" width="122.6266" height="13.8671"/></g><g><path style="fill:#d95140" d="M189.0874 155.7611l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.0249 2.454-11.4897 6.4116-15.4473C177.5953 158.2128 183.0601 155.7599 189.0874 155.7611zm7.993 21.8577c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.2508 181.7667 197.0816 179.758 197.0804 177.6188z"/><path style="opacity:.3;fill:#fff" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/><g><defs><path id="SVGID_5_" d="M194.7376 183.2733c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 179.8256 196.1861 181.8248 194.7376 183.2733z"/></defs><clipPath id="SVGID_6_"><use xlink:href="#SVGID_5_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_6_);fill:#fff" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/><path style="opacity:.13;clip-path:url(#SVGID_6_);fill:#020202" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/></g><g><defs><path id="SVGID_7_" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/></defs><clipPath id="SVGID_8_"><use xlink:href="#SVGID_7_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_8_);fill:#d95140" d="M172.6595 161.1903c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 154.7811 176.6171 157.2327 172.6595 161.1903z"/></g><rect x="198.8952" y="170.69" style="fill:#d95140" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#56a55c" d="M189.5379 264.6147l.0012-.0012c7.7751.0012 15.0294 4.1862 18.932 10.9235 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032-5.8394.0-11.3281-2.2733-15.458-6.4032-4.13-4.13-6.4032-9.6186-6.4056-15.4628.0012-6.0249 2.454-11.4897 6.4116-15.4472C178.0458 267.0663 183.5105 264.6135 189.5379 264.6147zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6538 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.7013 290.6202 197.5321 288.6115 197.5309 286.4723z"/><path style="opacity:.3;fill:#fff" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/><g><defs><path id="SVGID_9_" d="M195.1881 292.1268c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9941 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.5344 288.6792 196.6366 290.6783 195.1881 292.1268z"/></defs><clipPath id="SVGID_10_"><use xlink:href="#SVGID_9_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_10_);fill:#fff" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/><path style="opacity:.13;clip-path:url(#SVGID_10_);fill:#020202" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/></g><g><defs><path id="SVGID_11_" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/></defs><clipPath id="SVGID_12_"><use xlink:href="#SVGID_11_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_12_);fill:#56a55c" d="M173.11 270.0439c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7325-11.1497-10.9151-18.926-10.9151C182.5311 263.6346 177.0676 266.0863 173.11 270.0439z"/></g></g><rect x="199.3456" y="279.5436" style="fill:#56a55c" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#f1bc42" d="M189.0874 318.7208l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3305-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4472C177.5953 321.1724 183.0601 318.7196 189.0874 318.7208zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 342.7176 197.0804 340.5784z"/><path style="opacity:.3;fill:#fff" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/><g><defs><path id="SVGID_13_" d="M194.7376 346.2329c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 342.7853 196.1861 344.7844 194.7376 346.2329z"/></defs><clipPath id="SVGID_14_"><use xlink:href="#SVGID_13_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_14_);fill:#fff" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/><path style="opacity:.13;clip-path:url(#SVGID_14_);fill:#020202" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/></g><g><defs><path id="SVGID_15_" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/></defs><clipPath id="SVGID_16_"><use xlink:href="#SVGID_15_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_16_);fill:#f1bc42" d="M172.6595 324.15c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8474-1.0151-7.6327-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 317.7407 176.6171 320.1924 172.6595 324.15z"/></g></g><rect x="198.8952" y="333.6497" style="fill:#f1bc42" width="122.6266" height="13.8671"/></g></g></svg></span><span class="navbar-brand__name">ansible-oracle Project</span></a>
+  <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/about/"><span>About</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/docs/"><span>Documentation</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/oravirt/ansible-oracle/releases" target="_blank" rel="noopener"><span>Releases</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/oravirt/ansible-oracle" target="_blank" rel="noopener"><span>Github</span></a>
+      </li>
+      </ul>
+  </div>
+  <div class="d-none d-lg-block">
+    
+  </div>
+</div>
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <main class="col-12 col-md-9 col-xl-8 ps-md-5" role="main">
+            
+
+
+
+
+<div class="td-content">
+<div class="pageinfo pageinfo-primary d-print-none">
+<p>
+This is the multi-page printable view of this section.
+<a href="#" onclick="print();return false;">Click here to print</a>.
+</p><p>
+<a href="/docs/development/">Return to the regular view of this page</a>.
+</p>
+</div>
+
+
+
+<h1 class="title">Development</h1>
+
+
+
+
+
+    <ul>
+    
+  
+  
+  
+  
+
+  
+    
+    
+	
+<li>1: <a href="#pg-df389f0fd67da23712005b22d5d20abf">How to develop</a></li>
+
+
+    
+  
+    
+    
+	
+<li>2: <a href="#pg-df389f0fd67da23712005b22d5d20abf">Website</a></li>
+
+
+    
+  
+
+    </ul>
+
+
+<div class="content">
+      <p>Everything about the development of <code>ansible-oracle</code>.</p>
+
+</div>
+</div>
+
+
+  
+  
+  
+  
+
+  
+  
+
+  
+    
+    
+	
+    
+
+<div class="td-content" style="">
+    
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">1 - How to develop</h1>
+    
+	l><head></head><body><div class="sect1">
+<h2 id="_how_to_develop_in_ansible_oracle">1. How to develop in <code>ansible-oracle</code>?</h2>
+<div class="sectionbody">
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+This is an example how most of the development in <code>ansible-oracle</code> is done.<br/>
+A Pull-Request is only accepted, when <code>github-Actions</code> are valid.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="sect2">
+<h3 id="_create_fork_on_github_and_contribute_to_the_project">1.1. Create Fork on github and contribute to the project</h3>
+<div class="paragraph">
+<p><a href="https://docs.github.com/en/get-started/quickstart/contributing-to-projects">github</a> has some great documentation with details about creating a fork and branch to contribute to <code>ansible-oracle</code>.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The <code>github-Actions</code> will automatically start, when the branchname starts with <code>pr</code> or in each Pull-Request.<br/>
+Please use a branch with &#39;pr&#39;--prefix, when <code>ansible-lint</code> should be checked for each commit.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_development_environment">1.2. Development environment</h3>
+<div class="paragraph">
+<p>You need an editor or IDE of your own choice and Bash as CLI.
+The tools for development (<code>ansible-lint</code>, <code>ansible-navigator</code>, <code>ansible-doctor</code>, <code>pre-commit</code>, …​) can be provided in two ways:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;"/>
+<col style="width: 40%;"/>
+<col style="width: 40%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"></th>
+<th class="tableblock halign-left valign-top">Option 1: nix-shell</th>
+<th class="tableblock halign-left valign-top">Option 2: local Ansible-Controller</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Setup</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Install Nix once, then <code>nix-shell</code> in the repository</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create and maintain venvs and tools manually</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tools</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">All tools and venvs are provided automatically</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Each tool is installed by yourself</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Recommended for</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">All developers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Developers with an existing Ansible-Controller or experience with Docker</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock tip">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<code>nix-shell</code> is the recommended way for developing in <code>ansible-oracle</code>.<br/>
+Choose one option, the chapter <a href="#working-with-tools">Working with the tools</a> is the same for both.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="sect3">
+<h4 id="nix-shell">1.2.1. Option 1: nix-shell (recommended)</h4>
+<div class="paragraph">
+<p>One command in the repository provides all tools, which are needed for development, tests and releases.</p>
+</div>
+<div class="sect4">
+<h5 id="_what_is_nix_shell">1.2.1.1. What is nix-shell?</h5>
+<div class="paragraph">
+<p><a href="https://nixos.org/">Nix</a> is a package manager for Linux and macOS, which works independent of the package manager of the OS (<code>dnf</code>, <code>apt</code>, …​).
+All packages are installed in <code>/nix/store</code>, each version in its own directory.
+Different versions of a tool can be installed in parallel without conflicts, the OS installation is not changed.</p>
+</div>
+<div class="paragraph">
+<p><code>nix-shell</code> starts a new shell with the packages from <code>shell.nix</code> in the repository.
+The tools are only available inside this shell, <code>exit</code> returns to the normal shell without any change in the OS.
+Packages are downloaded once and reused in all later sessions.</p>
+</div>
+<div class="paragraph">
+<p>The <code>shell.nix</code> of <code>ansible-oracle</code> provides:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Tools from Nix: <code>python313</code>, <code>shellcheck</code>, <code>go-task</code> (<code>task</code>), <code>jq</code>, <code>yq</code>, <code>gh</code> (GitHub CLI), <code>renovate</code>, <code>tig</code>, <code>ncdu</code> and <code>wslu</code> for WSL2.</p>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<code>gh</code> is only needed for creating releases (<code>task release:*</code>) and for running renovate against a fork.
+This is only relevant for a few maintainers.
+For normal development and Pull-Requests <code>gh</code> is not needed and no login with <code>gh auth login</code> is required.
+</td>
+</tr>
+</tbody></table>
+</div>
+</li>
+<li>
+<p>Python venvs in <code>.venv/</code> of the repository, which are created automatically from <code>tools/dev/requirements_*.txt</code> at the first start:</p>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 66.6667%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">venv</th>
+<th class="tableblock halign-left valign-top">Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>.venv/ansible-oracle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ansible-lint</code>, <code>ansible-navigator</code>, <code>molecule</code>, <code>pre-commit</code> - activated in the shell</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>.venv/ansible-doctor</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ansible-doctor</code> (has conflicts with <code>ansible-lint</code> in the same venv)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>.venv/antsibull</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>antsibull-changelog</code> for changelog fragments and releases</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>.venv/ansible-2.16</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tests with <code>ansible-core</code> 2.16</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>.venv/ansible-2.19</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tests with <code>ansible-core</code> 2.19</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_why_nix_shell_instead_of_containers">1.2.1.2. Why nix-shell instead of containers?</h5>
+<div class="paragraph">
+<p>Containers (see <code>docker/</code>) are an alternative, but they need much more effort in daily work:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>No image build, no container runtime:</strong> There is no Dockerfile to maintain and no daemon to start.
+<code>nix-shell</code> works on every Linux, WSL2 and macOS with Nix installed.</p>
+</li>
+<li>
+<p><strong>Work directly in your repository:</strong> Editor, IDE and git work on the files as usual.
+There are no volume mounts and no problems with file owners or UIDs between container and host.</p>
+</li>
+<li>
+<p><strong>Your credentials are available:</strong> SSH agent and keys and the git configuration of your user are used directly, for maintainers also the login of <code>gh</code>.
+A container needs extra mounts for all of them.</p>
+</li>
+<li>
+<p><strong>pre-commit works as on GitHub:</strong> The hooks of <code>pre-commit</code> use the Python and tools from <code>nix-shell</code>.
+E.g. the <code>ansible-lint</code> hook fails outside of <code>nix-shell</code> with the Python of an older OS.</p>
+</li>
+<li>
+<p><strong>Same tools for all developers:</strong> Everybody uses the same tools and pip requirements from the repository.
+No manual installation of <code>shellcheck</code>, <code>gh</code>, <code>jq</code>, <code>task</code> or the venvs is needed.</p>
+</li>
+<li>
+<p><strong>All tasks work out of the box:</strong> <code>task</code> for molecule, renovate and releases (<code>task release:pr</code>, …​) needs exactly the tools from <code>nix-shell</code>.</p>
+</li>
+<li>
+<p><strong>Nothing is left in your OS:</strong> The tools are removed from <code>PATH</code> when the shell is left.
+The venvs are inside the repository in <code>.venv/</code> and are not part of git.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_install_nix">1.2.1.3. Install Nix</h5>
+<div class="paragraph">
+<p>Nix is installed once per machine, see <a href="https://nixos.org/download/">nixos.org/download</a>.
+The multi-user installation is recommended (needs <code>sudo</code> only for the installation):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>sh &lt;(curl --proto &#39;=https&#39; --tlsv1.2 -L https://nixos.org/nix/install) --daemon</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+For WSL2 the multi-user installation needs <code>systemd</code> in WSL2 (<code>/etc/wsl.conf</code>: <code>[boot]</code> <code>systemd=true</code>).
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_using_nix_shell">1.2.1.4. Using nix-shell</h5>
+<div class="listingblock">
+<div class="content">
+<pre>cd ansible-oracle
+nix-shell</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The first start takes some minutes, because packages are downloaded and the venvs are created.
+Afterwards <code>nix-shell</code> starts in seconds and <code>.venv/ansible-oracle</code> is activated.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># check the tools
+task --list
+ansible-lint --version
+
+# leave nix-shell
+exit</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A single command can be executed without an interactive shell:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>nix-shell --run &#39;task release:pr&#39;</pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+With <a href="https://direnv.net/">direnv</a> and <a href="https://github.com/nix-community/nix-direnv">nix-direnv</a> the environment is loaded automatically, when you change into the repository.
+The repository contains a <code>.envrc</code> for this, which must be allowed once with <code>direnv allow</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_update_the_venvs">1.2.1.5. Update the venvs</h5>
+<div class="paragraph">
+<p>The venvs are only created, when the directory in <code>.venv/</code> does not exist.
+After a change of <code>tools/dev/requirements_*.txt</code> (e.g. by renovate) the venv must be updated manually.
+Errors like <code>ModuleNotFoundError: No module named &#39;yaml&#39;</code> show an incomplete venv.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># update a venv in place
+.venv/antsibull/bin/pip --require-virtualenv install -r tools/dev/requirements_antsibull.txt
+
+# or recreate it with the next start of nix-shell
+rm -rf .venv/antsibull
+nix-shell</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<code>shell.nix</code> uses the <code>nixpkgs</code> channel of your system, the versions of the Nix tools can differ between developers.
+The versions of the Python tools are pinned in <code>tools/dev/requirements_*.txt</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_option_2_local_ansible_controller">1.2.2. Option 2: local Ansible-Controller</h4>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+This option is only for developers, who want to use an existing Ansible-Controller or a container and have experience with venvs and Docker.<br/>
+All tools must be installed and updated manually.
+<code>nix-shell</code> does all of this automatically, see <a href="#nix-shell">Option 1: nix-shell (recommended)</a>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>The examples use venvs in <code>~/venv</code>.
+Make sure to use a current Python 3, the pinned versions in <code>tools/dev/requirements_*.txt</code> need a recent Python.
+The <code>activate</code> script is used to change the Python environment in current shell.</p>
+</div>
+<div class="sect4">
+<h5 id="_venv_for_ansible_oracle">1.2.2.1. venv for ansible-oracle</h5>
+<div class="paragraph">
+<p>The venv contains <code>ansible-lint</code>, <code>ansible-navigator</code>, <code>molecule</code> and <code>pre-commit</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">configure venv for ansible-oracle</div>
+<div class="content">
+<pre>python3 -m venv ~/venv/ansible-oracle
+. ~/venv/ansible-oracle/bin/activate
+pip --require-virtualenv -v install -r tools/dev/requirements_dev.txt</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Start ansible-navigator</div>
+<div class="content">
+<pre>. ~/venv/ansible-oracle/bin/activate
+ansible-navigator --version</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_venv_for_ansible_doctor">1.2.2.2. venv for ansible-doctor</h5>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<code>ansible-doctor</code> has module dependencies with conflicts between <code>ansible-lint</code>.
+We have to use a dedicated venv for <code>ansible-doctor</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">configure venv for ansible-doctor</div>
+<div class="content">
+<pre>python3 -m venv ~/venv/ansible-doctor
+. ~/venv/ansible-doctor/bin/activate
+pip --require-virtualenv -v install -r tools/dev/requirements_doctor.txt</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Start ansible-doctor</div>
+<div class="content">
+<pre>~/venv/ansible-doctor/bin/ansible-doctor --version</pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_ansible_container">1.2.2.3. Ansible-Container</h5>
+<div class="paragraph">
+<p>Instead of local venvs, the container from <code>docker/</code> can be used as Ansible-Controller.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cd ansible-oracle/docker
+docker-compose run --rm -w /git/ansible-oracle/example/beginner/ansible ansible bash</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Some <code>pre-commit</code> hooks (e.g. <code>ansible-lint</code>) need a recent Python and can fail with the Python of an older OS.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="working-with-tools">1.3. Working with the tools</h3>
+<div class="paragraph">
+<p>The following chapters are the same for both options.
+With <code>nix-shell</code> the tools are in <code>PATH</code>, with a local Ansible-Controller the venv must be activated before.</p>
+</div>
+<div class="sect3">
+<h4 id="_pre_commit">1.3.1. pre-commit</h4>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<a href="https://pre-commit.com/">pre-commit</a> is a nice tool for git.<br/>
+Each commit is locally checked against multiple rules, to prevent failures in github-Actions after pushing commits to github.<br/>
+This tool is recommended but not mandatory for contributing to <code>ansible-oracle</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Install the git hook once (cd into repository before)</div>
+<div class="content">
+<pre>pre-commit install</pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Do not forget to place change files in stage area of git before starting <code>pre-commit</code>.<br/>
+<code>pre-commit</code> works only on the data of the stage area!
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">run outside git</div>
+<div class="content">
+<pre>pre-commit run</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ansible_doctor">1.3.2. ansible-doctor</h4>
+<div class="listingblock">
+<div class="title">Start ansible-doctor with pre-commit</div>
+<div class="content">
+<pre>pre-commit run ansible-doctor</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Start ansible-doctor to create new README.md file</div>
+<div class="content">
+<pre>cd ansible-oracle
+
+# nix-shell
+.venv/ansible-doctor/bin/ansible-doctor -f -r roles
+
+# local Ansible-Controller
+~/venv/ansible-doctor/bin/ansible-doctor -f -r roles</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_start_playbook">1.3.3. Start Playbook</h4>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Don’t forget to set the working branch in <code>requirements.yml</code>.<br/>
+Remove/Disable <code>devsec.hardening</code> for faster installation of Ansible collection, when devsec should not be tested.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Edit requirements.yml</div>
+<div class="content">
+<pre>---
+collections:
+  # - name: devsec.hardening
+  #   version: 8.2.0
+  - name: https://github.com/Rendanic/ansible-oracle.git
+    type: git
+    version: devbranch</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Execute ansible-playbook</div>
+<div class="content">
+<pre>ansible-galaxy collection install --force -r requirements.yml &amp;&amp; ansible-playbook -i inventory/hasfd -e hostgroup=&#39;all&#39; playbooks/single-instance-asm.yml --limit &#39;*19c*&#39;</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_pull_requests">2. Pull-Requests</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_important_information">2.1. Important Information</h3>
+<div class="paragraph">
+<p>The ansible-oracle project introduced <code>antsibull-changelog</code> for managing the <code>CHANGELOG.rst</code> based on fragments in <code>changelogs/fragments</code>.</p>
+</div>
+<div class="paragraph">
+<p>The ID should point to the PR and the filename describe the PR in short form.
+The fragments are part of the PR.
+If multiple PRs are open, the upper rule makes sure that no duplicate files are created during merge.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Each Pull-Requests needs a fragment from Release 3.0.0 onwards!
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_create_new_releases_in_ansible_oracle">3. Create new Releases in <code>ansible-oracle</code></h2>
+<div class="sectionbody">
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+This is only needed for creating new Releases in <code>ansible-oracle</code> - not for development!
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="sect2">
+<h3 id="_install_antsibull_changelog">3.1. Install antsibull-changelog</h3>
+<div class="listingblock">
+<div class="content">
+<pre>cd ansible-oracle/docker
+docker-compose run --rm -w /git/ansible-oracle/example/beginner/ansible ansible bash
+
+pip3 install antsibull-changelog</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_working_with_antsibull_changelog">3.2. Working with antsibull-changelog</h3>
+<div class="paragraph">
+<p>Changelogs for Collections: <a class="bare" href="https://github.com/ansible-community/antsibull-changelog/blob/main/docs/changelogs.rst#releasing-a-new-version-of-a-collection">https://github.com/ansible-community/antsibull-changelog/blob/main/docs/changelogs.rst#releasing-a-new-version-of-a-collection</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_add_pr_references_to_fragments">3.3. Add PR references to fragments</h3>
+<div class="paragraph">
+<p>Each entry in a fragment should end with a reference to its Pull-Request, e.g. <code>(oravirt#599)</code>.
+<code>tools/release/fix_fragments.py</code> adds missing references to all fragments in <code>changelogs/fragments</code>.</p>
+</div>
+<div class="paragraph">
+<p>The Pull-Request is determined from the commits of the fragment file via the GitHub API, newest commit first.
+A merged Pull-Request of any of these commits wins over an open one.
+The open Release-Pull-Request is only used for fragments, which are not part of a merged Pull-Request.
+The reference is appended to every entry that does not end with it, even if the entry already references an issue.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># show what would be changed
+tools/release/fix_fragments.py --dry-run
+
+# update the fragments
+tools/release/fix_fragments.py</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Single fragments can be checked with <code>-f</code> / <code>--fragment</code>, e.g. by a developer after the Pull-Request for a new fragment has been created.
+The parameter accepts a path or a filename from <code>changelogs/fragments</code> and can be repeated.
+With <code>--dry-run</code> the script returns exit code 1 if the fragment needs to be updated.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># check a single fragment
+tools/release/fix_fragments.py --dry-run -f blanks-in-gi-responsefile.yml
+
+# update a single fragment
+tools/release/fix_fragments.py -f changelogs/fragments/blanks-in-gi-responsefile.yml</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The Pull-Request must exist on GitHub, otherwise the fragment is reported as <code>no pull request found</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>Fragments without a Pull-Request and entries that cannot be updated automatically (e.g. broken quoting) are reported and must be fixed manually.
+The script returns exit code 1 in this case.</p>
+</div>
+<div class="paragraph">
+<p>Without <code>--fragment</code> all fragments in <code>changelogs/fragments</code> are processed.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Without a token the GitHub API allows only 60 requests per hour.
+The token is taken from <code>GITHUB_TOKEN</code> or <code>GH_TOKEN</code>.
+Without these variables the token stored by <code>gh</code> is used, when all fragments are processed (<code>gh auth token</code> or <code>~/.config/gh/hosts.yml</code> of the active account).
+An invalid token is ignored with a warning.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>This must be done before <code>antsibull-changelog release</code>, because the release removes the fragments.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_collection_version_in_requirements_yml">3.4. Collection version in requirements.yml</h3>
+<div class="paragraph">
+<p>The examples in <code>example/*/ansible/requirements.yml</code> must reference the collection version from <code>galaxy.yml</code>.
+The same is needed for the template <code>tools/release/requirements.yml</code>.
+<code>tools/release/galaxy_version.sh</code> checks or sets the version in all these files.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># check the versions
+tools/release/galaxy_version.sh check
+
+# set the version from galaxy.yml
+tools/release/galaxy_version.sh fix</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>check</code> returns exit code 1 if a file does not use the version from <code>galaxy.yml</code>.
+<code>fix</code> changes only the version of the collection entry, comments in the files are kept.</p>
+</div>
+<div class="paragraph">
+<p>The script is also available as <code>task example:check</code> and <code>task example:fix</code> from the repository root.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_creating_new_releases">3.5. Creating new releases</h3>
+<div class="paragraph">
+<p><code>tools/release/build_release.sh</code> executes the whole release process in two steps:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>-m pr</code></dt>
+<dd>
+<p>Create the Release-Pull-Request with changelog.</p>
+</dd>
+<dt class="hdlist1"><code>-m release</code></dt>
+<dd>
+<p>Create the tag and a draft release for the Release-Pull-Request.</p>
+</dd>
+<dt class="hdlist1"><code>-m galaxy</code></dt>
+<dd>
+<p>Sync <code>master</code> of your fork with <code>master</code> of the upstream repository.</p>
+</dd>
+</dl>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The whole release process should be done with a dedicated Pull-Request.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>Requirements:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The release branch is named <code>pr/&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;</code>, e.g. <code>pr/4.16.0</code>.</p>
+</li>
+<li>
+<p><code>origin</code> is your fork on GitHub.</p>
+</li>
+<li>
+<p><code>gh</code> is logged in (<code>gh auth status</code>), <code>jq</code> and <code>curl</code> are installed and <code>.venv/antsibull</code> exists. <code>gh</code>, <code>jq</code> and the venv are provided by <code>nix-shell</code>.</p>
+</li>
+<li>
+<p>The script is executed in <code>nix-shell</code>, because the pre-commit hooks of the version commit need it.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>nix-shell
+git switch -c pr/4.16.0
+tools/release/build_release.sh -m pr</pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_release_pull_request_m_pr">3.5.1. Release-Pull-Request (<code>-m pr</code>)</h4>
+<div class="paragraph">
+<p>The script executes the following steps:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Read the version from the branch name (<code>pr/4.16.0</code> → <code>4.16.0</code>) and set it in <code>galaxy.yml</code>.</p>
+</li>
+<li>
+<p>Set the version in all <code>requirements.yml</code> with <code>tools/release/galaxy_version.sh fix</code>.</p>
+</li>
+<li>
+<p>Commit <code>galaxy.yml</code> and all <code>requirements.yml</code> as <code>Release &lt;version&gt;</code>.
+This is the initial commit for the Pull-Request, GitHub refuses a Pull-Request without commits.
+Other changes in the working tree and the index are not part of this commit.
+The step is skipped, when the version is already committed.</p>
+</li>
+<li>
+<p>Push the branch to <code>origin</code>.</p>
+</li>
+<li>
+<p>Create the Pull-Request <code>Release &lt;version&gt;</code> in <code>oravirt/ansible-oracle</code>. An existing open Pull-Request of the branch is used.</p>
+</li>
+<li>
+<p>Add the PR references to the fragments with <code>tools/release/fix_fragments.py</code>.
+The script is aborted, when fragments cannot be updated.</p>
+</li>
+<li>
+<p>Create the changelog with <code>.venv/antsibull/bin/antsibull-changelog release</code>.
+<code>antsibull-changelog</code> reads the version from <code>galaxy.yml</code> and aborts, when the release already exists in <code>CHANGELOG.rst</code>.
+The fragments are removed.</p>
+</li>
+<li>
+<p>Replace the description of the Pull-Request with the release notes of the new version (Markdown, <code>antsibull-changelog generate --only-latest</code>).</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The changes of fragments and changelog are not committed by the script.
+Review them, then commit and push them to the release branch.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_draft_release_m_release">3.5.2. Draft release (<code>-m release</code>)</h4>
+<div class="listingblock">
+<div class="content">
+<pre>tools/release/build_release.sh -m release</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The script executes the following steps:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Search the Pull-Request of the release branch from your fork, open or merged.</p>
+</li>
+<li>
+<p>Create the tag <code>v&lt;version&gt;</code> (e.g. <code>v4.16.0</code>) like the existing release tags.
+The tag points to the merge commit of the Pull-Request.
+When the Pull-Request is still open, the last commit of the Pull-Request is used.</p>
+</li>
+<li>
+<p>Push the tag to the git remote of the GitHub repository (e.g. <code>upstream</code> for <code>oravirt/ansible-oracle</code>).
+An existing tag is used, when it points to the same commit, otherwise the script is aborted.</p>
+</li>
+<li>
+<p>Create the draft release <code>Release &lt;version&gt;</code> with the description of the Pull-Request as text.
+The text of an existing draft release is updated, an already published release aborts the script.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The draft release must be published manually on GitHub.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sync_fork_m_galaxy">3.5.3. Sync fork (<code>-m galaxy</code>)</h4>
+<div class="listingblock">
+<div class="content">
+<pre>tools/release/build_release.sh -m galaxy</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>GitHub syncs the fork in the background.
+<code>-m galaxy</code> forces the sync of <code>master</code> in your fork with <code>master</code> of the upstream repository (<code>gh repo sync</code>), to take over a release merged in upstream at once.
+The fork is <code>&lt;gh user&gt;/ansible-oracle</code>, the user is taken from the login of <code>gh</code>.
+Afterwards the last commit of <code>master</code> in the fork is shown.</p>
+</div>
+<div class="paragraph">
+<p>When the last commit of <code>master</code> in the fork is a release commit (<code>Release &lt;version&gt;</code>), the latest published release of the upstream repository is checked.
+Draft releases are ignored, so the release must be published before.</p>
+</div>
+<div class="paragraph">
+<p>If the release points to this commit, the workflow <code>Deploy Collection</code> is started in the fork, which uploads the collection to Ansible Galaxy.
+The script waits for the workflow and shows the progress of the steps (<code>gh run watch</code>).
+When the workflow fails, the log of the failed steps is shown and the script returns exit code 1.
+The workflow is not started, when the version is already on Ansible Galaxy, so <code>-m galaxy</code> can be repeated safely.</p>
+</div>
+<div class="paragraph">
+<p>The mode works only on GitHub with <code>gh</code> (and the API of Ansible Galaxy), nothing is changed locally and no release branch is needed.
+The sync is refused, when <code>master</code> of the fork contains own commits - no hard reset is done.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_tasks">3.5.4. Tasks</h4>
+<div class="paragraph">
+<p>The modes are also available as tasks from the repository root.
+Options are passed after <code>--</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>task release:pr        # -m pr
+task release:draft     # -m release
+task release:galaxy    # -m galaxy</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The creation of the Release-Pull-Request can be tested against your fork:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>task release:pr -- -i -r &lt;github user&gt;/ansible-oracle</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The Pull-Request is then created in your fork instead of <code>oravirt/ansible-oracle</code>.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+<code>fix_fragments.py</code> searches the Pull-Requests of the fragments in your fork and not in upstream.
+The fragments are part of Pull-Requests in <code>oravirt/ansible-oracle</code>, so the results are wrong:
+fragments get the reference of the test Pull-Request in your fork (e.g. <code>Rendanic#93</code>) or are skipped with <code>no pull request found</code>.
+<code>-i</code> is needed, otherwise the script stops at the skipped fragments.
+Changelog and description of the test Pull-Request contain these wrong references, never use them for a real release.
+Revert all changes in the working tree after the test.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_options">3.5.5. Options</h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>-m pr|release|galaxy</code></dt>
+<dd>
+<p>Mode of the script, see above.</p>
+</dd>
+<dt class="hdlist1"><code>-r &lt;owner/repo&gt;</code></dt>
+<dd>
+<p>GitHub repository for the Pull-Request, the release, the lookup of the fragment Pull-Requests and source of the fork sync (default: <code>oravirt/ansible-oracle</code>).</p>
+</dd>
+<dt class="hdlist1"><code>-i</code></dt>
+<dd>
+<p>Continue, when fragments cannot be updated by <code>fix_fragments.py</code> (only <code>-m pr</code>).</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>A test against your fork is possible with <code>-i -r &lt;your account&gt;/ansible-oracle</code>, or <code>-m release -r &lt;your account&gt;/ansible-oracle</code>.
+The fragments get the reference of the Release-Pull-Request in the fork or are skipped, because the Pull-Requests of the fragments are in <code>oravirt/ansible-oracle</code>.
+Revert all changes in the working tree after such a test and remove the test tag and draft release (<code>git tag -d v&lt;version&gt;</code>, the tag and the release in your fork).</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_check_dependencies_with_renovate">4. Check dependencies with renovate</h2>
+<div class="sectionbody">
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+This is optional and not needed for the normal development in <code>ansible-oracle</code>.<br/>
+It is used by maintainers to find updates for pip modules and container images.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p><code>renovate</code> is part of <code>shell.nix</code>.
+The configuration is in <code>renovate.json</code>, the tasks are in <code>tools/renovate/Taskfile.yml</code>.</p>
+</div>
+<div class="sect2">
+<h3 id="_local_checks">4.1. Local checks</h3>
+<div class="paragraph">
+<p>The local checks read the working tree and do not change anything.
+No GitHub setup is needed.
+<code>renovate.json</code> is read from the working tree, but it must be tracked by git.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>task renovate:check     # pip modules and container images
+task renovate:pip       # pip modules and pre-commit hooks
+task renovate:docker    # container images only
+task renovate:report    # show the result of the last run again
+task renovate:validate  # validate renovate.json</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Dependencies which are pinned intentionally (e.g. <code>ansible-core</code> or the molecule base images) are disabled with <code>packageRules</code> in <code>renovate.json</code>.
+They are shown as <code>disabled</code> in the report.</p>
+</div>
+<div class="paragraph">
+<p>Tools which are used in requirements, in <code>.pre-commit-config.yaml</code> and in the github workflows (<code>ansible-doctor</code>, <code>ansible-lint</code>, <code>antsibull-changelog</code>) are grouped with <code>groupName</code>.
+An update changes all files in one branch, so the versions are always the same.
+The github workflow for <code>ansible-doctor</code> installs <code>tools/dev/requirements_doctor.txt</code>.
+The versions of github actions (e.g. <code>ansible/ansible-lint</code>) and of <code>pip install &lt;module&gt;==&lt;version&gt;</code> in the workflows are checked as well (only with <code>task renovate:check</code>).</p>
+</div>
+<div class="paragraph">
+<p>The pre-commit hooks are looked up with GitHub tags, which needs a token.
+The local checks use the token from <code>gh auth token</code>, if <code>gh</code> is logged in.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_setup_gh_for_renovate">4.2. Setup gh for renovate</h3>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The GitHub CLI <code>gh</code> is only needed for running renovate against your fork on GitHub (<code>task renovate:fork</code>).<br/>
+The local checks work without it.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p><code>gh</code> is part of <code>shell.nix</code>. Login once with your GitHub account:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>gh auth login     # GitHub.com, HTTPS, login with a web browser
+gh auth status</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The token of <code>gh</code> needs the scope <code>repo</code> for pushing branches into your fork.
+This is part of the default scopes of <code>gh auth login</code>.</p>
+</div>
+<div class="paragraph">
+<p>renovate reads the token from <code>RENOVATE_TOKEN</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>export RENOVATE_TOKEN=$(gh auth token)</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_run_renovate_against_your_fork">4.3. Run renovate against your fork</h3>
+<div class="paragraph">
+<p>renovate clones your fork from GitHub, creates a branch for each update and pushes it together with a Pull-Request into your fork.
+The configuration is taken from <code>renovate.json</code> in <code>FORK_BASE</code> of the fork, not from your working tree.
+<code>renovate.json</code> and <code>tools/renovate/changelog_fragment.sh</code> must be pushed into <code>FORK_BASE</code> before the first run.
+Without <code>renovate.json</code> renovate skips the fork (<code>disabled-no-config</code>).</p>
+</div>
+<div class="paragraph">
+<p><code>FORK_REPO</code> is the fork on GitHub, <code>FORK_BASE</code> the branch for the updates (default: <code>master</code>).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># show what would be done
+task renovate:fork:dry-run FORK_REPO=&lt;github user&gt;/ansible-oracle
+
+# create branches and Pull-Requests in the fork
+task renovate:fork FORK_REPO=&lt;github user&gt;/ansible-oracle</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The branches can be tested locally after <code>git fetch origin</code>.</p>
+</div>
+<div class="paragraph">
+<p>The branches are named <code>pr/renovate/&lt;update&gt;</code>, so the <code>github-Actions</code> are started for each push.
+Each update adds a changelog fragment <code>changelogs/fragments/renovate-&lt;dependency&gt;.yml</code> in section <code>minor_changes</code>, created by <code>tools/renovate/changelog_fragment.sh</code>.
+The PR reference is added later with <code>tools/release/fix_fragments.py</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+renovate keeps the clones and its cache in <code>~/.cache/renovate</code>.
+The clone is reset by each run, do not use it as working copy.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_update_vagrantbox_on_vagrantcloud_for_examples">5. Update Vagrantbox on vagrantcloud for examples</h2>
+<div class="sectionbody">
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+This is only an example how to do it, when custom images should be used.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="sect2">
+<h3 id="_create_new_box">5.1. Create new Box</h3>
+<div class="listingblock">
+<div class="content">
+<pre>git clone https://github.com/Rendanic/bento.git
+cd bento
+git checkout oc
+cd packer_templates/oraclelinux/
+./oc_oracle-7.x_vbox.sh oracle-7.9-x86_64.json</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_upload_new_version">5.2. Upload new Version</h3>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Change the boxname to an account with write privileges.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Upload new version after build:</div>
+<div class="content">
+<pre>boxname=&#34;Rendanic/oraclelinux-7.x&#34;
+vagrantversion=$(date +%y%m%d)
+
+vagrant cloud version create ${boxname} &#34;$vagrantversion&#34;
+vagrant cloud provider create ${boxname} virtualbox &#34;$vagrantversion&#34;
+vagrant cloud provider upload ${boxname} virtualbox &#34;$vagrantversion&#34; ../../builds/oracle-7.9.virtualbox.box
+vagrant cloud publish --release ${boxname} &#34;$vagrantversion&#34; virtualbox</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ansible_molecule">6. ansible molecule</h2>
+<div class="sectionbody">
+<div class="admonitionblock warning">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+The timeout for pulling docker Container in <code>molecule</code> is 15s at the moment.<br/>
+There is no parameter to increase the timeout. Pull container manually before starting the scenario. The image url is defined in <code>molecule.yml</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>The following scenarios are existing in the `ansible-oracle profect.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;"/>
+<col style="width: 80%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Stage</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">dbfs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Full stage for installation of RDBMS 19c + Patching and create database. Requires installation media in /vagrant on local host.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">dbfs-ol9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Full stage for installation of RDBMS 19c + Patching on OL9 and create database. Requires installation media in /vagrant on local host.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">default</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stage for testing common and orahost roles with different Distributions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">download</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Download Patches from support.oracle.com for dbfs stage.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">golden</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create Golden-Image for installation from dbfs.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_directory_for_installation_media_and_patches">6.1. Directory for installation media and patches</h3>
+<div class="paragraph">
+<p>The scenarios <code>dbfs</code>, <code>dbfs-ol9</code>, <code>download</code> and <code>golden</code> mount a local directory as <code>/vagrant</code> into the container.
+The local directory must be defined by <code>MOLECULE_SW_DIR</code>, there is no default. The path inside the container is always <code>/vagrant</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">Set the directory as environment variable</div>
+<div class="content">
+<pre>export MOLECULE_SW_DIR=/mnt/d/ORACLE/sw/linux64</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">or permanently in <code>extensions/.env.yml</code> (ignored by git)</div>
+<div class="content">
+<pre>MOLECULE_SW_DIR: /mnt/d/ORACLE/sw/linux64</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_taskfile">6.2. Taskfile</h3>
+<div class="paragraph">
+<p><code>extensions/Taskfile.yml</code> wraps the molecule commands. The scenario is selected with <code>S=</code> (default: <code>default</code>).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cd extensions
+task --list
+task pull                      # pull container images before the 1st run
+task converge S=dbfs-ol9
+task converge S=dbfs-ol9 -- -vv  # arguments after -- are passed to molecule
+task login S=default H=ol9
+task destroy S=dbfs-ol9
+task collection                # reinstall collection after role changes</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The tasks are also available from the repository root as <code>task molecule:&lt;task&gt;</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_test_os_roles">6.3. Test OS roles</h3>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+This scenario is used, when changes at OS roles should be tested against different OS Distribuitions.<br/>
+Most of the tests are included in the <code>dbfs</code> scenario!
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>The execution time is ~10m for a full test.</p>
+</div>
+<div class="paragraph">
+<p>The <code>default</code> scenario requires no parameter <code>-s</code>!</p>
+</div>
+<div class="listingblock">
+<div class="title">Start download</div>
+<div class="content">
+<pre>cd extensions
+molecule test</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_download_patches_for_dbfs_stage">6.4. Download Patches for <code>dbfs</code> stage</h3>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Make sure that /vagrant has enough free space for installation media and patches.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">set environment variables for support.oracle.com login</div>
+<div class="content">
+<pre>export MOS_LOGIN=Username
+export MOS_PASSWORD=verySecret</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">or store them in <code>extensions/.env.yml</code> (ignored by git)</div>
+<div class="content">
+<pre>MOS_LOGIN: Username
+MOS_PASSWORD: &#39;verySecret&#39;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Environment variables have precedence over <code>extensions/.env.yml</code>.
+Quote the password with <code>&#39;</code> when it contains special characters like <code>:</code>, <code>#</code> or <code>&#34;</code>.
+Restrict the access to the file with <code>chmod 600 extensions/.env.yml</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">Start download</div>
+<div class="content">
+<pre>cd extensions
+molecule test -s download</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>molecule test</code> does the full test of the scenario.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_test_single_instance_in_filesystem_with_scenario_dbfs">6.5. Test Single Instance in Filesystem with scenario <code>dbfs</code></h3>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Make sure that the installation media and patches are placed in <code>/vagrant</code> before starting <code>molecule</code>.<br/>
+Use the scenario <code>download</code> for downloading the Patches from support.oracle.com.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>The execution time is ~2h for a full test.</p>
+</div>
+<div class="listingblock">
+<div class="title">Start download</div>
+<div class="content">
+<pre>cd extensions
+molecule test -s dbfs</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_golden_images_from_dbfs_installation">6.6. Create Golden-Images from <code>dbfs</code> installation</h3>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Make sure that all requirements for scenario <code>dbfs</code> are met.<br/>
+Executing a full test with <code>molicule test -s golden</code> will destroy an existing installation from <code>molecule converge -s dbfs</code>!
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Start Golden-Image creation</div>
+<div class="content">
+<pre>cd extensions
+molecule test -s golden</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_oracle_xe_not_used_at_the_moment">6.7. Oracle XE (not used at the moment!)</h3>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+This chapter was designed for testing the <code>oradb_managed_</code>-Roles.<br/>
+It is not clear if this will be added or not.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<div class="title">Docker pull Oracle XE</div>
+<p>Normal SSO-Login from Oracle is needed for login to docker registry.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>docker login container-registry.oracle.com
+docker pull container-registry.oracle.com/database/express:21.3.0-xe</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Start Oracle Container for test</div>
+<div class="content">
+<pre>docker run -d --name oracle-xe \
+  -e ORACLE_PWD=Oracle_123 \
+  -p 1521:1521 \
+  container-registry.oracle.com/database/express:21.3.0-xe</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">2 - Website</h1>
+    
+	
+<div class="sect1">
+<h2 id="_how_to_develop_the_documentation_page">1. How to develop the documentation page?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The documentation is build with <a href="https://gohugo.io/">hugo</a> and <a href="https://www.docsy.dev/">Docsy</a> as template.<br/>
+There is a container for building or starting a <code>hugo server</code> for easy development of the documentation.</p>
+</div>
+<div class="paragraph">
+<p>The Setups between Docker or Podman is a little bit different.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_where_is_the_content">2. Where is the content?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The pages of the documentation are not copied into <code>website/</code>.
+<code>hugo</code> reads them directly from the repository:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 66.6667%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Source</th>
+<th class="tableblock halign-left valign-top">Page</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>doc/<strong>.adoc</strong></code><strong>, <code>doc/guides/</code></strong><code>.adoc</code>, <code>doc/*.md</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Guides, features and development</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>roles/*/README.md</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">One page per role (generated by <code>ansible-doctor</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>website/content/</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Start page, About and the introduction of each section (<code>_index.md</code>)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><code>website/hugo.yaml</code> mounts <code>doc/</code> and <code>roles/</code> below <code>assets/</code>.
+The content adapter <code>website/content/docs/_content.gotmpl</code> creates the pages from them:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The first heading of a file is used as the page title, unless a title is set in <code>$settings</code> of the content adapter.</p>
+</li>
+<li>
+<p>Relative links between the documents (AsciiDoc <code>link:</code> macro or Markdown link to a <code>.adoc</code> or <code>.md</code> file) are rewritten to the pages of the website.
+Links to files without a page point to GitHub.</p>
+</li>
+<li>
+<p>The &#34;Edit this page&#34; link points to the source file below <code>doc/</code> or <code>roles/</code>.</p>
+</li>
+<li>
+<p>A new file in <code>doc/guides/</code> appears automatically.
+New files in other directories need a rule in <code>$rules</code> of the content adapter.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Do not use <code>include::</code> in files below <code>doc/</code>.
+<code>hugo</code> passes the content to <code>asciidoctor</code> by stdin and GitHub does not render includes either. Use a link instead.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_tasks">3. Tasks</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>website/Taskfile.yml</code> contains the commands for building and testing the page.
+<code>task</code> is part of the <code>nix-shell</code> of <code>ansible-oracle</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cd ansible-oracle/website
+task                # list all tasks
+task serve          # live server on http://localhost:1313
+task build          # build the page into public/
+task test           # build + check internal links
+task test:a11y      # build + accessibility check (WCAG 2 AA) of all pages
+task publish        # build + commit in the clone of the website repository
+task publish:push   # build + commit + push =&gt; GitHub Pages publishes the website
+task publish:pr     # build + commit + pull request in the website repository</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The tasks can be started from the root of the repository with prefix <code>website:</code>, e.g. <code>task website:test</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_publishing">4. Publishing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The website is published with GitHub Pages from the directory <code>docs/</code> in the branch <code>main</code> of
+<a href="https://github.com/Rendanic/ansible-oracle-website">Rendanic/ansible-oracle-website</a>.</p>
+</div>
+<div class="paragraph">
+<p>The <code>publish</code> tasks call <code>tools/release/build_website.sh</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The sources in <code>website/</code>, <code>doc/</code>, <code>roles/</code> and <code>docker/hugo/</code> must be committed.</p>
+</li>
+<li>
+<p>The legal notice must be published (no <code>draft: true</code>).</p>
+</li>
+<li>
+<p>The website repository is cloned to <code>~/.cache/ansible-oracle-website</code> with <code>gh</code>.</p>
+</li>
+<li>
+<p><code>docs/</code> is replaced by the new build, <code>CNAME</code> is kept and <code>.nojekyll</code> is added
+(GitHub Pages ignores directories with a leading <code>_</code> like <code>_print/</code> without it).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Options of the script are passed after <code>--</code>, e.g. <code>task publish — -a</code> for an additional accessibility check
+or <code>task publish — -f</code> to ignore uncommitted changes and a missing legal notice (for tests only).</p>
+</div>
+<div class="paragraph">
+<p>Podman is used with <code>task build COMPOSE=podman-compose COMPOSE_USER=root</code>.</p>
+</div>
+<div class="paragraph">
+<p>The checks run in containers:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>check:links</code> uses <a href="https://lychee.cli.rs/">lychee</a> for all links in <code>public/</code>.</p>
+</li>
+<li>
+<p><code>check:a11y</code> uses <a href="https://github.com/pa11y/pa11y-ci">pa11y-ci</a> with the runners axe and HTML_CodeSniffer for all pages in <code>sitemap.xml</code>.
+The settings are in <code>website/.pa11yci.json</code>.
+The axe rule <code>color-contrast</code> is ignored: axe cannot determine the background below the fixed navbar and sidebar
+and reports hundreds of false positives. The contrast is still checked by HTML_CodeSniffer.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_colors_and_contrast">5. Colors and contrast</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The whole site uses one polarity: dark text on a light background.
+Docsy’s dark navbar, cover blocks and footer are replaced in</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>website/layouts/partials/navbar.html</code> (copy of Docsy with <code>data-bs-theme=&#34;light&#34;</code>)</p>
+</li>
+<li>
+<p><code>website/assets/scss/_styles_project.scss</code> (navbar, footer, buttons, links and Prism token colors)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>All colors have a contrast ratio of at least 4.5:1 (WCAG 2 AA).
+Use <code>blocks/lead</code> or <code>blocks/section</code> with <code>color=&#34;white&#34;</code> on new pages, not <code>blocks/cover</code>.
+Code blocks are highlighted by Prism (light theme), Chroma is disabled for Markdown code fences in <code>hugo.yaml</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_updates_of_hugo_and_docsy">6. Updates of hugo and Docsy</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;"/>
+<col style="width: 50%;"/>
+<col style="width: 25%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">File</th>
+<th class="tableblock halign-left valign-top">Version</th>
+<th class="tableblock halign-left valign-top">Updated by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>docker/hugo/Dockerfile</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hugo and asciidoctor (base image <code>floryn90/hugo</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">renovate</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>website/hugo.yaml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>module.hugoVersion.min</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">manual</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>website/go.mod</code>, <code>website/go.sum</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Docsy (<code>github.com/google/docsy</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">renovate (group <code>docsy</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>website/Taskfile.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">lychee, puppeteer, pa11y-ci, http-server (<code># renovate:</code> comments)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">renovate</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The image of the hugo container is tagged with the tag of the base image, e.g. <code>rendanic/hugo:0.169.0-ext-ubuntu</code>.
+A new version in the Dockerfile builds a new image automatically with the next <code>task build</code>.</p>
+</div>
+<div class="paragraph">
+<p>Steps for an update of Docsy:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Read the release notes of Docsy (minimum version of hugo, breaking changes).</p>
+</li>
+<li>
+<p>Update <code>website/go.mod</code> and <code>website/go.sum</code>.</p>
+</li>
+<li>
+<p><code>task docsy:diff</code> shows the differences between the copied templates in <code>website/layouts/</code> and the new Docsy version.
+Apply the changes of Docsy to the copies.</p>
+</li>
+<li>
+<p>Check <code>website/assets/scss/_styles_project.scss</code>: it uses the Docsy classes <code>.td-navbar</code>, <code>.td-footer</code>, <code>.td-box</code> and <code>.td-content</code>.</p>
+</li>
+<li>
+<p><code>task test:all</code> and a look at the start page, a guide and a role page.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<code>security.exec.osEnv</code> in <code>website/hugo.yaml</code> passes <code>GEM_HOME</code> to <code>asciidoctor</code>.
+Without it, <code>asciidoctor</code> does not find its gem in the base image.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_container_setup">7. Container Setup</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The setup of Docker or Podman is described in the <a href="/docs/development/development/#_development_environment">Development Guide</a>.</p>
+</div>
+<div class="paragraph">
+<p>The <code>Dockerfile</code> and <code>docker-compose.yaml</code> of the hugo container are in <code>docker/hugo/</code>.
+The image is built automatically on the first <code>task build</code> or with <code>task hugo:build</code> in <code>docker/</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_hugo_with_docker">8. hugo with Docker</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_hugo_live_server">8.1. hugo live server</h3>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+This only works when current <code>uid</code> in shell is same as <code>ubuntu(1000)</code> inside the container.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cd ansible-oracle/docker/hugo
+docker compose run --rm -u ubuntu site -s /src/website server</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_building_the_public_page">8.2. Building the public page</h3>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+This only works when current <code>uid</code> in shell is same as <code>ubuntu(1000)</code> inside the container.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cd ansible-oracle/docker/hugo
+docker compose run --rm -u ubuntu site -s /src/website</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_hugo_with_podman">9. hugo with Podman</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_hugo_live_server_2">9.1. hugo live server</h3>
+<div class="paragraph">
+<p>The default user inside the container is <code>hugo</code> with a different uid then the nonroot user of the podman Container.<br/>
+This results in a <code>permission denied</code> when the uid of nonroot podman user is different then the uid of <code>hugo</code> inside the container while reading volume data.
+Starting with <code>--user=root</code> starts all processes in the same namespace as the nonroot user which allows access to the volume data.</p>
+</div>
+<div class="listingblock">
+<div class="title">Start hugo server with Podman</div>
+<div class="content">
+<pre>cd ansible-oracle/docker/hugo
+~/venv/podman/bin/podman-compose run --rm --user=root site -s /src/website server --bind 0.0.0.0</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_building_the_public_page_2">9.2. Building the public page</h3>
+<div class="listingblock">
+<div class="content">
+<pre>cd ansible-oracle/docker/hugo
+~/venv/podman/bin/podman-compose run --rm --user=root site -s /src/website</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+    
+	
+  
+
+
+
+          </main>
+        </div>
+      </div>
+      <footer class="td-footer row d-print-none">
+  <div class="container-fluid">
+    <div class="row mx-md-2">
+      <div class="td-footer__left col-6 col-sm-4 order-sm-1">
+        
+      </div><div class="td-footer__right col-6 col-sm-4 order-sm-3">
+        <ul class="td-footer__links-list">
+  
+  <li class="td-footer__links-item" data-bs-toggle="tooltip" title="GitHub" aria-label="GitHub">
+    <a target="_blank" rel="noopener" href="https://github.com/oravirt/ansible-oracle" aria-label="GitHub">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+</ul>
+
+      </div><div class="td-footer__center col-12 col-sm-4 py-2 order-sm-2">
+        <span class="td-footer__copyright">&copy;
+    2016&ndash;2026
+    <span class="td-footer__authors">Thorsten Bruhns | <a href="https://github.com/oravirt/ansible-oracle/blob/master/LICENSE">MIT</a></span></span><nav aria-label="Legal" class="td-footer__legal mt-2">
+  <ul class="list-inline mb-0">
+    <li class="list-inline-item"><a href="/legal-notice/">Legal Notice</a></li>
+    <li class="list-inline-item"><a href="/privacy/">Privacy</a></li>
+    <li class="list-inline-item"><a href="/accessibility/">Accessibility</a></li>
+    </ul>
+</nav>
+
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <script src="/js/main.js"></script>
+<script src='/js/prism.js'></script>
+<script src='/js/tabpane-persist.js'></script>
+
+  </body>
+</html>
