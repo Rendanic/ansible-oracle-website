@@ -1613,6 +1613,11 @@ Links to files without a page point to GitHub.</p>
 <p>The &#34;Edit this page&#34; link points to the source file below <code>doc/</code> or <code>roles/</code>.</p>
 </li>
 <li>
+<p>&#34;Last modified&#34; shows the last commit of the source file.
+<code>scripts/gitinfo.py</code> writes it to <code>website/data/gitinfo.json</code> before each build
+(hugo would show the commit of the content adapter instead).</p>
+</li>
+<li>
 <p>A new file in <code>doc/guides/</code> appears automatically.
 New files in other directories need a rule in <code>$rules</code> of the content adapter.</p>
 </li>
