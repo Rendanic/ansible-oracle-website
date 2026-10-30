@@ -19,28 +19,28 @@
 
 <title>orahost | ansible-oracle Project</title>
 <meta name="description" content="Role to configure the hostsystem for ansible-oracle
-Table of content Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib_rpm_el7 asmlib_rpm_el8 asmlib_rpm_sles asmlibsupport_rpm asmlibsupport_rpm_el6 asmlibsupport_rpm_el7 asmlibsupport_rpm_el8 configure_etc_hosts configure_hugepages configure_hugepages_by configure_interconnect configure_limits configure_limits_pam configure_oracle_sudo configure_ssh disable_firewall disable_numa_boot disable_selinux etc_hosts_entries etc_hosts_ip extra_hugepages_per_instance extrarepos_disabled extrarepos_enabled firewall_service grid_users host_fs_layout install_os_packages keyfile max_size_in_gb_hugepages nr_hugepages nr_hugepages_memory nr_hugepages_percent old_ssh_config oracle_asm_packages oracle_asm_packages_sles oracle_groups oracle_hugepages oracle_hugepages_sysctl_file oracle_ic_net oracle_packages oracle_packages_sles_multi oracle_sysctl oracle_sysctl_file oracle_users os_family_supported os_min_supported_version percent_hugepages size_in_gb_hugepages ssh_keys sudoers_template transparent_hugepage_disable transparent_hugepage_disable_by_grub Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables asmlib_rpm Install oracleasm-support from RPM-Repo on OracleLinux. Value depends on OS-Release from RHEL/OL. Uses variables asmlib_rpm_el6, asmlib_rpm_el7 or asmlib_rpm_el8">
+Table of contents Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib_rpm_el7 asmlib_rpm_el8 asmlib_rpm_sles asmlibsupport_rpm asmlibsupport_rpm_el6 asmlibsupport_rpm_el7 asmlibsupport_rpm_el8 configure_etc_hosts configure_hugepages configure_hugepages_by configure_interconnect configure_limits configure_limits_pam configure_oracle_sudo configure_ssh disable_firewall disable_numa_boot disable_selinux etc_hosts_entries etc_hosts_ip extra_hugepages_per_instance extrarepos_disabled extrarepos_enabled firewall_service grid_users host_fs_layout install_os_packages keyfile max_size_in_gb_hugepages nr_hugepages nr_hugepages_memory nr_hugepages_percent old_ssh_config oracle_asm_packages oracle_asm_packages_sles oracle_groups oracle_hugepages oracle_hugepages_sysctl_file oracle_ic_net oracle_packages oracle_packages_sles_multi oracle_sysctl oracle_sysctl_file oracle_users os_family_supported os_min_supported_version percent_hugepages size_in_gb_hugepages ssh_keys sudoers_template transparent_hugepage_disable transparent_hugepage_disable_by_grub Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables asmlib_rpm Install oracleasm-support from RPM-Repo on OracleLinux. Value depends on OS-Release from RHEL/OL. Uses variables asmlib_rpm_el6, asmlib_rpm_el7 or asmlib_rpm_el8">
 <meta property="og:url" content="https://www.ansible-oracle.eu/docs/roles/orahost/">
 	<meta property="og:site_name" content="ansible-oracle Project">
 	<meta property="og:title" content="orahost">
 	<meta property="og:description" content="Role to configure the hostsystem for ansible-oracle
-Table of content Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib_rpm_el7 asmlib_rpm_el8 asmlib_rpm_sles asmlibsupport_rpm asmlibsupport_rpm_el6 asmlibsupport_rpm_el7 asmlibsupport_rpm_el8 configure_etc_hosts configure_hugepages configure_hugepages_by configure_interconnect configure_limits configure_limits_pam configure_oracle_sudo configure_ssh disable_firewall disable_numa_boot disable_selinux etc_hosts_entries etc_hosts_ip extra_hugepages_per_instance extrarepos_disabled extrarepos_enabled firewall_service grid_users host_fs_layout install_os_packages keyfile max_size_in_gb_hugepages nr_hugepages nr_hugepages_memory nr_hugepages_percent old_ssh_config oracle_asm_packages oracle_asm_packages_sles oracle_groups oracle_hugepages oracle_hugepages_sysctl_file oracle_ic_net oracle_packages oracle_packages_sles_multi oracle_sysctl oracle_sysctl_file oracle_users os_family_supported os_min_supported_version percent_hugepages size_in_gb_hugepages ssh_keys sudoers_template transparent_hugepage_disable transparent_hugepage_disable_by_grub Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables asmlib_rpm Install oracleasm-support from RPM-Repo on OracleLinux. Value depends on OS-Release from RHEL/OL. Uses variables asmlib_rpm_el6, asmlib_rpm_el7 or asmlib_rpm_el8">
+Table of contents Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib_rpm_el7 asmlib_rpm_el8 asmlib_rpm_sles asmlibsupport_rpm asmlibsupport_rpm_el6 asmlibsupport_rpm_el7 asmlibsupport_rpm_el8 configure_etc_hosts configure_hugepages configure_hugepages_by configure_interconnect configure_limits configure_limits_pam configure_oracle_sudo configure_ssh disable_firewall disable_numa_boot disable_selinux etc_hosts_entries etc_hosts_ip extra_hugepages_per_instance extrarepos_disabled extrarepos_enabled firewall_service grid_users host_fs_layout install_os_packages keyfile max_size_in_gb_hugepages nr_hugepages nr_hugepages_memory nr_hugepages_percent old_ssh_config oracle_asm_packages oracle_asm_packages_sles oracle_groups oracle_hugepages oracle_hugepages_sysctl_file oracle_ic_net oracle_packages oracle_packages_sles_multi oracle_sysctl oracle_sysctl_file oracle_users os_family_supported os_min_supported_version percent_hugepages size_in_gb_hugepages ssh_keys sudoers_template transparent_hugepage_disable transparent_hugepage_disable_by_grub Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables asmlib_rpm Install oracleasm-support from RPM-Repo on OracleLinux. Value depends on OS-Release from RHEL/OL. Uses variables asmlib_rpm_el6, asmlib_rpm_el7 or asmlib_rpm_el8">
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-10-28T18:46:32+01:00">
-		<meta property="article:modified_time" content="2026-10-28T18:46:32+01:00">
+		<meta property="article:published_time" content="2026-10-30T22:59:56+01:00">
+		<meta property="article:modified_time" content="2026-10-30T22:59:56+01:00">
 
 	<meta itemprop="name" content="orahost">
 	<meta itemprop="description" content="Role to configure the hostsystem for ansible-oracle
-Table of content Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib_rpm_el7 asmlib_rpm_el8 asmlib_rpm_sles asmlibsupport_rpm asmlibsupport_rpm_el6 asmlibsupport_rpm_el7 asmlibsupport_rpm_el8 configure_etc_hosts configure_hugepages configure_hugepages_by configure_interconnect configure_limits configure_limits_pam configure_oracle_sudo configure_ssh disable_firewall disable_numa_boot disable_selinux etc_hosts_entries etc_hosts_ip extra_hugepages_per_instance extrarepos_disabled extrarepos_enabled firewall_service grid_users host_fs_layout install_os_packages keyfile max_size_in_gb_hugepages nr_hugepages nr_hugepages_memory nr_hugepages_percent old_ssh_config oracle_asm_packages oracle_asm_packages_sles oracle_groups oracle_hugepages oracle_hugepages_sysctl_file oracle_ic_net oracle_packages oracle_packages_sles_multi oracle_sysctl oracle_sysctl_file oracle_users os_family_supported os_min_supported_version percent_hugepages size_in_gb_hugepages ssh_keys sudoers_template transparent_hugepage_disable transparent_hugepage_disable_by_grub Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables asmlib_rpm Install oracleasm-support from RPM-Repo on OracleLinux. Value depends on OS-Release from RHEL/OL. Uses variables asmlib_rpm_el6, asmlib_rpm_el7 or asmlib_rpm_el8">
-	<meta itemprop="datePublished" content="2026-10-28T18:46:32+01:00">
-	<meta itemprop="dateModified" content="2026-10-28T18:46:32+01:00">
+Table of contents Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib_rpm_el7 asmlib_rpm_el8 asmlib_rpm_sles asmlibsupport_rpm asmlibsupport_rpm_el6 asmlibsupport_rpm_el7 asmlibsupport_rpm_el8 configure_etc_hosts configure_hugepages configure_hugepages_by configure_interconnect configure_limits configure_limits_pam configure_oracle_sudo configure_ssh disable_firewall disable_numa_boot disable_selinux etc_hosts_entries etc_hosts_ip extra_hugepages_per_instance extrarepos_disabled extrarepos_enabled firewall_service grid_users host_fs_layout install_os_packages keyfile max_size_in_gb_hugepages nr_hugepages nr_hugepages_memory nr_hugepages_percent old_ssh_config oracle_asm_packages oracle_asm_packages_sles oracle_groups oracle_hugepages oracle_hugepages_sysctl_file oracle_ic_net oracle_packages oracle_packages_sles_multi oracle_sysctl oracle_sysctl_file oracle_users os_family_supported os_min_supported_version percent_hugepages size_in_gb_hugepages ssh_keys sudoers_template transparent_hugepage_disable transparent_hugepage_disable_by_grub Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables asmlib_rpm Install oracleasm-support from RPM-Repo on OracleLinux. Value depends on OS-Release from RHEL/OL. Uses variables asmlib_rpm_el6, asmlib_rpm_el7 or asmlib_rpm_el8">
+	<meta itemprop="datePublished" content="2026-10-30T22:59:56+01:00">
+	<meta itemprop="dateModified" content="2026-10-30T22:59:56+01:00">
 	<meta itemprop="wordCount" content="1564">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="orahost">
 	<meta name="twitter:description" content="Role to configure the hostsystem for ansible-oracle
-Table of content Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib_rpm_el7 asmlib_rpm_el8 asmlib_rpm_sles asmlibsupport_rpm asmlibsupport_rpm_el6 asmlibsupport_rpm_el7 asmlibsupport_rpm_el8 configure_etc_hosts configure_hugepages configure_hugepages_by configure_interconnect configure_limits configure_limits_pam configure_oracle_sudo configure_ssh disable_firewall disable_numa_boot disable_selinux etc_hosts_entries etc_hosts_ip extra_hugepages_per_instance extrarepos_disabled extrarepos_enabled firewall_service grid_users host_fs_layout install_os_packages keyfile max_size_in_gb_hugepages nr_hugepages nr_hugepages_memory nr_hugepages_percent old_ssh_config oracle_asm_packages oracle_asm_packages_sles oracle_groups oracle_hugepages oracle_hugepages_sysctl_file oracle_ic_net oracle_packages oracle_packages_sles_multi oracle_sysctl oracle_sysctl_file oracle_users os_family_supported os_min_supported_version percent_hugepages size_in_gb_hugepages ssh_keys sudoers_template transparent_hugepage_disable transparent_hugepage_disable_by_grub Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables asmlib_rpm Install oracleasm-support from RPM-Repo on OracleLinux. Value depends on OS-Release from RHEL/OL. Uses variables asmlib_rpm_el6, asmlib_rpm_el7 or asmlib_rpm_el8">
+Table of contents Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib_rpm_el7 asmlib_rpm_el8 asmlib_rpm_sles asmlibsupport_rpm asmlibsupport_rpm_el6 asmlibsupport_rpm_el7 asmlibsupport_rpm_el8 configure_etc_hosts configure_hugepages configure_hugepages_by configure_interconnect configure_limits configure_limits_pam configure_oracle_sudo configure_ssh disable_firewall disable_numa_boot disable_selinux etc_hosts_entries etc_hosts_ip extra_hugepages_per_instance extrarepos_disabled extrarepos_enabled firewall_service grid_users host_fs_layout install_os_packages keyfile max_size_in_gb_hugepages nr_hugepages nr_hugepages_memory nr_hugepages_percent old_ssh_config oracle_asm_packages oracle_asm_packages_sles oracle_groups oracle_hugepages oracle_hugepages_sysctl_file oracle_ic_net oracle_packages oracle_packages_sles_multi oracle_sysctl oracle_sysctl_file oracle_users os_family_supported os_min_supported_version percent_hugepages size_in_gb_hugepages ssh_keys sudoers_template transparent_hugepage_disable transparent_hugepage_disable_by_grub Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables asmlib_rpm Install oracleasm-support from RPM-Repo on OracleLinux. Value depends on OS-Release from RHEL/OL. Uses variables asmlib_rpm_el6, asmlib_rpm_el7 or asmlib_rpm_el8">
 
 
 
@@ -138,6 +138,8 @@ Table of content Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib
   <a href="/docs/guides/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
   <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
+  <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
   <a href="/docs/guides/restart_rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="">Setup ASM for Oracle Grid Infrastructure / Restart</span></a>
 </li>
@@ -147,48 +149,26 @@ Table of content Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
   <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
-  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_ssh-li">
-  <a href="/docs/roles/orahost_ssh/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_ssh"><span class="">orahost_ssh</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesorahost-li">
-  <a href="/docs/roles/orahost/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="td-sidebar-nav-active-item">orahost</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
-  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
-  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
-  <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesautoupgrade-li">
   <a href="/docs/roles/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesautoupgrade"><span class="">autoupgrade</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
-  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraapex-li">
-  <a href="/docs/roles/oraapex/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraapex"><span class="">oraapex</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraords-li">
-  <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoracluvfy-li">
-  <a href="/docs/roles/oracluvfy/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoracluvfy"><span class="">oracluvfy</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
-  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_wallet-li">
-  <a href="/docs/roles/oradb_manage_wallet/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_wallet"><span class="">oradb_manage_wallet</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_meta-li">
-  <a href="/docs/roles/oraswgi_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_meta"><span class="">oraswgi_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
+  <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescxoracle-li">
   <a href="/docs/roles/cxoracle/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescxoracle"><span class="">cxoracle</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
-  <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
-  <a href="/docs/roles/oraswdb_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_manage_patches"><span class="">oraswdb_manage_patches</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_manage_patches-li">
-  <a href="/docs/roles/oraswgi_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_manage_patches"><span class="">oraswgi_manage_patches</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
-  <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesglobal_handlers-li">
   <a href="/docs/roles/global_handlers/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesglobal_handlers"><span class="">global_handlers</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraapex-li">
+  <a href="/docs/roles/oraapex/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraapex"><span class="">oraapex</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraasm_manage_diskgroups-li">
   <a href="/docs/roles/oraasm_manage_diskgroups/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraasm_manage_diskgroups"><span class="">oraasm_manage_diskgroups</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoracluvfy-li">
+  <a href="/docs/roles/oracluvfy/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoracluvfy"><span class="">oracluvfy</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_datapatch-li">
+  <a href="/docs/roles/oradb_datapatch/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_datapatch"><span class="">oradb_datapatch</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_facts-li">
+  <a href="/docs/roles/oradb_facts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_facts"><span class="">oradb_facts</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_grants-li">
   <a href="/docs/roles/oradb_manage_grants/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_grants"><span class="">oradb_manage_grants</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_parameters-li">
@@ -197,38 +177,60 @@ Table of content Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib
   <a href="/docs/roles/oradb_manage_pdb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_pdb"><span class="">oradb_manage_pdb</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_profiles-li">
   <a href="/docs/roles/oradb_manage_profiles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_profiles"><span class="">oradb_manage_profiles</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_redo-li">
+  <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="">oradb_manage_redo</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_roles-li">
   <a href="/docs/roles/oradb_manage_roles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_roles"><span class="">oradb_manage_roles</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_services-li">
+  <a href="/docs/roles/oradb_manage_services/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_services"><span class="">oradb_manage_services</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_statspack-li">
   <a href="/docs/roles/oradb_manage_statspack/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_statspack"><span class="">oradb_manage_statspack</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_tablespace-li">
   <a href="/docs/roles/oradb_manage_tablespace/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_tablespace"><span class="">oradb_manage_tablespace</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_users-li">
   <a href="/docs/roles/oradb_manage_users/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_users"><span class="">oradb_manage_users</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_wallet-li">
+  <a href="/docs/roles/oradb_manage_wallet/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_wallet"><span class="">oradb_manage_wallet</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
   <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_tzupgrade-li">
   <a href="/docs/roles/oradb_tzupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_tzupgrade"><span class="">oradb_tzupgrade</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesorahost-li">
+  <a href="/docs/roles/orahost/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="td-sidebar-nav-active-item">orahost</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_cron-li">
   <a href="/docs/roles/orahost_cron/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_cron"><span class="">orahost_cron</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_logrotate-li">
   <a href="/docs/roles/orahost_logrotate/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_logrotate"><span class="">orahost_logrotate</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_ssh-li">
+  <a href="/docs/roles/orahost_ssh/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_ssh"><span class="">orahost_ssh</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_storage-li">
+  <a href="/docs/roles/orahost_storage/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_storage"><span class="">orahost_storage</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraords-li">
+  <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
+  <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
+  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
+  <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswahf_install-li">
   <a href="/docs/roles/oraswahf_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswahf_install"><span class="">oraswahf_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_golden_image-li">
   <a href="/docs/roles/oraswdb_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_golden_image"><span class="">oraswdb_golden_image</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
+  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
+  <a href="/docs/roles/oraswdb_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_manage_patches"><span class="">oraswdb_manage_patches</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_golden_image-li">
   <a href="/docs/roles/oraswgi_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_golden_image"><span class="">oraswgi_golden_image</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_services-li">
-  <a href="/docs/roles/oradb_manage_services/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_services"><span class="">oradb_manage_services</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_redo-li">
-  <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="">oradb_manage_redo</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_datapatch-li">
-  <a href="/docs/roles/oradb_datapatch/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_datapatch"><span class="">oradb_datapatch</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_facts-li">
-  <a href="/docs/roles/oradb_facts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_facts"><span class="">oradb_facts</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_storage-li">
-  <a href="/docs/roles/orahost_storage/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_storage"><span class="">orahost_storage</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_manage_patches-li">
+  <a href="/docs/roles/oraswgi_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_manage_patches"><span class="">oraswgi_manage_patches</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_meta-li">
+  <a href="/docs/roles/oraswgi_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_meta"><span class="">oraswgi_meta</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsdevelopment-li">
@@ -262,7 +264,7 @@ Table of content Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#table-of-content">Table of content</a></li>
+    <li><a href="#table-of-contents">Table of contents</a></li>
     <li><a href="#requirements">Requirements</a></li>
     <li><a href="#default-variables">Default Variables</a>
       <ul>
@@ -577,7 +579,7 @@ Table of content Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib
 		
   </header>
 	<p>Role to configure the hostsystem for ansible-oracle</p>
-<h2 id="table-of-content">Table of content</h2>
+<h2 id="table-of-contents">Table of contents</h2>
 <ul>
 <li><a href="#requirements">Requirements</a></li>
 <li><a href="#default-variables">Default Variables</a>
@@ -647,7 +649,7 @@ Table of content Requirements Default Variables asmlib_rpm asmlib_rpm_el6 asmlib
 <hr>
 <h2 id="requirements">Requirements</h2>
 <ul>
-<li>Minimum Ansible version: <code>2.14.0</code></li>
+<li>Minimum Ansible version: <code>2.16.0</code></li>
 </ul>
 <h2 id="default-variables">Default Variables</h2>
 <h3 id="asmlib_rpm">asmlib_rpm</h3>
@@ -660,26 +662,22 @@ Uses variables <code>asmlib_rpm_el6</code>, <code>asmlib_rpm_el7</code> or <code
 <h3 id="asmlib_rpm_el6">asmlib_rpm_el6</h3>
 <p>Name / Url for rpm oracleasm-support for RHEL6/OL6.</p>
 <h4 id="default-value-1">Default value</h4>
-<pre><code class="language-YAML">asmlib_rpm_el6: 
-  http://download.oracle.com/otn_software/asmlib/oracleasmlib-2.0.4-1.el6.x86_64.rpm
+<pre><code class="language-YAML">asmlib_rpm_el6: http://download.oracle.com/otn_software/asmlib/oracleasmlib-2.0.4-1.el6.x86_64.rpm
 </code></pre>
 <h3 id="asmlib_rpm_el7">asmlib_rpm_el7</h3>
 <p>Name / Url for rpm oracleasm-support for RHEL7/OL7.</p>
 <h4 id="default-value-2">Default value</h4>
-<pre><code class="language-YAML">asmlib_rpm_el7: 
-  http://download.oracle.com/otn_software/asmlib/oracleasmlib-2.0.12-1.el7.x86_64.rpm
+<pre><code class="language-YAML">asmlib_rpm_el7: http://download.oracle.com/otn_software/asmlib/oracleasmlib-2.0.12-1.el7.x86_64.rpm
 </code></pre>
 <h3 id="asmlib_rpm_el8">asmlib_rpm_el8</h3>
 <p>Name / Url for rpm oracleasm-support for RHEL8/OL8.</p>
 <h4 id="default-value-3">Default value</h4>
-<pre><code class="language-YAML">asmlib_rpm_el8: 
-  https://download.oracle.com/otn_software/asmlib/oracleasmlib-2.0.17-1.el8.x86_64.rpm
+<pre><code class="language-YAML">asmlib_rpm_el8: https://download.oracle.com/otn_software/asmlib/oracleasmlib-2.0.17-1.el8.x86_64.rpm
 </code></pre>
 <h3 id="asmlib_rpm_sles">asmlib_rpm_sles</h3>
 <p>Name / Url for rpm oracleasm-support for SLES.</p>
 <h4 id="default-value-4">Default value</h4>
-<pre><code class="language-YAML">asmlib_rpm_sles: 
-  http://oss.oracle.com/projects/oracleasm-support/dist/files/RPMS/sles12/amd64/2.1.8/oracleasm-support-2.1.8-1.SLE12.x86_64.rpm
+<pre><code class="language-YAML">asmlib_rpm_sles: http://oss.oracle.com/projects/oracleasm-support/dist/files/RPMS/sles12/amd64/2.1.8/oracleasm-support-2.1.8-1.SLE12.x86_64.rpm
 </code></pre>
 <h3 id="asmlibsupport_rpm">asmlibsupport_rpm</h3>
 <p>Install oracleasmlib-support from RPM-Repo on OracleLinux.
@@ -688,23 +686,19 @@ Value depends on OS-Release from RHEL/OL.</p>
 <p>Do NOT set this variable.</p>
 <p>Set the used variables <code>asmlibsupport_rpm_el6</code>, <code>asmlibsupport_rpm_el7</code> or <code>asmlibsupport_rpm_el8</code>.</p>
 <h4 id="default-value-5">Default value</h4>
-<pre><code class="language-YAML">asmlibsupport_rpm: Value from `asmlibsupport_rpm_el6`, `asmlibsupport_rpm_el7` or
-  `asmlibsupport_rpm_el8`
+<pre><code class="language-YAML">asmlibsupport_rpm: Value from `asmlibsupport_rpm_el6`, `asmlibsupport_rpm_el7` or `asmlibsupport_rpm_el8`
 </code></pre>
 <h3 id="asmlibsupport_rpm_el6">asmlibsupport_rpm_el6</h3>
 <h4 id="default-value-6">Default value</h4>
-<pre><code class="language-YAML">asmlibsupport_rpm_el6: 
-  http://oss.oracle.com/projects/oracleasm-support/dist/files/RPMS/rhel6/amd64/2.1.8/oracleasm-support-2.1.8-1.el6.x86_64.rpm
+<pre><code class="language-YAML">asmlibsupport_rpm_el6: http://oss.oracle.com/projects/oracleasm-support/dist/files/RPMS/rhel6/amd64/2.1.8/oracleasm-support-2.1.8-1.el6.x86_64.rpm
 </code></pre>
 <h3 id="asmlibsupport_rpm_el7">asmlibsupport_rpm_el7</h3>
 <h4 id="default-value-7">Default value</h4>
-<pre><code class="language-YAML">asmlibsupport_rpm_el7: 
-  https://yum.oracle.com/repo/OracleLinux/OL7/latest/x86_64/getPackage/oracleasm-support-2.1.11-2.el7.x86_64.rpm
+<pre><code class="language-YAML">asmlibsupport_rpm_el7: https://yum.oracle.com/repo/OracleLinux/OL7/latest/x86_64/getPackage/oracleasm-support-2.1.11-2.el7.x86_64.rpm
 </code></pre>
 <h3 id="asmlibsupport_rpm_el8">asmlibsupport_rpm_el8</h3>
 <h4 id="default-value-8">Default value</h4>
-<pre><code class="language-YAML">asmlibsupport_rpm_el8: 
-  https://yum.oracle.com/repo/OracleLinux/OL8/latest/x86_64/getPackage/oracleasm-support-2.1.11-2.el8.x86_64.rpm
+<pre><code class="language-YAML">asmlibsupport_rpm_el8: https://yum.oracle.com/repo/OracleLinux/OL8/latest/x86_64/getPackage/oracleasm-support-2.1.11-2.el8.x86_64.rpm
 </code></pre>
 <h3 id="configure_etc_hosts">configure_etc_hosts</h3>
 <p>Add <code>{{ ansible_hostname }} {{ ansible_fqdn }}</code> to /etc/hosts`?</p>
@@ -785,8 +779,7 @@ would create following entries in /etc/hosts:
 <h3 id="etc_hosts_ip">etc_hosts_ip</h3>
 <p>Set IP to 2nd Interface on virtualbox and 1st for all otehr installations</p>
 <h4 id="default-value-21">Default value</h4>
-<pre><code class="language-YAML">etc_hosts_ip: &quot;{% if 'virtualbox' in ansible_virtualization_type %}{{ ansible_all_ipv4_addresses[1]
-  }}{% else %}{{ ansible_default_ipv4.address }}{% endif %}&quot;
+<pre><code class="language-YAML">etc_hosts_ip: &quot;{% if 'virtualbox' in ansible_virtualization_type %}{{ ansible_all_ipv4_addresses[1] }}{% else %}{{ ansible_default_ipv4.address }}{% endif %}&quot;
 </code></pre>
 <h3 id="extra_hugepages_per_instance">extra_hugepages_per_instance</h3>
 <p>According to MOS KB151310&rsquo;s hugepages_settings.sh we&rsquo;ve to add 1 page per shm segment.
@@ -803,8 +796,7 @@ This overhead is considered when computing <code>nr_hugepages_memory</code></p>
 </code></pre>
 <h3 id="extrarepos_enabled">extrarepos_enabled</h3>
 <h4 id="default-value-24">Default value</h4>
-<pre><code class="language-YAML">extrarepos_enabled: &quot;{%- if ansible_distribution == 'OracleLinux' -%}ol{{ ansible_distribution_major_version
-  }}_addons{%- else -%}{%- endif %}&quot;
+<pre><code class="language-YAML">extrarepos_enabled: &quot;{%- if ansible_distribution == 'OracleLinux' -%}ol{{ ansible_distribution_major_version }}_addons{%- else -%}{%- endif %}&quot;
 </code></pre>
 <h3 id="firewall_service">firewall_service</h3>
 <p>Used firewall service in OS. Value depends on used Distribution and version.</p>
@@ -818,8 +810,7 @@ This overhead is considered when computing <code>nr_hugepages_memory</code></p>
   - username: grid
     uid: 54320
     primgroup: '{{ oracle_group }}'
-    othergroups: '{{ asmadmin_group }},{{ asmdba_group }},{{ asmoper_group }},{{ dba_group
-      }}'
+    othergroups: '{{ asmadmin_group }},{{ asmdba_group }},{{ asmoper_group }},{{ dba_group }}'
 </code></pre>
 <h3 id="host_fs_layout">host_fs_layout</h3>
 <p>Define physical Disk, Volume Group, logical Volume, Filesystem and swap Devices.
@@ -908,8 +899,7 @@ Dependent variables are defined in orahost_meta/defaults/main.yml</p>
 <h4 id="default-value-38">Default value</h4>
 <pre><code class="language-YAML">oracle_hugepages:
   - {name: vm.nr_hugepages, value: '{{ nr_hugepages }}'}
-  - {name: vm.hugetlb_shm_group, value: &quot;{{ oracle_user_getent['ansible_facts']['getent_passwd'][oracle_user][2]
-      }}&quot;}
+  - {name: vm.hugetlb_shm_group, value: &quot;{{ oracle_user_getent['ansible_facts']['getent_passwd'][oracle_user][2] }}&quot;}
 </code></pre>
 <h3 id="oracle_hugepages_sysctl_file">oracle_hugepages_sysctl_file</h3>
 <p>Allows to specify the file in which sysctl settings for huge pages will be stored.
@@ -1090,20 +1080,17 @@ be put to <code>/etc/sysctl.conf</code> by the module defaults (omit)</p>
   - username: oracle
     uid: 54321
     primgroup: '{{ oracle_group }}'
-    othergroups: '{{ dba_group }},{{ asmadmin_group }},{{ asmdba_group }},{{ asmoper_group
-      }},backupdba,dgdba,kmdba,{{ oper_group }}'
+    othergroups: '{{ dba_group }},{{ asmadmin_group }},{{ asmdba_group }},{{ asmoper_group }},backupdba,dgdba,kmdba,{{ oper_group }}'
 </code></pre>
 <h3 id="os_family_supported">os_family_supported</h3>
 <p>Support is limited to RHE/OL and SuSE</p>
 <h4 id="default-value-46">Default value</h4>
-<pre><code class="language-YAML">os_family_supported: &quot;{% if ansible_os_family == 'Suse' %}Suse{% else %}RedHat{% endif
-  %}&quot;
+<pre><code class="language-YAML">os_family_supported: &quot;{% if ansible_os_family == 'Suse' %}Suse{% else %}RedHat{% endif %}&quot;
 </code></pre>
 <h3 id="os_min_supported_version">os_min_supported_version</h3>
 <p>Minimum supported versions for SLES is 12.1 and RHEL/OL &gt;= 6.4</p>
 <h4 id="default-value-47">Default value</h4>
-<pre><code class="language-YAML">os_min_supported_version: &quot;{% if ansible_os_family == 'Suse' %}12.1{% else %}6.4{%
-  endif %}&quot;
+<pre><code class="language-YAML">os_min_supported_version: &quot;{% if ansible_os_family == 'Suse' %}12.1{% else %}6.4{% endif %}&quot;
 </code></pre>
 <h3 id="percent_hugepages">percent_hugepages</h3>
 <p>Define percentage from RAM for Hugepages. Only valud when configure_hugepages_by: percentage</p>
@@ -1182,7 +1169,7 @@ disable transparent hugepages using kernel command line.</p>
 <p>[Mikael Sandström]</p>
 
 	<div class="td-page-meta__lastmod">
-  Last modified October 28, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/860e8becc006d5c62c43e9e15832f25b296176f4">Added &#34;LANG: en_US.UTF8&#34; to script_env to be independent from system locale settings Ensure glibc-langpack-en is installed to provide en_US.UTF8 language (860e8bec)</a>
+  Last modified October 30, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/2bffd9a3b3f3ab736a0fbfd4b040838e4e026136">ansible-core 2.16 is the new minimal version of ansible-oracle (requires_ansible in meta/runtime.yml, min_ansible_version of all roles) (2bffd9a3)</a>
 </div>
 
 </div>

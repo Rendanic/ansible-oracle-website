@@ -20,31 +20,31 @@
 <title>oradb_manage_wallet | ansible-oracle Project</title>
 <meta name="description" content="Manage Wallets for Oracle with mkstore and orapki.
 Multiple wallets with different locations are possible. Define a password for the wallet in oracle_wallet_password.
-Table of content Requirements Default Variables oracle_wallet_config oracle_wallet_password oracle_wallet_show_password Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.15.0 Default Variables oracle_wallet_config Default value oracle_wallet_config: [] Example usage oracle_wallet_config: - name: wallet1 home: 19300_base path: /u01/app/oracle/wallet state: present dbcredentials: - tns_name: db1 db_name: db1 db_user: user1 state: present certificates: - file: &quot;/home/oracle/assets/certs/https/mysite.crt&quot; type: &quot;cert&quot; extra_args: &quot;-trusted_cert&quot; state: present - file: &quot;/home/oracle/assets/certs/oracle/test-server.pfx&quot; type: &quot;pkcs12&quot; password: &quot;secret123&quot; state: present oracle_wallet_password Default value oracle_wallet_password: {} Example usage oracle_wallet_password: wallet1: &lt;password&gt; wallet2: &lt;password&gt; oracle_wallet_show_password Show password during execution in loop label.">
+Table of contents Requirements Default Variables oracle_wallet_config oracle_wallet_password oracle_wallet_show_password Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables oracle_wallet_config Default value oracle_wallet_config: [] Example usage oracle_wallet_config: - name: wallet1 home: 19300_base path: /u01/app/oracle/wallet state: present dbcredentials: - tns_name: db1 db_name: db1 db_user: user1 state: present certificates: - file: &quot;/home/oracle/assets/certs/https/mysite.crt&quot; type: &quot;cert&quot; extra_args: &quot;-trusted_cert&quot; state: present - file: &quot;/home/oracle/assets/certs/oracle/test-server.pfx&quot; type: &quot;pkcs12&quot; password: &quot;secret123&quot; state: present oracle_wallet_password Default value oracle_wallet_password: {} Example usage oracle_wallet_password: wallet1: &lt;password&gt; wallet2: &lt;password&gt; oracle_wallet_show_password Show password during execution in loop label.">
 <meta property="og:url" content="https://www.ansible-oracle.eu/docs/roles/oradb_manage_wallet/">
 	<meta property="og:site_name" content="ansible-oracle Project">
 	<meta property="og:title" content="oradb_manage_wallet">
 	<meta property="og:description" content="Manage Wallets for Oracle with mkstore and orapki.
 Multiple wallets with different locations are possible. Define a password for the wallet in oracle_wallet_password.
-Table of content Requirements Default Variables oracle_wallet_config oracle_wallet_password oracle_wallet_show_password Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.15.0 Default Variables oracle_wallet_config Default value oracle_wallet_config: [] Example usage oracle_wallet_config: - name: wallet1 home: 19300_base path: /u01/app/oracle/wallet state: present dbcredentials: - tns_name: db1 db_name: db1 db_user: user1 state: present certificates: - file: &#34;/home/oracle/assets/certs/https/mysite.crt&#34; type: &#34;cert&#34; extra_args: &#34;-trusted_cert&#34; state: present - file: &#34;/home/oracle/assets/certs/oracle/test-server.pfx&#34; type: &#34;pkcs12&#34; password: &#34;secret123&#34; state: present oracle_wallet_password Default value oracle_wallet_password: {} Example usage oracle_wallet_password: wallet1: &lt;password&gt; wallet2: &lt;password&gt; oracle_wallet_show_password Show password during execution in loop label.">
+Table of contents Requirements Default Variables oracle_wallet_config oracle_wallet_password oracle_wallet_show_password Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables oracle_wallet_config Default value oracle_wallet_config: [] Example usage oracle_wallet_config: - name: wallet1 home: 19300_base path: /u01/app/oracle/wallet state: present dbcredentials: - tns_name: db1 db_name: db1 db_user: user1 state: present certificates: - file: &#34;/home/oracle/assets/certs/https/mysite.crt&#34; type: &#34;cert&#34; extra_args: &#34;-trusted_cert&#34; state: present - file: &#34;/home/oracle/assets/certs/oracle/test-server.pfx&#34; type: &#34;pkcs12&#34; password: &#34;secret123&#34; state: present oracle_wallet_password Default value oracle_wallet_password: {} Example usage oracle_wallet_password: wallet1: &lt;password&gt; wallet2: &lt;password&gt; oracle_wallet_show_password Show password during execution in loop label.">
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-09-27T11:19:41+02:00">
-		<meta property="article:modified_time" content="2026-09-27T11:19:41+02:00">
+		<meta property="article:published_time" content="2026-10-30T22:59:56+01:00">
+		<meta property="article:modified_time" content="2026-10-30T22:59:56+01:00">
 
 	<meta itemprop="name" content="oradb_manage_wallet">
 	<meta itemprop="description" content="Manage Wallets for Oracle with mkstore and orapki.
 Multiple wallets with different locations are possible. Define a password for the wallet in oracle_wallet_password.
-Table of content Requirements Default Variables oracle_wallet_config oracle_wallet_password oracle_wallet_show_password Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.15.0 Default Variables oracle_wallet_config Default value oracle_wallet_config: [] Example usage oracle_wallet_config: - name: wallet1 home: 19300_base path: /u01/app/oracle/wallet state: present dbcredentials: - tns_name: db1 db_name: db1 db_user: user1 state: present certificates: - file: &#34;/home/oracle/assets/certs/https/mysite.crt&#34; type: &#34;cert&#34; extra_args: &#34;-trusted_cert&#34; state: present - file: &#34;/home/oracle/assets/certs/oracle/test-server.pfx&#34; type: &#34;pkcs12&#34; password: &#34;secret123&#34; state: present oracle_wallet_password Default value oracle_wallet_password: {} Example usage oracle_wallet_password: wallet1: &lt;password&gt; wallet2: &lt;password&gt; oracle_wallet_show_password Show password during execution in loop label.">
-	<meta itemprop="datePublished" content="2026-09-27T11:19:41+02:00">
-	<meta itemprop="dateModified" content="2026-09-27T11:19:41+02:00">
+Table of contents Requirements Default Variables oracle_wallet_config oracle_wallet_password oracle_wallet_show_password Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables oracle_wallet_config Default value oracle_wallet_config: [] Example usage oracle_wallet_config: - name: wallet1 home: 19300_base path: /u01/app/oracle/wallet state: present dbcredentials: - tns_name: db1 db_name: db1 db_user: user1 state: present certificates: - file: &#34;/home/oracle/assets/certs/https/mysite.crt&#34; type: &#34;cert&#34; extra_args: &#34;-trusted_cert&#34; state: present - file: &#34;/home/oracle/assets/certs/oracle/test-server.pfx&#34; type: &#34;pkcs12&#34; password: &#34;secret123&#34; state: present oracle_wallet_password Default value oracle_wallet_password: {} Example usage oracle_wallet_password: wallet1: &lt;password&gt; wallet2: &lt;password&gt; oracle_wallet_show_password Show password during execution in loop label.">
+	<meta itemprop="datePublished" content="2026-10-30T22:59:56+01:00">
+	<meta itemprop="dateModified" content="2026-10-30T22:59:56+01:00">
 	<meta itemprop="wordCount" content="126">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="oradb_manage_wallet">
 	<meta name="twitter:description" content="Manage Wallets for Oracle with mkstore and orapki.
 Multiple wallets with different locations are possible. Define a password for the wallet in oracle_wallet_password.
-Table of content Requirements Default Variables oracle_wallet_config oracle_wallet_password oracle_wallet_show_password Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.15.0 Default Variables oracle_wallet_config Default value oracle_wallet_config: [] Example usage oracle_wallet_config: - name: wallet1 home: 19300_base path: /u01/app/oracle/wallet state: present dbcredentials: - tns_name: db1 db_name: db1 db_user: user1 state: present certificates: - file: &#34;/home/oracle/assets/certs/https/mysite.crt&#34; type: &#34;cert&#34; extra_args: &#34;-trusted_cert&#34; state: present - file: &#34;/home/oracle/assets/certs/oracle/test-server.pfx&#34; type: &#34;pkcs12&#34; password: &#34;secret123&#34; state: present oracle_wallet_password Default value oracle_wallet_password: {} Example usage oracle_wallet_password: wallet1: &lt;password&gt; wallet2: &lt;password&gt; oracle_wallet_show_password Show password during execution in loop label.">
+Table of contents Requirements Default Variables oracle_wallet_config oracle_wallet_password oracle_wallet_show_password Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables oracle_wallet_config Default value oracle_wallet_config: [] Example usage oracle_wallet_config: - name: wallet1 home: 19300_base path: /u01/app/oracle/wallet state: present dbcredentials: - tns_name: db1 db_name: db1 db_user: user1 state: present certificates: - file: &#34;/home/oracle/assets/certs/https/mysite.crt&#34; type: &#34;cert&#34; extra_args: &#34;-trusted_cert&#34; state: present - file: &#34;/home/oracle/assets/certs/oracle/test-server.pfx&#34; type: &#34;pkcs12&#34; password: &#34;secret123&#34; state: present oracle_wallet_password Default value oracle_wallet_password: {} Example usage oracle_wallet_password: wallet1: &lt;password&gt; wallet2: &lt;password&gt; oracle_wallet_show_password Show password during execution in loop label.">
 
 
 
@@ -142,6 +142,8 @@ Table of content Requirements Default Variables oracle_wallet_config oracle_wall
   <a href="/docs/guides/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
   <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
+  <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
   <a href="/docs/guides/restart_rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="">Setup ASM for Oracle Grid Infrastructure / Restart</span></a>
 </li>
@@ -151,48 +153,26 @@ Table of content Requirements Default Variables oracle_wallet_config oracle_wall
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
   <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
-  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_ssh-li">
-  <a href="/docs/roles/orahost_ssh/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_ssh"><span class="">orahost_ssh</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
-  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
-  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
-  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
-  <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesautoupgrade-li">
   <a href="/docs/roles/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesautoupgrade"><span class="">autoupgrade</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
-  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraapex-li">
-  <a href="/docs/roles/oraapex/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraapex"><span class="">oraapex</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraords-li">
-  <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoracluvfy-li">
-  <a href="/docs/roles/oracluvfy/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoracluvfy"><span class="">oracluvfy</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
-  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesoradb_manage_wallet-li">
-  <a href="/docs/roles/oradb_manage_wallet/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_wallet"><span class="td-sidebar-nav-active-item">oradb_manage_wallet</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_meta-li">
-  <a href="/docs/roles/oraswgi_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_meta"><span class="">oraswgi_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
+  <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescxoracle-li">
   <a href="/docs/roles/cxoracle/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescxoracle"><span class="">cxoracle</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
-  <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
-  <a href="/docs/roles/oraswdb_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_manage_patches"><span class="">oraswdb_manage_patches</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_manage_patches-li">
-  <a href="/docs/roles/oraswgi_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_manage_patches"><span class="">oraswgi_manage_patches</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
-  <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesglobal_handlers-li">
   <a href="/docs/roles/global_handlers/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesglobal_handlers"><span class="">global_handlers</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraapex-li">
+  <a href="/docs/roles/oraapex/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraapex"><span class="">oraapex</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraasm_manage_diskgroups-li">
   <a href="/docs/roles/oraasm_manage_diskgroups/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraasm_manage_diskgroups"><span class="">oraasm_manage_diskgroups</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoracluvfy-li">
+  <a href="/docs/roles/oracluvfy/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoracluvfy"><span class="">oracluvfy</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_datapatch-li">
+  <a href="/docs/roles/oradb_datapatch/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_datapatch"><span class="">oradb_datapatch</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_facts-li">
+  <a href="/docs/roles/oradb_facts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_facts"><span class="">oradb_facts</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_grants-li">
   <a href="/docs/roles/oradb_manage_grants/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_grants"><span class="">oradb_manage_grants</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_parameters-li">
@@ -201,38 +181,60 @@ Table of content Requirements Default Variables oracle_wallet_config oracle_wall
   <a href="/docs/roles/oradb_manage_pdb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_pdb"><span class="">oradb_manage_pdb</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_profiles-li">
   <a href="/docs/roles/oradb_manage_profiles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_profiles"><span class="">oradb_manage_profiles</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_redo-li">
+  <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="">oradb_manage_redo</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_roles-li">
   <a href="/docs/roles/oradb_manage_roles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_roles"><span class="">oradb_manage_roles</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_services-li">
+  <a href="/docs/roles/oradb_manage_services/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_services"><span class="">oradb_manage_services</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_statspack-li">
   <a href="/docs/roles/oradb_manage_statspack/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_statspack"><span class="">oradb_manage_statspack</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_tablespace-li">
   <a href="/docs/roles/oradb_manage_tablespace/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_tablespace"><span class="">oradb_manage_tablespace</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_users-li">
   <a href="/docs/roles/oradb_manage_users/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_users"><span class="">oradb_manage_users</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesoradb_manage_wallet-li">
+  <a href="/docs/roles/oradb_manage_wallet/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_wallet"><span class="td-sidebar-nav-active-item">oradb_manage_wallet</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
   <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_tzupgrade-li">
   <a href="/docs/roles/oradb_tzupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_tzupgrade"><span class="">oradb_tzupgrade</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
+  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_cron-li">
   <a href="/docs/roles/orahost_cron/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_cron"><span class="">orahost_cron</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_logrotate-li">
   <a href="/docs/roles/orahost_logrotate/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_logrotate"><span class="">orahost_logrotate</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_ssh-li">
+  <a href="/docs/roles/orahost_ssh/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_ssh"><span class="">orahost_ssh</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_storage-li">
+  <a href="/docs/roles/orahost_storage/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_storage"><span class="">orahost_storage</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraords-li">
+  <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
+  <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
+  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
+  <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswahf_install-li">
   <a href="/docs/roles/oraswahf_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswahf_install"><span class="">oraswahf_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_golden_image-li">
   <a href="/docs/roles/oraswdb_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_golden_image"><span class="">oraswdb_golden_image</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
+  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
+  <a href="/docs/roles/oraswdb_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_manage_patches"><span class="">oraswdb_manage_patches</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_golden_image-li">
   <a href="/docs/roles/oraswgi_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_golden_image"><span class="">oraswgi_golden_image</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_services-li">
-  <a href="/docs/roles/oradb_manage_services/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_services"><span class="">oradb_manage_services</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_redo-li">
-  <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="">oradb_manage_redo</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_datapatch-li">
-  <a href="/docs/roles/oradb_datapatch/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_datapatch"><span class="">oradb_datapatch</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_facts-li">
-  <a href="/docs/roles/oradb_facts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_facts"><span class="">oradb_facts</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_storage-li">
-  <a href="/docs/roles/orahost_storage/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_storage"><span class="">orahost_storage</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_manage_patches-li">
+  <a href="/docs/roles/oraswgi_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_manage_patches"><span class="">oraswgi_manage_patches</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_meta-li">
+  <a href="/docs/roles/oraswgi_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_meta"><span class="">oraswgi_meta</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsdevelopment-li">
@@ -266,7 +268,7 @@ Table of content Requirements Default Variables oracle_wallet_config oracle_wall
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#table-of-content">Table of content</a></li>
+    <li><a href="#table-of-contents">Table of contents</a></li>
     <li><a href="#requirements">Requirements</a></li>
     <li><a href="#default-variables">Default Variables</a>
       <ul>
@@ -324,7 +326,7 @@ Table of content Requirements Default Variables oracle_wallet_config oracle_wall
 	<p>Manage Wallets for Oracle with <code>mkstore</code> and <code>orapki</code>.</p>
 <p>Multiple wallets with different locations are possible.
 Define a password for the wallet in <code>oracle_wallet_password</code>.</p>
-<h2 id="table-of-content">Table of content</h2>
+<h2 id="table-of-contents">Table of contents</h2>
 <ul>
 <li><a href="#requirements">Requirements</a></li>
 <li><a href="#default-variables">Default Variables</a>
@@ -342,7 +344,7 @@ Define a password for the wallet in <code>oracle_wallet_password</code>.</p>
 <hr>
 <h2 id="requirements">Requirements</h2>
 <ul>
-<li>Minimum Ansible version: <code>2.15.0</code></li>
+<li>Minimum Ansible version: <code>2.16.0</code></li>
 </ul>
 <h2 id="default-variables">Default Variables</h2>
 <h3 id="oracle_wallet_config">oracle_wallet_config</h3>
@@ -397,7 +399,7 @@ Define a password for the wallet in <code>oracle_wallet_password</code>.</p>
 <p>[Thorsten Bruhns]</p>
 
 	<div class="td-page-meta__lastmod">
-  Last modified September 27, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/691ad551e2175b8de53dc755402c30b3cb548bb0">Fix comments for ansible-doctor (691ad551)</a>
+  Last modified October 30, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/2bffd9a3b3f3ab736a0fbfd4b040838e4e026136">ansible-core 2.16 is the new minimal version of ansible-oracle (requires_ansible in meta/runtime.yml, min_ansible_version of all roles) (2bffd9a3)</a>
 </div>
 
 </div>

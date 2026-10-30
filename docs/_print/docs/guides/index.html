@@ -221,7 +221,15 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>11: <a href="#pg-df389f0fd67da23712005b22d5d20abf">Setup ASM for Oracle Grid Infrastructure / Restart</a></li>
+<li>11: <a href="#pg-df389f0fd67da23712005b22d5d20abf">Breaking Changes - Upgrade Guide</a></li>
+
+
+    
+  
+    
+    
+	
+<li>12: <a href="#pg-df389f0fd67da23712005b22d5d20abf">Setup ASM for Oracle Grid Infrastructure / Restart</a></li>
 
 
     
@@ -7110,7 +7118,523 @@ A new RAC <code>ORACLE_HOME</code> needs the cluster installation before the swi
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">11 - Setup ASM for Oracle Grid Infrastructure / Restart</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">11 - Breaking Changes - Upgrade Guide</h1>
+    
+	
+<div class="paragraph">
+<p>This guide lists all changes in <code>ansible-oracle</code> which require an action in your inventory, playbooks or environment when upgrading to a new major version.</p>
+</div>
+<div class="paragraph">
+<p>How to use this guide:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Find your current version and the target version.</p>
+</li>
+<li>
+<p>Read the overview table of every major version in between.</p>
+</li>
+<li>
+<p>Check the column <em>Affected if</em> against your inventory. Only the rows that match need an action.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The complete list of changes is in <a href="https://github.com/oravirt/ansible-oracle/blob/master/CHANGELOG.rst">CHANGELOG.rst</a>.
+This guide only covers the changes from the section <em>Breaking Changes / Porting Guide</em> and explains the required actions.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="sect1">
+<h2 id="_version_5_0_0">1. Version 5.0.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_overview">1.1. Overview</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 27.2727%;"/>
+<col style="width: 36.3636%;"/>
+<col style="width: 36.3637%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Change</th>
+<th class="tableblock halign-left valign-top">Affected if</th>
+<th class="tableblock halign-left valign-top">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_minimum_ansible_core_2_16">Minimum ansible-core 2.16</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ansible-core 2.14 or 2.15 is used on the controller or in the execution environment</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Upgrade to ansible-core 2.16 or newer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_supported_operating_systems_on_target_hosts">Supported operating systems on target hosts</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ansible-core 2.17 or newer <strong>and</strong> target hosts with Oracle Linux / RHEL 8 (Python 3.6)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use ansible-core 2.16 for these hosts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_collection_dependencies_community_general_and_community_crypto">Collection dependencies community.general and community.crypto</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>community.general</code> &lt; 11.0.0 or &gt;= 12.0.0, or <code>community.crypto</code> &gt;= 3.0.0 is installed or pinned in your <code>requirements.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use <code>community.general</code> 11.x and <code>community.crypto</code> 2.x</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_strict_boolean_conditionals_with_ansible_core_2_19">Strict boolean conditionals with ansible-core 2.19</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ansible-core 2.19 or newer is used <strong>and</strong> your own playbooks or roles use variables directly in conditionals</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use <code>| bool</code> in your conditionals. <code>ansible-oracle</code> itself accepts strings like <code>&#34;yes&#34;</code> or <code>-e var=false</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_templating_changes_with_ansible_core_2_19">Templating changes with ansible-core 2.19</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ansible-core 2.19 or newer is used <strong>and</strong> your inventory contains templates (<code>{% if %}</code>, <code>{{ }}</code>) which create values for <code>ansible-oracle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Check the result types of your templates</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_default_of_oracle_sw_copy_and_oracle_sw_unpack_with_install_from_nfs">Default of oracle_sw_copy and oracle_sw_unpack with install_from_nfs</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>install_from_nfs: true</code> <strong>and</strong> <code>oracle_sw_copy</code> or <code>oracle_sw_unpack</code> are not set in inventory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set <code>oracle_sw_copy: true</code> and <code>oracle_sw_unpack: true</code> to keep the old behavior or test the installation directly from NFS</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_minimum_ansible_core_2_16">1.2. Minimum ansible-core 2.16</h3>
+<div class="paragraph">
+<p><code>ansible-oracle</code> 5.x requires ansible-core 2.16 or newer (4.x: 2.14).
+The minimum version is defined by <code>requires_ansible</code> in <code>meta/runtime.yml</code> and <code>min_ansible_version</code> in <code>meta/main.yml</code> of all roles.</p>
+</div>
+<div class="paragraph">
+<p>Check the version on the controller or in your execution environment:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-shell" data-lang="shell">ansible --version</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_python_on_controller_and_target_hosts">1.2.1. Python on controller and target hosts</h4>
+<div class="paragraph">
+<p>Each ansible-core version supports a fixed range of Python versions on the controller and on the target hosts:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;"/>
+<col style="width: 40%;"/>
+<col style="width: 40%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">ansible-core</th>
+<th class="tableblock halign-left valign-top">Python on controller</th>
+<th class="tableblock halign-left valign-top">Python on target host</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.10 - 3.12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.7, 3.6 - 3.12</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.10 - 3.12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.7 - 3.12</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.11 - 3.13</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.8 - 3.13</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.19</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.11 - 3.13</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.8 - 3.13</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The Python on the target host is the system Python or the interpreter from <code>ansible_python_interpreter</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_supported_operating_systems_on_target_hosts">1.2.2. Supported operating systems on target hosts</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;"/>
+<col style="width: 12.5%;"/>
+<col style="width: 25%;"/>
+<col style="width: 37.5%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">OS</th>
+<th class="tableblock halign-left valign-top">System Python</th>
+<th class="tableblock halign-left valign-top">ansible-core 2.16</th>
+<th class="tableblock halign-left valign-top">ansible-core 2.17 - 2.19</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Linux / RHEL 8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>no</strong> - see below</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Linux / RHEL 9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Linux / RHEL 10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SLES / openSUSE Leap 15</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">only with <code>python311</code> (SLES 15 SP4 or newer) and <code>ansible_python_interpreter: /usr/bin/python3.11</code> - not tested with <code>ansible-oracle</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Use ansible-core 2.16 for Oracle Linux / RHEL 8.<br/>
+The system Python 3.6 is not supported by ansible-core 2.17 or newer, even fact gathering fails.
+A newer Python from AppStream (e.g. <code>python3.12</code> with <code>ansible_python_interpreter: /usr/bin/python3.12</code>) runs most modules,
+but <code>ansible.builtin.dnf</code> and <code>ansible.builtin.yum</code> fail, because the dnf Python bindings exist for Python 3.6 only:
+<code>Could not import the dnf python module using /usr/bin/python3.12</code>.
+The roles <code>common</code>, <code>orahost</code>, <code>oraords</code> and <code>oraswgi_install</code> install packages with these modules.
+Tested with ansible-core 2.19.14 and Oracle Linux 8.10.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>The controller can use another OS than the target hosts.
+Oracle Linux 8 and 9 provide Python 3.11 and 3.12 as additional packages (<code>python3.11</code>, <code>python3.12</code>) for a controller with ansible-core 2.19.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_collection_dependencies_community_general_and_community_crypto">1.3. Collection dependencies community.general and community.crypto</h3>
+<div class="paragraph">
+<p>The dependencies in <code>galaxy.yml</code> are limited to versions, which support the minimum ansible-core version and Python 3.6 on the target hosts:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Collection</th>
+<th class="tableblock halign-left valign-top">4.x</th>
+<th class="tableblock halign-left valign-top">5.0.0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>community.general</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&gt;=8.6.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&gt;=11.0.0,&lt;12.0.0</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>community.crypto</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&gt;=2.21.1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&gt;=2.21.1,&lt;3.0.0</code> (3.x needs ansible-core &gt;= 2.17)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><code>ansible-galaxy collection install</code> fails with a dependency conflict, when your <code>requirements.yml</code> pins a version outside of these ranges.
+Remove the pinning or adjust it to the ranges above.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_strict_boolean_conditionals_with_ansible_core_2_19">1.4. Strict boolean conditionals with ansible-core 2.19</h3>
+<div class="paragraph">
+<p>ansible-core 2.19 requires a real boolean as result of a conditional (<code>when</code>, <code>failed_when</code>, <code>changed_when</code>, <code>until</code>, <code>assert: that</code>).
+Older versions converted strings like <code>&#34;false&#34;</code> or <code>&#34;yes&#34;</code> silently.
+Now the task fails:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Conditional result (True) was derived from value of type &#39;str&#39; at &#39;...&#39;. Conditionals must have a boolean result.</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>ansible-oracle</code> 5.0.0 evaluates all boolean variables from the inventory with <code>| bool</code>.
+Strings like <code>&#34;true&#34;</code>, <code>&#34;yes&#34;</code>, <code>&#34;false&#34;</code> or extra-vars like <code>-e oracle_sw_copy=false</code> work as before.</p>
+</div>
+<div class="paragraph">
+<p>Your own playbooks and roles are affected, when they use variables directly in conditionals:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml"># fails with ansible-core 2.19, when my_flag is a string (&#34;true&#34;, &#34;yes&#34;, -e my_flag=true)
+when: my_flag
+
+# works with all versions
+when: my_flag | bool</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>bool</code> filter accepts <code>true</code>/<code>false</code>, <code>yes</code>/<code>no</code>, <code>on</code>/<code>off</code>, <code>1</code>/<code>0</code> (case-insensitive).
+Other values (e.g. <code>&#34;enabled&#34;</code> or an empty string) result in a deprecation warning and <code>false</code>.
+This will be an error in ansible-core 2.23.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<code>ANSIBLE_ALLOW_BROKEN_CONDITIONALS=true</code> restores the old behavior temporarily.
+Use it only to find the affected conditionals, not as permanent solution.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_templating_changes_with_ansible_core_2_19">1.5. Templating changes with ansible-core 2.19</h3>
+<div class="paragraph">
+<p>ansible-core 2.19 has a new templating engine.
+The result of a template has a different type in some cases.
+<code>ansible-oracle</code> 5.0.0 is adapted, but templates in your inventory are used as they are.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 42.8571%;"/>
+<col style="width: 28.5714%;"/>
+<col style="width: 28.5715%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Template</th>
+<th class="tableblock halign-left valign-top">ansible-core &lt; 2.19</th>
+<th class="tableblock halign-left valign-top">ansible-core 2.19</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&#34;{% if x %}True{% else %}False{% endif %}&#34;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bool</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">string <code>&#34;True&#34;</code> / <code>&#34;False&#34;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&#34;{% if x %}{&#39;key&#39;: 1}{% endif %}&#34;</code>, <code>&#34;{% if x %}[1, 2]{% endif %}&#34;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">dict / list</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&#34;{% if x %}-flag{% endif %}&#34;</code> with <code>x</code> false (empty result)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">empty string <code>&#34;&#34;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>None</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&#34;{{ 1521 }}&#34;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">string <code>&#34;1521&#34;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int <code>1521</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Examples of failing expressions with ansible-core 2.19:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">my_flag: &#34;{% if foo %}True{% else %}False{% endif %}&#34;
+my_param: &#34;{% if foo %}-flag{% endif %}&#34;
+my_port: &#34;{{ 1521 }}&#34;
+
+# when: my_flag              -&gt; fails: string instead of boolean
+# when: my_param == &#39;&#39;       -&gt; false, because the value is None
+# &#34;{{ my_param | length }}&#34;  -&gt; fails: None has no length
+# &#34;{{ &#39;host:&#39; + my_port }}&#34;  -&gt; fails: string + int
+# when: my_port == &#39;1521&#39;    -&gt; false, because the value is an int</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Recommendations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Write expressions instead of text: <code>my_flag: &#34;{{ foo | bool }}&#34;</code> or <code>my_flag: &#34;{{ foo == &#39;x&#39; }}&#34;</code>.</p>
+</li>
+<li>
+<p>Use YAML for lists and dictionaries instead of creating them as text.</p>
+</li>
+<li>
+<p>Use <code>| default(&#39;&#39;, true)</code> when a template can be empty and a string is needed.</p>
+</li>
+<li>
+<p>Use <code>| int</code> or <code>| string</code> for comparisons.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>An empty template in <code>environment:</code> sets the environment variable to the text <code>None</code>, e.g. <code>_JAVA_OPTIONS=None</code> lets Java fail with <code>Unrecognized option: None</code>.
+Use <code>&#34;{{ my_value | default(&#39;&#39;, true) }}&#34;</code> for environment variables, which can be empty.</p>
+</div>
+<div class="paragraph">
+<p>Embedding these values into other strings is not affected: <code>&#34;gridSetup.sh {{ my_param }}&#34;</code> renders an empty string for <code>None</code> in all versions.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_other_ansible_core_2_19_changes_for_own_playbooks_and_inventories">1.6. Other ansible-core 2.19 changes for own playbooks and inventories</h3>
+<div class="paragraph">
+<p><code>ansible-oracle</code> 5.0.0 is checked for these changes.
+They are relevant for your own playbooks, inventories and <code>ansible.cfg</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>File modes must be quoted strings in inventories: <code>mode: &#39;0775&#39;</code> instead of <code>mode: 775</code>.
+An unquoted <code>775</code> is an integer and is passed through templates (for example <code>mode: &#34;{{ item.mode }}&#34;</code>) as decimal 775, which is mode <code>1407</code>.
+Before 2.19 the template converted the value to the string <code>&#34;775&#34;</code>, which was interpreted as octal.</p>
+</li>
+<li>
+<p><code>with_nested</code> handles strings differently (not mentioned in the porting guide):
+an empty string <code>&#34;&#34;</code> is an empty list (the task is skipped completely), a templated string <code>&#34;{{ var }}&#34;</code> is split into single characters.
+Use lists: <code>- [&#34;&#34;]</code> or <code>- [&#34;{{ var }}&#34;]</code>.</p>
+</li>
+<li>
+<p>A loop over an undefined list fails, although <code>when</code> is false, when <code>delegate_to</code> uses the loop variable (not mentioned in the porting guide).
+Use <code>loop: &#34;{{ my_list | default([]) }}&#34;</code>.</p>
+</li>
+<li>
+<p>Templates inside conditionals fail: <code>that: swap &gt;= {{ min_swap }}</code> must be written as <code>that: swap &gt;= min_swap | int</code>.</p>
+</li>
+<li>
+<p>The <code>ssh</code> connection uses <code>SSH_ASKPASS</code> instead of <code>sshpass</code> for password authentication.
+Set <code>password_mechanism = sshpass</code> in section <code>[ssh_connection]</code> of <code>ansible.cfg</code> to keep the old behavior.</p>
+</li>
+<li>
+<p>The <code>bool</code> filter warns for values other than <code>true</code>/<code>false</code>, <code>yes</code>/<code>no</code>, <code>on</code>/<code>off</code>, <code>1</code>/<code>0</code> (and <code>None</code>). This will be an error in ansible-core 2.23.</p>
+</li>
+<li>
+<p>A timeout of <code>become</code> is an unreachable error. Use <code>ignore_unreachable</code> instead of <code>ignore_errors</code>.</p>
+</li>
+<li>
+<p>The magic variable <code>play_hosts</code> is deprecated, use <code>ansible_play_batch</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The complete list is in the <a href="https://docs.ansible.com/ansible/latest/porting_guides/porting_guide_core_2.19.html">ansible-core 2.19 Porting Guide</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_default_of_oracle_sw_copy_and_oracle_sw_unpack_with_install_from_nfs">1.7. Default of oracle_sw_copy and oracle_sw_unpack with install_from_nfs</h3>
+<div class="paragraph">
+<p>The defaults of <code>oracle_sw_copy</code> and <code>oracle_sw_unpack</code> depend on <code>install_from_nfs</code>.
+Until 4.x the defaults were the strings <code>&#34;true&#34;</code> or <code>&#34;false&#34;</code>.
+The string <code>&#34;false&#34;</code> is not empty and was evaluated as <code>true</code> in most conditionals.
+The documented behavior for <code>install_from_nfs: true</code> (no copy, no unpack) was therefore not active, unless both variables were set explicitly in the inventory.</p>
+</div>
+<div class="paragraph">
+<p>As of 5.0.0 both defaults are real booleans.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><code>install_from_nfs: true</code> and …​</th>
+<th class="tableblock halign-left valign-top">4.x</th>
+<th class="tableblock halign-left valign-top">5.0.0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_sw_copy</code>/<code>oracle_sw_unpack</code> not set</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">installation media are copied and unpacked to <code>oracle_stage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">installation media are used from <code>oracle_stage_remote</code> (NFS mount)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_sw_copy</code>/<code>oracle_sw_unpack</code> set as boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Affected variables with changed default value: <code>oracle_sw_copy</code>, <code>oracle_sw_unpack</code>, <code>oracle_stage_install</code>, <code>oracle_patch_install</code>.</p>
+</div>
+<div class="paragraph">
+<p>Keep the behavior of 4.x:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">install_from_nfs: true
+oracle_sw_copy: true
+oracle_sw_unpack: true</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_adding_new_breaking_changes">2. Adding new breaking changes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Every changelog fragment with a <code>breaking_changes</code> entry needs an entry in this guide:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add a row to the overview table of the next major version. Create the version section, if it does not exist.</p>
+</li>
+<li>
+<p>Describe the change in an own subsection: what changed, why, who is affected, before/after and the required action with an example.</p>
+</li>
+<li>
+<p>Reference this guide in the changelog fragment (<code>see doc/guides/breaking_changes.adoc</code>).</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">12 - Setup ASM for Oracle Grid Infrastructure / Restart</h1>
     
 	
 <div class="sect1">

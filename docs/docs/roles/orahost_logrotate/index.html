@@ -19,31 +19,31 @@
 
 <title>orahost_logrotate | ansible-oracle Project</title>
 <meta name="description" content="Configure logrotate for ansible-oracle
-Table of content Requirements Default Variables logrotate_config oracle_cleanup_days oracle_home_gi oracle_home_gi_cl oracle_home_gi_so oracle_trace_cleanup_days orahost_logrotate_setup_logrotate Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables logrotate_config Configuration of logrotate definitions.
+Table of contents Requirements Default Variables logrotate_config oracle_cleanup_days oracle_home_gi oracle_home_gi_cl oracle_home_gi_so oracle_trace_cleanup_days orahost_logrotate_setup_logrotate Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables logrotate_config Configuration of logrotate definitions.
 Default value logrotate_config: - name: oracle_alert file: &#39;{{ oracle_base }}/diag/rdbms/*/*/trace/*alert*.log {{ oracle_base }}/diag/asm/*/*/trace/alert*&#43;ASM*.log&#39; options: - missingok - notifempty - weekly - rotate 3 - dateext - name: oracle_listener file: &#39;{{ oracle_base }}/diag/tnslsnr/*/*/trace/*listener*.log&#39; options: - missingok - notifempty - weekly - rotate 3 - dateext - compress - name: oracle_rman file: &quot;{{ rman_cron_logdir | default(&#39;/var/log/oracle/rman/log&#39;) }}/*.log {{ oracle_base }}/admin/*/rman/*.log {{ oracle_base }}/admin/*/rman/log/*.log&quot; options: - missingok - notifempty - compress - weekly - rotate 24 - dateext oracle_cleanup_days Define number of days for oracle_cleanup.sh logfiles and audit files.">
 <meta property="og:url" content="https://www.ansible-oracle.eu/docs/roles/orahost_logrotate/">
 	<meta property="og:site_name" content="ansible-oracle Project">
 	<meta property="og:title" content="orahost_logrotate">
 	<meta property="og:description" content="Configure logrotate for ansible-oracle
-Table of content Requirements Default Variables logrotate_config oracle_cleanup_days oracle_home_gi oracle_home_gi_cl oracle_home_gi_so oracle_trace_cleanup_days orahost_logrotate_setup_logrotate Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables logrotate_config Configuration of logrotate definitions.
+Table of contents Requirements Default Variables logrotate_config oracle_cleanup_days oracle_home_gi oracle_home_gi_cl oracle_home_gi_so oracle_trace_cleanup_days orahost_logrotate_setup_logrotate Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables logrotate_config Configuration of logrotate definitions.
 Default value logrotate_config: - name: oracle_alert file: &#39;{{ oracle_base }}/diag/rdbms/*/*/trace/*alert*.log {{ oracle_base }}/diag/asm/*/*/trace/alert*&#43;ASM*.log&#39; options: - missingok - notifempty - weekly - rotate 3 - dateext - name: oracle_listener file: &#39;{{ oracle_base }}/diag/tnslsnr/*/*/trace/*listener*.log&#39; options: - missingok - notifempty - weekly - rotate 3 - dateext - compress - name: oracle_rman file: &#34;{{ rman_cron_logdir | default(&#39;/var/log/oracle/rman/log&#39;) }}/*.log {{ oracle_base }}/admin/*/rman/*.log {{ oracle_base }}/admin/*/rman/log/*.log&#34; options: - missingok - notifempty - compress - weekly - rotate 24 - dateext oracle_cleanup_days Define number of days for oracle_cleanup.sh logfiles and audit files.">
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2025-04-27T10:25:53+02:00">
-		<meta property="article:modified_time" content="2025-04-27T10:25:53+02:00">
+		<meta property="article:published_time" content="2026-10-30T22:59:56+01:00">
+		<meta property="article:modified_time" content="2026-10-30T22:59:56+01:00">
 
 	<meta itemprop="name" content="orahost_logrotate">
 	<meta itemprop="description" content="Configure logrotate for ansible-oracle
-Table of content Requirements Default Variables logrotate_config oracle_cleanup_days oracle_home_gi oracle_home_gi_cl oracle_home_gi_so oracle_trace_cleanup_days orahost_logrotate_setup_logrotate Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables logrotate_config Configuration of logrotate definitions.
+Table of contents Requirements Default Variables logrotate_config oracle_cleanup_days oracle_home_gi oracle_home_gi_cl oracle_home_gi_so oracle_trace_cleanup_days orahost_logrotate_setup_logrotate Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables logrotate_config Configuration of logrotate definitions.
 Default value logrotate_config: - name: oracle_alert file: &#39;{{ oracle_base }}/diag/rdbms/*/*/trace/*alert*.log {{ oracle_base }}/diag/asm/*/*/trace/alert*&#43;ASM*.log&#39; options: - missingok - notifempty - weekly - rotate 3 - dateext - name: oracle_listener file: &#39;{{ oracle_base }}/diag/tnslsnr/*/*/trace/*listener*.log&#39; options: - missingok - notifempty - weekly - rotate 3 - dateext - compress - name: oracle_rman file: &#34;{{ rman_cron_logdir | default(&#39;/var/log/oracle/rman/log&#39;) }}/*.log {{ oracle_base }}/admin/*/rman/*.log {{ oracle_base }}/admin/*/rman/log/*.log&#34; options: - missingok - notifempty - compress - weekly - rotate 24 - dateext oracle_cleanup_days Define number of days for oracle_cleanup.sh logfiles and audit files.">
-	<meta itemprop="datePublished" content="2025-04-27T10:25:53+02:00">
-	<meta itemprop="dateModified" content="2025-04-27T10:25:53+02:00">
+	<meta itemprop="datePublished" content="2026-10-30T22:59:56+01:00">
+	<meta itemprop="dateModified" content="2026-10-30T22:59:56+01:00">
 	<meta itemprop="wordCount" content="198">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="orahost_logrotate">
 	<meta name="twitter:description" content="Configure logrotate for ansible-oracle
-Table of content Requirements Default Variables logrotate_config oracle_cleanup_days oracle_home_gi oracle_home_gi_cl oracle_home_gi_so oracle_trace_cleanup_days orahost_logrotate_setup_logrotate Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.14.0 Default Variables logrotate_config Configuration of logrotate definitions.
+Table of contents Requirements Default Variables logrotate_config oracle_cleanup_days oracle_home_gi oracle_home_gi_cl oracle_home_gi_so oracle_trace_cleanup_days orahost_logrotate_setup_logrotate Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables logrotate_config Configuration of logrotate definitions.
 Default value logrotate_config: - name: oracle_alert file: &#39;{{ oracle_base }}/diag/rdbms/*/*/trace/*alert*.log {{ oracle_base }}/diag/asm/*/*/trace/alert*&#43;ASM*.log&#39; options: - missingok - notifempty - weekly - rotate 3 - dateext - name: oracle_listener file: &#39;{{ oracle_base }}/diag/tnslsnr/*/*/trace/*listener*.log&#39; options: - missingok - notifempty - weekly - rotate 3 - dateext - compress - name: oracle_rman file: &#34;{{ rman_cron_logdir | default(&#39;/var/log/oracle/rman/log&#39;) }}/*.log {{ oracle_base }}/admin/*/rman/*.log {{ oracle_base }}/admin/*/rman/log/*.log&#34; options: - missingok - notifempty - compress - weekly - rotate 24 - dateext oracle_cleanup_days Define number of days for oracle_cleanup.sh logfiles and audit files.">
 
 
@@ -142,6 +142,8 @@ Default value logrotate_config: - name: oracle_alert file: &#39;{{ oracle_base }
   <a href="/docs/guides/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
   <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
+  <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
   <a href="/docs/guides/restart_rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="">Setup ASM for Oracle Grid Infrastructure / Restart</span></a>
 </li>
@@ -151,48 +153,26 @@ Default value logrotate_config: - name: oracle_alert file: &#39;{{ oracle_base }
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
   <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
-  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_ssh-li">
-  <a href="/docs/roles/orahost_ssh/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_ssh"><span class="">orahost_ssh</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
-  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
-  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
-  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
-  <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesautoupgrade-li">
   <a href="/docs/roles/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesautoupgrade"><span class="">autoupgrade</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
-  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraapex-li">
-  <a href="/docs/roles/oraapex/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraapex"><span class="">oraapex</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraords-li">
-  <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoracluvfy-li">
-  <a href="/docs/roles/oracluvfy/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoracluvfy"><span class="">oracluvfy</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
-  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_wallet-li">
-  <a href="/docs/roles/oradb_manage_wallet/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_wallet"><span class="">oradb_manage_wallet</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_meta-li">
-  <a href="/docs/roles/oraswgi_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_meta"><span class="">oraswgi_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
+  <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescxoracle-li">
   <a href="/docs/roles/cxoracle/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescxoracle"><span class="">cxoracle</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
-  <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
-  <a href="/docs/roles/oraswdb_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_manage_patches"><span class="">oraswdb_manage_patches</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_manage_patches-li">
-  <a href="/docs/roles/oraswgi_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_manage_patches"><span class="">oraswgi_manage_patches</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
-  <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesglobal_handlers-li">
   <a href="/docs/roles/global_handlers/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesglobal_handlers"><span class="">global_handlers</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraapex-li">
+  <a href="/docs/roles/oraapex/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraapex"><span class="">oraapex</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraasm_manage_diskgroups-li">
   <a href="/docs/roles/oraasm_manage_diskgroups/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraasm_manage_diskgroups"><span class="">oraasm_manage_diskgroups</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoracluvfy-li">
+  <a href="/docs/roles/oracluvfy/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoracluvfy"><span class="">oracluvfy</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_datapatch-li">
+  <a href="/docs/roles/oradb_datapatch/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_datapatch"><span class="">oradb_datapatch</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_facts-li">
+  <a href="/docs/roles/oradb_facts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_facts"><span class="">oradb_facts</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_grants-li">
   <a href="/docs/roles/oradb_manage_grants/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_grants"><span class="">oradb_manage_grants</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_parameters-li">
@@ -201,38 +181,60 @@ Default value logrotate_config: - name: oracle_alert file: &#39;{{ oracle_base }
   <a href="/docs/roles/oradb_manage_pdb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_pdb"><span class="">oradb_manage_pdb</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_profiles-li">
   <a href="/docs/roles/oradb_manage_profiles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_profiles"><span class="">oradb_manage_profiles</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_redo-li">
+  <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="">oradb_manage_redo</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_roles-li">
   <a href="/docs/roles/oradb_manage_roles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_roles"><span class="">oradb_manage_roles</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_services-li">
+  <a href="/docs/roles/oradb_manage_services/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_services"><span class="">oradb_manage_services</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_statspack-li">
   <a href="/docs/roles/oradb_manage_statspack/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_statspack"><span class="">oradb_manage_statspack</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_tablespace-li">
   <a href="/docs/roles/oradb_manage_tablespace/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_tablespace"><span class="">oradb_manage_tablespace</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_users-li">
   <a href="/docs/roles/oradb_manage_users/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_users"><span class="">oradb_manage_users</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_wallet-li">
+  <a href="/docs/roles/oradb_manage_wallet/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_wallet"><span class="">oradb_manage_wallet</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
   <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_tzupgrade-li">
   <a href="/docs/roles/oradb_tzupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_tzupgrade"><span class="">oradb_tzupgrade</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
+  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_cron-li">
   <a href="/docs/roles/orahost_cron/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_cron"><span class="">orahost_cron</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesorahost_logrotate-li">
   <a href="/docs/roles/orahost_logrotate/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_logrotate"><span class="td-sidebar-nav-active-item">orahost_logrotate</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_ssh-li">
+  <a href="/docs/roles/orahost_ssh/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_ssh"><span class="">orahost_ssh</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_storage-li">
+  <a href="/docs/roles/orahost_storage/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_storage"><span class="">orahost_storage</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraords-li">
+  <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
+  <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
+  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
+  <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswahf_install-li">
   <a href="/docs/roles/oraswahf_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswahf_install"><span class="">oraswahf_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_golden_image-li">
   <a href="/docs/roles/oraswdb_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_golden_image"><span class="">oraswdb_golden_image</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
+  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
+  <a href="/docs/roles/oraswdb_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_manage_patches"><span class="">oraswdb_manage_patches</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_golden_image-li">
   <a href="/docs/roles/oraswgi_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_golden_image"><span class="">oraswgi_golden_image</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_services-li">
-  <a href="/docs/roles/oradb_manage_services/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_services"><span class="">oradb_manage_services</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_redo-li">
-  <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="">oradb_manage_redo</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_datapatch-li">
-  <a href="/docs/roles/oradb_datapatch/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_datapatch"><span class="">oradb_datapatch</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_facts-li">
-  <a href="/docs/roles/oradb_facts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_facts"><span class="">oradb_facts</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_storage-li">
-  <a href="/docs/roles/orahost_storage/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_storage"><span class="">orahost_storage</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_manage_patches-li">
+  <a href="/docs/roles/oraswgi_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_manage_patches"><span class="">oraswgi_manage_patches</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_meta-li">
+  <a href="/docs/roles/oraswgi_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_meta"><span class="">oraswgi_meta</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsdevelopment-li">
@@ -266,7 +268,7 @@ Default value logrotate_config: - name: oracle_alert file: &#39;{{ oracle_base }
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#table-of-content">Table of content</a></li>
+    <li><a href="#table-of-contents">Table of contents</a></li>
     <li><a href="#requirements">Requirements</a></li>
     <li><a href="#default-variables">Default Variables</a>
       <ul>
@@ -340,7 +342,7 @@ Default value logrotate_config: - name: oracle_alert file: &#39;{{ oracle_base }
 		
   </header>
 	<p>Configure logrotate for ansible-oracle</p>
-<h2 id="table-of-content">Table of content</h2>
+<h2 id="table-of-contents">Table of contents</h2>
 <ul>
 <li><a href="#requirements">Requirements</a></li>
 <li><a href="#default-variables">Default Variables</a>
@@ -362,7 +364,7 @@ Default value logrotate_config: - name: oracle_alert file: &#39;{{ oracle_base }
 <hr>
 <h2 id="requirements">Requirements</h2>
 <ul>
-<li>Minimum Ansible version: <code>2.14.0</code></li>
+<li>Minimum Ansible version: <code>2.16.0</code></li>
 </ul>
 <h2 id="default-variables">Default Variables</h2>
 <h3 id="logrotate_config">logrotate_config</h3>
@@ -387,8 +389,7 @@ Default value logrotate_config: - name: oracle_alert file: &#39;{{ oracle_base }
       - dateext
       - compress
   - name: oracle_rman
-    file: &quot;{{ rman_cron_logdir | default('/var/log/oracle/rman/log') }}/*.log {{ oracle_base
-      }}/admin/*/rman/*.log {{ oracle_base }}/admin/*/rman/log/*.log&quot;
+    file: &quot;{{ rman_cron_logdir | default('/var/log/oracle/rman/log') }}/*.log {{ oracle_base }}/admin/*/rman/*.log {{ oracle_base }}/admin/*/rman/log/*.log&quot;
     options:
       - missingok
       - notifempty
@@ -404,8 +405,7 @@ Default value logrotate_config: - name: oracle_alert file: &#39;{{ oracle_base }
 </code></pre>
 <h3 id="oracle_home_gi">oracle_home_gi</h3>
 <h4 id="default-value-2">Default value</h4>
-<pre><code class="language-YAML">oracle_home_gi: '{% if _oraswgi_meta_configure_cluster %}{{ oracle_home_gi_cl }}{%
-  else %}{{ oracle_home_gi_so }}{% endif %}'
+<pre><code class="language-YAML">oracle_home_gi: '{% if _oraswgi_meta_configure_cluster %}{{ oracle_home_gi_cl }}{% else %}{{ oracle_home_gi_so }}{% endif %}'
 </code></pre>
 <h3 id="oracle_home_gi_cl">oracle_home_gi_cl</h3>
 <h4 id="default-value-3">Default value</h4>
@@ -440,7 +440,7 @@ Default value logrotate_config: - name: oracle_alert file: &#39;{{ oracle_base }
 <p>[Thorsten Bruhns]</p>
 
 	<div class="td-page-meta__lastmod">
-  Last modified April 27, 2025: <a href="https://github.com/oravirt/ansible-oracle/commit/64c02edb3dff0a75dafe51cb1fd3e9590738706f">Upgrade ansible-doctor 6.0.5 and pre-commit (64c02edb)</a>
+  Last modified October 30, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/2bffd9a3b3f3ab736a0fbfd4b040838e4e026136">ansible-core 2.16 is the new minimal version of ansible-oracle (requires_ansible in meta/runtime.yml, min_ansible_version of all roles) (2bffd9a3)</a>
 </div>
 
 </div>
