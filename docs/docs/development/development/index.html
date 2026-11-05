@@ -128,8 +128,8 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-10-30T22:59:56+01:00">
-		<meta property="article:modified_time" content="2026-10-30T22:59:56+01:00">
+		<meta property="article:published_time" content="2026-11-04T18:10:51+01:00">
+		<meta property="article:modified_time" content="2026-11-04T18:10:51+01:00">
 
 	<meta itemprop="name" content="How to develop">
 	<meta itemprop="description" content="1. How to develop in ansible-oracle? Important This is an example how most of the development in ansible-oracle is done.
@@ -184,9 +184,9 @@ Each commit is locally checked against multiple rules, to prevent failures in gi
 This tool is recommended but not mandatory for contributing to ansible-oracle. Install the git hook once (cd into repository before) pre-commit install Important Do not forget to place change files in stage area of git before starting pre-commit.
 pre-commit works only on the data of the stage area! run outside git pre-commit run 1.3.2. ansible-doctor Start ansible-doctor with pre-commit pre-commit run ansible-doctor Start ansible-doctor to create new README.md file cd ansible-oracle # nix-shell .venv/ansible-doctor/bin/ansible-doctor -f -r roles # local Ansible-Controller ~/venv/ansible-doctor/bin/ansible-doctor -f -r roles 1.3.3. Start Playbook Important Don’t forget to set the working branch in requirements.yml.
 Remove/Disable devsec.hardening for faster installation of Ansible collection, when devsec should not be tested. Edit requirements.yml --- collections: # - name: devsec.hardening # version: 8.2.0 - name: https://github.com/Rendanic/ansible-oracle.git type: git version: devbranch Execute ansible-playbook ansible-galaxy collection install --force -r requirements.yml &amp;&amp; ansible-playbook -i inventory/hasfd -e hostgroup=&#39;all&#39; playbooks/single-instance-asm.yml --limit &#39;*19c*&#39;">
-	<meta itemprop="datePublished" content="2026-10-30T22:59:56+01:00">
-	<meta itemprop="dateModified" content="2026-10-30T22:59:56+01:00">
-	<meta itemprop="wordCount" content="4180">
+	<meta itemprop="datePublished" content="2026-11-04T18:10:51+01:00">
+	<meta itemprop="dateModified" content="2026-11-04T18:10:51+01:00">
+	<meta itemprop="wordCount" content="5884">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="How to develop">
 	<meta name="twitter:description" content="1. How to develop in ansible-oracle? Important This is an example how most of the development in ansible-oracle is done.
@@ -349,12 +349,24 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
   <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
+  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
+  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolespyoracledb-li">
+  <a href="/docs/roles/pyoracledb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolespyoracledb"><span class="">pyoracledb</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
+  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesautoupgrade-li">
   <a href="/docs/roles/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesautoupgrade"><span class="">autoupgrade</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
   <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescxoracle-li">
-  <a href="/docs/roles/cxoracle/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescxoracle"><span class="">cxoracle</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesglobal_handlers-li">
   <a href="/docs/roles/global_handlers/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesglobal_handlers"><span class="">global_handlers</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraapex-li">
@@ -367,8 +379,6 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
   <a href="/docs/roles/oradb_datapatch/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_datapatch"><span class="">oradb_datapatch</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_facts-li">
   <a href="/docs/roles/oradb_facts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_facts"><span class="">oradb_facts</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
-  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_grants-li">
   <a href="/docs/roles/oradb_manage_grants/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_grants"><span class="">oradb_manage_grants</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_parameters-li">
@@ -395,14 +405,10 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
   <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_tzupgrade-li">
   <a href="/docs/roles/oradb_tzupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_tzupgrade"><span class="">oradb_tzupgrade</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
-  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_cron-li">
   <a href="/docs/roles/orahost_cron/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_cron"><span class="">orahost_cron</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_logrotate-li">
   <a href="/docs/roles/orahost_logrotate/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_logrotate"><span class="">orahost_logrotate</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
-  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_ssh-li">
   <a href="/docs/roles/orahost_ssh/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_ssh"><span class="">orahost_ssh</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_storage-li">
@@ -411,22 +417,16 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
   <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
   <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
-  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
   <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswahf_install-li">
   <a href="/docs/roles/oraswahf_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswahf_install"><span class="">oraswahf_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_golden_image-li">
   <a href="/docs/roles/oraswdb_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_golden_image"><span class="">oraswdb_golden_image</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
-  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
   <a href="/docs/roles/oraswdb_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_manage_patches"><span class="">oraswdb_manage_patches</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_golden_image-li">
   <a href="/docs/roles/oraswgi_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_golden_image"><span class="">oraswgi_golden_image</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
-  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_manage_patches-li">
   <a href="/docs/roles/oraswgi_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_manage_patches"><span class="">oraswgi_manage_patches</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_meta-li">
@@ -509,12 +509,13 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
         <li><a href="#_collection_version_in_requirements_yml">3.4. Collection version in requirements.yml</a></li>
         <li><a href="#_creating_new_releases">3.5. Creating new releases</a>
           <ul>
-            <li><a href="#_release_pull_request_m_pr">3.5.1. Release-Pull-Request (<code>-m pr</code>)</a></li>
-            <li><a href="#_draft_release_m_release">3.5.2. Draft release (<code>-m release</code>)</a></li>
-            <li><a href="#_update_the_website_m_docs">3.5.3. Update the website (<code>-m docs</code>)</a></li>
-            <li><a href="#_sync_fork_m_galaxy">3.5.4. Sync fork (<code>-m galaxy</code>)</a></li>
-            <li><a href="#_tasks">3.5.5. Tasks</a></li>
-            <li><a href="#_options">3.5.6. Options</a></li>
+            <li><a href="#release-branches">3.5.1. Release branches</a></li>
+            <li><a href="#_release_pull_request_m_pr">3.5.2. Release-Pull-Request (<code>-m pr</code>)</a></li>
+            <li><a href="#_draft_release_m_release">3.5.3. Draft release (<code>-m release</code>)</a></li>
+            <li><a href="#_update_the_website_m_docs">3.5.4. Update the website (<code>-m docs</code>)</a></li>
+            <li><a href="#_sync_fork_and_deploy_to_ansible_galaxy_m_galaxy">3.5.5. Sync fork and deploy to Ansible Galaxy (<code>-m galaxy</code>)</a></li>
+            <li><a href="#_tasks">3.5.6. Tasks</a></li>
+            <li><a href="#_options">3.5.7. Options</a></li>
           </ul>
         </li>
       </ul>
@@ -540,7 +541,16 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
         <li><a href="#_download_patches_for_dbfs_stage">6.4. Download Patches for <code>dbfs</code> stage</a></li>
         <li><a href="#_test_single_instance_in_filesystem_with_scenario_dbfs">6.5. Test Single Instance in Filesystem with scenario <code>dbfs</code></a></li>
         <li><a href="#_create_golden_images_from_dbfs_installation">6.6. Create Golden-Images from <code>dbfs</code> installation</a></li>
-        <li><a href="#_oracle_xe_not_used_at_the_moment">6.7. Oracle XE (not used at the moment!)</a></li>
+        <li><a href="#module-tests">6.7. Module tests</a>
+          <ul>
+            <li><a href="#_usage">6.7.1. Usage</a></li>
+            <li><a href="#_structure">6.7.2. Structure</a></li>
+            <li><a href="#_result_of_a_test_run">6.7.3. Result of a test run</a></li>
+            <li><a href="#_known_bugs">6.7.4. Known bugs</a></li>
+            <li><a href="#_conventions_for_a_module_test">6.7.5. Conventions for a module test</a></li>
+          </ul>
+        </li>
+        <li><a href="#_oracle_xe_not_used_at_the_moment">6.8. Oracle XE (not used at the moment!)</a></li>
       </ul>
     </li>
   </ul>
@@ -1237,7 +1247,7 @@ tools/release/galaxy_version.sh fix</pre>
 <div class="sect2">
 <h3 id="_creating_new_releases">3.5. Creating new releases</h3>
 <div class="paragraph">
-<p><code>tools/release/build_release.sh</code> executes the whole release process in two steps:</p>
+<p><code>tools/release/build_release.sh</code> executes the whole release process:</p>
 </div>
 <div class="dlist">
 <dl>
@@ -1251,7 +1261,7 @@ tools/release/galaxy_version.sh fix</pre>
 </dd>
 <dt class="hdlist1"><code>-m galaxy</code></dt>
 <dd>
-<p>Sync <code>master</code> of your fork with <code>master</code> of the upstream repository.</p>
+<p>Sync the branch of a published release in your fork and deploy the collection to Ansible Galaxy.</p>
 </dd>
 <dt class="hdlist1"><code>-m docs</code></dt>
 <dd>
@@ -1271,13 +1281,46 @@ The whole release process should be done with a dedicated Pull-Request.
 </tr>
 </tbody></table>
 </div>
+<div class="sect3">
+<h4 id="release-branches">3.5.1. Release branches</h4>
+<div class="paragraph">
+<p>Releases are built from <code>master</code> or from a maintenance branch <code>release/&lt;major&gt;.x</code> (e.g. <code>release/4.x</code>) for an older major version.
+The branch is the base of the Release-Pull-Request:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The release branch <code>pr/&lt;version&gt;</code> must be created from the base branch, e.g. <code>git switch -c pr/4.17.1 upstream/release/4.x</code>.</p>
+</li>
+<li>
+<p>Without <code>-b</code> the base branch is taken from the version:
+<code>master</code>, when the major version is the same or higher than in <code>galaxy.yml</code> of <code>master</code>,
+otherwise <code>release/&lt;major&gt;.x</code>.
+Use <code>-b</code>, when a release for the same major version as <code>master</code> is built from a maintenance branch (e.g. <code>-b release/4.x</code>, while <code>master</code> is still 4.x).</p>
+</li>
+<li>
+<p>The script aborts, when <code>pr/&lt;version&gt;</code> is not based on the current base branch.
+This prevents a Pull-Request with commits of another branch.</p>
+</li>
+<li>
+<p>Only releases from <code>master</code> are marked as latest release on GitHub.</p>
+</li>
+<li>
+<p>The website is only updated for releases from <code>master</code>.</p>
+</li>
+<li>
+<p><code>antsibull-changelog</code> writes the changelog of the base branch only.
+A release from a maintenance branch is not part of the changelog in <code>master</code>, until <code>changelogs/changelog.yaml</code> is merged.</p>
+</li>
+</ul>
+</div>
 <div class="paragraph">
 <p>Requirements:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The release branch is named <code>pr/&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;</code>, e.g. <code>pr/4.16.0</code>.</p>
+<p>The release branch is named <code>pr/&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;</code>, e.g. <code>pr/4.16.0</code>, and is created from the base branch.</p>
 </li>
 <li>
 <p><code>origin</code> is your fork on GitHub.</p>
@@ -1293,17 +1336,30 @@ The whole release process should be done with a dedicated Pull-Request.
 <div class="listingblock">
 <div class="content">
 <pre>nix-shell
-git switch -c pr/4.16.0
-tools/release/build_release.sh -m pr</pre>
+
+# release from master
+git switch -c pr/4.18.0 upstream/master
+tools/release/build_release.sh -m pr
+
+# release from a maintenance branch
+git switch -c pr/4.17.1 upstream/release/4.x
+tools/release/build_release.sh -m pr -b release/4.x</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Use <code>-n</code> (dry-run) to check all steps before: nothing is changed locally or on GitHub, the commands are shown instead.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_release_pull_request_m_pr">3.5.1. Release-Pull-Request (<code>-m pr</code>)</h4>
+<h4 id="_release_pull_request_m_pr">3.5.2. Release-Pull-Request (<code>-m pr</code>)</h4>
 <div class="paragraph">
 <p>The script executes the following steps:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
+<li>
+<p>Determine the base branch (<code>-b</code> or from the version, see <a href="#release-branches">Release branches</a>) and check that the release branch is based on it.</p>
+</li>
 <li>
 <p>Read the version from the branch name (<code>pr/4.16.0</code> → <code>4.16.0</code>) and set it in <code>galaxy.yml</code>.</p>
 </li>
@@ -1320,7 +1376,8 @@ The step is skipped, when the version is already committed.</p>
 <p>Push the branch to <code>origin</code>.</p>
 </li>
 <li>
-<p>Create the Pull-Request <code>Release &lt;version&gt;</code> in <code>oravirt/ansible-oracle</code>. An existing open Pull-Request of the branch is used.</p>
+<p>Create the Pull-Request <code>Release &lt;version&gt;</code> against the base branch in <code>oravirt/ansible-oracle</code>.
+An existing open Pull-Request of the branch is used, the script aborts when it has another base branch.</p>
 </li>
 <li>
 <p>Add the PR references to the fragments with <code>tools/release/fix_fragments.py</code>.
@@ -1342,7 +1399,7 @@ Review them, then commit and push them to the release branch.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_draft_release_m_release">3.5.2. Draft release (<code>-m release</code>)</h4>
+<h4 id="_draft_release_m_release">3.5.3. Draft release (<code>-m release</code>)</h4>
 <div class="listingblock">
 <div class="content">
 <pre>tools/release/build_release.sh -m release</pre>
@@ -1359,7 +1416,9 @@ Review them, then commit and push them to the release branch.</p>
 <li>
 <p>Create the tag <code>v&lt;version&gt;</code> (e.g. <code>v4.16.0</code>) like the existing release tags.
 The tag points to the merge commit of the Pull-Request.
-When the Pull-Request is still open, the last commit of the Pull-Request is used.</p>
+The Pull-Request must be merged before, otherwise the script is aborted:
+a rebase merge creates new commits, so a tag on the last commit of the open Pull-Request would not be part of the branch.
+Only for tests against a fork (<code>-r</code>) the last commit of an open Pull-Request is used.</p>
 </li>
 <li>
 <p>Push the tag to the git remote of the GitHub repository (e.g. <code>upstream</code> for <code>oravirt/ansible-oracle</code>).
@@ -1367,17 +1426,19 @@ An existing tag is used, when it points to the same commit, otherwise the script
 </li>
 <li>
 <p>Create the draft release <code>Release &lt;version&gt;</code> with the description of the Pull-Request as text.
-The text of an existing draft release is updated, an already published release aborts the script.</p>
+The text of an existing draft release is updated, an already published release aborts the script.
+Releases from <code>master</code> are created with <code>--latest</code>, releases from a maintenance branch with <code>--latest=false</code>.</p>
 </li>
 <li>
 <p>Update the website with <code>tools/release/build_website.sh -m push</code>, see <a href="/docs/development/website/">website.adoc</a>.
 The website is built from the local checkout of the release branch and published at once.
-This step is skipped for tests against a fork (<code>-r</code> other than <code>oravirt/ansible-oracle</code>).</p>
+This step is skipped for releases from a maintenance branch and for tests against a fork (<code>-r</code> other than <code>oravirt/ansible-oracle</code>).</p>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>The draft release must be published manually on GitHub.</p>
+<p>The draft release must be published manually on GitHub.
+For a release from a maintenance branch, check that &#34;Set as the latest release&#34; is not selected when publishing.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1394,7 +1455,7 @@ When it fails, fix the problem and run <code>-m release</code> again: the existi
 </div>
 </div>
 <div class="sect3">
-<h4 id="_update_the_website_m_docs">3.5.3. Update the website (<code>-m docs</code>)</h4>
+<h4 id="_update_the_website_m_docs">3.5.4. Update the website (<code>-m docs</code>)</h4>
 <div class="listingblock">
 <div class="content">
 <pre>tools/release/build_release.sh -m docs</pre>
@@ -1411,35 +1472,52 @@ The step is skipped with <code>-r</code> other than <code>oravirt/ansible-oracle
 </div>
 </div>
 <div class="sect3">
-<h4 id="_sync_fork_m_galaxy">3.5.4. Sync fork (<code>-m galaxy</code>)</h4>
+<h4 id="_sync_fork_and_deploy_to_ansible_galaxy_m_galaxy">3.5.5. Sync fork and deploy to Ansible Galaxy (<code>-m galaxy</code>)</h4>
 <div class="listingblock">
 <div class="content">
-<pre>tools/release/build_release.sh -m galaxy</pre>
+<pre># latest published release
+tools/release/build_release.sh -m galaxy
+
+# release from a maintenance branch
+tools/release/build_release.sh -m galaxy -t v4.17.1</pre>
 </div>
 </div>
 <div class="paragraph">
 <p>GitHub syncs the fork in the background.
-<code>-m galaxy</code> forces the sync of <code>master</code> in your fork with <code>master</code> of the upstream repository (<code>gh repo sync</code>), to take over a release merged in upstream at once.
-The fork is <code>&lt;gh user&gt;/ansible-oracle</code>, the user is taken from the login of <code>gh</code>.
-Afterwards the last commit of <code>master</code> in the fork is shown.</p>
+<code>-m galaxy</code> forces the sync at once, to deploy a release merged in upstream without waiting.
+The fork is <code>&lt;gh user&gt;/ansible-oracle</code>, the user is taken from the login of <code>gh</code>.</p>
 </div>
-<div class="paragraph">
-<p>When the last commit of <code>master</code> in the fork is a release commit (<code>Release &lt;version&gt;</code>), the latest published release of the upstream repository is checked.
-Draft releases are ignored, so the release must be published before.</p>
-</div>
-<div class="paragraph">
-<p>If the release points to this commit, the workflow <code>Deploy Collection</code> is started in the fork, which uploads the collection to Ansible Galaxy.
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Take the release from <code>-t</code> or the latest published release of the upstream repository.
+Draft releases are ignored, so the release must be published before.
+A release from a maintenance branch is not the latest release, use <code>-t</code> for it.</p>
+</li>
+<li>
+<p>Search the branch with the content of the release as last commit: <code>master</code> or <code>release/&lt;major&gt;.x</code>.
+The content (git tree) is compared and not the commit, because a rebase merge creates new commits with the same content.
+When the branch has newer changes than the release, nothing is deployed.</p>
+</li>
+<li>
+<p>Sync this branch in the fork with the upstream repository (<code>gh repo sync</code>).
+When the branch does not exist in the fork (e.g. <code>release/4.x</code>), it is created at the release commit.</p>
+</li>
+<li>
+<p>Start the workflow <code>Deploy Collection</code> in the fork on this branch, which uploads the collection to Ansible Galaxy.
 The script waits for the workflow and shows the progress of the steps (<code>gh run watch</code>).
 When the workflow fails, the log of the failed steps is shown and the script returns exit code 1.
 The workflow is not started, when the version is already on Ansible Galaxy, so <code>-m galaxy</code> can be repeated safely.</p>
+</li>
+</ol>
 </div>
 <div class="paragraph">
 <p>The mode works only on GitHub with <code>gh</code> (and the API of Ansible Galaxy), nothing is changed locally and no release branch is needed.
-The sync is refused, when <code>master</code> of the fork contains own commits - no hard reset is done.</p>
+The sync is refused, when the branch of the fork contains own commits - no hard reset is done.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_tasks">3.5.5. Tasks</h4>
+<h4 id="_tasks">3.5.6. Tasks</h4>
 <div class="paragraph">
 <p>The modes are also available as tasks from the repository root.
 Options are passed after <code>--</code>.</p>
@@ -1482,12 +1560,25 @@ Revert all changes in the working tree after the test.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_options">3.5.6. Options</h4>
+<h4 id="_options">3.5.7. Options</h4>
 <div class="dlist">
 <dl>
 <dt class="hdlist1"><code>-m pr|release|galaxy|docs</code></dt>
 <dd>
 <p>Mode of the script, see above.</p>
+</dd>
+<dt class="hdlist1"><code>-b &lt;branch&gt;</code></dt>
+<dd>
+<p>Base branch of the Release-Pull-Request (only <code>-m pr</code>, default: from the version, see <a href="#release-branches">Release branches</a>).</p>
+</dd>
+<dt class="hdlist1"><code>-t &lt;tag&gt;</code></dt>
+<dd>
+<p>Release for <code>-m galaxy</code>, e.g. <code>v4.17.1</code> (default: latest published release).</p>
+</dd>
+<dt class="hdlist1"><code>-n</code></dt>
+<dd>
+<p>Dry-run: show the commands, which would change something locally or on GitHub, without executing them.
+<code>fix_fragments.py</code> runs with <code>--dry-run</code>.</p>
 </dd>
 <dt class="hdlist1"><code>-r &lt;owner/repo&gt;</code></dt>
 <dd>
@@ -1546,8 +1637,30 @@ task renovate:validate  # validate renovate.json</pre>
 </div>
 </div>
 <div class="paragraph">
+<p>The report shows only dependencies with updates.
+Add <code>ONLY_UPDATES=false</code> to show all dependencies including <code>up-to-date</code> and <code>disabled</code>, e.g. <code>task renovate:check ONLY_UPDATES=false</code> or <code>task renovate:report ONLY_UPDATES=false</code>.</p>
+</div>
+<div class="paragraph">
 <p>Dependencies which are pinned intentionally (e.g. <code>ansible-core</code> or the molecule base images) are disabled with <code>packageRules</code> in <code>renovate.json</code>.
 They are shown as <code>disabled</code> in the report.</p>
+</div>
+<div class="paragraph">
+<p>pip modules are checked against the python version, which installs the requirements file (<code>constraints</code> and <code>constraintsFiltering</code> in <code>renovate.json</code>).
+Versions, which do not support this python version (<code>requires_python</code> on PyPI), are not proposed:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>python 3.13: venvs from <code>shell.nix</code> (<code>requirements_dev_2.*.txt</code>, <code>requirements_doctor.txt</code>, <code>requirements_antsibull.txt</code>)</p>
+</li>
+<li>
+<p>python 3.11: execution environment (<code>execution-environment.yml</code>) and <code>shell.nix</code> use <code>requirements_dev.txt</code>, the lowest version is used.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Change the python version in <code>renovate.json</code>, when the python version in <code>shell.nix</code> or <code>execution-environment.yml</code> is changed.
+Dependencies between pip modules (e.g. a version of <code>ansible-lint</code> which needs a newer <code>ansible-core</code>) are not checked by renovate.</p>
 </div>
 <div class="paragraph">
 <p>The collections in <code>dependencies</code> of <code>galaxy.yml</code> are checked against Ansible Galaxy.
@@ -1558,7 +1671,14 @@ They are shown as <code>disabled</code> in the report.</p>
 <code>task renovate:galaxy</code> therefore runs <code>tools/renovate/galaxy_requires.py</code> (<code>task renovate:galaxy:requires</code>) after the renovate check.
 It shows <code>requires_ansible</code> of each dependency in <code>galaxy.yml</code> and the newest version which can be installed with the minimum ansible-core version.
 The script fails, when a dependency needs a newer ansible-core.
-Only update to the version in column <code>COMPATIBLE</code>.
+Only update to the version in column <code>COMPATIBLE</code>.</p>
+</div>
+<div class="paragraph">
+<p>Renovate does not check the dependencies of a collection either.
+<code>galaxy_requires.py</code> checks the dependencies of every version against the version ranges in <code>galaxy.yml</code> and the minimum ansible-core version.
+<code>COMPATIBLE</code> is the newest version without a conflict, the script fails and shows the conflicting dependency, when the version in <code>galaxy.yml</code> has a conflict.
+Only one level is checked (dependencies of dependencies are not checked), test the installation with <code>task molecule:collection</code> after an update.
+<code>ibre5041.ansible_oracle_modules</code> is limited to <code>&lt;3.4.0</code> in <code>renovate.json</code>, because 3.4.1 and newer depend on <code>community.crypto&gt;=3.0.0</code>.
 <code>opitzconsulting.ansible_oracle</code> in <code>requirements.yml</code> is disabled, because the version is set by <code>tools/release/galaxy_version.sh</code> (see <a href="#_collection_version_in_requirements_yml">Collection version in requirements.yml</a>).</p>
 </div>
 <div class="paragraph">
@@ -1749,6 +1869,10 @@ There is no parameter to increase the timeout. Pull container manually before st
 <td class="tableblock halign-left valign-top"><p class="tableblock">Full stage for installation of RDBMS 19c + Patching on OL9 and create database. Requires installation media in /vagrant on local host.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">dbfs-ol10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Same as <code>dbfs</code> on OL10: Oracle AI Database 26ai with module tests. Requires installation media in /vagrant on local host.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">default</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Stage for testing common and orahost roles with different Distributions.</p></td>
 </tr>
@@ -1765,7 +1889,7 @@ There is no parameter to increase the timeout. Pull container manually before st
 <div class="sect2">
 <h3 id="_directory_for_installation_media_and_patches">6.1. Directory for installation media and patches</h3>
 <div class="paragraph">
-<p>The scenarios <code>dbfs</code>, <code>dbfs-ol9</code>, <code>download</code> and <code>golden</code> mount a local directory as <code>/vagrant</code> into the container.
+<p>The scenarios <code>dbfs</code>, <code>dbfs-ol9</code>, <code>dbfs-ol10</code>, <code>download</code> and <code>golden</code> mount a local directory as <code>/vagrant</code> into the container.
 The local directory must be defined by <code>MOLECULE_SW_DIR</code>, there is no default. The path inside the container is always <code>/vagrant</code>.</p>
 </div>
 <div class="listingblock">
@@ -1925,7 +2049,335 @@ molecule test -s golden</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_oracle_xe_not_used_at_the_moment">6.7. Oracle XE (not used at the moment!)</h3>
+<h3 id="module-tests">6.7. Module tests</h3>
+<div class="paragraph">
+<p>The side-effect of the scenarios <code>dbfs</code>, <code>dbfs-ol10</code> and <code>has-ol9</code> tests the modules of <code>opitzconsulting.ansible_oracle</code> against an existing database.
+The tests are shared by the scenarios in <code>extensions/molecule/shared_config/module_tests</code>, only the scenario specific variables are in <code>&lt;scenario&gt;/module_tests.yml</code>.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;"/>
+<col style="width: 80%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Scenario</th>
+<th class="tableblock halign-left valign-top">Environment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dbfs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle AI Database 26ai on filesystem without Grid Infrastructure (CDB <code>DB1</code>, PDB <code>ORCLPDB</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dbfs-ol10</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Same as <code>dbfs</code> on Oracle Linux 10</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>has-ol9</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Restart 26ai with ASM, Oracle Database 19c in <code>+DATA</code> (CDB <code>DBHAS</code>, PDB <code>ORCLPDB1</code>)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The database is created once with <code>converge</code>, the tests can be repeated as often as needed.</p>
+</div>
+<div class="sect3">
+<h4 id="_usage">6.7.1. Usage</h4>
+<div class="listingblock">
+<div class="content">
+<pre>cd extensions
+task converge S=dbfs                                    # once (creates the database)
+task module-test                                        # all module tests in dbfs
+task module-test M=oracle_user,oracle_role              # selected modules
+task module-test L=cx_oracle                            # result file dbfs/module_tests_results/cx_oracle.json
+task module-test M=oracle_user C=false                  # without reinstalling the collection
+task module-test S=dbfs-ol10                            # all module tests in dbfs-ol10
+task module-test S=has-ol9                              # all module tests in has-ol9
+task module-test S=has-ol9 M=oracle_asmdg               # selected modules in has-ol9</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>task module-test</code> installs the collection from the repository (<code>task collection</code>) and runs <code>molecule side-effect -s &lt;scenario&gt;</code> with the environment variables <code>MODULE_TESTS</code> (comma separated list of modules) and <code>MODULE_TESTS_LABEL</code> (name of the result file).</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<code>molecule side-effect</code> alone does not install the collection, only <code>converge</code> does.<br/>
+Without <code>task collection</code> the tests use the code of the last converge.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p><code>C=false</code> skips <code>task collection</code>, e.g. for repeated runs when only the tests in <code>module_tests/</code> have changed (they are read from the repository, not from the installed collection).
+Changes in <code>plugins/</code> or <code>roles/</code> are not used until the collection is installed again.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_structure">6.7.2. Structure</h4>
+<div class="paragraph">
+<p><code>&lt;scenario&gt;/side_effect.yml</code> imports <code>shared_config/module_tests/module_tests.yml</code>.
+The playbook loads <code>vars.yml</code>, <code>known_bugs.yml</code> and <code>&lt;scenario&gt;/module_tests.yml</code> (found with <code>MOLECULE_SCENARIO_DIRECTORY</code>).</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Variables in <code>&lt;scenario&gt;/module_tests.yml</code></caption>
+<colgroup>
+<col style="width: 25%;"/>
+<col style="width: 75%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mt_all_modules</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">test files (without <code>.yml</code>) of the scenario</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mt_oracle_home</code>, <code>mt_oracle_sid</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ORACLE_HOME and ORACLE_SID of the database</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mt_tns_admin</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">directory with <code>tnsnames.ora</code> and <code>sqlnet.ora</code> (wallet)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mt_cdb</code>, <code>mt_pdb</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CDB and PDB for the tests</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mt_datafile_dir</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">directory or ASM disk group for explicit data files</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mt_known_bugs_scenario</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">known bugs of the scenario</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mt_asm_*</code>, <code>mt_conn_asm*</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ASM instance (only <code>has-ol9</code>)</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Files in <code>shared_config/module_tests</code></caption>
+<colgroup>
+<col style="width: 25%;"/>
+<col style="width: 75%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">File</th>
+<th class="tableblock halign-left valign-top">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>module_tests.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">playbook, imported by <code>&lt;scenario&gt;/side_effect.yml</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>vars.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">connection variants, environment, module selection</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>known_bugs.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">known bugs in all scenarios (<code>&lt;check id&gt;: &lt;description&gt;</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>_module.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">run the tests of one module, record an abort as failed check <code>&lt;module&gt;.aborted</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>_check.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">compare a registered module result with the expectation and record it</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>_sql.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">independent verification with <code>sqlplus / as sysdba</code> (or <code>/ as sysasm</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;module&gt;.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tests of one module</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_services.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_services</code> without Grid Infrastructure (DBMS_SERVICE, <code>dbfs</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_services_gi.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_services</code> with Grid Infrastructure (srvctl, <code>has-ol9</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_asmdg.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_asmdg</code> with an own disk group on the spare ASM disks (<code>has-ol9</code>)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_result_of_a_test_run">6.7.3. Result of a test run</h4>
+<div class="paragraph">
+<p>A failed check does not stop the test run, the play fails at the end (<code>Assert that all checks passed</code>).</p>
+</div>
+<div class="paragraph">
+<p>An error outside of a check (e.g. a failed setup or cleanup in <code>_sql.yml</code>, a template error in a test) aborts only the tests of this module.
+It is recorded as failed check <code>&lt;module&gt;.aborted</code> with the failed task and the error message, the other modules are tested anyway.
+Test objects left behind are removed by the cleanup at the beginning of the next run.</p>
+</div>
+<div class="paragraph">
+<p>At the end the play shows</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Summary per module</code>: a table with the number of checks per module and in total: <code>passed</code>, <code>failed</code>, <code>known</code> (known bug) and <code>not repr.</code> (known bug not reproduced)</p>
+</li>
+<li>
+<p><code>Summary of module tests</code>: the result file and the lists of the failed checks, the known bugs and the known bugs not reproduced</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Every check is written into <code>&lt;scenario&gt;/module_tests_results/&lt;label&gt;.json</code> on the controller (ignored by git), also after an abort:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;"/>
+<col style="width: 75%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Key</th>
+<th class="tableblock halign-left valign-top">Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id of the check</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>module</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">test file of the module (entry of <code>mt_modules</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>expect</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>changed</code>, <code>ok</code> or <code>failed</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>actual</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>changed</code>, <code>ok</code>, <code>failed</code> or <code>aborted</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>status</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>passed</code>, <code>failed</code>, <code>known</code> (known bug) or <code>fixed</code> (known bug not reproduced)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>msg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message of the module (max. 500 characters)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Comparison before/after a change</div>
+<div class="content">
+<pre>task module-test L=before
+task module-test L=after
+diff molecule/dbfs/module_tests_results/before.json molecule/dbfs/module_tests_results/after.json</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_known_bugs">6.7.4. Known bugs</h4>
+<div class="paragraph">
+<p><code>known_bugs.yml</code> (<code>mt_known_bugs_common</code>) contains the ids of checks that fail because of a known bug in a module in all scenarios.
+Bugs that depend on the environment (database version, Grid Infrastructure) are in <code>mt_known_bugs_scenario</code> in <code>&lt;scenario&gt;/module_tests.yml</code>.</p>
+</div>
+<div class="paragraph">
+<p>They are reported as <code>KNOWN BUG</code> and do not fail the test run.
+A check from these lists that passes is reported as <code>KNOWN BUGS NOT REPRODUCED</code> ⇒ remove the entry after the bug has been fixed.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_conventions_for_a_module_test">6.7.5. Conventions for a module test</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>File <code>module_tests/&lt;module&gt;.yml</code>, added to <code>mt_all_modules</code> in <code>&lt;scenario&gt;/module_tests.yml</code>.</p>
+</li>
+<li>
+<p>No scenario specific values in the tests: use <code>mt_cdb</code>, <code>mt_pdb</code>, <code>mt_oracle_home</code>, <code>mt_datafile_dir</code> etc.</p>
+</li>
+<li>
+<p>All test objects start with <code>MOLTEST_</code> (common objects in the CDB: <code>C##MOLTEST_</code>).</p>
+</li>
+<li>
+<p>The test is repeatable and leaves the database unchanged:
+remove the objects at the beginning (<code>cleanup</code>, result ignored) and at the end.
+Changed parameters, AWR settings etc. are restored.</p>
+</li>
+<li>
+<p>Every module call has <code>register: _res</code> and <code>ignore_errors: true</code>, followed by <code>_check.yml</code> with a unique id <code>&lt;module&gt;.&lt;cdb|pdb|asm&gt;.&lt;step&gt;</code> and the expectation:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">- name: oracle_role | create
+  opitzconsulting.ansible_oracle.oracle_role:
+    role: MOLTEST_ROLE
+  register: _res
+  ignore_errors: true
+- name: oracle_role | check create
+  ansible.builtin.include_tasks: _check.yml
+  vars: {mt_id: oracle_role.pdb.create, mt_res: &#34;{{ _res }}&#34;, mt_expect: changed}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Typical steps: create (<code>changed</code>), same call again (<code>ok</code>), check mode if supported (<code>changed</code>, verify with sqlplus that nothing happened), change (<code>changed</code>), again (<code>ok</code>), verify with <code>_sql.yml</code>, drop (<code>changed</code>), drop again (<code>ok</code>), error case (<code>failed</code>).</p>
+</li>
+<li>
+<p>The expectation is the documented behaviour (DOCUMENTATION of the module).
+If the module behaves differently because of a bug, the check keeps the documented expectation and the id goes into <code>known_bugs.yml</code> (all scenarios) or <code>mt_known_bugs_scenario</code> (only one scenario).</p>
+</li>
+<li>
+<p>Connection: hostname, port, service_name, user, password and mode come from <code>module_defaults</code> in <code>module_tests.yml</code>.
+Default is <code>mt_conn_pdb</code> (system in <code>mt_pdb</code>).
+Switch it with <code>vars: {mt_conn: &#34;{{ mt_conn_cdb }}&#34;}</code> on the task.
+Variants in <code>vars.yml</code>: <code>mt_conn_cdb</code>, <code>mt_conn_pdb</code>, <code>mt_conn_cdb_sysdba</code>, <code>mt_conn_pdb_sysdba</code>, <code>mt_conn_pdb_wallet</code>, <code>mt_conn_pdb_wrong_password</code>.
+Every module test uses the wallet and sysdba at least once.</p>
+</li>
+<li>
+<p>Verification with sqlplus (independent of the Python driver), in the ASM instance with <code>mt_sql_asm: true</code> (<code>sqlplus / as sysasm</code>):</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">- name: oracle_role | verify create
+  ansible.builtin.include_tasks: _sql.yml
+  vars:
+    mt_sql_container: &#34;{{ mt_pdb }}&#34;
+    mt_sql: &#34;select count(*) from dba_roles where role = &#39;MOLTEST_ROLE&#39;;&#34;
+    mt_sql_expect: &#34;1&#34;
+    mt_sql_id: oracle_role.pdb.create_sql</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Not tested: <code>oracle_asmvol</code> (no ADVM/ACFS in a container), <code>oracle_ldapuser</code> (LDAP), <code>oracle_opatch</code>, <code>oracle_gi_facts</code>, <code>oracle_sqldba</code> (no python-oracledb).</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_oracle_xe_not_used_at_the_moment">6.8. Oracle XE (not used at the moment!)</h3>
 <div class="admonitionblock important">
 <table>
 <tbody><tr>
@@ -1963,7 +2415,7 @@ docker pull container-registry.oracle.com/database/express:21.3.0-xe</pre>
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified October 30, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/2bffd9a3b3f3ab736a0fbfd4b040838e4e026136">ansible-core 2.16 is the new minimal version of ansible-oracle (requires_ansible in meta/runtime.yml, min_ansible_version of all roles) (2bffd9a3)</a>
+  Last modified November 4, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/8c346f05af1e990bdfea13e19916a49d84e5d3e0">updated pip-modules, collections, go.mod and configuration for renovate (8c346f05)</a>
 </div>
 
 </div>

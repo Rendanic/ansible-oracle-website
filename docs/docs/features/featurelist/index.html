@@ -19,536 +19,32 @@
 
 <title>Supported features in ansible-oracle | ansible-oracle Project</title>
 <meta name="description" content=" Warning Please check the official Compatibility List from Oracle for RDBMS and Restart/Grid-Infrastructure.
-ansible-oracle only supports combinations from Oracle with exceptions from the following table. Important All Editions from Oracle are supported. See documentation from Oracle for differences between Enterprise and Standard Edition (SE, SE One and SE2) Table 1. Featurelist Group Option Version OS
-OracleLinux
-Redhat Enterprise Linux
-6 [1]
-7 [1]
-8
-9
-SuSE Linux Enterprise Server[3]
-15, 15.3
-Management of LVM, Filesystems and swap
-all versions of all OS
-ntp &amp; chrony
-all versions of all OS
-custom motd (message of the day)
-all versions of all OS
-Software
-Ansible
-2.14 or newer [9]
-Oracle RDBMS
-11.2.0.3 [1] 11.2.0.4 [1]
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-Oracle Grid-Infrastructure
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-Oracle Restart
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-cxOracle for Python
-Python 3
-ASM
-ASM Filter Driver (ASMFD)
-19c
-21c
-ASMlib
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-udev
-[3]
-Installation Options
-DB Options in Binaries
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-Statspack for nonCDB, CDB and PDB
-RMAN Backup with
-cron management in /etc/cron.d
-Catalog
-Oracle-Wallet for Connection
-checkmk mk_job monitoring
-custom RMAN-scripts
-dNFS (direct NFS)
-Golden Image for RDBMS, Restart &amp; GI
-Create from Installation
-Install from Image
-19c
-21c
-readonly Homes for RDBMS
-Oracle Data-Guard
-19c (planned! [5])
-21c (planned! [5])
-automatic Database Migrations
-not supported
-Prepatch installations [10]
-Database Management
-Grants
-11.2.0.3 [1] 11.2.0.4 [1]
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-init.ora Parameter [7])
-possibility to set Parameters after DBCA execution
-Pluggable Database Management [8]
-Database Profiles
-Redolog Groups [6]
-Database Roles
-Database Services [3]
-Tablespaces
-Users
-Scripts with SQLPlus
-Custom DBCA-Templates
-Define Characterset during DBCA
-Enable/Disable Archivelogmode &amp; FRA
-Timezone Upgrades
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-Database Patching
-Release Updates[11]
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-OneOff Patches[11]
-Install
-Remove with unique patch id option
-automatic datapatch execution[11]
-Patch Download from Oracle
-Oracle APEX (experimental!)
-Installation of APEX in PDB. Not supported for CDB or nonCDB.
-19c
-21c
-Environment script
-dynamic shell environment ocenv for Oracle
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c">
+ansible-oracle only supports combinations from Oracle with exceptions from the following table. Important As of ansible-oracle 5.0 only Oracle 19c and 26ai are supported for RDBMS. Restart and Grid-Infrastructure are supported for 19c only.
+Older releases (11.2, 12.1, 12.2, 18c, 21c) are rejected by the assert of db_homes_config, see Breaking Changes - Upgrade Guide. ">
 <meta property="og:url" content="https://www.ansible-oracle.eu/docs/features/featurelist/">
 	<meta property="og:site_name" content="ansible-oracle Project">
 	<meta property="og:title" content="Supported features in ansible-oracle">
 	<meta property="og:description" content="Warning Please check the official Compatibility List from Oracle for RDBMS and Restart/Grid-Infrastructure.
-ansible-oracle only supports combinations from Oracle with exceptions from the following table. Important All Editions from Oracle are supported. See documentation from Oracle for differences between Enterprise and Standard Edition (SE, SE One and SE2) Table 1. Featurelist Group Option Version OS
-OracleLinux
-Redhat Enterprise Linux
-6 [1]
-7 [1]
-8
-9
-SuSE Linux Enterprise Server[3]
-15, 15.3
-Management of LVM, Filesystems and swap
-all versions of all OS
-ntp &amp; chrony
-all versions of all OS
-custom motd (message of the day)
-all versions of all OS
-Software
-Ansible
-2.14 or newer [9]
-Oracle RDBMS
-11.2.0.3 [1] 11.2.0.4 [1]
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-Oracle Grid-Infrastructure
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-Oracle Restart
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-cxOracle for Python
-Python 3
-ASM
-ASM Filter Driver (ASMFD)
-19c
-21c
-ASMlib
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-udev
-[3]
-Installation Options
-DB Options in Binaries
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-Statspack for nonCDB, CDB and PDB
-RMAN Backup with
-cron management in /etc/cron.d
-Catalog
-Oracle-Wallet for Connection
-checkmk mk_job monitoring
-custom RMAN-scripts
-dNFS (direct NFS)
-Golden Image for RDBMS, Restart &amp; GI
-Create from Installation
-Install from Image
-19c
-21c
-readonly Homes for RDBMS
-Oracle Data-Guard
-19c (planned! [5])
-21c (planned! [5])
-automatic Database Migrations
-not supported
-Prepatch installations [10]
-Database Management
-Grants
-11.2.0.3 [1] 11.2.0.4 [1]
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-init.ora Parameter [7])
-possibility to set Parameters after DBCA execution
-Pluggable Database Management [8]
-Database Profiles
-Redolog Groups [6]
-Database Roles
-Database Services [3]
-Tablespaces
-Users
-Scripts with SQLPlus
-Custom DBCA-Templates
-Define Characterset during DBCA
-Enable/Disable Archivelogmode &amp; FRA
-Timezone Upgrades
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-Database Patching
-Release Updates[11]
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-OneOff Patches[11]
-Install
-Remove with unique patch id option
-automatic datapatch execution[11]
-Patch Download from Oracle
-Oracle APEX (experimental!)
-Installation of APEX in PDB. Not supported for CDB or nonCDB.
-19c
-21c
-Environment script
-dynamic shell environment ocenv for Oracle
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c">
+ansible-oracle only supports combinations from Oracle with exceptions from the following table. Important As of ansible-oracle 5.0 only Oracle 19c and 26ai are supported for RDBMS. Restart and Grid-Infrastructure are supported for 19c only.
+Older releases (11.2, 12.1, 12.2, 18c, 21c) are rejected by the assert of db_homes_config, see Breaking Changes - Upgrade Guide.">
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-10-28T17:22:50+01:00">
-		<meta property="article:modified_time" content="2026-10-28T17:22:50+01:00">
+		<meta property="article:published_time" content="2026-11-04T10:05:13+01:00">
+		<meta property="article:modified_time" content="2026-11-04T10:05:13+01:00">
 
 	<meta itemprop="name" content="Supported features in ansible-oracle">
 	<meta itemprop="description" content="Warning Please check the official Compatibility List from Oracle for RDBMS and Restart/Grid-Infrastructure.
-ansible-oracle only supports combinations from Oracle with exceptions from the following table. Important All Editions from Oracle are supported. See documentation from Oracle for differences between Enterprise and Standard Edition (SE, SE One and SE2) Table 1. Featurelist Group Option Version OS
-OracleLinux
-Redhat Enterprise Linux
-6 [1]
-7 [1]
-8
-9
-SuSE Linux Enterprise Server[3]
-15, 15.3
-Management of LVM, Filesystems and swap
-all versions of all OS
-ntp &amp; chrony
-all versions of all OS
-custom motd (message of the day)
-all versions of all OS
-Software
-Ansible
-2.14 or newer [9]
-Oracle RDBMS
-11.2.0.3 [1] 11.2.0.4 [1]
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-Oracle Grid-Infrastructure
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-Oracle Restart
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-cxOracle for Python
-Python 3
-ASM
-ASM Filter Driver (ASMFD)
-19c
-21c
-ASMlib
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-udev
-[3]
-Installation Options
-DB Options in Binaries
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-Statspack for nonCDB, CDB and PDB
-RMAN Backup with
-cron management in /etc/cron.d
-Catalog
-Oracle-Wallet for Connection
-checkmk mk_job monitoring
-custom RMAN-scripts
-dNFS (direct NFS)
-Golden Image for RDBMS, Restart &amp; GI
-Create from Installation
-Install from Image
-19c
-21c
-readonly Homes for RDBMS
-Oracle Data-Guard
-19c (planned! [5])
-21c (planned! [5])
-automatic Database Migrations
-not supported
-Prepatch installations [10]
-Database Management
-Grants
-11.2.0.3 [1] 11.2.0.4 [1]
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-init.ora Parameter [7])
-possibility to set Parameters after DBCA execution
-Pluggable Database Management [8]
-Database Profiles
-Redolog Groups [6]
-Database Roles
-Database Services [3]
-Tablespaces
-Users
-Scripts with SQLPlus
-Custom DBCA-Templates
-Define Characterset during DBCA
-Enable/Disable Archivelogmode &amp; FRA
-Timezone Upgrades
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-Database Patching
-Release Updates[11]
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-OneOff Patches[11]
-Install
-Remove with unique patch id option
-automatic datapatch execution[11]
-Patch Download from Oracle
-Oracle APEX (experimental!)
-Installation of APEX in PDB. Not supported for CDB or nonCDB.
-19c
-21c
-Environment script
-dynamic shell environment ocenv for Oracle
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c">
-	<meta itemprop="datePublished" content="2026-10-28T17:22:50+01:00">
-	<meta itemprop="dateModified" content="2026-10-28T17:22:50+01:00">
-	<meta itemprop="wordCount" content="483">
+ansible-oracle only supports combinations from Oracle with exceptions from the following table. Important As of ansible-oracle 5.0 only Oracle 19c and 26ai are supported for RDBMS. Restart and Grid-Infrastructure are supported for 19c only.
+Older releases (11.2, 12.1, 12.2, 18c, 21c) are rejected by the assert of db_homes_config, see Breaking Changes - Upgrade Guide.">
+	<meta itemprop="datePublished" content="2026-11-04T10:05:13+01:00">
+	<meta itemprop="dateModified" content="2026-11-04T10:05:13+01:00">
+	<meta itemprop="wordCount" content="554">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Supported features in ansible-oracle">
 	<meta name="twitter:description" content="Warning Please check the official Compatibility List from Oracle for RDBMS and Restart/Grid-Infrastructure.
-ansible-oracle only supports combinations from Oracle with exceptions from the following table. Important All Editions from Oracle are supported. See documentation from Oracle for differences between Enterprise and Standard Edition (SE, SE One and SE2) Table 1. Featurelist Group Option Version OS
-OracleLinux
-Redhat Enterprise Linux
-6 [1]
-7 [1]
-8
-9
-SuSE Linux Enterprise Server[3]
-15, 15.3
-Management of LVM, Filesystems and swap
-all versions of all OS
-ntp &amp; chrony
-all versions of all OS
-custom motd (message of the day)
-all versions of all OS
-Software
-Ansible
-2.14 or newer [9]
-Oracle RDBMS
-11.2.0.3 [1] 11.2.0.4 [1]
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-Oracle Grid-Infrastructure
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-Oracle Restart
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-cxOracle for Python
-Python 3
-ASM
-ASM Filter Driver (ASMFD)
-19c
-21c
-ASMlib
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-udev
-[3]
-Installation Options
-DB Options in Binaries
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-Statspack for nonCDB, CDB and PDB
-RMAN Backup with
-cron management in /etc/cron.d
-Catalog
-Oracle-Wallet for Connection
-checkmk mk_job monitoring
-custom RMAN-scripts
-dNFS (direct NFS)
-Golden Image for RDBMS, Restart &amp; GI
-Create from Installation
-Install from Image
-19c
-21c
-readonly Homes for RDBMS
-Oracle Data-Guard
-19c (planned! [5])
-21c (planned! [5])
-automatic Database Migrations
-not supported
-Prepatch installations [10]
-Database Management
-Grants
-11.2.0.3 [1] 11.2.0.4 [1]
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-init.ora Parameter [7])
-possibility to set Parameters after DBCA execution
-Pluggable Database Management [8]
-Database Profiles
-Redolog Groups [6]
-Database Roles
-Database Services [3]
-Tablespaces
-Users
-Scripts with SQLPlus
-Custom DBCA-Templates
-Define Characterset during DBCA
-Enable/Disable Archivelogmode &amp; FRA
-Timezone Upgrades
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-Database Patching
-Release Updates[11]
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c
-OneOff Patches[11]
-Install
-Remove with unique patch id option
-automatic datapatch execution[11]
-Patch Download from Oracle
-Oracle APEX (experimental!)
-Installation of APEX in PDB. Not supported for CDB or nonCDB.
-19c
-21c
-Environment script
-dynamic shell environment ocenv for Oracle
-12.1.0.2 [1]
-12.2.0.1 [1]
-18c [1]
-19c
-21c">
+ansible-oracle only supports combinations from Oracle with exceptions from the following table. Important As of ansible-oracle 5.0 only Oracle 19c and 26ai are supported for RDBMS. Restart and Grid-Infrastructure are supported for 19c only.
+Older releases (11.2, 12.1, 12.2, 18c, 21c) are rejected by the assert of db_homes_config, see Breaking Changes - Upgrade Guide.">
 
 
 
@@ -657,12 +153,24 @@ dynamic shell environment ocenv for Oracle
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
   <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
+  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
+  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolespyoracledb-li">
+  <a href="/docs/roles/pyoracledb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolespyoracledb"><span class="">pyoracledb</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
+  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesautoupgrade-li">
   <a href="/docs/roles/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesautoupgrade"><span class="">autoupgrade</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
   <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescxoracle-li">
-  <a href="/docs/roles/cxoracle/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescxoracle"><span class="">cxoracle</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesglobal_handlers-li">
   <a href="/docs/roles/global_handlers/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesglobal_handlers"><span class="">global_handlers</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraapex-li">
@@ -675,8 +183,6 @@ dynamic shell environment ocenv for Oracle
   <a href="/docs/roles/oradb_datapatch/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_datapatch"><span class="">oradb_datapatch</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_facts-li">
   <a href="/docs/roles/oradb_facts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_facts"><span class="">oradb_facts</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
-  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_grants-li">
   <a href="/docs/roles/oradb_manage_grants/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_grants"><span class="">oradb_manage_grants</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_parameters-li">
@@ -703,14 +209,10 @@ dynamic shell environment ocenv for Oracle
   <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_tzupgrade-li">
   <a href="/docs/roles/oradb_tzupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_tzupgrade"><span class="">oradb_tzupgrade</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
-  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_cron-li">
   <a href="/docs/roles/orahost_cron/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_cron"><span class="">orahost_cron</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_logrotate-li">
   <a href="/docs/roles/orahost_logrotate/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_logrotate"><span class="">orahost_logrotate</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
-  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_ssh-li">
   <a href="/docs/roles/orahost_ssh/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_ssh"><span class="">orahost_ssh</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_storage-li">
@@ -719,22 +221,16 @@ dynamic shell environment ocenv for Oracle
   <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
   <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
-  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
   <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswahf_install-li">
   <a href="/docs/roles/oraswahf_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswahf_install"><span class="">oraswahf_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_golden_image-li">
   <a href="/docs/roles/oraswdb_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_golden_image"><span class="">oraswdb_golden_image</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
-  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
   <a href="/docs/roles/oraswdb_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_manage_patches"><span class="">oraswdb_manage_patches</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_golden_image-li">
   <a href="/docs/roles/oraswgi_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_golden_image"><span class="">oraswgi_golden_image</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
-  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_manage_patches-li">
   <a href="/docs/roles/oraswgi_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_manage_patches"><span class="">oraswgi_manage_patches</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_meta-li">
@@ -814,6 +310,21 @@ Please check the official Compatibility List from Oracle for RDBMS and Restart/G
 <div class="title">Important</div>
 </td>
 <td class="content">
+As of <code>ansible-oracle</code> 5.0 only Oracle 19c and 26ai are supported for RDBMS.
+Restart and Grid-Infrastructure are supported for 19c only.<br/>
+Older releases (11.2, 12.1, 12.2, 18c, 21c) are rejected by the assert of <code>db_homes_config</code>,
+see <a href="/docs/guides/breaking_changes/">Breaking Changes - Upgrade Guide</a>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
 All Editions from Oracle are supported.
 See documentation from Oracle for differences between Enterprise and Standard Edition (SE, SE One and SE2)
 </td>
@@ -863,50 +374,33 @@ Redhat Enterprise Linux</p></td>
 <tr>
 <td class="tableblock halign-left valign-top" rowspan="5"><p class="tableblock">Software</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Ansible</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2.14 or newer <a href="#table1footnote"><sup>[9]</sup></a><br/></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ansible-core 2.16 - 2.19 <a href="#table1footnote"><sup>[9]</sup></a><br/></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Oracle RDBMS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">11.2.0.3 <a href="#table1footnote">[1]</a> 11.2.0.4 <a href="#table1footnote">[1]</a><br/>
-12.1.0.2 <a href="#table1footnote">[1]</a><br/>
-12.2.0.1 <a href="#table1footnote">[1]</a><br/>
-18c <a href="#table1footnote">[1]</a><br/>
-19c<br/>
-21c</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c<br/>
+26ai</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Grid-Infrastructure</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12.1.0.2 <a href="#table1footnote">[1]</a><br/>
-12.2.0.1 <a href="#table1footnote">[1]</a><br/>
-18c <a href="#table1footnote">[1]</a><br/>
-19c<br/>
-21c</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Restart</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12.1.0.2 <a href="#table1footnote">[1]</a><br/>
-12.2.0.1 <a href="#table1footnote">[1]</a><br/>
-18c <a href="#table1footnote">[1]</a><br/>
-19c<br/>
-21c</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">cxOracle for Python</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">python-oracledb</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Python 3</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" rowspan="3"><p class="tableblock">ASM</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ASM Filter Driver (ASMFD)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">19c<br/>
-21c</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ASMlib</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12.1.0.2 <a href="#table1footnote">[1]</a><br/>
-12.2.0.1 <a href="#table1footnote">[1]</a><br/>
-18c <a href="#table1footnote">[1]</a><br/>
-19c<br/>
-21c</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">udev</p></td>
@@ -915,11 +409,8 @@ Redhat Enterprise Linux</p></td>
 <tr>
 <td class="tableblock halign-left valign-top" rowspan="9"><p class="tableblock">Installation Options</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">DB Options in Binaries</p></td>
-<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">12.1.0.2 <a href="#table1footnote">[1]</a><br/>
-12.2.0.1 <a href="#table1footnote">[1]</a><br/>
-18c <a href="#table1footnote">[1]</a><br/>
-19c<br/>
-21c</p></td>
+<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">19c<br/>
+26ai</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Statspack for nonCDB, CDB and PDB</p></td>
@@ -966,7 +457,7 @@ Redhat Enterprise Linux</p></td>
 </ul>
 </div></div></td>
 <td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">19c<br/>
-21c</p></td>
+26ai</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">readonly Homes for RDBMS</p></td>
@@ -974,24 +465,21 @@ Redhat Enterprise Linux</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Oracle Data-Guard</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">19c (planned! <a href="#table1footnote"><sup>[5]</sup></a>)<br/>
-21c (planned! <a href="#table1footnote"><sup>[5]</sup></a>)</p></td>
+26ai (planned! <a href="#table1footnote"><sup>[5]</sup></a>)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>automatic Database Migrations</em></p></td>
-<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">not supported</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database Migrations: Upgrade of PDBs with AutoUpgrade (Unplug/Plug, experimental! <a href="#table1footnote"><sup>[2]</sup></a>) <a href="#table1footnote"><sup>[12]</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c ⇒ 26ai</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Prepatch installations <a href="#table1footnote"><sup>[10]</sup></a></em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">not supported</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" rowspan="14"><p class="tableblock">Database Management</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Grants</p></td>
-<td class="tableblock halign-left valign-top" rowspan="13"><p class="tableblock">11.2.0.3 <a href="#table1footnote">[1]</a> 11.2.0.4 <a href="#table1footnote">[1]</a><br/>
-12.1.0.2 <a href="#table1footnote">[1]</a><br/>
-12.2.0.1 <a href="#table1footnote">[1]</a><br/>
-18c <a href="#table1footnote">[1]</a><br/>
-19c<br/>
-21c</p></td>
+<td class="tableblock halign-left valign-top" rowspan="13"><p class="tableblock">19c<br/>
+26ai</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -1040,20 +528,14 @@ Redhat Enterprise Linux</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Timezone Upgrades</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12.1.0.2 <a href="#table1footnote">[1]</a><br/>
-12.2.0.1 <a href="#table1footnote">[1]</a><br/>
-18c <a href="#table1footnote">[1]</a><br/>
-19c<br/>
-21c</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c<br/>
+26ai</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">Database Patching</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Release Updates<a href="#table1footnote"><sup>[11]</sup></a></p></td>
-<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">12.1.0.2 <a href="#table1footnote">[1]</a><br/>
-12.2.0.1 <a href="#table1footnote">[1]</a><br/>
-18c <a href="#table1footnote">[1]</a><br/>
-19c<br/>
-21c</p></td>
+<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">19c<br/>
+26ai</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -1082,18 +564,44 @@ Redhat Enterprise Linux</p></td>
 <p>Installation of APEX in PDB. Not supported for CDB or nonCDB.</p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">19c<br/>
-21c</p></td>
+26ai</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle AutoUpgrade (experimental! <a href="#table1footnote"><sup>[2]</sup></a>)</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="/docs/guides/autoupgrade/">AutoUpgrade</a> with role <code>autoupgrade</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Installation and update of <code>autoupgrade.jar</code> on database server or Ansible controller</p>
+</li>
+<li>
+<p>Keystore for My Oracle Support</p>
+</li>
+<li>
+<p>Download of patches and gold images from My Oracle Support</p>
+</li>
+<li>
+<p><a href="/docs/guides/autoupgrade_upgrade/">Unplug/Plug upgrade of PDBs</a> (analyze, fixups, deploy) <a href="#table1footnote"><sup>[12]</sup></a></p>
+</li>
+<li>
+<p>Patching with AutoUpgrade is not implemented</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Download: 19c, 21c, 23ai, 26ai<br/>
+Upgrade: 19c ⇒ 26ai</p>
+</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Environment script</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>dynamic shell environment <a href="https://github.com/opitzconsulting/oracle-scripts"><code>ocenv</code></a> for Oracle</p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12.1.0.2 <a href="#table1footnote">[1]</a><br/>
-12.2.0.1 <a href="#table1footnote">[1]</a><br/>
-18c <a href="#table1footnote">[1]</a><br/>
-19c<br/>
-21c</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c<br/>
+26ai</p></td>
 </tr>
 </tbody>
 </table>
@@ -1171,7 +679,8 @@ Please do not use this feature in production environments.</p>
 <a id="table1footnote"></a><sup>9</sup>
 </td>
 <td class="hdlist2">
-<p>Ansible 2.14 or newer is mandatory since <code>ansible-oracle</code> Version 4.2.</p>
+<p><code>ansible-oracle</code> 5.x supports ansible-core 2.16 - 2.19.<br/>
+<code>ansible-oracle</code> 4.2 - 4.x supports ansible-core 2.14 - 2.18.</p>
 </td>
 </tr>
 <tr>
@@ -1190,11 +699,20 @@ Please do not use this feature in production environments.</p>
 <p>Supported for Single-Instance, Oracle Restart and Oracle Grid-Infrastructure.</p>
 </td>
 </tr>
+<tr>
+<td class="hdlist1">
+<a id="table1footnote"></a><sup>12</sup>
+</td>
+<td class="hdlist2">
+<p>Source CDB (old release) and target CDB (new release) must run on the same host.
+See <a href="/docs/guides/autoupgrade_upgrade/">Upgrade of PDBs with AutoUpgrade</a>.</p>
+</td>
+</tr>
 </tbody></table>
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified October 28, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/4ec67a0dfa85140b0a888cceb8ae389d91c1d976">chore: fix typos in doc (4ec67a0d)</a>
+  Last modified November 4, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/914ae2c40d072ccb6bbf2aab42d26702b51b6f14">cxoracle: the role is removed, all modules use python-oracledb instead of cx_Oracle. Use the role pyoracledb (see doc/guides/breaking_changes.adoc) (914ae2c4)</a>
 </div>
 
 </div>

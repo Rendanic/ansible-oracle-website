@@ -30,16 +30,16 @@ Task file Description assert.yml Check variables and Java install.yml Install au
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-10-30T22:59:56+01:00">
-		<meta property="article:modified_time" content="2026-10-30T22:59:56+01:00">
+		<meta property="article:published_time" content="2026-10-31T18:47:51+01:00">
+		<meta property="article:modified_time" content="2026-10-31T18:47:51+01:00">
 
 	<meta itemprop="name" content="autoupgrade">
 	<meta itemprop="description" content="Manage Oracle AutoUpgrade.
 The role has no tasks/main.yml. Each area of AutoUpgrade has its own task file, which must be called with tasks_from:
 Task file Description assert.yml Check variables and Java install.yml Install autoupgrade.jar into autoupgrade_home download_patches.yml Download patches from My Oracle Support with AutoUpgrade upgrade_analyze.yml Analyze phase for the Unplug/Plug upgrade of PDBs (oracle_pdbs): AutoUpgrade analyze upgrade_fixups.yml Fixups phase: AutoUpgrade fixups in the source CDB/PDBs upgrade_deploy.yml Unplug/Plug upgrade of PDBs: analyze phase &#43; AutoUpgrade deploy See doc/guides/autoupgrade_upgrade.adoc for the upgrade of PDBs.">
-	<meta itemprop="datePublished" content="2026-10-30T22:59:56+01:00">
-	<meta itemprop="dateModified" content="2026-10-30T22:59:56+01:00">
-	<meta itemprop="wordCount" content="2116">
+	<meta itemprop="datePublished" content="2026-10-31T18:47:51+01:00">
+	<meta itemprop="dateModified" content="2026-10-31T18:47:51+01:00">
+	<meta itemprop="wordCount" content="2211">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="autoupgrade">
 	<meta name="twitter:description" content="Manage Oracle AutoUpgrade.
@@ -153,12 +153,24 @@ Task file Description assert.yml Check variables and Java install.yml Install au
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
   <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
+  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
+  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolespyoracledb-li">
+  <a href="/docs/roles/pyoracledb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolespyoracledb"><span class="">pyoracledb</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
+  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesautoupgrade-li">
   <a href="/docs/roles/autoupgrade/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesautoupgrade"><span class="td-sidebar-nav-active-item">autoupgrade</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
   <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescxoracle-li">
-  <a href="/docs/roles/cxoracle/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescxoracle"><span class="">cxoracle</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesglobal_handlers-li">
   <a href="/docs/roles/global_handlers/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesglobal_handlers"><span class="">global_handlers</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraapex-li">
@@ -171,8 +183,6 @@ Task file Description assert.yml Check variables and Java install.yml Install au
   <a href="/docs/roles/oradb_datapatch/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_datapatch"><span class="">oradb_datapatch</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_facts-li">
   <a href="/docs/roles/oradb_facts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_facts"><span class="">oradb_facts</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
-  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_grants-li">
   <a href="/docs/roles/oradb_manage_grants/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_grants"><span class="">oradb_manage_grants</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_parameters-li">
@@ -199,14 +209,10 @@ Task file Description assert.yml Check variables and Java install.yml Install au
   <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_tzupgrade-li">
   <a href="/docs/roles/oradb_tzupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_tzupgrade"><span class="">oradb_tzupgrade</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
-  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_cron-li">
   <a href="/docs/roles/orahost_cron/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_cron"><span class="">orahost_cron</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_logrotate-li">
   <a href="/docs/roles/orahost_logrotate/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_logrotate"><span class="">orahost_logrotate</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
-  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_ssh-li">
   <a href="/docs/roles/orahost_ssh/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_ssh"><span class="">orahost_ssh</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_storage-li">
@@ -215,22 +221,16 @@ Task file Description assert.yml Check variables and Java install.yml Install au
   <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
   <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
-  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
   <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswahf_install-li">
   <a href="/docs/roles/oraswahf_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswahf_install"><span class="">oraswahf_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_golden_image-li">
   <a href="/docs/roles/oraswdb_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_golden_image"><span class="">oraswdb_golden_image</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
-  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
   <a href="/docs/roles/oraswdb_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_manage_patches"><span class="">oraswdb_manage_patches</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_golden_image-li">
   <a href="/docs/roles/oraswgi_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_golden_image"><span class="">oraswgi_golden_image</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
-  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_manage_patches-li">
   <a href="/docs/roles/oraswgi_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_manage_patches"><span class="">oraswgi_manage_patches</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_meta-li">
@@ -288,55 +288,60 @@ Task file Description assert.yml Check variables and Java install.yml Install au
             <li><a href="#example-usage">Example usage</a></li>
           </ul>
         </li>
-        <li><a href="#autoupgrade_download_gold_image_prefix">autoupgrade_download_gold_image_prefix</a>
+        <li><a href="#autoupgrade_download_gold_image_latest">autoupgrade_download_gold_image_latest</a>
           <ul>
             <li><a href="#default-value-3">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#autoupgrade_download_gold_image_rename">autoupgrade_download_gold_image_rename</a>
+        <li><a href="#autoupgrade_download_gold_image_prefix">autoupgrade_download_gold_image_prefix</a>
           <ul>
             <li><a href="#default-value-4">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#autoupgrade_download_latest">autoupgrade_download_latest</a>
+        <li><a href="#autoupgrade_download_gold_image_rename">autoupgrade_download_gold_image_rename</a>
           <ul>
             <li><a href="#default-value-5">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#autoupgrade_download_patches">autoupgrade_download_patches</a>
+        <li><a href="#autoupgrade_download_latest">autoupgrade_download_latest</a>
           <ul>
             <li><a href="#default-value-6">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#autoupgrade_download_patches">autoupgrade_download_patches</a>
+          <ul>
+            <li><a href="#default-value-7">Default value</a></li>
             <li><a href="#example-usage-1">Example usage</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_download_platform">autoupgrade_download_platform</a>
           <ul>
-            <li><a href="#default-value-7">Default value</a></li>
+            <li><a href="#default-value-8">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_download_supported_releases">autoupgrade_download_supported_releases</a>
           <ul>
-            <li><a href="#default-value-8">Default value</a></li>
+            <li><a href="#default-value-9">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_download_use_oracle_sw_patches">autoupgrade_download_use_oracle_sw_patches</a>
           <ul>
-            <li><a href="#default-value-9">Default value</a></li>
+            <li><a href="#default-value-10">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_force_update">autoupgrade_force_update</a>
           <ul>
-            <li><a href="#default-value-10">Default value</a></li>
+            <li><a href="#default-value-11">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_home">autoupgrade_home</a>
           <ul>
-            <li><a href="#default-value-11">Default value</a></li>
+            <li><a href="#default-value-12">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_jar">autoupgrade_jar</a>
           <ul>
-            <li><a href="#default-value-12">Default value</a></li>
+            <li><a href="#default-value-13">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_jar_filesource">autoupgrade_jar_filesource</a>
@@ -346,143 +351,143 @@ Task file Description assert.yml Check variables and Java install.yml Install au
         </li>
         <li><a href="#autoupgrade_jar_url">autoupgrade_jar_url</a>
           <ul>
-            <li><a href="#default-value-13">Default value</a></li>
+            <li><a href="#default-value-14">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_java_home">autoupgrade_java_home</a>
           <ul>
-            <li><a href="#default-value-14">Default value</a></li>
+            <li><a href="#default-value-15">Default value</a></li>
             <li><a href="#example-usage-3">Example usage</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_java_options">autoupgrade_java_options</a>
           <ul>
-            <li><a href="#default-value-15">Default value</a></li>
+            <li><a href="#default-value-16">Default value</a></li>
             <li><a href="#example-usage-4">Example usage</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_keystore">autoupgrade_keystore</a>
           <ul>
-            <li><a href="#default-value-16">Default value</a></li>
+            <li><a href="#default-value-17">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_keystore_fail_on_invalid_credentials">autoupgrade_keystore_fail_on_invalid_credentials</a>
           <ul>
-            <li><a href="#default-value-17">Default value</a></li>
+            <li><a href="#default-value-18">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_keystore_manage">autoupgrade_keystore_manage</a>
           <ul>
-            <li><a href="#default-value-18">Default value</a></li>
+            <li><a href="#default-value-19">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_keystore_no_log">autoupgrade_keystore_no_log</a>
           <ul>
-            <li><a href="#default-value-19">Default value</a></li>
+            <li><a href="#default-value-20">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_keystore_password">autoupgrade_keystore_password</a>
           <ul>
-            <li><a href="#default-value-20">Default value</a></li>
+            <li><a href="#default-value-21">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_keystore_recreate">autoupgrade_keystore_recreate</a>
           <ul>
-            <li><a href="#default-value-21">Default value</a></li>
+            <li><a href="#default-value-22">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_keystore_timeout">autoupgrade_keystore_timeout</a>
           <ul>
-            <li><a href="#default-value-22">Default value</a></li>
+            <li><a href="#default-value-23">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_local_home">autoupgrade_local_home</a>
           <ul>
-            <li><a href="#default-value-23">Default value</a></li>
+            <li><a href="#default-value-24">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_local_java_home">autoupgrade_local_java_home</a>
           <ul>
-            <li><a href="#default-value-24">Default value</a></li>
+            <li><a href="#default-value-25">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_log_dir">autoupgrade_log_dir</a>
           <ul>
-            <li><a href="#default-value-25">Default value</a></li>
+            <li><a href="#default-value-26">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_proxy_check">autoupgrade_proxy_check</a>
           <ul>
-            <li><a href="#default-value-26">Default value</a></li>
+            <li><a href="#default-value-27">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_proxy_check_timeout">autoupgrade_proxy_check_timeout</a>
           <ul>
-            <li><a href="#default-value-27">Default value</a></li>
+            <li><a href="#default-value-28">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_proxy_check_urls">autoupgrade_proxy_check_urls</a>
           <ul>
-            <li><a href="#default-value-28">Default value</a></li>
+            <li><a href="#default-value-29">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_proxy_password">autoupgrade_proxy_password</a>
           <ul>
-            <li><a href="#default-value-29">Default value</a></li>
+            <li><a href="#default-value-30">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_proxy_username">autoupgrade_proxy_username</a>
           <ul>
-            <li><a href="#default-value-30">Default value</a></li>
+            <li><a href="#default-value-31">Default value</a></li>
             <li><a href="#example-usage-5">Example usage</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_run_local">autoupgrade_run_local</a>
           <ul>
-            <li><a href="#default-value-31">Default value</a></li>
+            <li><a href="#default-value-32">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_upgrade_clear_recovery_data">autoupgrade_upgrade_clear_recovery_data</a>
           <ul>
-            <li><a href="#default-value-32">Default value</a></li>
+            <li><a href="#default-value-33">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_upgrade_fail_on_precheck_errors">autoupgrade_upgrade_fail_on_precheck_errors</a>
           <ul>
-            <li><a href="#default-value-33">Default value</a></li>
+            <li><a href="#default-value-34">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_upgrade_global_parameters">autoupgrade_upgrade_global_parameters</a>
           <ul>
-            <li><a href="#default-value-34">Default value</a></li>
+            <li><a href="#default-value-35">Default value</a></li>
             <li><a href="#example-usage-6">Example usage</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_upgrade_parameters">autoupgrade_upgrade_parameters</a>
           <ul>
-            <li><a href="#default-value-35">Default value</a></li>
+            <li><a href="#default-value-36">Default value</a></li>
             <li><a href="#example-usage-7">Example usage</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_upgrade_pdbs">autoupgrade_upgrade_pdbs</a>
           <ul>
-            <li><a href="#default-value-36">Default value</a></li>
+            <li><a href="#default-value-37">Default value</a></li>
             <li><a href="#example-usage-8">Example usage</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_upgrade_poll">autoupgrade_upgrade_poll</a>
           <ul>
-            <li><a href="#default-value-37">Default value</a></li>
+            <li><a href="#default-value-38">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_upgrade_restoration">autoupgrade_upgrade_restoration</a>
           <ul>
-            <li><a href="#default-value-38">Default value</a></li>
+            <li><a href="#default-value-39">Default value</a></li>
           </ul>
         </li>
         <li><a href="#autoupgrade_upgrade_timeout">autoupgrade_upgrade_timeout</a>
           <ul>
-            <li><a href="#default-value-39">Default value</a></li>
+            <li><a href="#default-value-40">Default value</a></li>
           </ul>
         </li>
       </ul>
@@ -565,6 +570,7 @@ Each area of AutoUpgrade has its own task file, which must be called with <code>
 <li><a href="#autoupgrade_download_dir">autoupgrade_download_dir</a></li>
 <li><a href="#autoupgrade_download_filename_regex">autoupgrade_download_filename_regex</a></li>
 <li><a href="#autoupgrade_download_gold_image">autoupgrade_download_gold_image</a></li>
+<li><a href="#autoupgrade_download_gold_image_latest">autoupgrade_download_gold_image_latest</a></li>
 <li><a href="#autoupgrade_download_gold_image_prefix">autoupgrade_download_gold_image_prefix</a></li>
 <li><a href="#autoupgrade_download_gold_image_rename">autoupgrade_download_gold_image_rename</a></li>
 <li><a href="#autoupgrade_download_latest">autoupgrade_download_latest</a></li>
@@ -639,9 +645,37 @@ Can be overwritten with attribute <code>gold_image</code> in <code>autoupgrade_d
 <h4 id="example-usage">Example usage</h4>
 <pre><code class="language-YAML">autoupgrade_download_gold_image: &quot;NO&quot;
 </code></pre>
+<h3 id="autoupgrade_download_gold_image_latest">autoupgrade_download_gold_image_latest</h3>
+<p>Create a symlink to the latest Gold Image of each release (<code>autoupgrade_download_gold_image_rename: true</code>).</p>
+<p>The symlink is named <code>autoupgrade_download_gold_image_prefix</code> + major release + <code>_latest.zip</code>
+and points to the renamed Gold Image with the highest release update in <code>autoupgrade_download_dir</code>:</p>
+<table>
+	<thead>
+			<tr>
+					<th>Renamed Gold Images</th>
+					<th>Symlink</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>db_home_19.31.zip</code>, <code>db_home_19.32.zip</code></td>
+					<td><code>db_home_19_latest.zip -&gt; db_home_19.32.zip</code></td>
+			</tr>
+			<tr>
+					<td><code>db_home_26.03.zip</code>, <code>db_home_26.04.zip</code></td>
+					<td><code>db_home_26_latest.zip -&gt; db_home_26.04.zip</code></td>
+			</tr>
+	</tbody>
+</table>
+<p>The symlink is changed only, when a newer Gold Image exists.
+The download of an older release update does not change the symlink.</p>
+<p>Use the symlink as <code>imagename</code> in <code>db_homes_config</code> for an inventory independent of the release update.</p>
+<h4 id="default-value-3">Default value</h4>
+<pre><code class="language-YAML">autoupgrade_download_gold_image_latest: false
+</code></pre>
 <h3 id="autoupgrade_download_gold_image_prefix">autoupgrade_download_gold_image_prefix</h3>
 <p>Prefix for the new filename of a Gold Image (<code>autoupgrade_download_gold_image_rename: true</code>).</p>
-<h4 id="default-value-3">Default value</h4>
+<h4 id="default-value-4">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_download_gold_image_prefix: db_home_
 </code></pre>
 <h3 id="autoupgrade_download_gold_image_rename">autoupgrade_download_gold_image_rename</h3>
@@ -671,7 +705,7 @@ AutoUpgrade finds the file under the original name and skips a new download.
 The symlinks can be removed for cleanup. They are not created again.</p>
 <p>Release and filename are taken from <code>patches_info.json</code> in <code>autoupgrade_download_dir</code>.
 An existing file with the new name is never replaced.</p>
-<h4 id="default-value-4">Default value</h4>
+<h4 id="default-value-5">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_download_gold_image_rename: false
 </code></pre>
 <h3 id="autoupgrade_download_latest">autoupgrade_download_latest</h3>
@@ -697,7 +731,7 @@ repository before the installation.</p>
 	</tbody>
 </table>
 <p>Existing installations are only replaced with <code>autoupgrade_force_update: true</code>.</p>
-<h4 id="default-value-5">Default value</h4>
+<h4 id="default-value-6">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_download_latest: false
 </code></pre>
 <h3 id="autoupgrade_download_patches">autoupgrade_download_patches</h3>
@@ -729,7 +763,7 @@ Each element creates a <code>patch&lt;n&gt;</code> section in the AutoUpgrade co
 			</tr>
 	</tbody>
 </table>
-<h4 id="default-value-6">Default value</h4>
+<h4 id="default-value-7">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_download_patches: []
 </code></pre>
 <h4 id="example-usage-1">Example usage</h4>
@@ -745,12 +779,12 @@ Each element creates a <code>patch&lt;n&gt;</code> section in the AutoUpgrade co
 </code></pre>
 <h3 id="autoupgrade_download_platform">autoupgrade_download_platform</h3>
 <p>Default platform for the download, when <code>platform</code> is not set in <code>autoupgrade_download_patches</code>.</p>
-<h4 id="default-value-7">Default value</h4>
+<h4 id="default-value-8">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_download_platform: LINUX.X64
 </code></pre>
 <h3 id="autoupgrade_download_supported_releases">autoupgrade_download_supported_releases</h3>
 <p>Releases supported by AutoUpgrade for downloading patches.</p>
-<h4 id="default-value-8">Default value</h4>
+<h4 id="default-value-9">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_download_supported_releases: [19, 21, 23, 26]
 </code></pre>
 <h3 id="autoupgrade_download_use_oracle_sw_patches">autoupgrade_download_use_oracle_sw_patches</h3>
@@ -798,20 +832,20 @@ Only entries from <code>oracle_sw_patches</code> are used, where <code>filename<
 <code>autoupgrade_download_supported_releases</code>. Others (e.g. APEX, cvupack) are ignored with a warning.</p>
 <p>The My Oracle Support credentials (<code>mos_username</code> / <code>mos_password</code>) are read
 by AutoUpgrade from the keystore <code>autoupgrade_keystore</code>.</p>
-<h4 id="default-value-9">Default value</h4>
+<h4 id="default-value-10">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_download_use_oracle_sw_patches: true
 </code></pre>
 <h3 id="autoupgrade_force_update">autoupgrade_force_update</h3>
 <p>Update an existing <code>autoupgrade.jar</code> in the AutoUpgrade home.</p>
 <p><code>false</code>: An existing file is never replaced.</p>
 <p><code>true</code>: The file is replaced, when it differs from the file in the software repository.</p>
-<h4 id="default-value-10">Default value</h4>
+<h4 id="default-value-11">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_force_update: false
 </code></pre>
 <h3 id="autoupgrade_home">autoupgrade_home</h3>
 <p>Directory for <code>autoupgrade.jar</code> and the generated AutoUpgrade config files
 on the target host.</p>
-<h4 id="default-value-11">Default value</h4>
+<h4 id="default-value-12">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_home: '{{ oracle_base }}/product/autoupgrade'
 </code></pre>
 <h3 id="autoupgrade_jar">autoupgrade_jar</h3>
@@ -819,7 +853,7 @@ on the target host.</p>
 The file is expected under <code>oracle_sw_source_local</code> / <code>oracle_sw_source_www</code>.</p>
 <p>On the Ansible controller the file is always taken from <code>oracle_sw_source_local</code>
 (<code>is_sw_source_local: true</code>) or <code>oracle_sw_source_www</code> - <code>oracle_sw_copy</code> is ignored.</p>
-<h4 id="default-value-12">Default value</h4>
+<h4 id="default-value-13">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_jar: autoupgrade.jar
 </code></pre>
 <h3 id="autoupgrade_jar_filesource">autoupgrade_jar_filesource</h3>
@@ -831,13 +865,13 @@ path can be forced using <code>autoupgrade_jar_filesource</code> instead.
 </code></pre>
 <h3 id="autoupgrade_jar_url">autoupgrade_jar_url</h3>
 <p>URL for the latest version of AutoUpgrade (used by <code>autoupgrade_download_latest</code>).</p>
-<h4 id="default-value-13">Default value</h4>
+<h4 id="default-value-14">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_jar_url: https://download.oracle.com/otn-pub/otn_software/autoupgrade.jar
 </code></pre>
 <h3 id="autoupgrade_java_home">autoupgrade_java_home</h3>
 <p>JAVA_HOME used for AutoUpgrade on the target host.
 <code>java</code> from <code>PATH</code> is used, when <code>autoupgrade_java_home</code> is empty.</p>
-<h4 id="default-value-14">Default value</h4>
+<h4 id="default-value-15">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_java_home: ''
 </code></pre>
 <h4 id="example-usage-3">Example usage</h4>
@@ -849,7 +883,7 @@ for a proxy with TLS inspection.</p>
 <p>With proxy credentials (<code>autoupgrade_proxy_username</code> or credentials in <code>https_proxy</code>)
 <code>-Djdk.http.auth.tunneling.disabledSchemes=</code> is added automatically,
 because Java disables Basic authentication for HTTPS tunneling by default.</p>
-<h4 id="default-value-15">Default value</h4>
+<h4 id="default-value-16">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_java_options: []
 </code></pre>
 <h4 id="example-usage-4">Example usage</h4>
@@ -861,25 +895,25 @@ because Java disables Basic authentication for HTTPS tunneling by default.</p>
 <p>Value for <code>global.keystore</code> in the AutoUpgrade config files.</p>
 <p>The keystore holds the My Oracle Support credentials (<code>mos_username</code>, <code>mos_password</code>)
 and is managed by <code>keystore.yml</code> (included by <code>download_patches.yml</code>).</p>
-<h4 id="default-value-16">Default value</h4>
+<h4 id="default-value-17">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_keystore: '{{ _autoupgrade_home }}/keystore'
 </code></pre>
 <h3 id="autoupgrade_keystore_fail_on_invalid_credentials">autoupgrade_keystore_fail_on_invalid_credentials</h3>
 <p>Fail, when the credentials in the keystore cannot login into My Oracle Support.</p>
-<h4 id="default-value-17">Default value</h4>
+<h4 id="default-value-18">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_keystore_fail_on_invalid_credentials: true
 </code></pre>
 <h3 id="autoupgrade_keystore_manage">autoupgrade_keystore_manage</h3>
 <p>Create/update the keystore with <code>mos_username</code> / <code>mos_password</code> in <code>download_patches.yml</code>.</p>
 <p><code>false</code>: The keystore must exist. It is not changed by the role.</p>
 <p>Requires the Python module <code>pexpect</code> on the host executing AutoUpgrade.</p>
-<h4 id="default-value-18">Default value</h4>
+<h4 id="default-value-19">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_keystore_manage: true
 </code></pre>
 <h3 id="autoupgrade_keystore_no_log">autoupgrade_keystore_no_log</h3>
 <p>Hide the output of tasks with passwords for the keystore console.
 Set to <code>false</code> for debugging only!</p>
-<h4 id="default-value-19">Default value</h4>
+<h4 id="default-value-20">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_keystore_no_log: true
 </code></pre>
 <h3 id="autoupgrade_keystore_password">autoupgrade_keystore_password</h3>
@@ -888,35 +922,35 @@ Set to <code>false</code> for debugging only!</p>
 When <code>mos_password</code> is changed, the keystore cannot be opened for changes anymore.
 The keystore is then removed and created again with the new credentials.
 The same happens, when <code>autoupgrade_keystore_password</code> is changed.</p>
-<h4 id="default-value-20">Default value</h4>
+<h4 id="default-value-21">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_keystore_password: ''
 </code></pre>
 <h3 id="autoupgrade_keystore_recreate">autoupgrade_keystore_recreate</h3>
 <p>Remove and create the keystore in each execution.</p>
-<h4 id="default-value-21">Default value</h4>
+<h4 id="default-value-22">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_keystore_recreate: false
 </code></pre>
 <h3 id="autoupgrade_keystore_timeout">autoupgrade_keystore_timeout</h3>
 <p>Timeout in seconds for each prompt of the keystore console.
 The console connects to My Oracle Support for checking the credentials.</p>
-<h4 id="default-value-22">Default value</h4>
+<h4 id="default-value-23">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_keystore_timeout: 300
 </code></pre>
 <h3 id="autoupgrade_local_home">autoupgrade_local_home</h3>
 <p>Directory for <code>autoupgrade.jar</code> and the generated AutoUpgrade config files
 on the Ansible controller (<code>autoupgrade_run_local: true</code>).</p>
-<h4 id="default-value-23">Default value</h4>
+<h4 id="default-value-24">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_local_home: &quot;{{ lookup('ansible.builtin.env', 'HOME') }}/autoupgrade&quot;
 </code></pre>
 <h3 id="autoupgrade_local_java_home">autoupgrade_local_java_home</h3>
 <p>JAVA_HOME used for AutoUpgrade on the Ansible controller (<code>autoupgrade_run_local: true</code>).
 <code>java</code> from <code>PATH</code> is used, when <code>autoupgrade_local_java_home</code> is empty.</p>
-<h4 id="default-value-24">Default value</h4>
+<h4 id="default-value-25">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_local_java_home: ''
 </code></pre>
 <h3 id="autoupgrade_log_dir">autoupgrade_log_dir</h3>
 <p>Value for <code>global.global_log_dir</code> in the AutoUpgrade config files.</p>
-<h4 id="default-value-25">Default value</h4>
+<h4 id="default-value-26">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_log_dir: &gt;-
   {{ _autoupgrade_run_local | bool
      | ternary(_autoupgrade_home + '/log', oracle_base + '/cfgtoollogs/autoupgrade') }}
@@ -930,19 +964,19 @@ Any HTTP response of the target counts as success.
 Errors are explained (e.g. proxy authentication failed, proxy not reachable, no route to the internet),
 before they lead to misleading errors of AutoUpgrade or of the keystore.</p>
 <p>The upgrade of PDBs does not need a connection to the internet and does not execute the check.</p>
-<h4 id="default-value-26">Default value</h4>
+<h4 id="default-value-27">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_proxy_check: true
 </code></pre>
 <h3 id="autoupgrade_proxy_check_timeout">autoupgrade_proxy_check_timeout</h3>
 <p>Timeout in seconds for each URL of the check of the connection.</p>
-<h4 id="default-value-27">Default value</h4>
+<h4 id="default-value-28">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_proxy_check_timeout: 30
 </code></pre>
 <h3 id="autoupgrade_proxy_check_urls">autoupgrade_proxy_check_urls</h3>
 <p>URLs for the check of the connection in <code>download_patches.yml</code>.
 These are the hosts used by AutoUpgrade 26 for the login into My Oracle Support and the download of patches.
 For <code>autoupgrade_download_latest</code> the host of <code>autoupgrade_jar_url</code> is checked.</p>
-<h4 id="default-value-28">Default value</h4>
+<h4 id="default-value-29">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_proxy_check_urls:
   - https://login-ext.identity.oraclecloud.com
   - https://transport.oracle.com
@@ -951,7 +985,7 @@ For <code>autoupgrade_download_latest</code> the host of <code>autoupgrade_jar_u
 </code></pre>
 <h3 id="autoupgrade_proxy_password">autoupgrade_proxy_password</h3>
 <p>Password for an HTTP proxy with authentication. See <code>autoupgrade_proxy_username</code>.</p>
-<h4 id="default-value-29">Default value</h4>
+<h4 id="default-value-30">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_proxy_password: ''
 </code></pre>
 <h3 id="autoupgrade_proxy_username">autoupgrade_proxy_username</h3>
@@ -965,7 +999,7 @@ Credentials in <code>http_proxy</code> / <code>https_proxy</code> are not change
 (keystore, download of patches). AutoUpgrade reads <code>https_proxy</code>.
 AutoUpgrade needs access to <code>updates.oracle.com</code>, <code>login-ext.identity.oraclecloud.com</code>
 and <code>aru-akam.oracle.com</code>.</p>
-<h4 id="default-value-30">Default value</h4>
+<h4 id="default-value-31">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_proxy_username: ''
 </code></pre>
 <h4 id="example-usage-5">Example usage</h4>
@@ -990,7 +1024,7 @@ These variables must be the same for all hosts in the play - e.g. defined in <co
 for the whole environment.
 When they are defined per host, limit the playbook to one host (<code>--limit &lt;host&gt;</code>)
 or execute it for each host.</p>
-<h4 id="default-value-31">Default value</h4>
+<h4 id="default-value-32">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_run_local: true
 </code></pre>
 <h3 id="autoupgrade_upgrade_clear_recovery_data">autoupgrade_upgrade_clear_recovery_data</h3>
@@ -1021,20 +1055,20 @@ The role handles it automatically:</p>
 </table>
 <p><code>true</code>: the recovery data is discarded in any case, e.g. after a manual restore of the PDBs.
 An unfinished deploy cannot be resumed anymore!</p>
-<h4 id="default-value-32">Default value</h4>
+<h4 id="default-value-33">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_upgrade_clear_recovery_data: false
 </code></pre>
 <h3 id="autoupgrade_upgrade_fail_on_precheck_errors">autoupgrade_upgrade_fail_on_precheck_errors</h3>
 <p>Fail the analyze phase and the fixups phase, when AutoUpgrade reports checks with severity <code>ERROR</code>,
 which cannot be fixed automatically by AutoUpgrade (no fixup available or <code>runfix</code> is <code>NO</code>).</p>
 <p>The deploy phase is never started, when these checks fail.</p>
-<h4 id="default-value-33">Default value</h4>
+<h4 id="default-value-34">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_upgrade_fail_on_precheck_errors: true
 </code></pre>
 <h3 id="autoupgrade_upgrade_global_parameters">autoupgrade_upgrade_global_parameters</h3>
 <p>Additional global parameters for the upgrade config files (<code>global.&lt;key&gt;=&lt;value&gt;</code>).
 <code>global_log_dir</code> is set by the role.</p>
-<h4 id="default-value-34">Default value</h4>
+<h4 id="default-value-35">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_upgrade_global_parameters: {}
 </code></pre>
 <h4 id="example-usage-6">Example usage</h4>
@@ -1045,7 +1079,7 @@ which cannot be fixed automatically by AutoUpgrade (no fixup available or <code>
 <p>Default AutoUpgrade parameters for all AutoUpgrade jobs (<code>upg1.&lt;key&gt;=&lt;value&gt;</code>).
 Can be overwritten with <code>autoupgrade.parameters</code> in <code>oracle_pdbs</code>.</p>
 <p>Values are written unchanged. Booleans are converted into <code>yes</code>/<code>no</code>.</p>
-<h4 id="default-value-35">Default value</h4>
+<h4 id="default-value-36">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_upgrade_parameters: {}
 </code></pre>
 <h4 id="example-usage-7">Example usage</h4>
@@ -1104,7 +1138,7 @@ The source is defined with the attribute <code>autoupgrade</code> of the PDB:</p
 are set by the role and must not be used in <code>parameters</code>.</p>
 <p><em>Important</em>: Do not execute playbook <code>manage_db</code> between the change of <code>oracle_pdbs</code>
 and the upgrade. <code>oradb_manage_pdb</code> would create a new, empty PDB in the target CDB.</p>
-<h4 id="default-value-36">Default value</h4>
+<h4 id="default-value-37">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_upgrade_pdbs: []
 </code></pre>
 <h4 id="example-usage-8">Example usage</h4>
@@ -1124,7 +1158,7 @@ oracle_pdbs:
 </code></pre>
 <h3 id="autoupgrade_upgrade_poll">autoupgrade_upgrade_poll</h3>
 <p>Poll interval in seconds for AutoUpgrade in deploy mode.</p>
-<h4 id="default-value-37">Default value</h4>
+<h4 id="default-value-38">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_upgrade_poll: 60
 </code></pre>
 <h3 id="autoupgrade_upgrade_restoration">autoupgrade_upgrade_restoration</h3>
@@ -1134,12 +1168,12 @@ Can be overwritten with <code>autoupgrade.restoration</code> in <code>oracle_pdb
 (<code>upg1.restoration=no</code>). There is no automatic fallback - take a backup before the upgrade!</p>
 <p><code>true</code>: AutoUpgrade creates a Guaranteed Restore Point before the upgrade (<code>upg1.restoration=yes</code>).
 Requires a Fast Recovery Area and Enterprise Edition.</p>
-<h4 id="default-value-38">Default value</h4>
+<h4 id="default-value-39">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_upgrade_restoration: false
 </code></pre>
 <h3 id="autoupgrade_upgrade_timeout">autoupgrade_upgrade_timeout</h3>
 <p>Maximum runtime in seconds for AutoUpgrade in deploy mode per AutoUpgrade job (<code>async</code>).</p>
-<h4 id="default-value-39">Default value</h4>
+<h4 id="default-value-40">Default value</h4>
 <pre><code class="language-YAML">autoupgrade_upgrade_timeout: 21600
 </code></pre>
 <h2 id="discovered-tags">Discovered Tags</h2>
@@ -1156,7 +1190,7 @@ Requires a Fast Recovery Area and Enterprise Edition.</p>
 <p>[Thorsten Bruhns]</p>
 
 	<div class="td-page-meta__lastmod">
-  Last modified October 30, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/2bffd9a3b3f3ab736a0fbfd4b040838e4e026136">ansible-core 2.16 is the new minimal version of ansible-oracle (requires_ansible in meta/runtime.yml, min_ansible_version of all roles) (2bffd9a3)</a>
+  Last modified October 31, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/a850c368703ae34e70f5fa662b70a6aeb1fec78c">autoupgrade: autoupgrade_download_gold_image_latest creates a symlink to the latest renamed Gold Image of each release (e.g. db_home_26_latest.zip -&gt; db_home_26.04.zip). The symlink is changed only, when a newer Gold Image exists (a850c368)</a>
 </div>
 
 </div>

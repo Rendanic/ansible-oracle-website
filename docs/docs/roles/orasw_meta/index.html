@@ -23,7 +23,7 @@ The description for variables is work in progress.!
 Meta role used by other roles to share variable defaults.
 This role has a dependency to orahost_meta.
 There are a lot of variables who are used by orasw_meta
-Table of contents Requirements Default Variables _www_download_bin apply_patches_db autostartup_service db_homes_config db_homes_installed dbenvdir dbpasswords default_dbpass deploy_ocenv disable_ee_options get_url_ssl_client_cert get_url_ssl_client_key grid_base hostgroup http_proxy https_proxy install_from_nfs is_sw_source_local listener_port nfs_server_sw nfs_server_sw_path no_proxy ocenv_bashrc_init ocenv_bashrc_init_section opatch_conflict_check oracle_all_editions_options_state oracle_asm_disk_string oracle_base oracle_databases oracle_dbf_dir_asm oracle_dbf_dir_fs oracle_ee_options_112 oracle_ee_options_121 oracle_ee_options_122 oracle_ee_options_183 oracle_ee_options_193 oracle_ee_options_213 oracle_ee_options_261 oracle_home_gi_cl oracle_home_gi_so oracle_hostname oracle_install_option_gi oracle_install_version_gi oracle_opatch_patch oracle_pdbs oracle_profile_template oracle_reco_dir_asm oracle_reco_dir_fs oracle_stage_remote oracle_sw_patches oracle_sw_source_local oracle_sw_source_www orasw_meta_assert_oracle_databases orasw_meta_cluster_hostgroup orasw_meta_forced_lang proxy_env set_oracle_all_editions_options_state shell_aliases shell_ps1 use_proxy Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables _www_download_bin The variable will be removed soon. The download will be changed to get_url to simplify the code.">
+Table of contents Requirements Default Variables _www_download_bin apply_patches_db assert_db_homes_config autostartup_service autostartup_service_adopt_interval autostartup_service_dependency autostartup_service_mode autostartup_service_restart autostartup_service_restart_sec autostartup_service_shutdown_mode autostartup_service_start_timeout autostartup_service_stop_timeout db_homes_config db_homes_installed dbenvdir dbpasswords default_dbpass deploy_ocenv disable_ee_options get_url_ssl_client_cert get_url_ssl_client_key grid_base hostgroup http_proxy https_proxy install_from_nfs is_sw_source_local listener_port nfs_server_sw nfs_server_sw_path no_proxy ocenv_bashrc_init ocenv_bashrc_init_section opatch_conflict_check oracle_all_editions_options_state oracle_asm_disk_string oracle_base oracle_databases oracle_dbf_dir_asm oracle_dbf_dir_fs oracle_ee_options_112 oracle_ee_options_121 oracle_ee_options_122 oracle_ee_options_183 oracle_ee_options_193 oracle_ee_options_213 oracle_ee_options_261 oracle_home_gi_cl oracle_home_gi_so oracle_hostname oracle_install_option_gi oracle_install_version_gi oracle_opatch_patch oracle_pdbs oracle_profile_template oracle_reco_dir_asm oracle_reco_dir_fs oracle_stage_remote oracle_sw_patches oracle_sw_source_local oracle_sw_source_www orasw_meta_assert_oracle_databases orasw_meta_cluster_hostgroup orasw_meta_forced_lang proxy_env set_oracle_all_editions_options_state shell_aliases shell_ps1 ulimit_systemd_mapping use_proxy Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables _www_download_bin The variable will be removed soon. The download will be changed to get_url to simplify the code.">
 <meta property="og:url" content="https://www.ansible-oracle.eu/docs/roles/orasw_meta/">
 	<meta property="og:site_name" content="ansible-oracle Project">
 	<meta property="og:title" content="orasw_meta">
@@ -32,12 +32,12 @@ The description for variables is work in progress.!
 Meta role used by other roles to share variable defaults.
 This role has a dependency to orahost_meta.
 There are a lot of variables who are used by orasw_meta
-Table of contents Requirements Default Variables _www_download_bin apply_patches_db autostartup_service db_homes_config db_homes_installed dbenvdir dbpasswords default_dbpass deploy_ocenv disable_ee_options get_url_ssl_client_cert get_url_ssl_client_key grid_base hostgroup http_proxy https_proxy install_from_nfs is_sw_source_local listener_port nfs_server_sw nfs_server_sw_path no_proxy ocenv_bashrc_init ocenv_bashrc_init_section opatch_conflict_check oracle_all_editions_options_state oracle_asm_disk_string oracle_base oracle_databases oracle_dbf_dir_asm oracle_dbf_dir_fs oracle_ee_options_112 oracle_ee_options_121 oracle_ee_options_122 oracle_ee_options_183 oracle_ee_options_193 oracle_ee_options_213 oracle_ee_options_261 oracle_home_gi_cl oracle_home_gi_so oracle_hostname oracle_install_option_gi oracle_install_version_gi oracle_opatch_patch oracle_pdbs oracle_profile_template oracle_reco_dir_asm oracle_reco_dir_fs oracle_stage_remote oracle_sw_patches oracle_sw_source_local oracle_sw_source_www orasw_meta_assert_oracle_databases orasw_meta_cluster_hostgroup orasw_meta_forced_lang proxy_env set_oracle_all_editions_options_state shell_aliases shell_ps1 use_proxy Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables _www_download_bin The variable will be removed soon. The download will be changed to get_url to simplify the code.">
+Table of contents Requirements Default Variables _www_download_bin apply_patches_db assert_db_homes_config autostartup_service autostartup_service_adopt_interval autostartup_service_dependency autostartup_service_mode autostartup_service_restart autostartup_service_restart_sec autostartup_service_shutdown_mode autostartup_service_start_timeout autostartup_service_stop_timeout db_homes_config db_homes_installed dbenvdir dbpasswords default_dbpass deploy_ocenv disable_ee_options get_url_ssl_client_cert get_url_ssl_client_key grid_base hostgroup http_proxy https_proxy install_from_nfs is_sw_source_local listener_port nfs_server_sw nfs_server_sw_path no_proxy ocenv_bashrc_init ocenv_bashrc_init_section opatch_conflict_check oracle_all_editions_options_state oracle_asm_disk_string oracle_base oracle_databases oracle_dbf_dir_asm oracle_dbf_dir_fs oracle_ee_options_112 oracle_ee_options_121 oracle_ee_options_122 oracle_ee_options_183 oracle_ee_options_193 oracle_ee_options_213 oracle_ee_options_261 oracle_home_gi_cl oracle_home_gi_so oracle_hostname oracle_install_option_gi oracle_install_version_gi oracle_opatch_patch oracle_pdbs oracle_profile_template oracle_reco_dir_asm oracle_reco_dir_fs oracle_stage_remote oracle_sw_patches oracle_sw_source_local oracle_sw_source_www orasw_meta_assert_oracle_databases orasw_meta_cluster_hostgroup orasw_meta_forced_lang proxy_env set_oracle_all_editions_options_state shell_aliases shell_ps1 ulimit_systemd_mapping use_proxy Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables _www_download_bin The variable will be removed soon. The download will be changed to get_url to simplify the code.">
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-10-30T22:59:56+01:00">
-		<meta property="article:modified_time" content="2026-10-30T22:59:56+01:00">
+		<meta property="article:published_time" content="2026-11-05T08:34:55+01:00">
+		<meta property="article:modified_time" content="2026-11-05T08:34:55+01:00">
 
 	<meta itemprop="name" content="orasw_meta">
 	<meta itemprop="description" content="Important
@@ -45,10 +45,10 @@ The description for variables is work in progress.!
 Meta role used by other roles to share variable defaults.
 This role has a dependency to orahost_meta.
 There are a lot of variables who are used by orasw_meta
-Table of contents Requirements Default Variables _www_download_bin apply_patches_db autostartup_service db_homes_config db_homes_installed dbenvdir dbpasswords default_dbpass deploy_ocenv disable_ee_options get_url_ssl_client_cert get_url_ssl_client_key grid_base hostgroup http_proxy https_proxy install_from_nfs is_sw_source_local listener_port nfs_server_sw nfs_server_sw_path no_proxy ocenv_bashrc_init ocenv_bashrc_init_section opatch_conflict_check oracle_all_editions_options_state oracle_asm_disk_string oracle_base oracle_databases oracle_dbf_dir_asm oracle_dbf_dir_fs oracle_ee_options_112 oracle_ee_options_121 oracle_ee_options_122 oracle_ee_options_183 oracle_ee_options_193 oracle_ee_options_213 oracle_ee_options_261 oracle_home_gi_cl oracle_home_gi_so oracle_hostname oracle_install_option_gi oracle_install_version_gi oracle_opatch_patch oracle_pdbs oracle_profile_template oracle_reco_dir_asm oracle_reco_dir_fs oracle_stage_remote oracle_sw_patches oracle_sw_source_local oracle_sw_source_www orasw_meta_assert_oracle_databases orasw_meta_cluster_hostgroup orasw_meta_forced_lang proxy_env set_oracle_all_editions_options_state shell_aliases shell_ps1 use_proxy Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables _www_download_bin The variable will be removed soon. The download will be changed to get_url to simplify the code.">
-	<meta itemprop="datePublished" content="2026-10-30T22:59:56+01:00">
-	<meta itemprop="dateModified" content="2026-10-30T22:59:56+01:00">
-	<meta itemprop="wordCount" content="2662">
+Table of contents Requirements Default Variables _www_download_bin apply_patches_db assert_db_homes_config autostartup_service autostartup_service_adopt_interval autostartup_service_dependency autostartup_service_mode autostartup_service_restart autostartup_service_restart_sec autostartup_service_shutdown_mode autostartup_service_start_timeout autostartup_service_stop_timeout db_homes_config db_homes_installed dbenvdir dbpasswords default_dbpass deploy_ocenv disable_ee_options get_url_ssl_client_cert get_url_ssl_client_key grid_base hostgroup http_proxy https_proxy install_from_nfs is_sw_source_local listener_port nfs_server_sw nfs_server_sw_path no_proxy ocenv_bashrc_init ocenv_bashrc_init_section opatch_conflict_check oracle_all_editions_options_state oracle_asm_disk_string oracle_base oracle_databases oracle_dbf_dir_asm oracle_dbf_dir_fs oracle_ee_options_112 oracle_ee_options_121 oracle_ee_options_122 oracle_ee_options_183 oracle_ee_options_193 oracle_ee_options_213 oracle_ee_options_261 oracle_home_gi_cl oracle_home_gi_so oracle_hostname oracle_install_option_gi oracle_install_version_gi oracle_opatch_patch oracle_pdbs oracle_profile_template oracle_reco_dir_asm oracle_reco_dir_fs oracle_stage_remote oracle_sw_patches oracle_sw_source_local oracle_sw_source_www orasw_meta_assert_oracle_databases orasw_meta_cluster_hostgroup orasw_meta_forced_lang proxy_env set_oracle_all_editions_options_state shell_aliases shell_ps1 ulimit_systemd_mapping use_proxy Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables _www_download_bin The variable will be removed soon. The download will be changed to get_url to simplify the code.">
+	<meta itemprop="datePublished" content="2026-11-05T08:34:55+01:00">
+	<meta itemprop="dateModified" content="2026-11-05T08:34:55+01:00">
+	<meta itemprop="wordCount" content="3215">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="orasw_meta">
 	<meta name="twitter:description" content="Important
@@ -56,7 +56,7 @@ The description for variables is work in progress.!
 Meta role used by other roles to share variable defaults.
 This role has a dependency to orahost_meta.
 There are a lot of variables who are used by orasw_meta
-Table of contents Requirements Default Variables _www_download_bin apply_patches_db autostartup_service db_homes_config db_homes_installed dbenvdir dbpasswords default_dbpass deploy_ocenv disable_ee_options get_url_ssl_client_cert get_url_ssl_client_key grid_base hostgroup http_proxy https_proxy install_from_nfs is_sw_source_local listener_port nfs_server_sw nfs_server_sw_path no_proxy ocenv_bashrc_init ocenv_bashrc_init_section opatch_conflict_check oracle_all_editions_options_state oracle_asm_disk_string oracle_base oracle_databases oracle_dbf_dir_asm oracle_dbf_dir_fs oracle_ee_options_112 oracle_ee_options_121 oracle_ee_options_122 oracle_ee_options_183 oracle_ee_options_193 oracle_ee_options_213 oracle_ee_options_261 oracle_home_gi_cl oracle_home_gi_so oracle_hostname oracle_install_option_gi oracle_install_version_gi oracle_opatch_patch oracle_pdbs oracle_profile_template oracle_reco_dir_asm oracle_reco_dir_fs oracle_stage_remote oracle_sw_patches oracle_sw_source_local oracle_sw_source_www orasw_meta_assert_oracle_databases orasw_meta_cluster_hostgroup orasw_meta_forced_lang proxy_env set_oracle_all_editions_options_state shell_aliases shell_ps1 use_proxy Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables _www_download_bin The variable will be removed soon. The download will be changed to get_url to simplify the code.">
+Table of contents Requirements Default Variables _www_download_bin apply_patches_db assert_db_homes_config autostartup_service autostartup_service_adopt_interval autostartup_service_dependency autostartup_service_mode autostartup_service_restart autostartup_service_restart_sec autostartup_service_shutdown_mode autostartup_service_start_timeout autostartup_service_stop_timeout db_homes_config db_homes_installed dbenvdir dbpasswords default_dbpass deploy_ocenv disable_ee_options get_url_ssl_client_cert get_url_ssl_client_key grid_base hostgroup http_proxy https_proxy install_from_nfs is_sw_source_local listener_port nfs_server_sw nfs_server_sw_path no_proxy ocenv_bashrc_init ocenv_bashrc_init_section opatch_conflict_check oracle_all_editions_options_state oracle_asm_disk_string oracle_base oracle_databases oracle_dbf_dir_asm oracle_dbf_dir_fs oracle_ee_options_112 oracle_ee_options_121 oracle_ee_options_122 oracle_ee_options_183 oracle_ee_options_193 oracle_ee_options_213 oracle_ee_options_261 oracle_home_gi_cl oracle_home_gi_so oracle_hostname oracle_install_option_gi oracle_install_version_gi oracle_opatch_patch oracle_pdbs oracle_profile_template oracle_reco_dir_asm oracle_reco_dir_fs oracle_stage_remote oracle_sw_patches oracle_sw_source_local oracle_sw_source_www orasw_meta_assert_oracle_databases orasw_meta_cluster_hostgroup orasw_meta_forced_lang proxy_env set_oracle_all_editions_options_state shell_aliases shell_ps1 ulimit_systemd_mapping use_proxy Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables _www_download_bin The variable will be removed soon. The download will be changed to get_url to simplify the code.">
 
 
 
@@ -165,12 +165,24 @@ Table of contents Requirements Default Variables _www_download_bin apply_patches
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
   <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesorasw_meta-li">
+  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="td-sidebar-nav-active-item">orasw_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
+  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolespyoracledb-li">
+  <a href="/docs/roles/pyoracledb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolespyoracledb"><span class="">pyoracledb</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
+  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesautoupgrade-li">
   <a href="/docs/roles/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesautoupgrade"><span class="">autoupgrade</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
   <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescxoracle-li">
-  <a href="/docs/roles/cxoracle/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescxoracle"><span class="">cxoracle</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesglobal_handlers-li">
   <a href="/docs/roles/global_handlers/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesglobal_handlers"><span class="">global_handlers</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraapex-li">
@@ -183,8 +195,6 @@ Table of contents Requirements Default Variables _www_download_bin apply_patches
   <a href="/docs/roles/oradb_datapatch/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_datapatch"><span class="">oradb_datapatch</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_facts-li">
   <a href="/docs/roles/oradb_facts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_facts"><span class="">oradb_facts</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
-  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_grants-li">
   <a href="/docs/roles/oradb_manage_grants/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_grants"><span class="">oradb_manage_grants</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_parameters-li">
@@ -211,14 +221,10 @@ Table of contents Requirements Default Variables _www_download_bin apply_patches
   <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_tzupgrade-li">
   <a href="/docs/roles/oradb_tzupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_tzupgrade"><span class="">oradb_tzupgrade</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
-  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_cron-li">
   <a href="/docs/roles/orahost_cron/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_cron"><span class="">orahost_cron</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_logrotate-li">
   <a href="/docs/roles/orahost_logrotate/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_logrotate"><span class="">orahost_logrotate</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
-  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_ssh-li">
   <a href="/docs/roles/orahost_ssh/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_ssh"><span class="">orahost_ssh</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_storage-li">
@@ -227,22 +233,16 @@ Table of contents Requirements Default Variables _www_download_bin apply_patches
   <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
   <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesorasw_meta-li">
-  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="td-sidebar-nav-active-item">orasw_meta</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
   <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswahf_install-li">
   <a href="/docs/roles/oraswahf_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswahf_install"><span class="">oraswahf_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_golden_image-li">
   <a href="/docs/roles/oraswdb_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_golden_image"><span class="">oraswdb_golden_image</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
-  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
   <a href="/docs/roles/oraswdb_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_manage_patches"><span class="">oraswdb_manage_patches</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_golden_image-li">
   <a href="/docs/roles/oraswgi_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_golden_image"><span class="">oraswgi_golden_image</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
-  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_manage_patches-li">
   <a href="/docs/roles/oraswgi_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_manage_patches"><span class="">oraswgi_manage_patches</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_meta-li">
@@ -294,300 +294,351 @@ Table of contents Requirements Default Variables _www_download_bin apply_patches
             <li><a href="#default-value-1">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#autostartup_service">autostartup_service</a>
+        <li><a href="#assert_db_homes_config">assert_db_homes_config</a>
           <ul>
             <li><a href="#default-value-2">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#db_homes_config">db_homes_config</a>
-          <ul>
-            <li><a href="#example-usage">Example usage</a></li>
-          </ul>
-        </li>
-        <li><a href="#db_homes_installed">db_homes_installed</a>
-          <ul>
-            <li><a href="#example-usage-1">Example usage</a></li>
-          </ul>
-        </li>
-        <li><a href="#dbenvdir">dbenvdir</a>
+        <li><a href="#autostartup_service">autostartup_service</a>
           <ul>
             <li><a href="#default-value-3">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#dbpasswords">dbpasswords</a>
+        <li><a href="#autostartup_service_adopt_interval">autostartup_service_adopt_interval</a>
           <ul>
             <li><a href="#default-value-4">Default value</a></li>
-            <li><a href="#example-usage-2">Example usage</a></li>
           </ul>
         </li>
-        <li><a href="#default_dbpass">default_dbpass</a>
+        <li><a href="#autostartup_service_dependency">autostartup_service_dependency</a>
           <ul>
             <li><a href="#default-value-5">Default value</a></li>
-            <li><a href="#example-usage-3">Example usage</a></li>
           </ul>
         </li>
-        <li><a href="#deploy_ocenv">deploy_ocenv</a>
+        <li><a href="#autostartup_service_mode">autostartup_service_mode</a>
           <ul>
             <li><a href="#default-value-6">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#disable_ee_options">disable_ee_options</a>
+        <li><a href="#autostartup_service_restart">autostartup_service_restart</a>
           <ul>
             <li><a href="#default-value-7">Default value</a></li>
-            <li><a href="#example-usage-4">Example usage</a></li>
+            <li><a href="#example-usage">Example usage</a></li>
           </ul>
         </li>
-        <li><a href="#get_url_ssl_client_cert">get_url_ssl_client_cert</a>
-          <ul>
-            <li><a href="#example-usage-5">Example usage</a></li>
-          </ul>
-        </li>
-        <li><a href="#get_url_ssl_client_key">get_url_ssl_client_key</a>
-          <ul>
-            <li><a href="#example-usage-6">Example usage</a></li>
-          </ul>
-        </li>
-        <li><a href="#grid_base">grid_base</a>
+        <li><a href="#autostartup_service_restart_sec">autostartup_service_restart_sec</a>
           <ul>
             <li><a href="#default-value-8">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#hostgroup">hostgroup</a>
+        <li><a href="#autostartup_service_shutdown_mode">autostartup_service_shutdown_mode</a>
           <ul>
             <li><a href="#default-value-9">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#http_proxy">http_proxy</a>
+        <li><a href="#autostartup_service_start_timeout">autostartup_service_start_timeout</a>
           <ul>
             <li><a href="#default-value-10">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#https_proxy">https_proxy</a>
+        <li><a href="#autostartup_service_stop_timeout">autostartup_service_stop_timeout</a>
           <ul>
             <li><a href="#default-value-11">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#install_from_nfs">install_from_nfs</a>
+        <li><a href="#db_homes_config">db_homes_config</a>
+          <ul>
+            <li><a href="#example-usage-1">Example usage</a></li>
+          </ul>
+        </li>
+        <li><a href="#db_homes_installed">db_homes_installed</a>
+          <ul>
+            <li><a href="#example-usage-2">Example usage</a></li>
+          </ul>
+        </li>
+        <li><a href="#dbenvdir">dbenvdir</a>
           <ul>
             <li><a href="#default-value-12">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#is_sw_source_local">is_sw_source_local</a>
+        <li><a href="#dbpasswords">dbpasswords</a>
           <ul>
             <li><a href="#default-value-13">Default value</a></li>
+            <li><a href="#example-usage-3">Example usage</a></li>
           </ul>
         </li>
-        <li><a href="#listener_port">listener_port</a>
+        <li><a href="#default_dbpass">default_dbpass</a>
           <ul>
             <li><a href="#default-value-14">Default value</a></li>
+            <li><a href="#example-usage-4">Example usage</a></li>
           </ul>
         </li>
-        <li><a href="#nfs_server_sw">nfs_server_sw</a>
-          <ul>
-            <li><a href="#example-usage-7">Example usage</a></li>
-          </ul>
-        </li>
-        <li><a href="#nfs_server_sw_path">nfs_server_sw_path</a>
-          <ul>
-            <li><a href="#example-usage-8">Example usage</a></li>
-          </ul>
-        </li>
-        <li><a href="#no_proxy">no_proxy</a>
+        <li><a href="#deploy_ocenv">deploy_ocenv</a>
           <ul>
             <li><a href="#default-value-15">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#ocenv_bashrc_init">ocenv_bashrc_init</a>
+        <li><a href="#disable_ee_options">disable_ee_options</a>
           <ul>
             <li><a href="#default-value-16">Default value</a></li>
+            <li><a href="#example-usage-5">Example usage</a></li>
           </ul>
         </li>
-        <li><a href="#ocenv_bashrc_init_section">ocenv_bashrc_init_section</a>
+        <li><a href="#get_url_ssl_client_cert">get_url_ssl_client_cert</a>
+          <ul>
+            <li><a href="#example-usage-6">Example usage</a></li>
+          </ul>
+        </li>
+        <li><a href="#get_url_ssl_client_key">get_url_ssl_client_key</a>
+          <ul>
+            <li><a href="#example-usage-7">Example usage</a></li>
+          </ul>
+        </li>
+        <li><a href="#grid_base">grid_base</a>
           <ul>
             <li><a href="#default-value-17">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#opatch_conflict_check">opatch_conflict_check</a>
+        <li><a href="#hostgroup">hostgroup</a>
           <ul>
             <li><a href="#default-value-18">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_all_editions_options_state">oracle_all_editions_options_state</a>
+        <li><a href="#http_proxy">http_proxy</a>
           <ul>
             <li><a href="#default-value-19">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_asm_disk_string">oracle_asm_disk_string</a>
+        <li><a href="#https_proxy">https_proxy</a>
           <ul>
             <li><a href="#default-value-20">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_base">oracle_base</a>
+        <li><a href="#install_from_nfs">install_from_nfs</a>
           <ul>
             <li><a href="#default-value-21">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_databases">oracle_databases</a>
-          <ul>
-            <li><a href="#example-usage-9">Example usage</a></li>
-          </ul>
-        </li>
-        <li><a href="#oracle_dbf_dir_asm">oracle_dbf_dir_asm</a>
+        <li><a href="#is_sw_source_local">is_sw_source_local</a>
           <ul>
             <li><a href="#default-value-22">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_dbf_dir_fs">oracle_dbf_dir_fs</a>
+        <li><a href="#listener_port">listener_port</a>
           <ul>
             <li><a href="#default-value-23">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_ee_options_112">oracle_ee_options_112</a>
+        <li><a href="#nfs_server_sw">nfs_server_sw</a>
+          <ul>
+            <li><a href="#example-usage-8">Example usage</a></li>
+          </ul>
+        </li>
+        <li><a href="#nfs_server_sw_path">nfs_server_sw_path</a>
+          <ul>
+            <li><a href="#example-usage-9">Example usage</a></li>
+          </ul>
+        </li>
+        <li><a href="#no_proxy">no_proxy</a>
           <ul>
             <li><a href="#default-value-24">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_ee_options_121">oracle_ee_options_121</a>
+        <li><a href="#ocenv_bashrc_init">ocenv_bashrc_init</a>
           <ul>
             <li><a href="#default-value-25">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_ee_options_122">oracle_ee_options_122</a>
+        <li><a href="#ocenv_bashrc_init_section">ocenv_bashrc_init_section</a>
           <ul>
             <li><a href="#default-value-26">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_ee_options_183">oracle_ee_options_183</a>
+        <li><a href="#opatch_conflict_check">opatch_conflict_check</a>
           <ul>
             <li><a href="#default-value-27">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_ee_options_193">oracle_ee_options_193</a>
+        <li><a href="#oracle_all_editions_options_state">oracle_all_editions_options_state</a>
           <ul>
             <li><a href="#default-value-28">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_ee_options_213">oracle_ee_options_213</a>
+        <li><a href="#oracle_asm_disk_string">oracle_asm_disk_string</a>
           <ul>
             <li><a href="#default-value-29">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_ee_options_261">oracle_ee_options_261</a>
+        <li><a href="#oracle_base">oracle_base</a>
           <ul>
             <li><a href="#default-value-30">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_home_gi_cl">oracle_home_gi_cl</a>
+        <li><a href="#oracle_databases">oracle_databases</a>
+          <ul>
+            <li><a href="#example-usage-10">Example usage</a></li>
+          </ul>
+        </li>
+        <li><a href="#oracle_dbf_dir_asm">oracle_dbf_dir_asm</a>
           <ul>
             <li><a href="#default-value-31">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_home_gi_so">oracle_home_gi_so</a>
+        <li><a href="#oracle_dbf_dir_fs">oracle_dbf_dir_fs</a>
           <ul>
             <li><a href="#default-value-32">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_hostname">oracle_hostname</a>
+        <li><a href="#oracle_ee_options_112">oracle_ee_options_112</a>
           <ul>
             <li><a href="#default-value-33">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_install_option_gi">oracle_install_option_gi</a>
+        <li><a href="#oracle_ee_options_121">oracle_ee_options_121</a>
           <ul>
             <li><a href="#default-value-34">Default value</a></li>
-            <li><a href="#example-usage-10">Example usage</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_install_version_gi">oracle_install_version_gi</a>
+        <li><a href="#oracle_ee_options_122">oracle_ee_options_122</a>
           <ul>
             <li><a href="#default-value-35">Default value</a></li>
-            <li><a href="#example-usage-11">Example usage</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_opatch_patch">oracle_opatch_patch</a>
+        <li><a href="#oracle_ee_options_183">oracle_ee_options_183</a>
           <ul>
             <li><a href="#default-value-36">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_pdbs">oracle_pdbs</a>
-          <ul>
-            <li><a href="#example-usage-12">Example usage</a></li>
-          </ul>
-        </li>
-        <li><a href="#oracle_profile_template">oracle_profile_template</a>
+        <li><a href="#oracle_ee_options_193">oracle_ee_options_193</a>
           <ul>
             <li><a href="#default-value-37">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_reco_dir_asm">oracle_reco_dir_asm</a>
+        <li><a href="#oracle_ee_options_213">oracle_ee_options_213</a>
           <ul>
             <li><a href="#default-value-38">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_reco_dir_fs">oracle_reco_dir_fs</a>
+        <li><a href="#oracle_ee_options_261">oracle_ee_options_261</a>
           <ul>
             <li><a href="#default-value-39">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_stage_remote">oracle_stage_remote</a>
+        <li><a href="#oracle_home_gi_cl">oracle_home_gi_cl</a>
           <ul>
             <li><a href="#default-value-40">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_sw_patches">oracle_sw_patches</a>
+        <li><a href="#oracle_home_gi_so">oracle_home_gi_so</a>
           <ul>
             <li><a href="#default-value-41">Default value</a></li>
-            <li><a href="#example-usage-13">Example usage</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_sw_source_local">oracle_sw_source_local</a>
+        <li><a href="#oracle_hostname">oracle_hostname</a>
           <ul>
             <li><a href="#default-value-42">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_sw_source_www">oracle_sw_source_www</a>
+        <li><a href="#oracle_install_option_gi">oracle_install_option_gi</a>
           <ul>
             <li><a href="#default-value-43">Default value</a></li>
+            <li><a href="#example-usage-11">Example usage</a></li>
           </ul>
         </li>
-        <li><a href="#orasw_meta_assert_oracle_databases">orasw_meta_assert_oracle_databases</a>
+        <li><a href="#oracle_install_version_gi">oracle_install_version_gi</a>
           <ul>
             <li><a href="#default-value-44">Default value</a></li>
+            <li><a href="#example-usage-12">Example usage</a></li>
           </ul>
         </li>
-        <li><a href="#orasw_meta_cluster_hostgroup">orasw_meta_cluster_hostgroup</a>
+        <li><a href="#oracle_opatch_patch">oracle_opatch_patch</a>
           <ul>
             <li><a href="#default-value-45">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#orasw_meta_forced_lang">orasw_meta_forced_lang</a>
+        <li><a href="#oracle_pdbs">oracle_pdbs</a>
+          <ul>
+            <li><a href="#example-usage-13">Example usage</a></li>
+          </ul>
+        </li>
+        <li><a href="#oracle_profile_template">oracle_profile_template</a>
           <ul>
             <li><a href="#default-value-46">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#proxy_env">proxy_env</a>
+        <li><a href="#oracle_reco_dir_asm">oracle_reco_dir_asm</a>
           <ul>
             <li><a href="#default-value-47">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#set_oracle_all_editions_options_state">set_oracle_all_editions_options_state</a>
+        <li><a href="#oracle_reco_dir_fs">oracle_reco_dir_fs</a>
           <ul>
             <li><a href="#default-value-48">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#shell_aliases">shell_aliases</a>
+        <li><a href="#oracle_stage_remote">oracle_stage_remote</a>
           <ul>
             <li><a href="#default-value-49">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#shell_ps1">shell_ps1</a>
+        <li><a href="#oracle_sw_patches">oracle_sw_patches</a>
           <ul>
             <li><a href="#default-value-50">Default value</a></li>
+            <li><a href="#example-usage-14">Example usage</a></li>
+          </ul>
+        </li>
+        <li><a href="#oracle_sw_source_local">oracle_sw_source_local</a>
+          <ul>
+            <li><a href="#default-value-51">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#oracle_sw_source_www">oracle_sw_source_www</a>
+          <ul>
+            <li><a href="#default-value-52">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#orasw_meta_assert_oracle_databases">orasw_meta_assert_oracle_databases</a>
+          <ul>
+            <li><a href="#default-value-53">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#orasw_meta_cluster_hostgroup">orasw_meta_cluster_hostgroup</a>
+          <ul>
+            <li><a href="#default-value-54">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#orasw_meta_forced_lang">orasw_meta_forced_lang</a>
+          <ul>
+            <li><a href="#default-value-55">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#proxy_env">proxy_env</a>
+          <ul>
+            <li><a href="#default-value-56">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#set_oracle_all_editions_options_state">set_oracle_all_editions_options_state</a>
+          <ul>
+            <li><a href="#default-value-57">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#shell_aliases">shell_aliases</a>
+          <ul>
+            <li><a href="#default-value-58">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#shell_ps1">shell_ps1</a>
+          <ul>
+            <li><a href="#default-value-59">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ulimit_systemd_mapping">ulimit_systemd_mapping</a>
+          <ul>
+            <li><a href="#default-value-60">Default value</a></li>
           </ul>
         </li>
         <li><a href="#use_proxy">use_proxy</a>
           <ul>
-            <li><a href="#default-value-51">Default value</a></li>
+            <li><a href="#default-value-61">Default value</a></li>
           </ul>
         </li>
       </ul>
@@ -637,7 +688,16 @@ Table of contents Requirements Default Variables _www_download_bin apply_patches
 <ul>
 <li><a href="#_www_download_bin">_www_download_bin</a></li>
 <li><a href="#apply_patches_db">apply_patches_db</a></li>
+<li><a href="#assert_db_homes_config">assert_db_homes_config</a></li>
 <li><a href="#autostartup_service">autostartup_service</a></li>
+<li><a href="#autostartup_service_adopt_interval">autostartup_service_adopt_interval</a></li>
+<li><a href="#autostartup_service_dependency">autostartup_service_dependency</a></li>
+<li><a href="#autostartup_service_mode">autostartup_service_mode</a></li>
+<li><a href="#autostartup_service_restart">autostartup_service_restart</a></li>
+<li><a href="#autostartup_service_restart_sec">autostartup_service_restart_sec</a></li>
+<li><a href="#autostartup_service_shutdown_mode">autostartup_service_shutdown_mode</a></li>
+<li><a href="#autostartup_service_start_timeout">autostartup_service_start_timeout</a></li>
+<li><a href="#autostartup_service_stop_timeout">autostartup_service_stop_timeout</a></li>
 <li><a href="#db_homes_config">db_homes_config</a></li>
 <li><a href="#db_homes_installed">db_homes_installed</a></li>
 <li><a href="#dbenvdir">dbenvdir</a></li>
@@ -694,6 +754,7 @@ Table of contents Requirements Default Variables _www_download_bin apply_patches
 <li><a href="#set_oracle_all_editions_options_state">set_oracle_all_editions_options_state</a></li>
 <li><a href="#shell_aliases">shell_aliases</a></li>
 <li><a href="#shell_ps1">shell_ps1</a></li>
+<li><a href="#ulimit_systemd_mapping">ulimit_systemd_mapping</a></li>
 <li><a href="#use_proxy">use_proxy</a></li>
 </ul>
 </li>
@@ -721,11 +782,94 @@ The download will be changed to get_url to simplify the code.</p>
 <h4 id="default-value-1">Default value</h4>
 <pre><code class="language-YAML">apply_patches_db: true
 </code></pre>
+<h3 id="assert_db_homes_config">assert_db_homes_config</h3>
+<p>Switch for enable/disable assert on <code>db_homes_config</code>.</p>
+<p>The assert allows only the versions <code>19.3.0.0</code> and <code>26.1.0.0</code>.
+<code>false</code> disables all checks of <code>db_homes_config</code>, not only the check of the version.</p>
+<p>Please change the state only when really needed!</p>
+<h4 id="default-value-2">Default value</h4>
+<pre><code class="language-YAML">assert_db_homes_config: true
+</code></pre>
 <h3 id="autostartup_service">autostartup_service</h3>
 <p>Enable autostart of database during system startup.</p>
 <p>This switch is only used, when Single Instance without Grid Infrastructure / Restart is installed.</p>
-<h4 id="default-value-2">Default value</h4>
-<pre><code class="language-YAML">autostartup_service: false
+<p>The solution is selected with <code>autostartup_service_mode</code>.</p>
+<p>Default <code>true</code> since 5.0.0 (4.x: <code>false</code>).</p>
+<h4 id="default-value-3">Default value</h4>
+<pre><code class="language-YAML">autostartup_service: true
+</code></pre>
+<h3 id="autostartup_service_adopt_interval">autostartup_service_adopt_interval</h3>
+<p>Interval of <code>oracle-adopt.timer</code> (<code>autostartup_service_mode: units</code>), which attaches databases
+and listeners started outside of systemd to their unit. An inactive unit of a database, which
+was started outside of systemd, is started.</p>
+<h4 id="default-value-4">Default value</h4>
+<pre><code class="language-YAML">autostartup_service_adopt_interval: 2min
+</code></pre>
+<h3 id="autostartup_service_dependency">autostartup_service_dependency</h3>
+<p>Units which are required by the autostart and started before the databases and listeners
+(<code>Requires=</code> and <code>After=</code>), e.g. a service which mounts the file systems of the databases.
+Several units are separated by a blank.</p>
+<p>Used by both values of <code>autostartup_service_mode</code>. With <code>units</code>, the units
+<code>network-online.target</code>, <code>remote-fs.target</code> and <code>local-fs.target</code> are always used in <code>After=</code>.</p>
+<h4 id="default-value-5">Default value</h4>
+<pre><code class="language-YAML">autostartup_service_dependency: network.target
+</code></pre>
+<h3 id="autostartup_service_mode">autostartup_service_mode</h3>
+<p>Solution for the autostart of databases and listeners with <code>autostartup_service: true</code>.</p>
+<ul>
+<li><code>units</code> (default since 5.0.0): one systemd unit per database (<code>oracle-db@&lt;ORACLE_SID&gt;.service</code>)
+and listener (<code>oracle-listener@&lt;LISTENER_NAME&gt;.service</code>) from <code>oracle_databases</code> and
+<code>listener_installed</code>, grouped by <code>oracle-databases.target</code> and <code>oracle-listeners.target</code>.
+Created by <code>oradb_manage_db</code>.
+Databases and listeners started outside of systemd are attached to their unit by the timer
+<code>oracle-adopt.timer</code>, so they are stopped cleanly during a shutdown of the server.</li>
+<li><code>legacy</code>: the solution before 5.0.0 with one service <code>oracle-rdbms.service</code> for all
+databases in <code>/etc/oratab</code>. Created by <code>oraswdb_install</code>.</li>
+</ul>
+<p>Switching the mode removes the units of the other solution without stopping the databases.
+See the Breaking Changes guide for the migration.</p>
+<h4 id="default-value-6">Default value</h4>
+<pre><code class="language-YAML">autostartup_service_mode: units
+</code></pre>
+<h3 id="autostartup_service_restart">autostartup_service_restart</h3>
+<p>Restart a database after a crash (<code>autostartup_service_mode: units</code>).</p>
+<p>The unit <code>oracle-db@&lt;ORACLE_SID&gt;.service</code> monitors PMON of the database. When PMON is gone and
+the last entry in the alert log is not <code>Instance shutdown complete</code> (or
+<code>Instance shutdown (abort) complete</code>), the database crashed.
+With <code>true</code>, systemd restarts the unit after <code>autostartup_service_restart_sec</code>
+(max. 10 starts of the unit within 1 hour), with <code>false</code> the unit fails.</p>
+<p>A shutdown outside of systemd (e.g. <code>shutdown immediate</code> or <code>shutdown abort</code> in sqlplus) is not restarted.</p>
+<p>Can be set per database with <code>autostartup_service_restart</code> in <code>oracle_databases</code>.
+A change is used without a restart of the database.</p>
+<h4 id="default-value-7">Default value</h4>
+<pre><code class="language-YAML">autostartup_service_restart: true
+</code></pre>
+<h4 id="example-usage">Example usage</h4>
+<pre><code class="language-YAML">oracle_databases:
+  - oracle_db_name: DB1
+    autostartup_service_restart: false
+</code></pre>
+<h3 id="autostartup_service_restart_sec">autostartup_service_restart_sec</h3>
+<p><code>RestartSec</code> of the database units after a crash (<code>autostartup_service_restart: true</code>), for all databases.</p>
+<h4 id="default-value-8">Default value</h4>
+<pre><code class="language-YAML">autostartup_service_restart_sec: 2min
+</code></pre>
+<h3 id="autostartup_service_shutdown_mode">autostartup_service_shutdown_mode</h3>
+<p>Shutdown mode of the databases (<code>autostartup_service_mode: units</code>): <code>immediate</code>, <code>transactional</code>, <code>normal</code> or <code>abort</code>.</p>
+<h4 id="default-value-9">Default value</h4>
+<pre><code class="language-YAML">autostartup_service_shutdown_mode: immediate
+</code></pre>
+<h3 id="autostartup_service_start_timeout">autostartup_service_start_timeout</h3>
+<p><code>TimeoutStartSec</code> of the database units (<code>autostartup_service_mode: units</code>).</p>
+<p>The start of a database with crash recovery can take a long time.</p>
+<h4 id="default-value-10">Default value</h4>
+<pre><code class="language-YAML">autostartup_service_start_timeout: 15min
+</code></pre>
+<h3 id="autostartup_service_stop_timeout">autostartup_service_stop_timeout</h3>
+<p><code>TimeoutStopSec</code> of the database units (<code>autostartup_service_mode: units</code>).</p>
+<p>systemd does not kill a database after the timeout (<code>KillMode=process</code>).</p>
+<h4 id="default-value-11">Default value</h4>
+<pre><code class="language-YAML">autostartup_service_stop_timeout: 15min
 </code></pre>
 <h3 id="db_homes_config">db_homes_config</h3>
 <p>This is a central variable for ORACLE_HOME configuration.</p>
@@ -783,7 +927,7 @@ The download will be changed to get_url to simplify the code.</p>
 	</tbody>
 </table>
 <p>See examples for allowed values.</p>
-<h4 id="example-usage">Example usage</h4>
+<h4 id="example-usage-1">Example usage</h4>
 <pre><code class="language-YAML">db_homes_config:
   21300_base: # 21c without patching - you should never use this in production!
     home: db1_base
@@ -819,7 +963,7 @@ The download will be changed to get_url to simplify the code.</p>
           - &quot;-force_conflict&quot;
 </code></pre>
 <h3 id="db_homes_installed">db_homes_installed</h3>
-<h4 id="example-usage-1">Example usage</h4>
+<h4 id="example-usage-2">Example usage</h4>
 <pre><code class="language-YAML">db_homes_installed:
   - home: 19300-base
     apply_patches: true
@@ -828,15 +972,15 @@ The download will be changed to get_url to simplify the code.</p>
 <h3 id="dbenvdir">dbenvdir</h3>
 <p>Define the directory for db environment configurations.</p>
 <p>Used during installation of <code>ocenv.sh</code>.</p>
-<h4 id="default-value-3">Default value</h4>
+<h4 id="default-value-12">Default value</h4>
 <pre><code class="language-YAML">dbenvdir: '{{ oracle_user_home }}/dbenv'
 </code></pre>
 <h3 id="dbpasswords">dbpasswords</h3>
 <p>Define the passwords for DB-Users in nonCDB, CDB and PDBs.</p>
-<h4 id="default-value-4">Default value</h4>
+<h4 id="default-value-13">Default value</h4>
 <pre><code class="language-YAML">dbpasswords: {}
 </code></pre>
-<h4 id="example-usage-2">Example usage</h4>
+<h4 id="example-usage-3">Example usage</h4>
 <pre><code class="language-YAML">
 nonCDB with db_name: orcl
 
@@ -868,40 +1012,40 @@ dbpasswords:
 </code></pre>
 <h3 id="default_dbpass">default_dbpass</h3>
 <p>Set the default password for all DB-Users not defined in <code>dbpasswords</code>.</p>
-<h4 id="default-value-5">Default value</h4>
+<h4 id="default-value-14">Default value</h4>
 <pre><code class="language-YAML">default_dbpass: &gt;-
   {% if item is defined and item.oracle_db_passwd is defined %}{{ item.oracle_db_passwd -}}
   {%- elif dbh is defined and dbh.oracle_db_passwd is defined %}{{ dbh.oracle_db_passwd -}}
   {%- endif %}
 </code></pre>
-<h4 id="example-usage-3">Example usage</h4>
+<h4 id="example-usage-4">Example usage</h4>
 <pre><code class="language-YAML">default_dbpass: topeS3cr§t
 </code></pre>
 <h3 id="deploy_ocenv">deploy_ocenv</h3>
 <p>Install the <code>ocenv.sh</code> environment script.</p>
 <p>Source is from: <a href="https://github.com/opitzconsulting/oracle-scripts">https://github.com/opitzconsulting/oracle-scripts</a></p>
-<h4 id="default-value-6">Default value</h4>
+<h4 id="default-value-15">Default value</h4>
 <pre><code class="language-YAML">deploy_ocenv: true
 </code></pre>
 <h3 id="disable_ee_options">disable_ee_options</h3>
 <p>Global switch to define if Oracle options should be changed in binary for Enterprise-Edition.</p>
-<h4 id="default-value-7">Default value</h4>
+<h4 id="default-value-16">Default value</h4>
 <pre><code class="language-YAML">disable_ee_options: 'true'
 </code></pre>
-<h4 id="example-usage-4">Example usage</h4>
+<h4 id="example-usage-5">Example usage</h4>
 <pre><code class="language-YAML">disable_ee_options: true # change options in binary
 disable_ee_options: false # do not change options in binary
 </code></pre>
 <h3 id="get_url_ssl_client_cert">get_url_ssl_client_cert</h3>
 <p>PEM formatted certificate chain file to be used for SSL client authentication with ansible.builtin.get_url</p>
 <p><strong><em>Type:</em></strong> path<br /></p>
-<h4 id="example-usage-5">Example usage</h4>
+<h4 id="example-usage-6">Example usage</h4>
 <pre><code class="language-YAML">/etc/pki/ca-trust/source/anchors/client-certchain.pem
 </code></pre>
 <h3 id="get_url_ssl_client_key">get_url_ssl_client_key</h3>
 <p>PEM formatted file that contains your private key to be used for SSL client authentication with ansible.builtin.get_url</p>
 <p><strong><em>Type:</em></strong> path<br /></p>
-<h4 id="example-usage-6">Example usage</h4>
+<h4 id="example-usage-7">Example usage</h4>
 <pre><code class="language-YAML">/etc/pki/tls/private/client-cert.pem
 </code></pre>
 <h3 id="grid_base">grid_base</h3>
@@ -909,7 +1053,7 @@ disable_ee_options: false # do not change options in binary
 <p>Important!</p>
 <p>ORACLE_BASE for Grid-Infrastructure must be different the ORACLE_BASE for RDBMS.</p>
 <p>ORACLE_BASE for Oracle Rstart is same as RDBMS.</p>
-<h4 id="default-value-8">Default value</h4>
+<h4 id="default-value-17">Default value</h4>
 <pre><code class="language-YAML">grid_base: &gt;-
   {% if oracle_install_option_gi == 'CRS_CONFIG' -%}
   /u01/app/grid/base{% else %}{{ oracle_base }}{% endif %}
@@ -917,60 +1061,60 @@ disable_ee_options: false # do not change options in binary
 <h3 id="hostgroup">hostgroup</h3>
 <p>Defines the hostgroup with nodes for a Grid-Infrastructure Cluster.</p>
 <p>The variable needs a refactoring.</p>
-<h4 id="default-value-9">Default value</h4>
+<h4 id="default-value-18">Default value</h4>
 <pre><code class="language-YAML">hostgroup: '{{ group_names[0] }}'
 </code></pre>
 <h3 id="http_proxy">http_proxy</h3>
 <p>Define the http proxy for downloads</p>
-<h4 id="default-value-10">Default value</h4>
+<h4 id="default-value-19">Default value</h4>
 <pre><code class="language-YAML">http_proxy: ''
 </code></pre>
 <h3 id="https_proxy">https_proxy</h3>
 <p>Define the https proxy for downloads</p>
-<h4 id="default-value-11">Default value</h4>
+<h4 id="default-value-20">Default value</h4>
 <pre><code class="language-YAML">https_proxy: ''
 </code></pre>
 <h3 id="install_from_nfs">install_from_nfs</h3>
 <p>Mount NFS-Server for installation media?</p>
 <p><code>nfs_server_sw</code> and <code>nfs_server_sw_path</code> are needed, when <code>install_from_nfs: true</code></p>
-<h4 id="default-value-12">Default value</h4>
+<h4 id="default-value-21">Default value</h4>
 <pre><code class="language-YAML">install_from_nfs: false
 </code></pre>
 <h3 id="is_sw_source_local">is_sw_source_local</h3>
-<h4 id="default-value-13">Default value</h4>
+<h4 id="default-value-22">Default value</h4>
 <pre><code class="language-YAML">is_sw_source_local: true
 </code></pre>
 <h3 id="listener_port">listener_port</h3>
 <p>The global default port for listener when no dedicated port is configured in listener itself.</p>
-<h4 id="default-value-14">Default value</h4>
+<h4 id="default-value-23">Default value</h4>
 <pre><code class="language-YAML">listener_port: 1521
 </code></pre>
 <h3 id="nfs_server_sw">nfs_server_sw</h3>
 <p>Defines the NFS-Server used to mount the installation media from.</p>
-<h4 id="example-usage-7">Example usage</h4>
+<h4 id="example-usage-8">Example usage</h4>
 <pre><code class="language-YAML">nfs_server_sw: nfs-server.example.com
 </code></pre>
 <h3 id="nfs_server_sw_path">nfs_server_sw_path</h3>
 <p>Path to installation medias on NFS-Ser.</p>
 <p><em>Important</em></p>
 <p><code>ansible-oracle</code> expects a fixed structure for installation media and patches!</p>
-<h4 id="example-usage-8">Example usage</h4>
+<h4 id="example-usage-9">Example usage</h4>
 <pre><code class="language-YAML">nfs_server_sw_path: /orasw
 </code></pre>
 <h3 id="no_proxy">no_proxy</h3>
 <p>Define no_proxy list für downlads.</p>
-<h4 id="default-value-15">Default value</h4>
+<h4 id="default-value-24">Default value</h4>
 <pre><code class="language-YAML">no_proxy: ''
 </code></pre>
 <h3 id="ocenv_bashrc_init">ocenv_bashrc_init</h3>
 <p>Add <code>ocenv.sh</code> to <code>bashrc</code> of oracle user?</p>
 <p><code>deploy_ocenv: true</code> is needed for the installation.</p>
-<h4 id="default-value-16">Default value</h4>
+<h4 id="default-value-25">Default value</h4>
 <pre><code class="language-YAML">ocenv_bashrc_init: true
 </code></pre>
 <h3 id="ocenv_bashrc_init_section">ocenv_bashrc_init_section</h3>
 <p>Define the conntents to add to <code>.bashr</code> when <code>ocenv_bashrc_init: true</code>.</p>
-<h4 id="default-value-17">Default value</h4>
+<h4 id="default-value-26">Default value</h4>
 <pre><code class="language-YAML">ocenv_bashrc_init_section: |
   echo &quot;execute ocenv to source Oracle Environment&quot;
   alias ocenv='. &quot;{{ dbenvdir }}/ocenv&quot;'
@@ -980,23 +1124,23 @@ disable_ee_options: false # do not change options in binary
 opatch/opatchauto should be executed.
 Will be overridden by opatch_db_conflict_check and opatch_gi_conflict_check.</p>
 <p><strong><em>Type:</em></strong> boolean<br /></p>
-<h4 id="default-value-18">Default value</h4>
+<h4 id="default-value-27">Default value</h4>
 <pre><code class="language-YAML">opatch_conflict_check: true
 </code></pre>
 <h3 id="oracle_all_editions_options_state">oracle_all_editions_options_state</h3>
 <p>Intended state of edition independent database options, as defined in {{ oracle_all_editions_options }}</p>
-<h4 id="default-value-19">Default value</h4>
+<h4 id="default-value-28">Default value</h4>
 <pre><code class="language-YAML">oracle_all_editions_options_state:
   - {option: dnfs, enabled: false}
   - {option: uniaud, enabled: false}
 </code></pre>
 <h3 id="oracle_asm_disk_string">oracle_asm_disk_string</h3>
-<h4 id="default-value-20">Default value</h4>
+<h4 id="default-value-29">Default value</h4>
 <pre><code class="language-YAML">oracle_asm_disk_string: ORCL:*
 </code></pre>
 <h3 id="oracle_base">oracle_base</h3>
 <p><code>ORACLE_BASE</code> for Oracle RDBMS</p>
-<h4 id="default-value-21">Default value</h4>
+<h4 id="default-value-30">Default value</h4>
 <pre><code class="language-YAML">oracle_base: /u01/app/oracle
 </code></pre>
 <h3 id="oracle_databases">oracle_databases</h3>
@@ -1085,7 +1229,7 @@ Will be overridden by opatch_db_conflict_check and opatch_gi_conflict_check.</p>
 			</tr>
 	</tbody>
 </table>
-<h4 id="example-usage-9">Example usage</h4>
+<h4 id="example-usage-10">Example usage</h4>
 <pre><code class="language-YAML">
 # IMPORTANT! This following example shows the general structure of oracle_databases.
 # Do not use it as a real example.
@@ -1164,17 +1308,17 @@ oracle_databases:
         update_password: always
 </code></pre>
 <h3 id="oracle_dbf_dir_asm">oracle_dbf_dir_asm</h3>
-<h4 id="default-value-22">Default value</h4>
+<h4 id="default-value-31">Default value</h4>
 <pre><code class="language-YAML">oracle_dbf_dir_asm: +DATA
 </code></pre>
 <h3 id="oracle_dbf_dir_fs">oracle_dbf_dir_fs</h3>
 <p>Global default for <code>db_create_file_dest</code>in DBCA.</p>
-<h4 id="default-value-23">Default value</h4>
+<h4 id="default-value-32">Default value</h4>
 <pre><code class="language-YAML">oracle_dbf_dir_fs: /u02/oradata/
 </code></pre>
 <h3 id="oracle_ee_options_112">oracle_ee_options_112</h3>
 <p>Define the enabled/disabled options for 11.2 binaries.</p>
-<h4 id="default-value-24">Default value</h4>
+<h4 id="default-value-33">Default value</h4>
 <pre><code class="language-YAML">oracle_ee_options_112:
   - {option: dm, state: false}
   - {option: dv, state: false}
@@ -1185,7 +1329,7 @@ oracle_databases:
 </code></pre>
 <h3 id="oracle_ee_options_121">oracle_ee_options_121</h3>
 <p>Define the enabled/disabled options for 12.1 binaries.</p>
-<h4 id="default-value-25">Default value</h4>
+<h4 id="default-value-34">Default value</h4>
 <pre><code class="language-YAML">oracle_ee_options_121:
   - {option: dm, state: false}
   - {option: olap, state: false}
@@ -1194,7 +1338,7 @@ oracle_databases:
 </code></pre>
 <h3 id="oracle_ee_options_122">oracle_ee_options_122</h3>
 <p>Define the enabled/disabled options for 12.2 binaries.</p>
-<h4 id="default-value-26">Default value</h4>
+<h4 id="default-value-35">Default value</h4>
 <pre><code class="language-YAML">oracle_ee_options_122:
   - {option: oaa, state: false}
   - {option: olap, state: false}
@@ -1203,7 +1347,7 @@ oracle_databases:
 </code></pre>
 <h3 id="oracle_ee_options_183">oracle_ee_options_183</h3>
 <p>Define the enabled/disabled options for 18c binaries.</p>
-<h4 id="default-value-27">Default value</h4>
+<h4 id="default-value-36">Default value</h4>
 <pre><code class="language-YAML">oracle_ee_options_183:
   - {option: oaa, state: false}
   - {option: olap, state: false}
@@ -1212,7 +1356,7 @@ oracle_databases:
 </code></pre>
 <h3 id="oracle_ee_options_193">oracle_ee_options_193</h3>
 <p>Define the enabled/disabled options for 19c binaries.</p>
-<h4 id="default-value-28">Default value</h4>
+<h4 id="default-value-37">Default value</h4>
 <pre><code class="language-YAML">oracle_ee_options_193:
   - {option: oaa, state: false}
   - {option: olap, state: false}
@@ -1221,7 +1365,7 @@ oracle_databases:
 </code></pre>
 <h3 id="oracle_ee_options_213">oracle_ee_options_213</h3>
 <p>Define the enabled/disabled options for 21c binaries.</p>
-<h4 id="default-value-29">Default value</h4>
+<h4 id="default-value-38">Default value</h4>
 <pre><code class="language-YAML">oracle_ee_options_213:
   - {option: oaa, state: false}
   - {option: olap, state: false}
@@ -1230,7 +1374,7 @@ oracle_databases:
 </code></pre>
 <h3 id="oracle_ee_options_261">oracle_ee_options_261</h3>
 <p>Define the enabled/disabled options for 26ai binaries.</p>
-<h4 id="default-value-30">Default value</h4>
+<h4 id="default-value-39">Default value</h4>
 <pre><code class="language-YAML">oracle_ee_options_261:
   - {option: partitioning, state: false}
   - {option: rat, state: false}
@@ -1239,19 +1383,19 @@ oracle_databases:
 <p>Custom setting for CRS_HOME when Grid-Infrastructure is installed.</p>
 <p>The variable is used as a default for <code>oracle_home_gi</code>.</p>
 <p>Do not forget `` for Cluster installations.</p>
-<h4 id="default-value-31">Default value</h4>
+<h4 id="default-value-40">Default value</h4>
 <pre><code class="language-YAML">oracle_home_gi_cl: /u01/app/{{ oracle_install_version_gi }}/grid
 </code></pre>
 <h3 id="oracle_home_gi_so">oracle_home_gi_so</h3>
 <p>Custom setting for CRS_HOME when Oracle Restart is installed.</p>
 <p>The variable is used as a default for the internal variable <code>oracle_home_gi</code>.</p>
-<h4 id="default-value-32">Default value</h4>
+<h4 id="default-value-41">Default value</h4>
 <pre><code class="language-YAML">oracle_home_gi_so: '{{ oracle_base }}/{{ oracle_install_version_gi }}/grid'
 </code></pre>
 <h3 id="oracle_hostname">oracle_hostname</h3>
 <p>Grid-Infrastructure nodename.</p>
 <p>Used as hostname for all oradb_manage_-connections and as hostname in RDBMS installation.</p>
-<h4 id="default-value-33">Default value</h4>
+<h4 id="default-value-42">Default value</h4>
 <pre><code class="language-YAML">oracle_hostname: '{{ ansible_fqdn }}'
 </code></pre>
 <h3 id="oracle_install_option_gi">oracle_install_option_gi</h3>
@@ -1278,10 +1422,10 @@ oracle_databases:
 			</tr>
 	</tbody>
 </table>
-<h4 id="default-value-34">Default value</h4>
+<h4 id="default-value-43">Default value</h4>
 <pre><code class="language-YAML">oracle_install_option_gi: ''
 </code></pre>
-<h4 id="example-usage-10">Example usage</h4>
+<h4 id="example-usage-11">Example usage</h4>
 <pre><code class="language-YAML">
 oracle_install_option_gi: ''
 
@@ -1293,10 +1437,10 @@ oracle_install_option_gi: HA_CONFIG
 <p>Define the version for Grid-Infrastructure or Oracle Restart.</p>
 <p><em>Important</em></p>
 <p>Do not forget to set <code>oracle_install_option_gi</code>.</p>
-<h4 id="default-value-35">Default value</h4>
+<h4 id="default-value-44">Default value</h4>
 <pre><code class="language-YAML">oracle_install_version_gi: 19.3.0.0
 </code></pre>
-<h4 id="example-usage-11">Example usage</h4>
+<h4 id="example-usage-12">Example usage</h4>
 <pre><code class="language-YAML">
 oracle_install_version_gi: 19.3.0.0
 
@@ -1305,7 +1449,7 @@ oracle_install_version_gi: 21.3.0.0
 <h3 id="oracle_opatch_patch">oracle_opatch_patch</h3>
 <p>Mapping from OPatch ZIP-archive to Oracle Release.</p>
 <p>The variable is configured for all supported Oracle Release by default.</p>
-<h4 id="default-value-36">Default value</h4>
+<h4 id="default-value-45">Default value</h4>
 <pre><code class="language-YAML">oracle_opatch_patch:
   - filename: p6880880_210000_Linux-x86-64.zip
     version: 21.3.0.0
@@ -1329,7 +1473,7 @@ oracle_install_version_gi: 21.3.0.0
 <p>Important!</p>
 <p>For each listelement in <code>oracle_pdbs</code> an element in <code>oracle_databases</code> with <code>cdb = oracle_db_name</code> must exists..</p>
 <p>Otherwise the assert for <code>oracle_pdbs</code> will fail!</p>
-<h4 id="example-usage-12">Example usage</h4>
+<h4 id="example-usage-13">Example usage</h4>
 <pre><code class="language-YAML">oracle_pdbs:
   - home: 19300-base
     listener_port: 1521
@@ -1346,24 +1490,38 @@ oracle_install_version_gi: 21.3.0.0
       - {name: undotbs1, size: 10M, autoextend: true, next: 50M, maxsize: 8G, content: permanent, state: present, bigfile: false}
       - {name: users, size: 10M, autoextend: true, next: 50M, maxsize: 2G, content: permanent, state: present, bigfile: false}
       - {name: temp, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false}
+    users:
+      # quotas: list of tablespace/size, size in bytes with optional K, M, G, T or unlimited.
+      # With quotas, the default_tablespace gets no automatic quota unlimited.
+      # quotas_mode: append (default) keeps other quotas, enforce removes them.
+      # size 0 removes the quota on a tablespace.
+      - schema: app
+        state: present
+        default_tablespace: users
+        quotas_mode: enforce
+        quotas:
+          - tablespace: users
+            size: unlimited
+          - tablespace: sysaux
+            size: 100M
 </code></pre>
 <h3 id="oracle_profile_template">oracle_profile_template</h3>
 <p>Define which template is used to create .profile scripts.</p>
 <p><em>Important</em></p>
 <p>This variable is only used when <code>deploy_ocenv: false</code>. The default is <code>true</code>.</p>
-<h4 id="default-value-37">Default value</h4>
+<h4 id="default-value-46">Default value</h4>
 <pre><code class="language-YAML">oracle_profile_template: dotprofile-home.j2
 </code></pre>
 <h3 id="oracle_reco_dir_asm">oracle_reco_dir_asm</h3>
-<h4 id="default-value-38">Default value</h4>
+<h4 id="default-value-47">Default value</h4>
 <pre><code class="language-YAML">oracle_reco_dir_asm: +FRA
 </code></pre>
 <h3 id="oracle_reco_dir_fs">oracle_reco_dir_fs</h3>
-<h4 id="default-value-39">Default value</h4>
+<h4 id="default-value-48">Default value</h4>
 <pre><code class="language-YAML">oracle_reco_dir_fs: /u02/fra/
 </code></pre>
 <h3 id="oracle_stage_remote">oracle_stage_remote</h3>
-<h4 id="default-value-40">Default value</h4>
+<h4 id="default-value-49">Default value</h4>
 <pre><code class="language-YAML">oracle_stage_remote: '{{ oracle_stage }}'
 </code></pre>
 <h3 id="oracle_sw_patches">oracle_sw_patches</h3>
@@ -1372,10 +1530,10 @@ oracle_install_version_gi: 21.3.0.0
 unless a <code>filesource</code> dict element provides a full path / complete URL to the patch file.</p>
 <p>Usage of this variable:</p>
 <p>If a complete software repository with patches is used with a nfs-mount, this variable is not needed.</p>
-<h4 id="default-value-41">Default value</h4>
+<h4 id="default-value-50">Default value</h4>
 <pre><code class="language-YAML">oracle_sw_patches: []
 </code></pre>
-<h4 id="example-usage-13">Example usage</h4>
+<h4 id="example-usage-14">Example usage</h4>
 <pre><code class="language-YAML">oracle_sw_patches:
   - filename: p28183653_122010_Linux-x86-64.zip
     filesource: /mnt/patches/p28183653_122010_Linux-x86-64.zip
@@ -1401,36 +1559,36 @@ unless a <code>filesource</code> dict element provides a full path / complete UR
 <h3 id="oracle_sw_source_local">oracle_sw_source_local</h3>
 <p>Define the directory when `` is set.</p>
 <p>The archives are directly read from this directory.</p>
-<h4 id="default-value-42">Default value</h4>
+<h4 id="default-value-51">Default value</h4>
 <pre><code class="language-YAML">oracle_sw_source_local: /tmp
 </code></pre>
 <h3 id="oracle_sw_source_www">oracle_sw_source_www</h3>
 <p>Define the URL for downloading installation medias and patches from a central
 server during software installation and patching.</p>
-<h4 id="default-value-43">Default value</h4>
+<h4 id="default-value-52">Default value</h4>
 <pre><code class="language-YAML">oracle_sw_source_www: http://www/orasw
 </code></pre>
 <h3 id="orasw_meta_assert_oracle_databases">orasw_meta_assert_oracle_databases</h3>
 <p>Switch for enable/disable assert on <code>oracle_databases</code>.</p>
 <p>Please change the state only when really needed!</p>
-<h4 id="default-value-44">Default value</h4>
+<h4 id="default-value-53">Default value</h4>
 <pre><code class="language-YAML">orasw_meta_assert_oracle_databases: true
 </code></pre>
 <h3 id="orasw_meta_cluster_hostgroup">orasw_meta_cluster_hostgroup</h3>
 <p>Ansible Inventory hostgroup for RAC-Cluster.</p>
-<h4 id="default-value-45">Default value</h4>
+<h4 id="default-value-54">Default value</h4>
 <pre><code class="language-YAML">orasw_meta_cluster_hostgroup: ''
 </code></pre>
 <h3 id="orasw_meta_forced_lang">orasw_meta_forced_lang</h3>
 <p>Certain modules (e.g. oracle_db and oracle_opatch) rely on English language outputs. This causes trouble if system
 has different locale settings. That&rsquo;s why we force the language in script environments.</p>
-<h4 id="default-value-46">Default value</h4>
+<h4 id="default-value-55">Default value</h4>
 <pre><code class="language-YAML">orasw_meta_forced_lang: en_US.UTF-8
 </code></pre>
 <h3 id="proxy_env">proxy_env</h3>
 <p>This is an internal variable for downloading patches.
 Usually no need to change it.</p>
-<h4 id="default-value-47">Default value</h4>
+<h4 id="default-value-56">Default value</h4>
 <pre><code class="language-YAML">proxy_env:
   http_proxy: '{{ http_proxy }}'
   https_proxy: '{{ https_proxy }}'
@@ -1438,12 +1596,12 @@ Usually no need to change it.</p>
 </code></pre>
 <h3 id="set_oracle_all_editions_options_state">set_oracle_all_editions_options_state</h3>
 <p>Switch to globally enable/disable linking of edition independent database options</p>
-<h4 id="default-value-48">Default value</h4>
+<h4 id="default-value-57">Default value</h4>
 <pre><code class="language-YAML">set_oracle_all_editions_options_state: true
 </code></pre>
 <h3 id="shell_aliases">shell_aliases</h3>
 <p>Define shell Aliases for oracle user.</p>
-<h4 id="default-value-49">Default value</h4>
+<h4 id="default-value-58">Default value</h4>
 <pre><code class="language-YAML">shell_aliases:
   - asmcmd='. oraenv ;rlwrap asmcmd -p'
   - sqlsyso='. oraenv ;rlwrap sqlplus &quot;/ as sysdba&quot;'
@@ -1463,12 +1621,21 @@ Usually no need to change it.</p>
 </code></pre>
 <h3 id="shell_ps1">shell_ps1</h3>
 <p>Configure shell prompt for OS-User oracle</p>
-<h4 id="default-value-50">Default value</h4>
+<h4 id="default-value-59">Default value</h4>
 <pre><code class="language-YAML">shell_ps1: &quot;'[$LOGNAME'@'$ORACLE_SID `basename $PWD`]$'&quot;
+</code></pre>
+<h3 id="ulimit_systemd_mapping">ulimit_systemd_mapping</h3>
+<p>Mapping of <code>oracle_seclimits</code> to the limits of the systemd units for the autostart.</p>
+<h4 id="default-value-60">Default value</h4>
+<pre><code class="language-YAML">ulimit_systemd_mapping:
+  hard nproc: {name: LimitNPROC}
+  hard nofile: {name: LimitNOFILE}
+  hard stack: {name: LimitSTACK, sysctlfactor: 1024}
+  hard memlock: {name: LimitMEMLOCK, sysctlfactor: 1024}
 </code></pre>
 <h3 id="use_proxy">use_proxy</h3>
 <p>Enable Proxy for Download</p>
-<h4 id="default-value-51">Default value</h4>
+<h4 id="default-value-61">Default value</h4>
 <pre><code class="language-YAML">use_proxy: false
 </code></pre>
 <h2 id="discovered-tags">Discovered Tags</h2>
@@ -1486,7 +1653,6 @@ Usually no need to change it.</p>
 <li>(bug): is_sw_source_local really needed with default or as dependency from other vars?</li>
 <li>(bug): Open Issue with changed behavior for <code>_oraswgi_meta_configure_cluster</code></li>
 <li>(bug): Variable hosgroup needs a refactoring</li>
-<li>(bug): Change default from autostartup_service for Single Instance</li>
 <li>(bug): Check if shell_ps1 is used for oracle and grid</li>
 <li>(bug): Check when shell_aliases is used in ansible-oracle and change description</li>
 <li>(bug): check if assert for deploy_ocenv + ocenv_bashrc_init is existing</li>
@@ -1509,7 +1675,7 @@ Usually no need to change it.</p>
 <p>[Thorsten Bruhns]</p>
 
 	<div class="td-page-meta__lastmod">
-  Last modified October 30, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/2bffd9a3b3f3ab736a0fbfd4b040838e4e026136">ansible-core 2.16 is the new minimal version of ansible-oracle (requires_ansible in meta/runtime.yml, min_ansible_version of all roles) (2bffd9a3)</a>
+  Last modified November 5, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/6611d59b5d21c817b1213a50a1df180167518a41">oradb_manage_db: autostart with one systemd unit per database and listener (6611d59b)</a>
 </div>
 
 </div>

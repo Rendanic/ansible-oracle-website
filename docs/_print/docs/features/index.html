@@ -166,6 +166,21 @@ Please check the official Compatibility List from Oracle for RDBMS and Restart/G
 <div class="title">Important</div>
 </td>
 <td class="content">
+As of <code>ansible-oracle</code> 5.0 only Oracle 19c and 26ai are supported for RDBMS.
+Restart and Grid-Infrastructure are supported for 19c only.<br/>
+Older releases (11.2, 12.1, 12.2, 18c, 21c) are rejected by the assert of <code>db_homes_config</code>,
+see <a href="/docs/guides/breaking_changes/">Breaking Changes - Upgrade Guide</a>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
 All Editions from Oracle are supported.
 See documentation from Oracle for differences between Enterprise and Standard Edition (SE, SE One and SE2)
 </td>
@@ -215,50 +230,33 @@ Redhat Enterprise Linux</p></td>
 <tr>
 <td class="tableblock halign-left valign-top" rowspan="5"><p class="tableblock">Software</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Ansible</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2.14 or newer <a href="#table1footnote"><sup>[9]</sup></a><br/></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ansible-core 2.16 - 2.19 <a href="#table1footnote"><sup>[9]</sup></a><br/></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Oracle RDBMS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">11.2.0.3 <a href="#table1footnote">[1]</a> 11.2.0.4 <a href="#table1footnote">[1]</a><br/>
-12.1.0.2 <a href="#table1footnote">[1]</a><br/>
-12.2.0.1 <a href="#table1footnote">[1]</a><br/>
-18c <a href="#table1footnote">[1]</a><br/>
-19c<br/>
-21c</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c<br/>
+26ai</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Grid-Infrastructure</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12.1.0.2 <a href="#table1footnote">[1]</a><br/>
-12.2.0.1 <a href="#table1footnote">[1]</a><br/>
-18c <a href="#table1footnote">[1]</a><br/>
-19c<br/>
-21c</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Restart</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12.1.0.2 <a href="#table1footnote">[1]</a><br/>
-12.2.0.1 <a href="#table1footnote">[1]</a><br/>
-18c <a href="#table1footnote">[1]</a><br/>
-19c<br/>
-21c</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">cxOracle for Python</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">python-oracledb</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Python 3</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" rowspan="3"><p class="tableblock">ASM</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ASM Filter Driver (ASMFD)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">19c<br/>
-21c</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ASMlib</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12.1.0.2 <a href="#table1footnote">[1]</a><br/>
-12.2.0.1 <a href="#table1footnote">[1]</a><br/>
-18c <a href="#table1footnote">[1]</a><br/>
-19c<br/>
-21c</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">udev</p></td>
@@ -267,11 +265,8 @@ Redhat Enterprise Linux</p></td>
 <tr>
 <td class="tableblock halign-left valign-top" rowspan="9"><p class="tableblock">Installation Options</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">DB Options in Binaries</p></td>
-<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">12.1.0.2 <a href="#table1footnote">[1]</a><br/>
-12.2.0.1 <a href="#table1footnote">[1]</a><br/>
-18c <a href="#table1footnote">[1]</a><br/>
-19c<br/>
-21c</p></td>
+<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">19c<br/>
+26ai</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Statspack for nonCDB, CDB and PDB</p></td>
@@ -318,7 +313,7 @@ Redhat Enterprise Linux</p></td>
 </ul>
 </div></div></td>
 <td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">19c<br/>
-21c</p></td>
+26ai</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">readonly Homes for RDBMS</p></td>
@@ -326,24 +321,21 @@ Redhat Enterprise Linux</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Oracle Data-Guard</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">19c (planned! <a href="#table1footnote"><sup>[5]</sup></a>)<br/>
-21c (planned! <a href="#table1footnote"><sup>[5]</sup></a>)</p></td>
+26ai (planned! <a href="#table1footnote"><sup>[5]</sup></a>)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>automatic Database Migrations</em></p></td>
-<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">not supported</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database Migrations: Upgrade of PDBs with AutoUpgrade (Unplug/Plug, experimental! <a href="#table1footnote"><sup>[2]</sup></a>) <a href="#table1footnote"><sup>[12]</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c ⇒ 26ai</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Prepatch installations <a href="#table1footnote"><sup>[10]</sup></a></em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">not supported</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" rowspan="14"><p class="tableblock">Database Management</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Grants</p></td>
-<td class="tableblock halign-left valign-top" rowspan="13"><p class="tableblock">11.2.0.3 <a href="#table1footnote">[1]</a> 11.2.0.4 <a href="#table1footnote">[1]</a><br/>
-12.1.0.2 <a href="#table1footnote">[1]</a><br/>
-12.2.0.1 <a href="#table1footnote">[1]</a><br/>
-18c <a href="#table1footnote">[1]</a><br/>
-19c<br/>
-21c</p></td>
+<td class="tableblock halign-left valign-top" rowspan="13"><p class="tableblock">19c<br/>
+26ai</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -392,20 +384,14 @@ Redhat Enterprise Linux</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Timezone Upgrades</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12.1.0.2 <a href="#table1footnote">[1]</a><br/>
-12.2.0.1 <a href="#table1footnote">[1]</a><br/>
-18c <a href="#table1footnote">[1]</a><br/>
-19c<br/>
-21c</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c<br/>
+26ai</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">Database Patching</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Release Updates<a href="#table1footnote"><sup>[11]</sup></a></p></td>
-<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">12.1.0.2 <a href="#table1footnote">[1]</a><br/>
-12.2.0.1 <a href="#table1footnote">[1]</a><br/>
-18c <a href="#table1footnote">[1]</a><br/>
-19c<br/>
-21c</p></td>
+<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">19c<br/>
+26ai</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -434,18 +420,44 @@ Redhat Enterprise Linux</p></td>
 <p>Installation of APEX in PDB. Not supported for CDB or nonCDB.</p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">19c<br/>
-21c</p></td>
+26ai</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle AutoUpgrade (experimental! <a href="#table1footnote"><sup>[2]</sup></a>)</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="/docs/guides/autoupgrade/">AutoUpgrade</a> with role <code>autoupgrade</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Installation and update of <code>autoupgrade.jar</code> on database server or Ansible controller</p>
+</li>
+<li>
+<p>Keystore for My Oracle Support</p>
+</li>
+<li>
+<p>Download of patches and gold images from My Oracle Support</p>
+</li>
+<li>
+<p><a href="/docs/guides/autoupgrade_upgrade/">Unplug/Plug upgrade of PDBs</a> (analyze, fixups, deploy) <a href="#table1footnote"><sup>[12]</sup></a></p>
+</li>
+<li>
+<p>Patching with AutoUpgrade is not implemented</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Download: 19c, 21c, 23ai, 26ai<br/>
+Upgrade: 19c ⇒ 26ai</p>
+</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Environment script</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>dynamic shell environment <a href="https://github.com/opitzconsulting/oracle-scripts"><code>ocenv</code></a> for Oracle</p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12.1.0.2 <a href="#table1footnote">[1]</a><br/>
-12.2.0.1 <a href="#table1footnote">[1]</a><br/>
-18c <a href="#table1footnote">[1]</a><br/>
-19c<br/>
-21c</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c<br/>
+26ai</p></td>
 </tr>
 </tbody>
 </table>
@@ -523,7 +535,8 @@ Please do not use this feature in production environments.</p>
 <a id="table1footnote"></a><sup>9</sup>
 </td>
 <td class="hdlist2">
-<p>Ansible 2.14 or newer is mandatory since <code>ansible-oracle</code> Version 4.2.</p>
+<p><code>ansible-oracle</code> 5.x supports ansible-core 2.16 - 2.19.<br/>
+<code>ansible-oracle</code> 4.2 - 4.x supports ansible-core 2.14 - 2.18.</p>
 </td>
 </tr>
 <tr>
@@ -540,6 +553,15 @@ Please do not use this feature in production environments.</p>
 </td>
 <td class="hdlist2">
 <p>Supported for Single-Instance, Oracle Restart and Oracle Grid-Infrastructure.</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<a id="table1footnote"></a><sup>12</sup>
+</td>
+<td class="hdlist2">
+<p>Source CDB (old release) and target CDB (new release) must run on the same host.
+See <a href="/docs/guides/autoupgrade_upgrade/">Upgrade of PDBs with AutoUpgrade</a>.</p>
 </td>
 </tr>
 </tbody></table>

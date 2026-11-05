@@ -19,36 +19,40 @@
 
 <title>oraswdb_install | ansible-oracle Project</title>
 <meta name="description" content="Install Oracle Database Software
-Table of contents Requirements Default Variables autostartup_service autostartup_service_dependency configure_oracle_profile glogin_default_cdb glogin_default_nocdb hostgroup hostgroup_hub hostgroup_leaf hostinitdaemon oracle_ee_options oracle_sw_image_db oraswdb_install_forcechopt oraswdb_install_remove_install_images ulimit_systemd_mapping Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables autostartup_service Force a chopt operation in ORACLE_HOME.
+Table of contents Requirements Default Variables autostartup_service configure_oracle_profile glogin_default_cdb glogin_default_nocdb hostgroup hostgroup_hub hostgroup_leaf hostinitdaemon oracle_ee_options oracle_sw_image_db oraswdb_install_forcechopt oraswdb_install_remove_install_images Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables autostartup_service Force a chopt operation in ORACLE_HOME.
 This is needed, when an existing ORACLE_HOME had multiple switches between on/off for an option.
-Default value autostartup_service: false autostartup_service_dependency Configure autostartup service to require and be started after this service.">
+configure_oracle_profile Create .profile_-environment scripts for databases in oracle_databases.
+Mandatory when listener_installed is defined, autostartup_service: true and autostartup_service_mode: legacy. Otherwise the listener will not start!">
 <meta property="og:url" content="https://www.ansible-oracle.eu/docs/roles/oraswdb_install/">
 	<meta property="og:site_name" content="ansible-oracle Project">
 	<meta property="og:title" content="oraswdb_install">
 	<meta property="og:description" content="Install Oracle Database Software
-Table of contents Requirements Default Variables autostartup_service autostartup_service_dependency configure_oracle_profile glogin_default_cdb glogin_default_nocdb hostgroup hostgroup_hub hostgroup_leaf hostinitdaemon oracle_ee_options oracle_sw_image_db oraswdb_install_forcechopt oraswdb_install_remove_install_images ulimit_systemd_mapping Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables autostartup_service Force a chopt operation in ORACLE_HOME.
+Table of contents Requirements Default Variables autostartup_service configure_oracle_profile glogin_default_cdb glogin_default_nocdb hostgroup hostgroup_hub hostgroup_leaf hostinitdaemon oracle_ee_options oracle_sw_image_db oraswdb_install_forcechopt oraswdb_install_remove_install_images Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables autostartup_service Force a chopt operation in ORACLE_HOME.
 This is needed, when an existing ORACLE_HOME had multiple switches between on/off for an option.
-Default value autostartup_service: false autostartup_service_dependency Configure autostartup service to require and be started after this service.">
+configure_oracle_profile Create .profile_-environment scripts for databases in oracle_databases.
+Mandatory when listener_installed is defined, autostartup_service: true and autostartup_service_mode: legacy. Otherwise the listener will not start!">
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-10-30T22:59:56+01:00">
-		<meta property="article:modified_time" content="2026-10-30T22:59:56+01:00">
+		<meta property="article:published_time" content="2026-11-05T08:34:55+01:00">
+		<meta property="article:modified_time" content="2026-11-05T08:34:55+01:00">
 
 	<meta itemprop="name" content="oraswdb_install">
 	<meta itemprop="description" content="Install Oracle Database Software
-Table of contents Requirements Default Variables autostartup_service autostartup_service_dependency configure_oracle_profile glogin_default_cdb glogin_default_nocdb hostgroup hostgroup_hub hostgroup_leaf hostinitdaemon oracle_ee_options oracle_sw_image_db oraswdb_install_forcechopt oraswdb_install_remove_install_images ulimit_systemd_mapping Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables autostartup_service Force a chopt operation in ORACLE_HOME.
+Table of contents Requirements Default Variables autostartup_service configure_oracle_profile glogin_default_cdb glogin_default_nocdb hostgroup hostgroup_hub hostgroup_leaf hostinitdaemon oracle_ee_options oracle_sw_image_db oraswdb_install_forcechopt oraswdb_install_remove_install_images Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables autostartup_service Force a chopt operation in ORACLE_HOME.
 This is needed, when an existing ORACLE_HOME had multiple switches between on/off for an option.
-Default value autostartup_service: false autostartup_service_dependency Configure autostartup service to require and be started after this service.">
-	<meta itemprop="datePublished" content="2026-10-30T22:59:56+01:00">
-	<meta itemprop="dateModified" content="2026-10-30T22:59:56+01:00">
-	<meta itemprop="wordCount" content="574">
+configure_oracle_profile Create .profile_-environment scripts for databases in oracle_databases.
+Mandatory when listener_installed is defined, autostartup_service: true and autostartup_service_mode: legacy. Otherwise the listener will not start!">
+	<meta itemprop="datePublished" content="2026-11-05T08:34:55+01:00">
+	<meta itemprop="dateModified" content="2026-11-05T08:34:55+01:00">
+	<meta itemprop="wordCount" content="520">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="oraswdb_install">
 	<meta name="twitter:description" content="Install Oracle Database Software
-Table of contents Requirements Default Variables autostartup_service autostartup_service_dependency configure_oracle_profile glogin_default_cdb glogin_default_nocdb hostgroup hostgroup_hub hostgroup_leaf hostinitdaemon oracle_ee_options oracle_sw_image_db oraswdb_install_forcechopt oraswdb_install_remove_install_images ulimit_systemd_mapping Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables autostartup_service Force a chopt operation in ORACLE_HOME.
+Table of contents Requirements Default Variables autostartup_service configure_oracle_profile glogin_default_cdb glogin_default_nocdb hostgroup hostgroup_hub hostgroup_leaf hostinitdaemon oracle_ee_options oracle_sw_image_db oraswdb_install_forcechopt oraswdb_install_remove_install_images Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables autostartup_service Force a chopt operation in ORACLE_HOME.
 This is needed, when an existing ORACLE_HOME had multiple switches between on/off for an option.
-Default value autostartup_service: false autostartup_service_dependency Configure autostartup service to require and be started after this service.">
+configure_oracle_profile Create .profile_-environment scripts for databases in oracle_databases.
+Mandatory when listener_installed is defined, autostartup_service: true and autostartup_service_mode: legacy. Otherwise the listener will not start!">
 
 
 
@@ -157,12 +161,24 @@ Default value autostartup_service: false autostartup_service_dependency Configur
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
   <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
+  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesoraswdb_install-li">
+  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="td-sidebar-nav-active-item">oraswdb_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolespyoracledb-li">
+  <a href="/docs/roles/pyoracledb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolespyoracledb"><span class="">pyoracledb</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
+  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesautoupgrade-li">
   <a href="/docs/roles/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesautoupgrade"><span class="">autoupgrade</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
   <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescxoracle-li">
-  <a href="/docs/roles/cxoracle/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescxoracle"><span class="">cxoracle</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesglobal_handlers-li">
   <a href="/docs/roles/global_handlers/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesglobal_handlers"><span class="">global_handlers</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraapex-li">
@@ -175,8 +191,6 @@ Default value autostartup_service: false autostartup_service_dependency Configur
   <a href="/docs/roles/oradb_datapatch/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_datapatch"><span class="">oradb_datapatch</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_facts-li">
   <a href="/docs/roles/oradb_facts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_facts"><span class="">oradb_facts</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
-  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_grants-li">
   <a href="/docs/roles/oradb_manage_grants/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_grants"><span class="">oradb_manage_grants</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_parameters-li">
@@ -203,14 +217,10 @@ Default value autostartup_service: false autostartup_service_dependency Configur
   <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_tzupgrade-li">
   <a href="/docs/roles/oradb_tzupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_tzupgrade"><span class="">oradb_tzupgrade</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
-  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_cron-li">
   <a href="/docs/roles/orahost_cron/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_cron"><span class="">orahost_cron</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_logrotate-li">
   <a href="/docs/roles/orahost_logrotate/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_logrotate"><span class="">orahost_logrotate</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
-  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_ssh-li">
   <a href="/docs/roles/orahost_ssh/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_ssh"><span class="">orahost_ssh</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_storage-li">
@@ -219,22 +229,16 @@ Default value autostartup_service: false autostartup_service_dependency Configur
   <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
   <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
-  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
   <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswahf_install-li">
   <a href="/docs/roles/oraswahf_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswahf_install"><span class="">oraswahf_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_golden_image-li">
   <a href="/docs/roles/oraswdb_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_golden_image"><span class="">oraswdb_golden_image</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesoraswdb_install-li">
-  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="td-sidebar-nav-active-item">oraswdb_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
   <a href="/docs/roles/oraswdb_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_manage_patches"><span class="">oraswdb_manage_patches</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_golden_image-li">
   <a href="/docs/roles/oraswgi_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_golden_image"><span class="">oraswgi_golden_image</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
-  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_manage_patches-li">
   <a href="/docs/roles/oraswgi_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_manage_patches"><span class="">oraswgi_manage_patches</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_meta-li">
@@ -276,75 +280,61 @@ Default value autostartup_service: false autostartup_service_dependency Configur
     <li><a href="#requirements">Requirements</a></li>
     <li><a href="#default-variables">Default Variables</a>
       <ul>
-        <li><a href="#autostartup_service">autostartup_service</a>
+        <li><a href="#autostartup_service">autostartup_service</a></li>
+        <li><a href="#configure_oracle_profile">configure_oracle_profile</a>
           <ul>
             <li><a href="#default-value">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#autostartup_service_dependency">autostartup_service_dependency</a>
+        <li><a href="#glogin_default_cdb">glogin_default_cdb</a>
           <ul>
             <li><a href="#default-value-1">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#configure_oracle_profile">configure_oracle_profile</a>
+        <li><a href="#glogin_default_nocdb">glogin_default_nocdb</a>
           <ul>
             <li><a href="#default-value-2">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#glogin_default_cdb">glogin_default_cdb</a>
+        <li><a href="#hostgroup">hostgroup</a>
           <ul>
             <li><a href="#default-value-3">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#glogin_default_nocdb">glogin_default_nocdb</a>
+        <li><a href="#hostgroup_hub">hostgroup_hub</a>
           <ul>
             <li><a href="#default-value-4">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#hostgroup">hostgroup</a>
+        <li><a href="#hostgroup_leaf">hostgroup_leaf</a>
           <ul>
             <li><a href="#default-value-5">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#hostgroup_hub">hostgroup_hub</a>
+        <li><a href="#hostinitdaemon">hostinitdaemon</a>
           <ul>
             <li><a href="#default-value-6">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#hostgroup_leaf">hostgroup_leaf</a>
+        <li><a href="#oracle_ee_options">oracle_ee_options</a>
           <ul>
             <li><a href="#default-value-7">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#hostinitdaemon">hostinitdaemon</a>
-          <ul>
-            <li><a href="#default-value-8">Default value</a></li>
-          </ul>
-        </li>
-        <li><a href="#oracle_ee_options">oracle_ee_options</a>
-          <ul>
-            <li><a href="#default-value-9">Default value</a></li>
-          </ul>
-        </li>
         <li><a href="#oracle_sw_image_db">oracle_sw_image_db</a>
           <ul>
-            <li><a href="#default-value-10">Default value</a></li>
+            <li><a href="#default-value-8">Default value</a></li>
             <li><a href="#example-usage">Example usage</a></li>
           </ul>
         </li>
         <li><a href="#oraswdb_install_forcechopt">oraswdb_install_forcechopt</a>
           <ul>
-            <li><a href="#default-value-11">Default value</a></li>
+            <li><a href="#default-value-9">Default value</a></li>
           </ul>
         </li>
         <li><a href="#oraswdb_install_remove_install_images">oraswdb_install_remove_install_images</a>
           <ul>
-            <li><a href="#default-value-12">Default value</a></li>
-          </ul>
-        </li>
-        <li><a href="#ulimit_systemd_mapping">ulimit_systemd_mapping</a>
-          <ul>
-            <li><a href="#default-value-13">Default value</a></li>
+            <li><a href="#default-value-10">Default value</a></li>
           </ul>
         </li>
       </ul>
@@ -389,7 +379,6 @@ Default value autostartup_service: false autostartup_service_dependency Configur
 <li><a href="#default-variables">Default Variables</a>
 <ul>
 <li><a href="#autostartup_service">autostartup_service</a></li>
-<li><a href="#autostartup_service_dependency">autostartup_service_dependency</a></li>
 <li><a href="#configure_oracle_profile">configure_oracle_profile</a></li>
 <li><a href="#glogin_default_cdb">glogin_default_cdb</a></li>
 <li><a href="#glogin_default_nocdb">glogin_default_nocdb</a></li>
@@ -401,7 +390,6 @@ Default value autostartup_service: false autostartup_service_dependency Configur
 <li><a href="#oracle_sw_image_db">oracle_sw_image_db</a></li>
 <li><a href="#oraswdb_install_forcechopt">oraswdb_install_forcechopt</a></li>
 <li><a href="#oraswdb_install_remove_install_images">oraswdb_install_remove_install_images</a></li>
-<li><a href="#ulimit_systemd_mapping">ulimit_systemd_mapping</a></li>
 </ul>
 </li>
 <li><a href="#discovered-tags">Discovered Tags</a></li>
@@ -420,26 +408,18 @@ Default value autostartup_service: false autostartup_service_dependency Configur
 <p>Force a chopt operation in ORACLE_HOME.</p>
 <p>This is needed, when an existing ORACLE_HOME had multiple
 switches between on/off for an option.</p>
-<h4 id="default-value">Default value</h4>
-<pre><code class="language-YAML">autostartup_service: false
-</code></pre>
-<h3 id="autostartup_service_dependency">autostartup_service_dependency</h3>
-<p>Configure autostartup service to require and be started after this service.</p>
-<p>Only used when autostartup_service is true.</p>
-<h4 id="default-value-1">Default value</h4>
-<pre><code class="language-YAML">autostartup_service_dependency: network.target
-</code></pre>
 <h3 id="configure_oracle_profile">configure_oracle_profile</h3>
 <p>Create .profile_-environment scripts for databases
 in <code>oracle_databases</code>.</p>
-<p>Mandatory when <code>listener_installed</code> is defined and
-<code>autostartup_service: true</code>. Otherwise the listener will not start!</p>
-<h4 id="default-value-2">Default value</h4>
+<p>Mandatory when <code>listener_installed</code> is defined,
+<code>autostartup_service: true</code> and <code>autostartup_service_mode: legacy</code>.
+Otherwise the listener will not start!</p>
+<h4 id="default-value">Default value</h4>
 <pre><code class="language-YAML">configure_oracle_profile: true
 </code></pre>
 <h3 id="glogin_default_cdb">glogin_default_cdb</h3>
 <p>content of glogin.sql for CDB/PDB databases</p>
-<h4 id="default-value-3">Default value</h4>
+<h4 id="default-value-1">Default value</h4>
 <pre><code class="language-YAML">glogin_default_cdb:
   - define gname=idle
   - column global_name new_value gname
@@ -453,31 +433,31 @@ in <code>oracle_databases</code>.</p>
   - set time on
 </code></pre>
 <h3 id="glogin_default_nocdb">glogin_default_nocdb</h3>
-<h4 id="default-value-4">Default value</h4>
+<h4 id="default-value-2">Default value</h4>
 <pre><code class="language-YAML">glogin_default_nocdb:
   - set sqlprompt &quot;_user @ _connect_identifier:&gt;&quot;
   - set time on
 </code></pre>
 <h3 id="hostgroup">hostgroup</h3>
-<h4 id="default-value-5">Default value</h4>
+<h4 id="default-value-3">Default value</h4>
 <pre><code class="language-YAML">hostgroup: '{{ group_names[0] }}'
 </code></pre>
 <h3 id="hostgroup_hub">hostgroup_hub</h3>
-<h4 id="default-value-6">Default value</h4>
+<h4 id="default-value-4">Default value</h4>
 <pre><code class="language-YAML">hostgroup_hub: '{{ hostgroup }}-hub'
 </code></pre>
 <h3 id="hostgroup_leaf">hostgroup_leaf</h3>
-<h4 id="default-value-7">Default value</h4>
+<h4 id="default-value-5">Default value</h4>
 <pre><code class="language-YAML">hostgroup_leaf: '{{ hostgroup }}-leaf'
 </code></pre>
 <h3 id="hostinitdaemon">hostinitdaemon</h3>
 <p>The start daemon of the OS.</p>
 <p>Usually no need to change this value!</p>
-<h4 id="default-value-8">Default value</h4>
+<h4 id="default-value-6">Default value</h4>
 <pre><code class="language-YAML">hostinitdaemon: '{{ ansible_service_mgr }}'
 </code></pre>
 <h3 id="oracle_ee_options">oracle_ee_options</h3>
-<h4 id="default-value-9">Default value</h4>
+<h4 id="default-value-7">Default value</h4>
 <pre><code class="language-YAML">oracle_ee_options: &quot;{{ _oracle_ee_opiton_dict[db_homes_config[dbh.home]['version']] }}&quot;
 </code></pre>
 <h3 id="oracle_sw_image_db">oracle_sw_image_db</h3>
@@ -485,7 +465,7 @@ in <code>oracle_databases</code>.</p>
 image files are expected to be found by their <code>filename</code> under <code>oracle_sw_source_local</code>, or <code>oracle_sw_source_www</code> respectively,
 unless a <code>filesource</code> dict element provides a full path / complete URL to the patch file.</p>
 <p>Formerly, this dict was defined directly as vars/_oraswdb_install_oracle_sw_image_db, where it still will be copied to for compatibility reasons</p>
-<h4 id="default-value-10">Default value</h4>
+<h4 id="default-value-8">Default value</h4>
 <pre><code class="language-YAML">oracle_sw_image_db:
   - {filename: LINUX.X64_2326100_db_home.zip, version: 26.1.0.0, creates: install/.img.bin}
   - {filename: LINUX.X64_213000_db_home.zip, version: 21.3.0.0, creates: install/.img.bin}
@@ -522,22 +502,13 @@ unless a <code>filesource</code> dict element provides a full path / complete UR
     creates: 'database/stage/Components/oracle.sysman.console.db/11.2.0.3.0/1/DataFiles/filegroup2.jar'
 </code></pre>
 <h3 id="oraswdb_install_forcechopt">oraswdb_install_forcechopt</h3>
-<h4 id="default-value-11">Default value</h4>
+<h4 id="default-value-9">Default value</h4>
 <pre><code class="language-YAML">oraswdb_install_forcechopt: false
 </code></pre>
 <h3 id="oraswdb_install_remove_install_images">oraswdb_install_remove_install_images</h3>
 <p>Remove installation media from staging after installation when <code>oracle_sw_copy: true</code>.</p>
-<h4 id="default-value-12">Default value</h4>
+<h4 id="default-value-10">Default value</h4>
 <pre><code class="language-YAML">oraswdb_install_remove_install_images: true
-</code></pre>
-<h3 id="ulimit_systemd_mapping">ulimit_systemd_mapping</h3>
-<p>Addional limits for systemd.</p>
-<h4 id="default-value-13">Default value</h4>
-<pre><code class="language-YAML">ulimit_systemd_mapping:
-  hard nproc: {name: LimitNPROC}
-  hard nofile: {name: LimitNOFILE}
-  hard stack: {name: LimitSTACK, sysctlfactor: 1024}
-  hard memlock: {name: LimitMEMLOCK, sysctlfactor: 1024}
 </code></pre>
 <h2 id="discovered-tags">Discovered Tags</h2>
 <p><strong><em>always</em></strong></p>
@@ -577,7 +548,7 @@ unless a <code>filesource</code> dict element provides a full path / complete UR
 <p>[Mikael Sandström]</p>
 
 	<div class="td-page-meta__lastmod">
-  Last modified October 30, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/2bffd9a3b3f3ab736a0fbfd4b040838e4e026136">ansible-core 2.16 is the new minimal version of ansible-oracle (requires_ansible in meta/runtime.yml, min_ansible_version of all roles) (2bffd9a3)</a>
+  Last modified November 5, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/6611d59b5d21c817b1213a50a1df180167518a41">oradb_manage_db: autostart with one systemd unit per database and listener (6611d59b)</a>
 </div>
 
 </div>

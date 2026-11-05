@@ -18,169 +18,105 @@
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
 <title>Beginners Guide | ansible-oracle Project</title>
-<meta name="description" content=" 1. Beginners Guide Important The setup of Vagrant, VirtualBox and SSH is not part of this documentation.
-Please follow the documentation. 1.1. Overview 1.1.1. Architecture overview 1.1.2. What are we going to do? With one command, the following will happen…​
-An Oracle Linux VM will be created.
-A docker container is setup in this Linux VM.
-Why do we need a docker container? Ansible runs in the docker container to configure the Oracle Linux VM and install the Oracle database. See Details of Ansible as a Docker Container for more information
-The Oracle database installation is started from the docker container. See details below.
-1.1.3. Defaults Table 1. Defaults used in this guide Value Description ~/git/ansible-oracle
-git Repository on Host System
-~/git/ansible-oracle
-git Repository in VM
-~/.ssh/id_rsa
-private Key on Host System
-vagrant
-SSH-User for Login and Ansible
-~/git/ansible-oracle/example/beginner
-Vagrantfile location
-1.2. Setup Host System Important All steps are executed on the Host System inside a git&#43;bash. clone git Repository mkdir ~/git cd ~/git git clone https://github.com/oravirt/ansible-oracle.git 1.2.1. Download Oracle Installation media Download the installation media for Oracle RDBMS 19c for Linux x86_64.
-Place the ZIP archive into the directory of Vagrantfile.
-copy archive cd &lt;Downloadlocation&gt; cp LINUX.X64_193000_db_home.zip ~/git/ansible-oracle/example/beginner/vagrant 1.2.2. Configure SSH-Key Important Do not skip the preparation for Vagrant and SSH.
-Please follow the documentation. Copy Public key into Vagrantfile directory cp ~/.ssh/id_rsa.pub ~/git/ansible-oracle/example/beginner/vagrant Start ssh-Agent (not needed when running from SSH-Setup) eval $(ssh-agent) Import the generated key ssh-add ~/.ssh/id_rsa 1.2.3. Start Vagrantbox Important The Deployment und provisioning of the VM takes some minutes.
-It highly depends on the speed of the internet connection. Important The SSH public key is configured during the provisioning phase of the VM.
-Do not forget to copy the file before starting the box with vagrant up. vagrant up cd ~/git/ansible-oracle/example/beginner/vagrant VAGRANT_EXPERIMENTAL=disks vagrant up 1.2.3.1. What happens when I start vagrant? Using the vagrantfile, an Oracle Linux VM is installed (2x CPU, 4096MB RAM, 150GB HDD). IP = 192.168.56.161
-A mount point /vagrant is available in the Oracle Linux VM. This is a shared folder from your Windows machine.
-Your ssh key is used to connect to the VM in a secure way
-docker is installed in the Oracle Linux VM
-docker-compose is installed in the Oracle Linux VM
-The ansible-oracle repository is cloned to the Oracle Linux VM
-A docker container &#34;Ansible Container&#34; is built with docker-compose. This runs in the Oracle Linux VM
-No Oracle database is yet installed. See below
-1.3. Working inside the VM 1.3.1. Connect to VM Important The next steps are done inside the VM.
-The SSH-Setup from the previous chapter must be completed before continuing! Connect into VM with SSH from git&#43;bash ssh -A vagrant@192.168.56.161 1.3.2. Note about Installation media The installation media is mounted with vboxsf from Vagrant into the Linux VM, mounted as /vagrant.
-Use the following command to check this…​
-check for Installation media [vagrant@beginner-dbfs-151-192-168-56-161 ~]$ ls /vagrant/LINUX.X64_193000_db_home.zip /vagrant/LINUX.X64_193000_db_home.zip 1.3.3. Start Ansible-Container inside VM Important Check the prompt shown in this documentation, as to whether you should start the commands in the shell or inside the Ansible-Container.
-ansible@ansible-oracle is for working inside the container. Start Ansible-Container cd ~/git/ansible-oracle/docker docker-compose run --rm -w /git/ansible-oracle/example/beginner/ansible ansible bash Example [vagrant@beginner-dbfs-151-192-168-56-161 docker]$ docker-compose run --rm -w /git/ansible-oracle/example/beginner/ansible ansible bash [&#43;] Running 2/0 ⠿ Network docker_default Created ⠿ Volume &#34;docker_ansible_galaxy&#34; Created ansible@ansible-oracle:/git/ansible-oracle/example/beginner/ansible$ Important The collection is installed once and stored on the docker volume. Install Collections ansible@ansible-oracle:/git/ansible-oracle/example/beginner/ansible$ ansible-galaxy collection install -r requirements.yml Example ansible@ansible-oracle:/git/ansible-oracle/example/beginner/ansible$ ansible-galaxy collection install -r requirements.yml Starting galaxy collection install process Process install dependency map Starting collection install process Downloading https://galaxy.ansible.com/download/devsec-hardening-8.2.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/devsec-hardening-8.2.0-0j9481f1 Installing &#39;devsec.hardening:8.2.0&#39; to &#39;/ansible/galaxy/ansible_collections/devsec/hardening&#39; Downloading https://galaxy.ansible.com/download/opitzconsulting-ansible_oracle-3.2.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/opitzconsulting-ansible_oracle-3.2.0-x3wo4c3b devsec.hardening:8.2.0 was installed successfully Installing &#39;opitzconsulting.ansible_oracle:3.2.0&#39; to &#39;/ansible/galaxy/ansible_collections/opitzconsulting/ansible_oracle&#39; Downloading https://galaxy.ansible.com/download/ansible-posix-1.4.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/ansible-posix-1.4.0-1jub71c6 opitzconsulting.ansible_oracle:3.2.0 was installed successfully Installing &#39;ansible.posix:1.4.0&#39; to &#39;/ansible/galaxy/ansible_collections/ansible/posix&#39; Downloading https://galaxy.ansible.com/download/community-mysql-3.5.1.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/community-mysql-3.5.1-lkcnbkd5 ansible.posix:1.4.0 was installed successfully Installing &#39;community.mysql:3.5.1&#39; to &#39;/ansible/galaxy/ansible_collections/community/mysql&#39; Downloading https://galaxy.ansible.com/download/community-crypto-2.8.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/community-crypto-2.8.0-6sco_75m community.mysql:3.5.1 was installed successfully Installing &#39;community.crypto:2.8.0&#39; to &#39;/ansible/galaxy/ansible_collections/community/crypto&#39; Downloading https://galaxy.ansible.com/download/community-general-5.8.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/community-general-5.8.0-up2j_3iq community.crypto:2.8.0 was installed successfully Installing &#39;community.general:5.8.0&#39; to &#39;/ansible/galaxy/ansible_collections/community/general&#39; community.general:5.8.0 was installed successfully 1.3.4. Start Installation with Ansible Important Make sure to start the installation inside the Ansible Container.
-The prompt shows the correct location. The execution takes ~60 minutes. Start installation with Ansible cd /git/ansible-oracle/example/beginner/ansible ansible-playbook -i inventory/ -e hostgroup=dbfs playbooks/single-instance-fs.yml The Database creation is now complete.
-See the following chapter for details about how to work with the VM.
-1.4. How to work with the installed database 1.4.1. Login as vagrant Login with SSH from git&#43;bash ssh -A vagrant@192.168.56.161 1.4.2. Sudo oracle sudo oracle [vagrant@beginner-dbfs-151-192-168-56-161 ~]$ sudo su - oracle Example [vagrant@beginner-dbfs-151-192-168-56-161 ~]$ sudo su - oracle Last login: Sun Nov 6 11:16:54 UTC 2022 on pts/2 execute ocenv to source Oracle Environment 1.4.3. Start ocenv Initialize ocenv to set the environment variables [oracle@beginner-dbfs-151-192-168-56-161 ~]$ ocenv Example [oracle@beginner-dbfs-151-192-168-56-161 ~]$ ocenv ##################################################################################### ## Version: 2022-08-10 ## get command overview by typing envhelp ##################################################################################### home oracle OraHome_OraDB19Home1 /u01/app/oracle/product/19/db1 db oracle DB1 (up) /u01/app/oracle/product/19/db1 lsnr oracle LISTENER /u01/app/oracle/product/19/db1 [oracle@beginner-dbfs-151-192-168-56-161] [] [~] 1.4.4. Switch to DB1 Set ORACLE_SID [oracle@beginner-dbfs-151-192-168-56-161] [] [~] $ DB1 Example [oracle@beginner-dbfs-151-192-168-56-161] [] [~] $ DB1 ================================= INSTANCE NAME : DB1 INSTANCE STATUS : OPEN (READ WRITE) INSTANCE START TIME : 2022-11-06 11:34:06 DB NAME : DB1 DB UNIQUE NAME : DB1 DB ID : 1713907024 DB LOGGING MODE : NOARCHIVELOG DB ROLE : PRIMARY DB FORCE LOGGING : YES DB FLASHBACK ON : NO DB is CDB : YES PDBs PDB NAME STATUS RESTRICTED OPEN TIME LOCAL UNDO --------------- ---------- ---------- ------------------- ---------- ORCLPDB READ WRITE NO 2022-11-06 11:34:28 YES ================================= [oracle@beginner-dbfs-151-192-168-56-161] [DB1] [~] 1.4.5. Database Login Start SQLPlus [oracle@beginner-dbfs-151-192-168-56-161] [DB1] [~] $ sql Example [oracle@beginner-dbfs-151-192-168-56-161] [DB1] [~] $ sql SQL*Plus: Release 19.0.0.0.0 - Production on Sun Nov 6 11:41:40 2022 Version 19.3.0.0.0 Copyright (c) 1982, 2019, Oracle. All rights reserved. Connected to: Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production Version 19.3.0.0.0 11:41:40 SYS@DB1 SQL&gt; ">
+<meta name="description" content=" This guide installs an Oracle AI Database 26ai with a container database DB1 and the PDB ORCLPDB on an Oracle Linux 9 VM with ansible-oracle.
+1. Overview 1.1. Architecture overview 1.2. What are we going to do? Prepare the Ansible controller: Ansible in Ubuntu on WSL2 on Windows.
+Configure the inventory with the IP address and login user of the Oracle Linux 9 VM.
+Start the playbook playbooks/do_all.yml. It executes all needed playbooks:
+opitzconsulting.ansible_oracle.os: prepare the VM for AutoUpgrade
+playbooks/autoupgrade.yml: install AutoUpgrade on the VM and download a gold image from My Oracle Support. The gold image is a complete ORACLE_HOME including the Release Update.
+opitzconsulting.ansible_oracle.single_instance_fs: configure the OS, install the ORACLE_HOME from the gold image and create the database.
+1.3. Defaults Table 1. Defaults used in this guide Value Description ~/git/ansible-oracle
+git repository on the Ansible controller
+~/git/ansible-oracle/example/beginner/ansible
+Working directory for all Ansible commands
+beginner-dbfs
+Name of the VM in the inventory
+192.168.66.161
+IP address of the VM (ansible_host)
+ol
+Login user on the VM (ansible_user)
+/u01/sw
+Installation media on the VM, target of the download (oracle_sw_source_local)
+/u01/stage
+Staging directory on the VM (oracle_stage)">
 <meta property="og:url" content="https://www.ansible-oracle.eu/docs/guides/beginner/">
 	<meta property="og:site_name" content="ansible-oracle Project">
 	<meta property="og:title" content="Beginners Guide">
-	<meta property="og:description" content="1. Beginners Guide Important The setup of Vagrant, VirtualBox and SSH is not part of this documentation.
-Please follow the documentation. 1.1. Overview 1.1.1. Architecture overview 1.1.2. What are we going to do? With one command, the following will happen…​
-An Oracle Linux VM will be created.
-A docker container is setup in this Linux VM.
-Why do we need a docker container? Ansible runs in the docker container to configure the Oracle Linux VM and install the Oracle database. See Details of Ansible as a Docker Container for more information
-The Oracle database installation is started from the docker container. See details below.
-1.1.3. Defaults Table 1. Defaults used in this guide Value Description ~/git/ansible-oracle
-git Repository on Host System
-~/git/ansible-oracle
-git Repository in VM
-~/.ssh/id_rsa
-private Key on Host System
-vagrant
-SSH-User for Login and Ansible
-~/git/ansible-oracle/example/beginner
-Vagrantfile location
-1.2. Setup Host System Important All steps are executed on the Host System inside a git&#43;bash. clone git Repository mkdir ~/git cd ~/git git clone https://github.com/oravirt/ansible-oracle.git 1.2.1. Download Oracle Installation media Download the installation media for Oracle RDBMS 19c for Linux x86_64.
-Place the ZIP archive into the directory of Vagrantfile.
-copy archive cd &lt;Downloadlocation&gt; cp LINUX.X64_193000_db_home.zip ~/git/ansible-oracle/example/beginner/vagrant 1.2.2. Configure SSH-Key Important Do not skip the preparation for Vagrant and SSH.
-Please follow the documentation. Copy Public key into Vagrantfile directory cp ~/.ssh/id_rsa.pub ~/git/ansible-oracle/example/beginner/vagrant Start ssh-Agent (not needed when running from SSH-Setup) eval $(ssh-agent) Import the generated key ssh-add ~/.ssh/id_rsa 1.2.3. Start Vagrantbox Important The Deployment und provisioning of the VM takes some minutes.
-It highly depends on the speed of the internet connection. Important The SSH public key is configured during the provisioning phase of the VM.
-Do not forget to copy the file before starting the box with vagrant up. vagrant up cd ~/git/ansible-oracle/example/beginner/vagrant VAGRANT_EXPERIMENTAL=disks vagrant up 1.2.3.1. What happens when I start vagrant? Using the vagrantfile, an Oracle Linux VM is installed (2x CPU, 4096MB RAM, 150GB HDD). IP = 192.168.56.161
-A mount point /vagrant is available in the Oracle Linux VM. This is a shared folder from your Windows machine.
-Your ssh key is used to connect to the VM in a secure way
-docker is installed in the Oracle Linux VM
-docker-compose is installed in the Oracle Linux VM
-The ansible-oracle repository is cloned to the Oracle Linux VM
-A docker container &#34;Ansible Container&#34; is built with docker-compose. This runs in the Oracle Linux VM
-No Oracle database is yet installed. See below
-1.3. Working inside the VM 1.3.1. Connect to VM Important The next steps are done inside the VM.
-The SSH-Setup from the previous chapter must be completed before continuing! Connect into VM with SSH from git&#43;bash ssh -A vagrant@192.168.56.161 1.3.2. Note about Installation media The installation media is mounted with vboxsf from Vagrant into the Linux VM, mounted as /vagrant.
-Use the following command to check this…​
-check for Installation media [vagrant@beginner-dbfs-151-192-168-56-161 ~]$ ls /vagrant/LINUX.X64_193000_db_home.zip /vagrant/LINUX.X64_193000_db_home.zip 1.3.3. Start Ansible-Container inside VM Important Check the prompt shown in this documentation, as to whether you should start the commands in the shell or inside the Ansible-Container.
-ansible@ansible-oracle is for working inside the container. Start Ansible-Container cd ~/git/ansible-oracle/docker docker-compose run --rm -w /git/ansible-oracle/example/beginner/ansible ansible bash Example [vagrant@beginner-dbfs-151-192-168-56-161 docker]$ docker-compose run --rm -w /git/ansible-oracle/example/beginner/ansible ansible bash [&#43;] Running 2/0 ⠿ Network docker_default Created ⠿ Volume &#34;docker_ansible_galaxy&#34; Created ansible@ansible-oracle:/git/ansible-oracle/example/beginner/ansible$ Important The collection is installed once and stored on the docker volume. Install Collections ansible@ansible-oracle:/git/ansible-oracle/example/beginner/ansible$ ansible-galaxy collection install -r requirements.yml Example ansible@ansible-oracle:/git/ansible-oracle/example/beginner/ansible$ ansible-galaxy collection install -r requirements.yml Starting galaxy collection install process Process install dependency map Starting collection install process Downloading https://galaxy.ansible.com/download/devsec-hardening-8.2.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/devsec-hardening-8.2.0-0j9481f1 Installing &#39;devsec.hardening:8.2.0&#39; to &#39;/ansible/galaxy/ansible_collections/devsec/hardening&#39; Downloading https://galaxy.ansible.com/download/opitzconsulting-ansible_oracle-3.2.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/opitzconsulting-ansible_oracle-3.2.0-x3wo4c3b devsec.hardening:8.2.0 was installed successfully Installing &#39;opitzconsulting.ansible_oracle:3.2.0&#39; to &#39;/ansible/galaxy/ansible_collections/opitzconsulting/ansible_oracle&#39; Downloading https://galaxy.ansible.com/download/ansible-posix-1.4.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/ansible-posix-1.4.0-1jub71c6 opitzconsulting.ansible_oracle:3.2.0 was installed successfully Installing &#39;ansible.posix:1.4.0&#39; to &#39;/ansible/galaxy/ansible_collections/ansible/posix&#39; Downloading https://galaxy.ansible.com/download/community-mysql-3.5.1.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/community-mysql-3.5.1-lkcnbkd5 ansible.posix:1.4.0 was installed successfully Installing &#39;community.mysql:3.5.1&#39; to &#39;/ansible/galaxy/ansible_collections/community/mysql&#39; Downloading https://galaxy.ansible.com/download/community-crypto-2.8.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/community-crypto-2.8.0-6sco_75m community.mysql:3.5.1 was installed successfully Installing &#39;community.crypto:2.8.0&#39; to &#39;/ansible/galaxy/ansible_collections/community/crypto&#39; Downloading https://galaxy.ansible.com/download/community-general-5.8.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/community-general-5.8.0-up2j_3iq community.crypto:2.8.0 was installed successfully Installing &#39;community.general:5.8.0&#39; to &#39;/ansible/galaxy/ansible_collections/community/general&#39; community.general:5.8.0 was installed successfully 1.3.4. Start Installation with Ansible Important Make sure to start the installation inside the Ansible Container.
-The prompt shows the correct location. The execution takes ~60 minutes. Start installation with Ansible cd /git/ansible-oracle/example/beginner/ansible ansible-playbook -i inventory/ -e hostgroup=dbfs playbooks/single-instance-fs.yml The Database creation is now complete.
-See the following chapter for details about how to work with the VM.
-1.4. How to work with the installed database 1.4.1. Login as vagrant Login with SSH from git&#43;bash ssh -A vagrant@192.168.56.161 1.4.2. Sudo oracle sudo oracle [vagrant@beginner-dbfs-151-192-168-56-161 ~]$ sudo su - oracle Example [vagrant@beginner-dbfs-151-192-168-56-161 ~]$ sudo su - oracle Last login: Sun Nov 6 11:16:54 UTC 2022 on pts/2 execute ocenv to source Oracle Environment 1.4.3. Start ocenv Initialize ocenv to set the environment variables [oracle@beginner-dbfs-151-192-168-56-161 ~]$ ocenv Example [oracle@beginner-dbfs-151-192-168-56-161 ~]$ ocenv ##################################################################################### ## Version: 2022-08-10 ## get command overview by typing envhelp ##################################################################################### home oracle OraHome_OraDB19Home1 /u01/app/oracle/product/19/db1 db oracle DB1 (up) /u01/app/oracle/product/19/db1 lsnr oracle LISTENER /u01/app/oracle/product/19/db1 [oracle@beginner-dbfs-151-192-168-56-161] [] [~] 1.4.4. Switch to DB1 Set ORACLE_SID [oracle@beginner-dbfs-151-192-168-56-161] [] [~] $ DB1 Example [oracle@beginner-dbfs-151-192-168-56-161] [] [~] $ DB1 ================================= INSTANCE NAME : DB1 INSTANCE STATUS : OPEN (READ WRITE) INSTANCE START TIME : 2022-11-06 11:34:06 DB NAME : DB1 DB UNIQUE NAME : DB1 DB ID : 1713907024 DB LOGGING MODE : NOARCHIVELOG DB ROLE : PRIMARY DB FORCE LOGGING : YES DB FLASHBACK ON : NO DB is CDB : YES PDBs PDB NAME STATUS RESTRICTED OPEN TIME LOCAL UNDO --------------- ---------- ---------- ------------------- ---------- ORCLPDB READ WRITE NO 2022-11-06 11:34:28 YES ================================= [oracle@beginner-dbfs-151-192-168-56-161] [DB1] [~] 1.4.5. Database Login Start SQLPlus [oracle@beginner-dbfs-151-192-168-56-161] [DB1] [~] $ sql Example [oracle@beginner-dbfs-151-192-168-56-161] [DB1] [~] $ sql SQL*Plus: Release 19.0.0.0.0 - Production on Sun Nov 6 11:41:40 2022 Version 19.3.0.0.0 Copyright (c) 1982, 2019, Oracle. All rights reserved. Connected to: Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production Version 19.3.0.0.0 11:41:40 SYS@DB1 SQL&gt;">
+	<meta property="og:description" content="This guide installs an Oracle AI Database 26ai with a container database DB1 and the PDB ORCLPDB on an Oracle Linux 9 VM with ansible-oracle.
+1. Overview 1.1. Architecture overview 1.2. What are we going to do? Prepare the Ansible controller: Ansible in Ubuntu on WSL2 on Windows.
+Configure the inventory with the IP address and login user of the Oracle Linux 9 VM.
+Start the playbook playbooks/do_all.yml. It executes all needed playbooks:
+opitzconsulting.ansible_oracle.os: prepare the VM for AutoUpgrade
+playbooks/autoupgrade.yml: install AutoUpgrade on the VM and download a gold image from My Oracle Support. The gold image is a complete ORACLE_HOME including the Release Update.
+opitzconsulting.ansible_oracle.single_instance_fs: configure the OS, install the ORACLE_HOME from the gold image and create the database.
+1.3. Defaults Table 1. Defaults used in this guide Value Description ~/git/ansible-oracle
+git repository on the Ansible controller
+~/git/ansible-oracle/example/beginner/ansible
+Working directory for all Ansible commands
+beginner-dbfs
+Name of the VM in the inventory
+192.168.66.161
+IP address of the VM (ansible_host)
+ol
+Login user on the VM (ansible_user)
+/u01/sw
+Installation media on the VM, target of the download (oracle_sw_source_local)
+/u01/stage
+Staging directory on the VM (oracle_stage)">
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2024-02-08T07:07:33+01:00">
-		<meta property="article:modified_time" content="2024-02-08T07:07:33+01:00">
+		<meta property="article:published_time" content="2026-11-01T10:41:13+01:00">
+		<meta property="article:modified_time" content="2026-11-01T10:41:13+01:00">
 
 	<meta itemprop="name" content="Beginners Guide">
-	<meta itemprop="description" content="1. Beginners Guide Important The setup of Vagrant, VirtualBox and SSH is not part of this documentation.
-Please follow the documentation. 1.1. Overview 1.1.1. Architecture overview 1.1.2. What are we going to do? With one command, the following will happen…​
-An Oracle Linux VM will be created.
-A docker container is setup in this Linux VM.
-Why do we need a docker container? Ansible runs in the docker container to configure the Oracle Linux VM and install the Oracle database. See Details of Ansible as a Docker Container for more information
-The Oracle database installation is started from the docker container. See details below.
-1.1.3. Defaults Table 1. Defaults used in this guide Value Description ~/git/ansible-oracle
-git Repository on Host System
-~/git/ansible-oracle
-git Repository in VM
-~/.ssh/id_rsa
-private Key on Host System
-vagrant
-SSH-User for Login and Ansible
-~/git/ansible-oracle/example/beginner
-Vagrantfile location
-1.2. Setup Host System Important All steps are executed on the Host System inside a git&#43;bash. clone git Repository mkdir ~/git cd ~/git git clone https://github.com/oravirt/ansible-oracle.git 1.2.1. Download Oracle Installation media Download the installation media for Oracle RDBMS 19c for Linux x86_64.
-Place the ZIP archive into the directory of Vagrantfile.
-copy archive cd &lt;Downloadlocation&gt; cp LINUX.X64_193000_db_home.zip ~/git/ansible-oracle/example/beginner/vagrant 1.2.2. Configure SSH-Key Important Do not skip the preparation for Vagrant and SSH.
-Please follow the documentation. Copy Public key into Vagrantfile directory cp ~/.ssh/id_rsa.pub ~/git/ansible-oracle/example/beginner/vagrant Start ssh-Agent (not needed when running from SSH-Setup) eval $(ssh-agent) Import the generated key ssh-add ~/.ssh/id_rsa 1.2.3. Start Vagrantbox Important The Deployment und provisioning of the VM takes some minutes.
-It highly depends on the speed of the internet connection. Important The SSH public key is configured during the provisioning phase of the VM.
-Do not forget to copy the file before starting the box with vagrant up. vagrant up cd ~/git/ansible-oracle/example/beginner/vagrant VAGRANT_EXPERIMENTAL=disks vagrant up 1.2.3.1. What happens when I start vagrant? Using the vagrantfile, an Oracle Linux VM is installed (2x CPU, 4096MB RAM, 150GB HDD). IP = 192.168.56.161
-A mount point /vagrant is available in the Oracle Linux VM. This is a shared folder from your Windows machine.
-Your ssh key is used to connect to the VM in a secure way
-docker is installed in the Oracle Linux VM
-docker-compose is installed in the Oracle Linux VM
-The ansible-oracle repository is cloned to the Oracle Linux VM
-A docker container &#34;Ansible Container&#34; is built with docker-compose. This runs in the Oracle Linux VM
-No Oracle database is yet installed. See below
-1.3. Working inside the VM 1.3.1. Connect to VM Important The next steps are done inside the VM.
-The SSH-Setup from the previous chapter must be completed before continuing! Connect into VM with SSH from git&#43;bash ssh -A vagrant@192.168.56.161 1.3.2. Note about Installation media The installation media is mounted with vboxsf from Vagrant into the Linux VM, mounted as /vagrant.
-Use the following command to check this…​
-check for Installation media [vagrant@beginner-dbfs-151-192-168-56-161 ~]$ ls /vagrant/LINUX.X64_193000_db_home.zip /vagrant/LINUX.X64_193000_db_home.zip 1.3.3. Start Ansible-Container inside VM Important Check the prompt shown in this documentation, as to whether you should start the commands in the shell or inside the Ansible-Container.
-ansible@ansible-oracle is for working inside the container. Start Ansible-Container cd ~/git/ansible-oracle/docker docker-compose run --rm -w /git/ansible-oracle/example/beginner/ansible ansible bash Example [vagrant@beginner-dbfs-151-192-168-56-161 docker]$ docker-compose run --rm -w /git/ansible-oracle/example/beginner/ansible ansible bash [&#43;] Running 2/0 ⠿ Network docker_default Created ⠿ Volume &#34;docker_ansible_galaxy&#34; Created ansible@ansible-oracle:/git/ansible-oracle/example/beginner/ansible$ Important The collection is installed once and stored on the docker volume. Install Collections ansible@ansible-oracle:/git/ansible-oracle/example/beginner/ansible$ ansible-galaxy collection install -r requirements.yml Example ansible@ansible-oracle:/git/ansible-oracle/example/beginner/ansible$ ansible-galaxy collection install -r requirements.yml Starting galaxy collection install process Process install dependency map Starting collection install process Downloading https://galaxy.ansible.com/download/devsec-hardening-8.2.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/devsec-hardening-8.2.0-0j9481f1 Installing &#39;devsec.hardening:8.2.0&#39; to &#39;/ansible/galaxy/ansible_collections/devsec/hardening&#39; Downloading https://galaxy.ansible.com/download/opitzconsulting-ansible_oracle-3.2.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/opitzconsulting-ansible_oracle-3.2.0-x3wo4c3b devsec.hardening:8.2.0 was installed successfully Installing &#39;opitzconsulting.ansible_oracle:3.2.0&#39; to &#39;/ansible/galaxy/ansible_collections/opitzconsulting/ansible_oracle&#39; Downloading https://galaxy.ansible.com/download/ansible-posix-1.4.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/ansible-posix-1.4.0-1jub71c6 opitzconsulting.ansible_oracle:3.2.0 was installed successfully Installing &#39;ansible.posix:1.4.0&#39; to &#39;/ansible/galaxy/ansible_collections/ansible/posix&#39; Downloading https://galaxy.ansible.com/download/community-mysql-3.5.1.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/community-mysql-3.5.1-lkcnbkd5 ansible.posix:1.4.0 was installed successfully Installing &#39;community.mysql:3.5.1&#39; to &#39;/ansible/galaxy/ansible_collections/community/mysql&#39; Downloading https://galaxy.ansible.com/download/community-crypto-2.8.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/community-crypto-2.8.0-6sco_75m community.mysql:3.5.1 was installed successfully Installing &#39;community.crypto:2.8.0&#39; to &#39;/ansible/galaxy/ansible_collections/community/crypto&#39; Downloading https://galaxy.ansible.com/download/community-general-5.8.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/community-general-5.8.0-up2j_3iq community.crypto:2.8.0 was installed successfully Installing &#39;community.general:5.8.0&#39; to &#39;/ansible/galaxy/ansible_collections/community/general&#39; community.general:5.8.0 was installed successfully 1.3.4. Start Installation with Ansible Important Make sure to start the installation inside the Ansible Container.
-The prompt shows the correct location. The execution takes ~60 minutes. Start installation with Ansible cd /git/ansible-oracle/example/beginner/ansible ansible-playbook -i inventory/ -e hostgroup=dbfs playbooks/single-instance-fs.yml The Database creation is now complete.
-See the following chapter for details about how to work with the VM.
-1.4. How to work with the installed database 1.4.1. Login as vagrant Login with SSH from git&#43;bash ssh -A vagrant@192.168.56.161 1.4.2. Sudo oracle sudo oracle [vagrant@beginner-dbfs-151-192-168-56-161 ~]$ sudo su - oracle Example [vagrant@beginner-dbfs-151-192-168-56-161 ~]$ sudo su - oracle Last login: Sun Nov 6 11:16:54 UTC 2022 on pts/2 execute ocenv to source Oracle Environment 1.4.3. Start ocenv Initialize ocenv to set the environment variables [oracle@beginner-dbfs-151-192-168-56-161 ~]$ ocenv Example [oracle@beginner-dbfs-151-192-168-56-161 ~]$ ocenv ##################################################################################### ## Version: 2022-08-10 ## get command overview by typing envhelp ##################################################################################### home oracle OraHome_OraDB19Home1 /u01/app/oracle/product/19/db1 db oracle DB1 (up) /u01/app/oracle/product/19/db1 lsnr oracle LISTENER /u01/app/oracle/product/19/db1 [oracle@beginner-dbfs-151-192-168-56-161] [] [~] 1.4.4. Switch to DB1 Set ORACLE_SID [oracle@beginner-dbfs-151-192-168-56-161] [] [~] $ DB1 Example [oracle@beginner-dbfs-151-192-168-56-161] [] [~] $ DB1 ================================= INSTANCE NAME : DB1 INSTANCE STATUS : OPEN (READ WRITE) INSTANCE START TIME : 2022-11-06 11:34:06 DB NAME : DB1 DB UNIQUE NAME : DB1 DB ID : 1713907024 DB LOGGING MODE : NOARCHIVELOG DB ROLE : PRIMARY DB FORCE LOGGING : YES DB FLASHBACK ON : NO DB is CDB : YES PDBs PDB NAME STATUS RESTRICTED OPEN TIME LOCAL UNDO --------------- ---------- ---------- ------------------- ---------- ORCLPDB READ WRITE NO 2022-11-06 11:34:28 YES ================================= [oracle@beginner-dbfs-151-192-168-56-161] [DB1] [~] 1.4.5. Database Login Start SQLPlus [oracle@beginner-dbfs-151-192-168-56-161] [DB1] [~] $ sql Example [oracle@beginner-dbfs-151-192-168-56-161] [DB1] [~] $ sql SQL*Plus: Release 19.0.0.0.0 - Production on Sun Nov 6 11:41:40 2022 Version 19.3.0.0.0 Copyright (c) 1982, 2019, Oracle. All rights reserved. Connected to: Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production Version 19.3.0.0.0 11:41:40 SYS@DB1 SQL&gt;">
-	<meta itemprop="datePublished" content="2024-02-08T07:07:33+01:00">
-	<meta itemprop="dateModified" content="2024-02-08T07:07:33+01:00">
-	<meta itemprop="wordCount" content="971">
+	<meta itemprop="description" content="This guide installs an Oracle AI Database 26ai with a container database DB1 and the PDB ORCLPDB on an Oracle Linux 9 VM with ansible-oracle.
+1. Overview 1.1. Architecture overview 1.2. What are we going to do? Prepare the Ansible controller: Ansible in Ubuntu on WSL2 on Windows.
+Configure the inventory with the IP address and login user of the Oracle Linux 9 VM.
+Start the playbook playbooks/do_all.yml. It executes all needed playbooks:
+opitzconsulting.ansible_oracle.os: prepare the VM for AutoUpgrade
+playbooks/autoupgrade.yml: install AutoUpgrade on the VM and download a gold image from My Oracle Support. The gold image is a complete ORACLE_HOME including the Release Update.
+opitzconsulting.ansible_oracle.single_instance_fs: configure the OS, install the ORACLE_HOME from the gold image and create the database.
+1.3. Defaults Table 1. Defaults used in this guide Value Description ~/git/ansible-oracle
+git repository on the Ansible controller
+~/git/ansible-oracle/example/beginner/ansible
+Working directory for all Ansible commands
+beginner-dbfs
+Name of the VM in the inventory
+192.168.66.161
+IP address of the VM (ansible_host)
+ol
+Login user on the VM (ansible_user)
+/u01/sw
+Installation media on the VM, target of the download (oracle_sw_source_local)
+/u01/stage
+Staging directory on the VM (oracle_stage)">
+	<meta itemprop="datePublished" content="2026-11-01T10:41:13+01:00">
+	<meta itemprop="dateModified" content="2026-11-01T10:41:13+01:00">
+	<meta itemprop="wordCount" content="1540">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Beginners Guide">
-	<meta name="twitter:description" content="1. Beginners Guide Important The setup of Vagrant, VirtualBox and SSH is not part of this documentation.
-Please follow the documentation. 1.1. Overview 1.1.1. Architecture overview 1.1.2. What are we going to do? With one command, the following will happen…​
-An Oracle Linux VM will be created.
-A docker container is setup in this Linux VM.
-Why do we need a docker container? Ansible runs in the docker container to configure the Oracle Linux VM and install the Oracle database. See Details of Ansible as a Docker Container for more information
-The Oracle database installation is started from the docker container. See details below.
-1.1.3. Defaults Table 1. Defaults used in this guide Value Description ~/git/ansible-oracle
-git Repository on Host System
-~/git/ansible-oracle
-git Repository in VM
-~/.ssh/id_rsa
-private Key on Host System
-vagrant
-SSH-User for Login and Ansible
-~/git/ansible-oracle/example/beginner
-Vagrantfile location
-1.2. Setup Host System Important All steps are executed on the Host System inside a git&#43;bash. clone git Repository mkdir ~/git cd ~/git git clone https://github.com/oravirt/ansible-oracle.git 1.2.1. Download Oracle Installation media Download the installation media for Oracle RDBMS 19c for Linux x86_64.
-Place the ZIP archive into the directory of Vagrantfile.
-copy archive cd &lt;Downloadlocation&gt; cp LINUX.X64_193000_db_home.zip ~/git/ansible-oracle/example/beginner/vagrant 1.2.2. Configure SSH-Key Important Do not skip the preparation for Vagrant and SSH.
-Please follow the documentation. Copy Public key into Vagrantfile directory cp ~/.ssh/id_rsa.pub ~/git/ansible-oracle/example/beginner/vagrant Start ssh-Agent (not needed when running from SSH-Setup) eval $(ssh-agent) Import the generated key ssh-add ~/.ssh/id_rsa 1.2.3. Start Vagrantbox Important The Deployment und provisioning of the VM takes some minutes.
-It highly depends on the speed of the internet connection. Important The SSH public key is configured during the provisioning phase of the VM.
-Do not forget to copy the file before starting the box with vagrant up. vagrant up cd ~/git/ansible-oracle/example/beginner/vagrant VAGRANT_EXPERIMENTAL=disks vagrant up 1.2.3.1. What happens when I start vagrant? Using the vagrantfile, an Oracle Linux VM is installed (2x CPU, 4096MB RAM, 150GB HDD). IP = 192.168.56.161
-A mount point /vagrant is available in the Oracle Linux VM. This is a shared folder from your Windows machine.
-Your ssh key is used to connect to the VM in a secure way
-docker is installed in the Oracle Linux VM
-docker-compose is installed in the Oracle Linux VM
-The ansible-oracle repository is cloned to the Oracle Linux VM
-A docker container &#34;Ansible Container&#34; is built with docker-compose. This runs in the Oracle Linux VM
-No Oracle database is yet installed. See below
-1.3. Working inside the VM 1.3.1. Connect to VM Important The next steps are done inside the VM.
-The SSH-Setup from the previous chapter must be completed before continuing! Connect into VM with SSH from git&#43;bash ssh -A vagrant@192.168.56.161 1.3.2. Note about Installation media The installation media is mounted with vboxsf from Vagrant into the Linux VM, mounted as /vagrant.
-Use the following command to check this…​
-check for Installation media [vagrant@beginner-dbfs-151-192-168-56-161 ~]$ ls /vagrant/LINUX.X64_193000_db_home.zip /vagrant/LINUX.X64_193000_db_home.zip 1.3.3. Start Ansible-Container inside VM Important Check the prompt shown in this documentation, as to whether you should start the commands in the shell or inside the Ansible-Container.
-ansible@ansible-oracle is for working inside the container. Start Ansible-Container cd ~/git/ansible-oracle/docker docker-compose run --rm -w /git/ansible-oracle/example/beginner/ansible ansible bash Example [vagrant@beginner-dbfs-151-192-168-56-161 docker]$ docker-compose run --rm -w /git/ansible-oracle/example/beginner/ansible ansible bash [&#43;] Running 2/0 ⠿ Network docker_default Created ⠿ Volume &#34;docker_ansible_galaxy&#34; Created ansible@ansible-oracle:/git/ansible-oracle/example/beginner/ansible$ Important The collection is installed once and stored on the docker volume. Install Collections ansible@ansible-oracle:/git/ansible-oracle/example/beginner/ansible$ ansible-galaxy collection install -r requirements.yml Example ansible@ansible-oracle:/git/ansible-oracle/example/beginner/ansible$ ansible-galaxy collection install -r requirements.yml Starting galaxy collection install process Process install dependency map Starting collection install process Downloading https://galaxy.ansible.com/download/devsec-hardening-8.2.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/devsec-hardening-8.2.0-0j9481f1 Installing &#39;devsec.hardening:8.2.0&#39; to &#39;/ansible/galaxy/ansible_collections/devsec/hardening&#39; Downloading https://galaxy.ansible.com/download/opitzconsulting-ansible_oracle-3.2.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/opitzconsulting-ansible_oracle-3.2.0-x3wo4c3b devsec.hardening:8.2.0 was installed successfully Installing &#39;opitzconsulting.ansible_oracle:3.2.0&#39; to &#39;/ansible/galaxy/ansible_collections/opitzconsulting/ansible_oracle&#39; Downloading https://galaxy.ansible.com/download/ansible-posix-1.4.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/ansible-posix-1.4.0-1jub71c6 opitzconsulting.ansible_oracle:3.2.0 was installed successfully Installing &#39;ansible.posix:1.4.0&#39; to &#39;/ansible/galaxy/ansible_collections/ansible/posix&#39; Downloading https://galaxy.ansible.com/download/community-mysql-3.5.1.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/community-mysql-3.5.1-lkcnbkd5 ansible.posix:1.4.0 was installed successfully Installing &#39;community.mysql:3.5.1&#39; to &#39;/ansible/galaxy/ansible_collections/community/mysql&#39; Downloading https://galaxy.ansible.com/download/community-crypto-2.8.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/community-crypto-2.8.0-6sco_75m community.mysql:3.5.1 was installed successfully Installing &#39;community.crypto:2.8.0&#39; to &#39;/ansible/galaxy/ansible_collections/community/crypto&#39; Downloading https://galaxy.ansible.com/download/community-general-5.8.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/community-general-5.8.0-up2j_3iq community.crypto:2.8.0 was installed successfully Installing &#39;community.general:5.8.0&#39; to &#39;/ansible/galaxy/ansible_collections/community/general&#39; community.general:5.8.0 was installed successfully 1.3.4. Start Installation with Ansible Important Make sure to start the installation inside the Ansible Container.
-The prompt shows the correct location. The execution takes ~60 minutes. Start installation with Ansible cd /git/ansible-oracle/example/beginner/ansible ansible-playbook -i inventory/ -e hostgroup=dbfs playbooks/single-instance-fs.yml The Database creation is now complete.
-See the following chapter for details about how to work with the VM.
-1.4. How to work with the installed database 1.4.1. Login as vagrant Login with SSH from git&#43;bash ssh -A vagrant@192.168.56.161 1.4.2. Sudo oracle sudo oracle [vagrant@beginner-dbfs-151-192-168-56-161 ~]$ sudo su - oracle Example [vagrant@beginner-dbfs-151-192-168-56-161 ~]$ sudo su - oracle Last login: Sun Nov 6 11:16:54 UTC 2022 on pts/2 execute ocenv to source Oracle Environment 1.4.3. Start ocenv Initialize ocenv to set the environment variables [oracle@beginner-dbfs-151-192-168-56-161 ~]$ ocenv Example [oracle@beginner-dbfs-151-192-168-56-161 ~]$ ocenv ##################################################################################### ## Version: 2022-08-10 ## get command overview by typing envhelp ##################################################################################### home oracle OraHome_OraDB19Home1 /u01/app/oracle/product/19/db1 db oracle DB1 (up) /u01/app/oracle/product/19/db1 lsnr oracle LISTENER /u01/app/oracle/product/19/db1 [oracle@beginner-dbfs-151-192-168-56-161] [] [~] 1.4.4. Switch to DB1 Set ORACLE_SID [oracle@beginner-dbfs-151-192-168-56-161] [] [~] $ DB1 Example [oracle@beginner-dbfs-151-192-168-56-161] [] [~] $ DB1 ================================= INSTANCE NAME : DB1 INSTANCE STATUS : OPEN (READ WRITE) INSTANCE START TIME : 2022-11-06 11:34:06 DB NAME : DB1 DB UNIQUE NAME : DB1 DB ID : 1713907024 DB LOGGING MODE : NOARCHIVELOG DB ROLE : PRIMARY DB FORCE LOGGING : YES DB FLASHBACK ON : NO DB is CDB : YES PDBs PDB NAME STATUS RESTRICTED OPEN TIME LOCAL UNDO --------------- ---------- ---------- ------------------- ---------- ORCLPDB READ WRITE NO 2022-11-06 11:34:28 YES ================================= [oracle@beginner-dbfs-151-192-168-56-161] [DB1] [~] 1.4.5. Database Login Start SQLPlus [oracle@beginner-dbfs-151-192-168-56-161] [DB1] [~] $ sql Example [oracle@beginner-dbfs-151-192-168-56-161] [DB1] [~] $ sql SQL*Plus: Release 19.0.0.0.0 - Production on Sun Nov 6 11:41:40 2022 Version 19.3.0.0.0 Copyright (c) 1982, 2019, Oracle. All rights reserved. Connected to: Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production Version 19.3.0.0.0 11:41:40 SYS@DB1 SQL&gt;">
+	<meta name="twitter:description" content="This guide installs an Oracle AI Database 26ai with a container database DB1 and the PDB ORCLPDB on an Oracle Linux 9 VM with ansible-oracle.
+1. Overview 1.1. Architecture overview 1.2. What are we going to do? Prepare the Ansible controller: Ansible in Ubuntu on WSL2 on Windows.
+Configure the inventory with the IP address and login user of the Oracle Linux 9 VM.
+Start the playbook playbooks/do_all.yml. It executes all needed playbooks:
+opitzconsulting.ansible_oracle.os: prepare the VM for AutoUpgrade
+playbooks/autoupgrade.yml: install AutoUpgrade on the VM and download a gold image from My Oracle Support. The gold image is a complete ORACLE_HOME including the Release Update.
+opitzconsulting.ansible_oracle.single_instance_fs: configure the OS, install the ORACLE_HOME from the gold image and create the database.
+1.3. Defaults Table 1. Defaults used in this guide Value Description ~/git/ansible-oracle
+git repository on the Ansible controller
+~/git/ansible-oracle/example/beginner/ansible
+Working directory for all Ansible commands
+beginner-dbfs
+Name of the VM in the inventory
+192.168.66.161
+IP address of the VM (ansible_host)
+ol
+Login user on the VM (ansible_user)
+/u01/sw
+Installation media on the VM, target of the download (oracle_sw_source_local)
+/u01/stage
+Staging directory on the VM (oracle_stage)">
 
 
 
@@ -289,12 +225,24 @@ See the following chapter for details about how to work with the VM.
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
   <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
+  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
+  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolespyoracledb-li">
+  <a href="/docs/roles/pyoracledb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolespyoracledb"><span class="">pyoracledb</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
+  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesautoupgrade-li">
   <a href="/docs/roles/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesautoupgrade"><span class="">autoupgrade</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
   <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescxoracle-li">
-  <a href="/docs/roles/cxoracle/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescxoracle"><span class="">cxoracle</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesglobal_handlers-li">
   <a href="/docs/roles/global_handlers/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesglobal_handlers"><span class="">global_handlers</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraapex-li">
@@ -307,8 +255,6 @@ See the following chapter for details about how to work with the VM.
   <a href="/docs/roles/oradb_datapatch/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_datapatch"><span class="">oradb_datapatch</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_facts-li">
   <a href="/docs/roles/oradb_facts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_facts"><span class="">oradb_facts</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
-  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_grants-li">
   <a href="/docs/roles/oradb_manage_grants/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_grants"><span class="">oradb_manage_grants</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_parameters-li">
@@ -335,14 +281,10 @@ See the following chapter for details about how to work with the VM.
   <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_tzupgrade-li">
   <a href="/docs/roles/oradb_tzupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_tzupgrade"><span class="">oradb_tzupgrade</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
-  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_cron-li">
   <a href="/docs/roles/orahost_cron/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_cron"><span class="">orahost_cron</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_logrotate-li">
   <a href="/docs/roles/orahost_logrotate/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_logrotate"><span class="">orahost_logrotate</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
-  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_ssh-li">
   <a href="/docs/roles/orahost_ssh/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_ssh"><span class="">orahost_ssh</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_storage-li">
@@ -351,22 +293,16 @@ See the following chapter for details about how to work with the VM.
   <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
   <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
-  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
   <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswahf_install-li">
   <a href="/docs/roles/oraswahf_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswahf_install"><span class="">oraswahf_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_golden_image-li">
   <a href="/docs/roles/oraswdb_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_golden_image"><span class="">oraswdb_golden_image</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
-  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
   <a href="/docs/roles/oraswdb_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_manage_patches"><span class="">oraswdb_manage_patches</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_golden_image-li">
   <a href="/docs/roles/oraswgi_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_golden_image"><span class="">oraswgi_golden_image</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
-  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_manage_patches-li">
   <a href="/docs/roles/oraswgi_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_manage_patches"><span class="">oraswgi_manage_patches</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_meta-li">
@@ -404,45 +340,35 @@ See the following chapter for details about how to work with the VM.
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#_beginners_guide">1. Beginners Guide</a>
+    <li><a href="#_overview">1. Overview</a>
       <ul>
-        <li><a href="#_overview">1.1. Overview</a>
-          <ul>
-            <li><a href="#_architecture_overview">1.1.1. Architecture overview</a></li>
-            <li><a href="#_what_are_we_going_to_do">1.1.2. What are we going to do?</a></li>
-            <li><a href="#_defaults">1.1.3. Defaults</a></li>
-          </ul>
-        </li>
-        <li><a href="#_setup_host_system">1.2. Setup Host System</a>
-          <ul>
-            <li><a href="#_download_oracle_installation_media">1.2.1. Download Oracle Installation media</a></li>
-            <li><a href="#_configure_ssh_key">1.2.2. Configure SSH-Key</a></li>
-            <li><a href="#_start_vagrantbox">1.2.3. Start Vagrantbox</a>
-              <ul>
-                <li><a href="#_what_happens_when_i_start_vagrant">What happens when I start vagrant?</a></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li><a href="#_working_inside_the_vm">1.3. Working inside the VM</a>
-          <ul>
-            <li><a href="#_connect_to_vm">1.3.1. Connect to VM</a></li>
-            <li><a href="#_note_about_installation_media">1.3.2. Note about Installation media</a></li>
-            <li><a href="#_start_ansible_container_inside_vm">1.3.3. Start Ansible-Container inside VM</a></li>
-            <li><a href="#_start_installation_with_ansible">1.3.4. Start Installation with Ansible</a></li>
-          </ul>
-        </li>
-        <li><a href="#_how_to_work_with_the_installed_database">1.4. How to work with the installed database</a>
-          <ul>
-            <li><a href="#_login_as_vagrant">1.4.1. Login as vagrant</a></li>
-            <li><a href="#_sudo_oracle">1.4.2. Sudo oracle</a></li>
-            <li><a href="#_start_ocenv">1.4.3. Start ocenv</a></li>
-            <li><a href="#_switch_to_db1">1.4.4. Switch to DB1</a></li>
-            <li><a href="#_database_login">1.4.5. Database Login</a></li>
-          </ul>
-        </li>
+        <li><a href="#_architecture_overview">1.1. Architecture overview</a></li>
+        <li><a href="#_what_are_we_going_to_do">1.2. What are we going to do?</a></li>
+        <li><a href="#_defaults">1.3. Defaults</a></li>
       </ul>
     </li>
+    <li><a href="#_requirements">2. Requirements</a>
+      <ul>
+        <li><a href="#_oracle_linux_9_vm">2.1. Oracle Linux 9 VM</a></li>
+        <li><a href="#_create_the_vm_with_hyper_v_and_packer">2.2. Create the VM with Hyper-V and Packer</a></li>
+        <li><a href="#_ansible_controller">2.3. Ansible controller</a></li>
+        <li><a href="#_my_oracle_support">2.4. My Oracle Support</a></li>
+      </ul>
+    </li>
+    <li><a href="#_setup_ansible_controller">3. Setup Ansible controller</a></li>
+    <li><a href="#_configure_inventory">4. Configure inventory</a>
+      <ul>
+        <li><a href="#_ip_address_and_login_user">4.1. IP address and login user</a></li>
+        <li><a href="#_ssh_key">4.2. SSH key</a></li>
+        <li><a href="#_check_the_connection">4.3. Check the connection</a></li>
+        <li><a href="#_my_oracle_support_credentials">4.4. My Oracle Support credentials</a></li>
+        <li><a href="#_database_passwords">4.5. Database passwords</a></li>
+      </ul>
+    </li>
+    <li><a href="#_autoupgrade_on_the_vm">5. AutoUpgrade on the VM</a></li>
+    <li><a href="#_install_database_with_ansible">6. Install database with Ansible</a></li>
+    <li><a href="#_how_to_work_with_the_installed_database">7. How to work with the installed database</a></li>
+    <li><a href="#_next_steps">8. Next Steps</a></li>
   </ul>
 </nav>
       </div>
@@ -472,56 +398,54 @@ See the following chapter for details about how to work with the VM.
 		
   </header>
 	
-<div class="sect1">
-<h2 id="_beginners_guide">1. Beginners Guide</h2>
-<div class="sectionbody">
-<div class="admonitionblock important">
-<table>
-<tbody><tr>
-<td class="icon">
-<div class="title">Important</div>
-</td>
-<td class="content">
-The setup of Vagrant, VirtualBox and SSH is not part of this documentation.<br/>
-Please follow the <a href="/docs/guides/vagrant/windows/">documentation</a>.
-</td>
-</tr>
-</tbody></table>
+<div class="paragraph">
+<p>This guide installs an Oracle AI Database 26ai with a container database <code>DB1</code> and the PDB <code>ORCLPDB</code>
+on an Oracle Linux 9 VM with <code>ansible-oracle</code>.</p>
 </div>
+<div class="sect1">
+<h2 id="_overview">1. Overview</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_overview">1.1. Overview</h3>
-<div class="sect3">
-<h4 id="_architecture_overview">1.1.1. Architecture overview</h4>
+<h3 id="_architecture_overview">1.1. Architecture overview</h3>
 <div class="imageblock">
 <div class="content">
-<img src="http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/oravirt/ansible-oracle/master/doc/guides/beginner.puml" alt="Architecturview"/>
+<img src="http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/oravirt/ansible-oracle/master/doc/guides/beginner.puml" alt="Architecture"/>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_what_are_we_going_to_do">1.1.2. What are we going to do?</h4>
-<div class="paragraph">
-<p>With one command, the following will happen…​</p>
-</div>
-<div class="ulist">
-<ul>
+<div class="sect2">
+<h3 id="_what_are_we_going_to_do">1.2. What are we going to do?</h3>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
-<p>An Oracle Linux VM will be created.</p>
+<p>Prepare the Ansible controller: Ansible in Ubuntu on WSL2 on Windows.</p>
 </li>
 <li>
-<p>A docker container is setup in this Linux VM.</p>
+<p>Configure the inventory with the IP address and login user of the Oracle Linux 9 VM.</p>
 </li>
 <li>
-<p>Why do we need a docker container? Ansible runs in the docker container to configure the Oracle Linux VM and install the Oracle database. See <a href="/docs/guides/ansible-container/">Details of Ansible as a Docker Container</a> for more information</p>
+<p>Start the playbook <code>playbooks/do_all.yml</code>. It executes all needed playbooks:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><code>opitzconsulting.ansible_oracle.os</code>: prepare the VM for AutoUpgrade</p>
 </li>
 <li>
-<p>The Oracle database installation is started from the docker container. See details below.</p>
+<p><code>playbooks/autoupgrade.yml</code>: install AutoUpgrade on the VM and download a <em>gold image</em> from My Oracle Support.
+The gold image is a complete ORACLE_HOME including the Release Update.</p>
 </li>
-</ul>
+<li>
+<p><code>opitzconsulting.ansible_oracle.single_instance_fs</code>: configure the OS, install the ORACLE_HOME from the gold image
+and create the database.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_defaults">1.1.3. Defaults</h4>
+<div class="sect2">
+<h3 id="_defaults">1.3. Defaults</h3>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. Defaults used in this guide</caption>
 <colgroup>
@@ -536,33 +460,101 @@ Please follow the <a href="/docs/guides/vagrant/windows/">documentation</a>.
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">~/git/ansible-oracle</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">git Repository on Host System</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>~/git/ansible-oracle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">git repository on the Ansible controller</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">~/git/ansible-oracle</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">git Repository in VM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>~/git/ansible-oracle/example/beginner/ansible</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Working directory for all Ansible commands</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">~/.ssh/id_rsa</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">private Key on Host System</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>beginner-dbfs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the VM in the inventory</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">vagrant</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SSH-User for Login and Ansible</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>192.168.66.161</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IP address of the VM (<code>ansible_host</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ol</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Login user on the VM (<code>ansible_user</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u01/sw</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Installation media on the VM, target of the download (<code>oracle_sw_source_local</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u01/stage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Staging directory on the VM (<code>oracle_stage</code>)</p></td>
 </tr>
 </tbody>
-<tfoot>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">~/git/ansible-oracle/example/beginner</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Vagrantfile location</p></td>
-</tr>
-</tfoot>
 </table>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_requirements">2. Requirements</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_setup_host_system">1.2. Setup Host System</h3>
+<h3 id="_oracle_linux_9_vm">2.1. Oracle Linux 9 VM</h3>
+<div class="paragraph">
+<p>Any Oracle Linux 9 VM matching the requirements below can be used.
+See <a href="#_create_the_vm_with_hyper_v_and_packer">Create the VM with Hyper-V and Packer</a> for an example with Hyper-V on Windows.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Requirements for the VM</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Item</th>
+<th class="tableblock halign-left valign-top">Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Operating system</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Linux 9 x86_64</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CPU</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2 vCPUs (recommended)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Memory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8 GB RAM (recommended)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Disk</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/dev/sda</code> with the volume group <code>ol</code> on <code>/dev/sda3</code>.
+The volume group needs min. 81 GB free space for swap (16 GB), <code>/u01</code> (40 GB) and <code>/u02</code> (25 GB).
+See <code>host_fs_layout</code> in <code>group_vars/all/host.yml</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Network</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fixed IP address, reachable from the Ansible controller with SSH</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Internet</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Access to the Oracle Linux yum repositories and to My Oracle Support for AutoUpgrade
+(<code>updates.oracle.com</code>, <code>login-ext.identity.oraclecloud.com</code>, <code>aru-akam.oracle.com</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Login user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User with SSH login and <code>sudo</code> privileges, e.g. <code>ol</code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_create_the_vm_with_hyper_v_and_packer">2.2. Create the VM with Hyper-V and Packer</h3>
+<div class="paragraph">
+<p>The repository <a href="https://github.com/Rendanic/packer-hyperv">packer-hyperv</a> builds an Oracle Linux 9 template with Packer
+and creates the VM for this guide on Hyper-V.
+See the README of the repository for the installation of <code>packer</code> and <code>task</code>.</p>
+</div>
 <div class="admonitionblock important">
 <table>
 <tbody><tr>
@@ -570,82 +562,211 @@ Please follow the <a href="/docs/guides/vagrant/windows/">documentation</a>.
 <div class="title">Important</div>
 </td>
 <td class="content">
-All steps are executed on the Host System inside a <code>git+bash</code>.
+All steps in this chapter are executed in PowerShell on Windows, not in WSL.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>The template uses</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the login user <code>ol</code> with <code>sudo</code> privileges and SSH key login,</p>
+</li>
+<li>
+<p>the volume group <code>ol</code> on <code>/dev/sda3</code>, as expected by <code>host_fs_layout</code> in this guide, and</p>
+</li>
+<li>
+<p>the SSH public key <code>%USERPROFILE%\.ssh\id_ed25519.pub</code>.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">Clone the repository</div>
+<div class="content">
+<pre>git clone https://github.com/Rendanic/packer-hyperv.git
+cd packer-hyperv</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Allow Hyper-V for the current user (once, elevated PowerShell, log off and on afterwards)</div>
+<div class="content">
+<pre>task hyperv:hyperv-add-admin-user</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Build the Oracle Linux 9 template</div>
+<div class="content">
+<pre>task hyperv:packer-ol9</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Build the template with another SSH public key</div>
+<div class="content">
+<pre>task hyperv:packer-ol9 SSH_KEY_FILE=C:\path\to\key.pub</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Create the VM from the template</div>
+<div class="content">
+<pre>cd OL9
+.\create-vm.ps1 -NewVMName beginner-dbfs -Hostname beginner-dbfs -ExternalSwitch intern_66 -FixedIP 192.168.66.161 -CPUs 2 -MemoryGB 8</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>create-vm.ps1</code> creates the VM with two network adapters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Default Switch</code> with DHCP for the internet access</p>
+</li>
+<li>
+<p>the switch from <code>-ExternalSwitch</code> with the fixed IP address from <code>-FixedIP</code>.
+Use this address for <code>ansible_host</code> in <code>inventory/hosts.yml</code>.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The template has a disk with 80 GB.
+The volume group <code>ol</code> has approx. 60 GB free space then, but the guide needs 81 GB.<br/>
+Increase the disk of the VM, e.g. to 130 GB, before you start the installation.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The SSH public key of the template must belong to the private key of the Ansible controller.
+Copy the key pair from Windows into WSL or use the public key from WSL for <code>SSH_KEY_FILE</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ansible_controller">2.3. Ansible controller</h3>
+<div class="paragraph">
+<p>This guide uses Ubuntu on WSL2 on Windows as Ansible controller.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Optionally, the database VM can be used as Ansible controller as well.
+Install the packages with <code>dnf</code> instead of <code>apt</code> in this case,
+e.g. <code>sudo dnf install -y git python3</code>.
+<code>ansible_host</code> and <code>ansible_user</code> in the inventory are used the same way,
+the VM connects to itself with SSH.
+</td>
+</tr>
+</tbody></table>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. Requirements for the Ansible controller</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Item</th>
+<th class="tableblock halign-left valign-top">Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Python</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Python 3 with <code>venv</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ansible</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ansible-core</code> &gt;= 2.16</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Internet</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Access to GitHub and Ansible Galaxy</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>AutoUpgrade is executed on the VM, not on the Ansible controller.
+Java and the gold image are not needed on the Ansible controller.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_my_oracle_support">2.4. My Oracle Support</h3>
+<div class="paragraph">
+<p>A My Oracle Support account is needed for the download of the gold image.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_setup_ansible_controller">3. Setup Ansible controller</h2>
+<div class="sectionbody">
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+All steps are executed on the Ansible controller.
 </td>
 </tr>
 </tbody></table>
 </div>
 <div class="listingblock">
-<div class="title">clone git Repository</div>
+<div class="title">Install packages</div>
 <div class="content">
-<pre>mkdir ~/git
+<pre>sudo apt update
+sudo apt install -y git python3-venv</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Clone git repository</div>
+<div class="content">
+<pre>mkdir -p ~/git
 cd ~/git
 
 git clone https://github.com/oravirt/ansible-oracle.git</pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_download_oracle_installation_media">1.2.1. Download Oracle Installation media</h4>
-<div class="paragraph">
-<p>Download the <a href="https://download.oracle.com/otn/linux/oracle19c/190000/LINUX.X64_193000_db_home.zip">installation media for Oracle RDBMS 19c</a> for Linux x86_64.</p>
-</div>
-<div class="paragraph">
-<p>Place the ZIP archive into the directory of Vagrantfile.</p>
-</div>
 <div class="listingblock">
-<div class="title">copy archive</div>
+<div class="title">Create a Python virtual environment with Ansible</div>
 <div class="content">
-<pre>cd &lt;Downloadlocation&gt;
+<pre>python3 -m venv ~/venv/ansible-oracle
+source ~/venv/ansible-oracle/bin/activate
 
-cp LINUX.X64_193000_db_home.zip ~/git/ansible-oracle/example/beginner/vagrant</pre>
+cd ~/git/ansible-oracle
+pip install -r tools/dev/requirements_dev_2.16.txt</pre>
 </div>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_configure_ssh_key">1.2.2. Configure SSH-Key</h4>
-<div class="admonitionblock important">
+<div class="admonitionblock tip">
 <table>
 <tbody><tr>
 <td class="icon">
-<div class="title">Important</div>
+<div class="title">Tip</div>
 </td>
 <td class="content">
-Do not skip the preparation for Vagrant and SSH.<br/>
-Please follow the <a href="/docs/guides/vagrant/windows/">documentation</a>.
-</td>
-</tr>
-</tbody></table>
-</div>
-<div class="listingblock">
-<div class="title">Copy Public key into Vagrantfile directory</div>
-<div class="content">
-<pre>cp ~/.ssh/id_rsa.pub ~/git/ansible-oracle/example/beginner/vagrant</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Start ssh-Agent (not needed when running from SSH-Setup)</div>
-<div class="content">
-<pre>eval $(ssh-agent)</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Import the generated key</div>
-<div class="content">
-<pre>ssh-add ~/.ssh/id_rsa</pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_start_vagrantbox">1.2.3. Start Vagrantbox</h4>
-<div class="admonitionblock important">
-<table>
-<tbody><tr>
-<td class="icon">
-<div class="title">Important</div>
-</td>
-<td class="content">
-The Deployment und provisioning of the VM takes some minutes.<br/>
-It highly depends on the speed of the internet connection.
+<code>tools/dev/requirements_dev_2.19.txt</code> installs ansible-core 2.19 instead of 2.16.
 </td>
 </tr>
 </tbody></table>
@@ -657,321 +778,438 @@ It highly depends on the speed of the internet connection.
 <div class="title">Important</div>
 </td>
 <td class="content">
-The SSH public key is configured during the provisioning phase of the VM.<br/>
-<strong>Do not forget to copy the file before starting the box with <code>vagrant up</code>.</strong>
+Activate the virtual environment in each new shell with <code>source ~/venv/ansible-oracle/bin/activate</code>.
 </td>
 </tr>
 </tbody></table>
 </div>
 <div class="listingblock">
-<div class="title">vagrant up</div>
+<div class="title">Install collections</div>
 <div class="content">
-<pre>cd ~/git/ansible-oracle/example/beginner/vagrant
-VAGRANT_EXPERIMENTAL=disks vagrant up</pre>
+<pre>cd ~/git/ansible-oracle/example/beginner/ansible
+ansible-galaxy collection install -r requirements.yml</pre>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_what_happens_when_i_start_vagrant">1.2.3.1. What happens when I start vagrant?</h5>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Using the vagrantfile, an Oracle Linux VM is installed (2x CPU, 4096MB RAM, 150GB HDD). IP = 192.168.56.161</p>
-</li>
-<li>
-<p>A mount point /vagrant is available in the Oracle Linux VM. This is a shared folder from your Windows machine.</p>
-</li>
-<li>
-<p>Your ssh key is used to connect to the VM in a secure way</p>
-</li>
-<li>
-<p>docker is installed in the Oracle Linux VM</p>
-</li>
-<li>
-<p>docker-compose is installed in the Oracle Linux VM</p>
-</li>
-<li>
-<p>The ansible-oracle repository is cloned to the Oracle Linux VM</p>
-</li>
-<li>
-<p>A docker container &#34;Ansible Container&#34; is built with docker-compose. This runs in the Oracle Linux VM</p>
-</li>
-<li>
-<p>No Oracle database is yet installed. See below</p>
-</li>
-</ol>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_configure_inventory">4. Configure inventory</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_ip_address_and_login_user">4.1. IP address and login user</h3>
+<div class="paragraph">
+<p>The VM is configured in <code>inventory/hosts.yml</code>.
+Change <code>ansible_host</code> and <code>ansible_user</code> for your VM.</p>
+</div>
+<div class="listingblock">
+<div class="title">inventory/hosts.yml</div>
+<div class="content">
+<pre>---
+all:
+  children:
+    dbfs:
+      hosts:
+        beginner-dbfs:
+          # IP address or DNS name of the Oracle Linux 9 VM
+          ansible_host: 192.168.66.161
+          # Login user on the VM with sudo privileges (SSH key login)
+          ansible_user: ol</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<code>beginner-dbfs</code> is only the name of the host in the inventory.
+The host specific variables are in <code>inventory/host_vars/beginner-dbfs/</code>.
+Rename the directory as well, when you change the name.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ssh_key">4.2. SSH key</h3>
+<div class="paragraph">
+<p>Ansible connects with an SSH key to the VM.</p>
+</div>
+<div class="listingblock">
+<div class="title">Create SSH key (skip it, when a key exists already)</div>
+<div class="content">
+<pre>ssh-keygen -t ed25519</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Copy the public key to the VM</div>
+<div class="content">
+<pre>ssh-copy-id ol@192.168.66.161</pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_working_inside_the_vm">1.3. Working inside the VM</h3>
-<div class="sect3">
-<h4 id="_connect_to_vm">1.3.1. Connect to VM</h4>
-<div class="admonitionblock important">
+<h3 id="_check_the_connection">4.3. Check the connection</h3>
+<div class="listingblock">
+<div class="title">Connection test</div>
+<div class="content">
+<pre>cd ~/git/ansible-oracle/example/beginner/ansible
+ansible all -m ansible.builtin.ping</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Test of sudo</div>
+<div class="content">
+<pre>ansible all -b -m ansible.builtin.command -a id</pre>
+</div>
+</div>
+<div class="admonitionblock tip">
 <table>
 <tbody><tr>
 <td class="icon">
-<div class="title">Important</div>
+<div class="title">Tip</div>
 </td>
 <td class="content">
-The next steps are done inside the VM.<br/>
-The SSH-Setup from the previous chapter must be completed before continuing!
+Add <code>--ask-become-pass</code> (<code>-K</code>) to all <code>ansible</code> and <code>ansible-playbook</code> commands,
+when <code>sudo</code> requires a password for the login user.
 </td>
 </tr>
 </tbody></table>
-</div>
-<div class="listingblock">
-<div class="title">Connect into VM with SSH from <code>git+bash</code></div>
-<div class="content">
-<pre>ssh -A vagrant@192.168.56.161</pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_note_about_installation_media">1.3.2. Note about Installation media</h4>
-<div class="paragraph">
-<p>The installation media is mounted with vboxsf from Vagrant into the Linux VM, mounted as <code>/vagrant</code>.<br/>
-Use the following command to check this…​</p>
-</div>
-<div class="listingblock">
-<div class="title">check for Installation media</div>
-<div class="content">
-<pre>[vagrant@beginner-dbfs-151-192-168-56-161 ~]$ ls /vagrant/LINUX.X64_193000_db_home.zip
-
-/vagrant/LINUX.X64_193000_db_home.zip</pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_start_ansible_container_inside_vm">1.3.3. Start Ansible-Container inside VM</h4>
-<div class="admonitionblock important">
-<table>
-<tbody><tr>
-<td class="icon">
-<div class="title">Important</div>
-</td>
-<td class="content">
-Check the prompt shown in this documentation, as to whether you should start the commands in the shell or inside the Ansible-Container.<br/>
-<code>ansible@ansible-oracle</code> is for working inside the container.
-</td>
-</tr>
-</tbody></table>
-</div>
-<div class="listingblock">
-<div class="title">Start Ansible-Container</div>
-<div class="content">
-<pre>cd ~/git/ansible-oracle/docker
-docker-compose run --rm -w /git/ansible-oracle/example/beginner/ansible ansible bash</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Example</div>
-<div class="content">
-<pre>[vagrant@beginner-dbfs-151-192-168-56-161 docker]$ docker-compose run --rm -w /git/ansible-oracle/example/beginner/ansible ansible bash
-[+] Running 2/0
- ⠿ Network docker_default          Created
- ⠿ Volume &#34;docker_ansible_galaxy&#34;  Created
-
-ansible@ansible-oracle:/git/ansible-oracle/example/beginner/ansible$</pre>
-</div>
-</div>
-<div class="admonitionblock important">
-<table>
-<tbody><tr>
-<td class="icon">
-<div class="title">Important</div>
-</td>
-<td class="content">
-The collection is installed once and stored on the docker volume.
-</td>
-</tr>
-</tbody></table>
-</div>
-<div class="listingblock">
-<div class="title">Install Collections</div>
-<div class="content">
-<pre>ansible@ansible-oracle:/git/ansible-oracle/example/beginner/ansible$ ansible-galaxy collection install -r requirements.yml</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Example</div>
-<div class="content">
-<pre>ansible@ansible-oracle:/git/ansible-oracle/example/beginner/ansible$ ansible-galaxy collection install -r requirements.yml
-Starting galaxy collection install process
-Process install dependency map
-Starting collection install process
-Downloading https://galaxy.ansible.com/download/devsec-hardening-8.2.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/devsec-hardening-8.2.0-0j9481f1
-Installing &#39;devsec.hardening:8.2.0&#39; to &#39;/ansible/galaxy/ansible_collections/devsec/hardening&#39;
-Downloading https://galaxy.ansible.com/download/opitzconsulting-ansible_oracle-3.2.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/opitzconsulting-ansible_oracle-3.2.0-x3wo4c3b
-devsec.hardening:8.2.0 was installed successfully
-Installing &#39;opitzconsulting.ansible_oracle:3.2.0&#39; to &#39;/ansible/galaxy/ansible_collections/opitzconsulting/ansible_oracle&#39;
-Downloading https://galaxy.ansible.com/download/ansible-posix-1.4.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/ansible-posix-1.4.0-1jub71c6
-opitzconsulting.ansible_oracle:3.2.0 was installed successfully
-Installing &#39;ansible.posix:1.4.0&#39; to &#39;/ansible/galaxy/ansible_collections/ansible/posix&#39;
-Downloading https://galaxy.ansible.com/download/community-mysql-3.5.1.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/community-mysql-3.5.1-lkcnbkd5
-ansible.posix:1.4.0 was installed successfully
-Installing &#39;community.mysql:3.5.1&#39; to &#39;/ansible/galaxy/ansible_collections/community/mysql&#39;
-Downloading https://galaxy.ansible.com/download/community-crypto-2.8.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/community-crypto-2.8.0-6sco_75m
-community.mysql:3.5.1 was installed successfully
-Installing &#39;community.crypto:2.8.0&#39; to &#39;/ansible/galaxy/ansible_collections/community/crypto&#39;
-Downloading https://galaxy.ansible.com/download/community-general-5.8.0.tar.gz to /home/ansible/.ansible/tmp/ansible-local-25z8isd809/tmp25w_hn4o/community-general-5.8.0-up2j_3iq
-community.crypto:2.8.0 was installed successfully
-Installing &#39;community.general:5.8.0&#39; to &#39;/ansible/galaxy/ansible_collections/community/general&#39;
-community.general:5.8.0 was installed successfully</pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_start_installation_with_ansible">1.3.4. Start Installation with Ansible</h4>
-<div class="admonitionblock important">
-<table>
-<tbody><tr>
-<td class="icon">
-<div class="title">Important</div>
-</td>
-<td class="content">
-Make sure to start the installation inside the Ansible Container.<br/>
-The prompt shows the correct location.
-The execution takes ~60 minutes.
-</td>
-</tr>
-</tbody></table>
-</div>
-<div class="listingblock">
-<div class="title">Start installation with Ansible</div>
-<div class="content">
-<pre>cd /git/ansible-oracle/example/beginner/ansible
-ansible-playbook -i inventory/ -e hostgroup=dbfs playbooks/single-instance-fs.yml</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The Database creation is now complete.<br/>
-See the following chapter for details about how to work with the VM.</p>
-</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_how_to_work_with_the_installed_database">1.4. How to work with the installed database</h3>
-<div class="sect3">
-<h4 id="_login_as_vagrant">1.4.1. Login as vagrant</h4>
+<h3 id="_my_oracle_support_credentials">4.4. My Oracle Support credentials</h3>
+<div class="paragraph">
+<p>The My Oracle Support credentials are read from the environment variables <code>MOS_USERNAME</code> and <code>MOS_PASSWORD</code>.</p>
+</div>
 <div class="listingblock">
-<div class="title">Login with SSH from <code>git+bash</code></div>
+<div class="title">My Oracle Support credentials</div>
 <div class="content">
-<pre>ssh -A vagrant@192.168.56.161</pre>
+<pre>export MOS_USERNAME=&lt;your My Oracle Support login&gt;
+read -s MOS_PASSWORD &amp;&amp; export MOS_PASSWORD</pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Alternatively, store the credentials in the file <code>.env</code> in the working directory
+and load it into the shell before starting <code>ansible-playbook</code>.</p>
 </div>
-<div class="sect3">
-<h4 id="_sudo_oracle">1.4.2. Sudo oracle</h4>
 <div class="listingblock">
-<div class="title">sudo oracle</div>
+<div class="title">~/git/ansible-oracle/example/beginner/ansible/.env</div>
 <div class="content">
-<pre>[vagrant@beginner-dbfs-151-192-168-56-161 ~]$ sudo su - oracle</pre>
+<pre>MOS_USERNAME=&lt;your My Oracle Support login&gt;
+MOS_PASSWORD=&lt;your My Oracle Support password&gt;</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Load .env into the shell</div>
+<div class="content">
+<pre>cd ~/git/ansible-oracle/example/beginner/ansible
+set -a; . ./.env; set +a</pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<code>.env</code> contains your password. Restrict the permissions with <code>chmod 600 .env</code>.<br/>
+The file is ignored by git (<code>.gitignore</code>).
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The lookups are defined in <code>inventory/group_vars/all/mos_login.yml</code>. Optionally, set <code>mos_username</code> and <code>mos_password</code> there statically
+instead of the environment variables. Encrypt the password with <code>ansible-vault</code> in this case.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_database_passwords">4.5. Database passwords</h3>
+<div class="paragraph">
+<p>The password for all database users is <code>default_dbpass</code> in <code>inventory/group_vars/all/password.yml</code>.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+The default <code>Oracle_123</code> is for test environments only. Change it and use <code>ansible-vault</code> for other environments.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_autoupgrade_on_the_vm">5. AutoUpgrade on the VM</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>AutoUpgrade is executed on the VM (<code>autoupgrade_run_local: false</code> in <code>inventory/group_vars/all/autoupgrade.yml</code>).
+It downloads the gold image directly into <code>/u01/sw</code> on the VM.
+No installation media are copied from the Ansible controller (<code>oracle_sw_copy: false</code>).</p>
+</div>
+<div class="paragraph">
+<p>The execution of AutoUpgrade on the VM requires:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the Python module <code>pexpect</code> for the keystore with the My Oracle Support credentials,</p>
+</li>
+<li>
+<p>a JDK for <code>autoupgrade.jar</code> and</p>
+</li>
+<li>
+<p>the download directory <code>/u01/sw</code> on the filesystem <code>/u01</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The playbook <code>os</code> creates the filesystem <code>/u01</code> (<code>host_fs_layout</code> in the inventory).
+<code>playbooks/autoupgrade.yml</code> installs the packages for the JDK and <code>pexpect</code> before the installation of AutoUpgrade.
+Therefore <code>do_all.yml</code> executes the playbook <code>os</code> before AutoUpgrade.
+The playbook <code>os</code> is executed a second time, because it is a fixed part of
+<code>opitzconsulting.ansible_oracle.single_instance_fs</code>.
+The second execution changes nothing.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. Download configuration in inventory/group_vars/all/autoupgrade.yml</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_download_latest</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Download the latest <code>autoupgrade.jar</code> from Oracle</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_download_patches</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>target_version: 26</code>, <code>patch: RECOMMENDED</code>, <code>gold_image: ALL</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gold image for 26ai with all recommended patches</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_download_gold_image_rename</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rename the gold image to <code>db_home_&lt;release&gt;.zip</code>, e.g. <code>db_home_26.04.zip</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_download_gold_image_latest</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Symlink <code>db_home_26_latest.zip</code> to the latest gold image of 26ai</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>See <a href="/docs/guides/autoupgrade/">Oracle AutoUpgrade</a> for details.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The gold image is built by Oracle on request.<br/>
+When no suitable image is cached, the download can take a few hours.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>The release update of the gold image is known only after the download.
+Therefore the inventory uses the symlink <code>db_home_26_latest.zip</code> as <code>imagename</code> instead of the real filename.
+The symlink points to the gold image with the highest release update in <code>/u01/sw</code>.
+It is changed only, when a newer gold image is downloaded - the download of an older release update keeps it unchanged.</p>
+</div>
+<div class="listingblock">
+<div class="title">Check the downloaded gold image on the VM</div>
+<div class="content">
+<pre>ls -l /u01/sw/db_home_*.zip</pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">Example</div>
 <div class="content">
-<pre>[vagrant@beginner-dbfs-151-192-168-56-161 ~]$ sudo su - oracle
-Last login: Sun Nov  6 11:16:54 UTC 2022 on pts/2
-execute ocenv to source Oracle Environment</pre>
+<pre>db_home_26.04.zip
+db_home_26_latest.zip -&gt; db_home_26.04.zip</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">inventory/group_vars/all/db-homes.yml</div>
+<div class="content">
+<pre>  db26_si_ee: &amp;db26_si_ee
+    version: 26.1.0.0
+    oracle_home: /u01/app/oracle/product/db26_si_ee
+    edition: EE
+    imagename: db_home_26_latest.zip</pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+Use the real filename, e.g. <code>imagename: db_home_26.04.zip</code>, when an ORACLE_HOME must be installed with a fixed release update.
+</td>
+</tr>
+</tbody></table>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_start_ocenv">1.4.3. Start ocenv</h4>
+<div class="sect1">
+<h2 id="_install_database_with_ansible">6. Install database with Ansible</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="title">Start installation</div>
+<div class="content">
+<pre>cd ~/git/ansible-oracle/example/beginner/ansible
+ansible-playbook playbooks/do_all.yml</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The execution takes approx. 60 minutes plus the download of the gold image.
+</td>
+</tr>
+</tbody></table>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. Configuration of the database</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ORACLE_BASE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u01/app/oracle</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ORACLE_HOME</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u01/app/oracle/product/db26_si_ee</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ORACLE_SID</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DB1</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PDB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORCLPDB</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">db_create_file_dest</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u02/oradata</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">db_recovery_file_dest</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u02/fra</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Listener</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>LISTENER</code>, port 1521</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_how_to_work_with_the_installed_database">7. How to work with the installed database</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="title">Login into the VM</div>
+<div class="content">
+<pre>ssh ol@192.168.66.161</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Switch to user oracle</div>
+<div class="content">
+<pre>sudo -iu oracle</pre>
+</div>
+</div>
 <div class="listingblock">
 <div class="title">Initialize ocenv to set the environment variables</div>
 <div class="content">
-<pre>[oracle@beginner-dbfs-151-192-168-56-161 ~]$ ocenv</pre>
+<pre>ocenv</pre>
 </div>
 </div>
-<div class="listingblock">
-<div class="title">Example</div>
-<div class="content">
-<pre>[oracle@beginner-dbfs-151-192-168-56-161 ~]$ ocenv
-#####################################################################################
-## Version: 2022-08-10
-## get command overview by typing envhelp
-#####################################################################################
-home   oracle       OraHome_OraDB19Home1                       /u01/app/oracle/product/19/db1
-db     oracle       DB1              (up)                      /u01/app/oracle/product/19/db1
-lsnr   oracle       LISTENER                                   /u01/app/oracle/product/19/db1
-[oracle@beginner-dbfs-151-192-168-56-161] [] [~]</pre>
+<div class="paragraph">
+<p><code>ocenv</code> shows the ORACLE_HOMEs, databases and listeners on the host.
+<code>envhelp</code> shows an overview of the commands.</p>
 </div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_switch_to_db1">1.4.4. Switch to DB1</h4>
 <div class="listingblock">
 <div class="title">Set ORACLE_SID</div>
 <div class="content">
-<pre>[oracle@beginner-dbfs-151-192-168-56-161] [] [~]
-$ DB1</pre>
+<pre>DB1</pre>
 </div>
 </div>
 <div class="listingblock">
-<div class="title">Example</div>
+<div class="title">Start SQL*Plus</div>
 <div class="content">
-<pre>[oracle@beginner-dbfs-151-192-168-56-161] [] [~]
-$ DB1
-=================================
-INSTANCE NAME       : DB1
-INSTANCE STATUS     : OPEN (READ WRITE)
-INSTANCE START TIME : 2022-11-06 11:34:06
-DB NAME             : DB1
-DB UNIQUE NAME      : DB1
-DB ID               : 1713907024
-DB LOGGING MODE     : NOARCHIVELOG
-DB ROLE             : PRIMARY
-DB FORCE LOGGING    : YES
-DB FLASHBACK ON     : NO
-DB is CDB           : YES
-PDBs
-   PDB NAME        STATUS     RESTRICTED OPEN TIME           LOCAL UNDO
-   --------------- ---------- ---------- ------------------- ----------
-   ORCLPDB         READ WRITE NO         2022-11-06 11:34:28 YES
-=================================
-[oracle@beginner-dbfs-151-192-168-56-161] [DB1] [~]</pre>
+<pre>sql</pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_database_login">1.4.5. Database Login</h4>
-<div class="listingblock">
-<div class="title">Start SQLPlus</div>
-<div class="content">
-<pre>[oracle@beginner-dbfs-151-192-168-56-161] [DB1] [~]
-$ sql</pre>
 </div>
-</div>
-<div class="listingblock">
-<div class="title">Example</div>
-<div class="content">
-<pre>[oracle@beginner-dbfs-151-192-168-56-161] [DB1] [~]
-$ sql
-
-SQL*Plus: Release 19.0.0.0.0 - Production on Sun Nov 6 11:41:40 2022
-Version 19.3.0.0.0
-
-Copyright (c) 1982, 2019, Oracle.  All rights reserved.
-
-
-Connected to:
-Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
-Version 19.3.0.0.0
-
-11:41:40 SYS@DB1
-SQL&gt;</pre>
-</div>
-</div>
-</div>
+<div class="sect1">
+<h2 id="_next_steps">8. Next Steps</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="/docs/guides/autoupgrade/">Oracle AutoUpgrade in <code>ansible-oracle</code></a></p>
+</li>
+<li>
+<p><a href="/docs/guides/apex_ords/">APEX and ORDS in <code>ansible-oracle</code></a></p>
+</li>
+<li>
+<p><a href="/docs/roles/overview/">List of roles in <code>ansible-oracle</code></a></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified February 8, 2024: <a href="https://github.com/oravirt/ansible-oracle/commit/f25506df831c1082867aac522ae840a77f413a5c">Documentation updates (f25506df)</a>
+  Last modified November 1, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/5b828ccb8b6007f45914dc5fa96a816317dd692a">example: New beginners Guide (5b828ccb)</a>
 </div>
 
 </div>

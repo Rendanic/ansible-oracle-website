@@ -17,38 +17,38 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>cxoracle | ansible-oracle Project</title>
-<meta name="description" content="Install cx_Oracle with pip
-Table of contents Requirements Default Variables cx_oracle3_source cx_oracle_source cx_oracle_umask extra_args http_proxy install_cx_oracle install_from_nfs is_sw_source_local oracle_stage oracle_sw_copy use_proxy Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables cx_oracle3_source Source for pip3 install cx_Oracle.
-cx_oracle_source Example usage cx_oracle_source: &quot;file:///tmp/cx_Oracle-7.3.0-cp27-cp27mu-manylinux1_x86_64.whl&quot; cx_oracle_umask Define umask for pip installation of cx_Oracle
-extra_args Define optional arguments for extra_args during pip installation. The variable is used by use_proxy and http_proxy and supports client certificates known from orasw_meta.">
-<meta property="og:url" content="https://www.ansible-oracle.eu/docs/roles/cxoracle/">
+<title>pyoracledb | ansible-oracle Project</title>
+<meta name="description" content="Install python-oracledb with pip.
+python-oracledb is the successor of cx_Oracle and is used by the modules of ansible-oracle. The role replaces the removed role cxoracle.
+This role has a dependency to orasw_meta.
+Table of contents Requirements Default Variables pyoracledb_extra_args pyoracledb_http_proxy pyoracledb_install pyoracledb_umask pyoracledb_use_proxy pyoracledb_version pyoracledb_version_py36 pyoracledb_version_py37 pyoracledb_version_py38 pyoracledb_version_py39 pyoracledb_wheel_dir Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables pyoracledb_extra_args Define optional arguments for extra_args during pip installation. The variable is used by pyoracledb_use_proxy and pyoracledb_http_proxy and supports client certificates known from orasw_meta. Set it for other pip options, e.g. --index-url=https://pypi.example.com/simple for an internal mirror.">
+<meta property="og:url" content="https://www.ansible-oracle.eu/docs/roles/pyoracledb/">
 	<meta property="og:site_name" content="ansible-oracle Project">
-	<meta property="og:title" content="cxoracle">
-	<meta property="og:description" content="Install cx_Oracle with pip
-Table of contents Requirements Default Variables cx_oracle3_source cx_oracle_source cx_oracle_umask extra_args http_proxy install_cx_oracle install_from_nfs is_sw_source_local oracle_stage oracle_sw_copy use_proxy Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables cx_oracle3_source Source for pip3 install cx_Oracle.
-cx_oracle_source Example usage cx_oracle_source: &#34;file:///tmp/cx_Oracle-7.3.0-cp27-cp27mu-manylinux1_x86_64.whl&#34; cx_oracle_umask Define umask for pip installation of cx_Oracle
-extra_args Define optional arguments for extra_args during pip installation. The variable is used by use_proxy and http_proxy and supports client certificates known from orasw_meta.">
+	<meta property="og:title" content="pyoracledb">
+	<meta property="og:description" content="Install python-oracledb with pip.
+python-oracledb is the successor of cx_Oracle and is used by the modules of ansible-oracle. The role replaces the removed role cxoracle.
+This role has a dependency to orasw_meta.
+Table of contents Requirements Default Variables pyoracledb_extra_args pyoracledb_http_proxy pyoracledb_install pyoracledb_umask pyoracledb_use_proxy pyoracledb_version pyoracledb_version_py36 pyoracledb_version_py37 pyoracledb_version_py38 pyoracledb_version_py39 pyoracledb_wheel_dir Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables pyoracledb_extra_args Define optional arguments for extra_args during pip installation. The variable is used by pyoracledb_use_proxy and pyoracledb_http_proxy and supports client certificates known from orasw_meta. Set it for other pip options, e.g. --index-url=https://pypi.example.com/simple for an internal mirror.">
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-10-30T22:59:56+01:00">
-		<meta property="article:modified_time" content="2026-10-30T22:59:56+01:00">
+		<meta property="article:published_time" content="2026-11-04T10:05:13+01:00">
+		<meta property="article:modified_time" content="2026-11-04T10:05:13+01:00">
 
-	<meta itemprop="name" content="cxoracle">
-	<meta itemprop="description" content="Install cx_Oracle with pip
-Table of contents Requirements Default Variables cx_oracle3_source cx_oracle_source cx_oracle_umask extra_args http_proxy install_cx_oracle install_from_nfs is_sw_source_local oracle_stage oracle_sw_copy use_proxy Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables cx_oracle3_source Source for pip3 install cx_Oracle.
-cx_oracle_source Example usage cx_oracle_source: &#34;file:///tmp/cx_Oracle-7.3.0-cp27-cp27mu-manylinux1_x86_64.whl&#34; cx_oracle_umask Define umask for pip installation of cx_Oracle
-extra_args Define optional arguments for extra_args during pip installation. The variable is used by use_proxy and http_proxy and supports client certificates known from orasw_meta.">
-	<meta itemprop="datePublished" content="2026-10-30T22:59:56+01:00">
-	<meta itemprop="dateModified" content="2026-10-30T22:59:56+01:00">
-	<meta itemprop="wordCount" content="178">
+	<meta itemprop="name" content="pyoracledb">
+	<meta itemprop="description" content="Install python-oracledb with pip.
+python-oracledb is the successor of cx_Oracle and is used by the modules of ansible-oracle. The role replaces the removed role cxoracle.
+This role has a dependency to orasw_meta.
+Table of contents Requirements Default Variables pyoracledb_extra_args pyoracledb_http_proxy pyoracledb_install pyoracledb_umask pyoracledb_use_proxy pyoracledb_version pyoracledb_version_py36 pyoracledb_version_py37 pyoracledb_version_py38 pyoracledb_version_py39 pyoracledb_wheel_dir Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables pyoracledb_extra_args Define optional arguments for extra_args during pip installation. The variable is used by pyoracledb_use_proxy and pyoracledb_http_proxy and supports client certificates known from orasw_meta. Set it for other pip options, e.g. --index-url=https://pypi.example.com/simple for an internal mirror.">
+	<meta itemprop="datePublished" content="2026-11-04T10:05:13+01:00">
+	<meta itemprop="dateModified" content="2026-11-04T10:05:13+01:00">
+	<meta itemprop="wordCount" content="445">
 	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="cxoracle">
-	<meta name="twitter:description" content="Install cx_Oracle with pip
-Table of contents Requirements Default Variables cx_oracle3_source cx_oracle_source cx_oracle_umask extra_args http_proxy install_cx_oracle install_from_nfs is_sw_source_local oracle_stage oracle_sw_copy use_proxy Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables cx_oracle3_source Source for pip3 install cx_Oracle.
-cx_oracle_source Example usage cx_oracle_source: &#34;file:///tmp/cx_Oracle-7.3.0-cp27-cp27mu-manylinux1_x86_64.whl&#34; cx_oracle_umask Define umask for pip installation of cx_Oracle
-extra_args Define optional arguments for extra_args during pip installation. The variable is used by use_proxy and http_proxy and supports client certificates known from orasw_meta.">
+	<meta name="twitter:title" content="pyoracledb">
+	<meta name="twitter:description" content="Install python-oracledb with pip.
+python-oracledb is the successor of cx_Oracle and is used by the modules of ansible-oracle. The role replaces the removed role cxoracle.
+This role has a dependency to orasw_meta.
+Table of contents Requirements Default Variables pyoracledb_extra_args pyoracledb_http_proxy pyoracledb_install pyoracledb_umask pyoracledb_use_proxy pyoracledb_version pyoracledb_version_py36 pyoracledb_version_py37 pyoracledb_version_py38 pyoracledb_version_py39 pyoracledb_wheel_dir Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables pyoracledb_extra_args Define optional arguments for extra_args during pip installation. The variable is used by pyoracledb_use_proxy and pyoracledb_http_proxy and supports client certificates known from orasw_meta. Set it for other pip options, e.g. --index-url=https://pypi.example.com/simple for an internal mirror.">
 
 
 
@@ -157,12 +157,24 @@ extra_args Define optional arguments for extra_args during pip installation. The
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
   <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
+  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
+  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolespyoracledb-li">
+  <a href="/docs/roles/pyoracledb/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolespyoracledb"><span class="td-sidebar-nav-active-item">pyoracledb</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
+  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesautoupgrade-li">
   <a href="/docs/roles/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesautoupgrade"><span class="">autoupgrade</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
   <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolescxoracle-li">
-  <a href="/docs/roles/cxoracle/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolescxoracle"><span class="td-sidebar-nav-active-item">cxoracle</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesglobal_handlers-li">
   <a href="/docs/roles/global_handlers/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesglobal_handlers"><span class="">global_handlers</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraapex-li">
@@ -175,8 +187,6 @@ extra_args Define optional arguments for extra_args during pip installation. The
   <a href="/docs/roles/oradb_datapatch/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_datapatch"><span class="">oradb_datapatch</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_facts-li">
   <a href="/docs/roles/oradb_facts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_facts"><span class="">oradb_facts</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
-  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_grants-li">
   <a href="/docs/roles/oradb_manage_grants/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_grants"><span class="">oradb_manage_grants</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_parameters-li">
@@ -203,14 +213,10 @@ extra_args Define optional arguments for extra_args during pip installation. The
   <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_tzupgrade-li">
   <a href="/docs/roles/oradb_tzupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_tzupgrade"><span class="">oradb_tzupgrade</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
-  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_cron-li">
   <a href="/docs/roles/orahost_cron/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_cron"><span class="">orahost_cron</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_logrotate-li">
   <a href="/docs/roles/orahost_logrotate/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_logrotate"><span class="">orahost_logrotate</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
-  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_ssh-li">
   <a href="/docs/roles/orahost_ssh/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_ssh"><span class="">orahost_ssh</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_storage-li">
@@ -219,22 +225,16 @@ extra_args Define optional arguments for extra_args during pip installation. The
   <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
   <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
-  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
   <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswahf_install-li">
   <a href="/docs/roles/oraswahf_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswahf_install"><span class="">oraswahf_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_golden_image-li">
   <a href="/docs/roles/oraswdb_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_golden_image"><span class="">oraswdb_golden_image</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
-  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
   <a href="/docs/roles/oraswdb_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_manage_patches"><span class="">oraswdb_manage_patches</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_golden_image-li">
   <a href="/docs/roles/oraswgi_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_golden_image"><span class="">oraswgi_golden_image</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
-  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_manage_patches-li">
   <a href="/docs/roles/oraswgi_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_manage_patches"><span class="">oraswgi_manage_patches</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_meta-li">
@@ -260,10 +260,10 @@ extra_args Define optional arguments for extra_args during pip installation. The
           </aside>
           <aside class="d-none d-xl-block col-xl-2 td-sidebar-toc d-print-none">
             <div class="td-page-meta ms-2 pb-1 pt-2 mb-0">
-<a href="https://github.com/oravirt/ansible-oracle/tree/master/roles/cxoracle/README.md" class="td-page-meta--view td-page-meta__view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines fa-fw"></i> View page source</a>
-  <a href="https://github.com/oravirt/ansible-oracle/edit/master/roles/cxoracle/README.md" class="td-page-meta--edit td-page-meta__edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Edit this page</a>
-  <a href="https://github.com/oravirt/ansible-oracle/new/master/roles/cxoracle?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" class="td-page-meta--child td-page-meta__child" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Create child page</a>
-  <a href="https://github.com/oravirt/ansible-oracle/issues/new?title=cxoracle" class="td-page-meta--issue td-page-meta__issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create documentation issue</a>
+<a href="https://github.com/oravirt/ansible-oracle/tree/master/roles/pyoracledb/README.md" class="td-page-meta--view td-page-meta__view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines fa-fw"></i> View page source</a>
+  <a href="https://github.com/oravirt/ansible-oracle/edit/master/roles/pyoracledb/README.md" class="td-page-meta--edit td-page-meta__edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Edit this page</a>
+  <a href="https://github.com/oravirt/ansible-oracle/new/master/roles/pyoracledb?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" class="td-page-meta--child td-page-meta__child" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Create child page</a>
+  <a href="https://github.com/oravirt/ansible-oracle/issues/new?title=pyoracledb" class="td-page-meta--issue td-page-meta__issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create documentation issue</a>
   <a href="https://github.com/oravirt/ansible-oracle/issues/new" class="td-page-meta--project td-page-meta__project-issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create project issue</a>
   <a id="print" href="/_print/docs/roles/"><i class="fa-solid fa-print fa-fw"></i> Print entire section</a>
 
@@ -276,51 +276,55 @@ extra_args Define optional arguments for extra_args during pip installation. The
     <li><a href="#requirements">Requirements</a></li>
     <li><a href="#default-variables">Default Variables</a>
       <ul>
-        <li><a href="#cx_oracle3_source">cx_oracle3_source</a></li>
-        <li><a href="#cx_oracle_source">cx_oracle_source</a>
-          <ul>
-            <li><a href="#example-usage">Example usage</a></li>
-          </ul>
-        </li>
-        <li><a href="#cx_oracle_umask">cx_oracle_umask</a></li>
-        <li><a href="#extra_args">extra_args</a>
+        <li><a href="#pyoracledb_extra_args">pyoracledb_extra_args</a>
           <ul>
             <li><a href="#default-value">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#http_proxy">http_proxy</a>
+        <li><a href="#pyoracledb_http_proxy">pyoracledb_http_proxy</a>
           <ul>
-            <li><a href="#example-usage-1">Example usage</a></li>
+            <li><a href="#example-usage">Example usage</a></li>
           </ul>
         </li>
-        <li><a href="#install_cx_oracle">install_cx_oracle</a>
+        <li><a href="#pyoracledb_install">pyoracledb_install</a>
           <ul>
             <li><a href="#default-value-1">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#install_from_nfs">install_from_nfs</a>
+        <li><a href="#pyoracledb_umask">pyoracledb_umask</a></li>
+        <li><a href="#pyoracledb_use_proxy">pyoracledb_use_proxy</a>
           <ul>
             <li><a href="#default-value-2">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#is_sw_source_local">is_sw_source_local</a>
+        <li><a href="#pyoracledb_version">pyoracledb_version</a>
           <ul>
             <li><a href="#default-value-3">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_stage">oracle_stage</a>
+        <li><a href="#pyoracledb_version_py36">pyoracledb_version_py36</a>
           <ul>
             <li><a href="#default-value-4">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#oracle_sw_copy">oracle_sw_copy</a>
+        <li><a href="#pyoracledb_version_py37">pyoracledb_version_py37</a>
           <ul>
             <li><a href="#default-value-5">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#use_proxy">use_proxy</a>
+        <li><a href="#pyoracledb_version_py38">pyoracledb_version_py38</a>
           <ul>
             <li><a href="#default-value-6">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#pyoracledb_version_py39">pyoracledb_version_py39</a>
+          <ul>
+            <li><a href="#default-value-7">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#pyoracledb_wheel_dir">pyoracledb_wheel_dir</a>
+          <ul>
+            <li><a href="#example-usage-1">Example usage</a></li>
           </ul>
         </li>
       </ul>
@@ -347,33 +351,36 @@ extra_args Define optional arguments for extra_args during pip installation. The
   <li class="breadcrumb-item">
     <a href="/docs/roles/">Ansible Roles</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    cxoracle</li>
+    pyoracledb</li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>cxoracle</h1>
+	<h1>pyoracledb</h1>
 	
 	<header class="article-meta">
 		
   </header>
-	<p>Install cx_Oracle with pip</p>
+	<p>Install python-oracledb with pip.</p>
+<p>python-oracledb is the successor of cx_Oracle and is used by the modules of ansible-oracle.
+The role replaces the removed role <code>cxoracle</code>.</p>
+<p>This role has a dependency to <code>orasw_meta</code>.</p>
 <h2 id="table-of-contents">Table of contents</h2>
 <ul>
 <li><a href="#requirements">Requirements</a></li>
 <li><a href="#default-variables">Default Variables</a>
 <ul>
-<li><a href="#cx_oracle3_source">cx_oracle3_source</a></li>
-<li><a href="#cx_oracle_source">cx_oracle_source</a></li>
-<li><a href="#cx_oracle_umask">cx_oracle_umask</a></li>
-<li><a href="#extra_args">extra_args</a></li>
-<li><a href="#http_proxy">http_proxy</a></li>
-<li><a href="#install_cx_oracle">install_cx_oracle</a></li>
-<li><a href="#install_from_nfs">install_from_nfs</a></li>
-<li><a href="#is_sw_source_local">is_sw_source_local</a></li>
-<li><a href="#oracle_stage">oracle_stage</a></li>
-<li><a href="#oracle_sw_copy">oracle_sw_copy</a></li>
-<li><a href="#use_proxy">use_proxy</a></li>
+<li><a href="#pyoracledb_extra_args">pyoracledb_extra_args</a></li>
+<li><a href="#pyoracledb_http_proxy">pyoracledb_http_proxy</a></li>
+<li><a href="#pyoracledb_install">pyoracledb_install</a></li>
+<li><a href="#pyoracledb_umask">pyoracledb_umask</a></li>
+<li><a href="#pyoracledb_use_proxy">pyoracledb_use_proxy</a></li>
+<li><a href="#pyoracledb_version">pyoracledb_version</a></li>
+<li><a href="#pyoracledb_version_py36">pyoracledb_version_py36</a></li>
+<li><a href="#pyoracledb_version_py37">pyoracledb_version_py37</a></li>
+<li><a href="#pyoracledb_version_py38">pyoracledb_version_py38</a></li>
+<li><a href="#pyoracledb_version_py39">pyoracledb_version_py39</a></li>
+<li><a href="#pyoracledb_wheel_dir">pyoracledb_wheel_dir</a></li>
 </ul>
 </li>
 <li><a href="#discovered-tags">Discovered Tags</a></li>
@@ -387,67 +394,94 @@ extra_args Define optional arguments for extra_args during pip installation. The
 <li>Minimum Ansible version: <code>2.16.0</code></li>
 </ul>
 <h2 id="default-variables">Default Variables</h2>
-<h3 id="cx_oracle3_source">cx_oracle3_source</h3>
-<p>Source for <code>pip3 install cx_Oracle</code>.</p>
-<h3 id="cx_oracle_source">cx_oracle_source</h3>
-<h4 id="example-usage">Example usage</h4>
-<pre><code class="language-YAML">cx_oracle_source: &quot;file:///tmp/cx_Oracle-7.3.0-cp27-cp27mu-manylinux1_x86_64.whl&quot;
-</code></pre>
-<h3 id="cx_oracle_umask">cx_oracle_umask</h3>
-<p>Define umask for pip installation of cx_Oracle</p>
-<h3 id="extra_args">extra_args</h3>
+<h3 id="pyoracledb_extra_args">pyoracledb_extra_args</h3>
 <p>Define optional arguments for extra_args during pip installation.
-The variable is used by <code>use_proxy</code> and <code>http_proxy</code> and
-supports client certificates known from orasw_meta.</p>
+The variable is used by <code>pyoracledb_use_proxy</code> and <code>pyoracledb_http_proxy</code> and
+supports client certificates known from orasw_meta.
+Set it for other pip options, e.g. <code>--index-url=https://pypi.example.com/simple</code> for an internal mirror.</p>
 <h4 id="default-value">Default value</h4>
-<pre><code class="language-YAML">extra_args: ''
+<pre><code class="language-YAML">pyoracledb_extra_args: ''
 </code></pre>
-<h3 id="http_proxy">http_proxy</h3>
-<p>Define the http_proxy for cx_oracle installation</p>
-<h4 id="example-usage-1">Example usage</h4>
-<pre><code class="language-YAML">http_proxy: proxy.example:3128
+<h3 id="pyoracledb_http_proxy">pyoracledb_http_proxy</h3>
+<p>Define the http_proxy for the pip installation.</p>
+<p>Needed when <code>pyoracledb_use_proxy: true</code>.</p>
+<h4 id="example-usage">Example usage</h4>
+<pre><code class="language-YAML">pyoracledb_http_proxy: proxy.example:3128
 </code></pre>
-<h3 id="install_cx_oracle">install_cx_oracle</h3>
-<p>Install cx_Oracle?</p>
+<h3 id="pyoracledb_install">pyoracledb_install</h3>
+<p>Install python-oracledb?</p>
 <h4 id="default-value-1">Default value</h4>
-<pre><code class="language-YAML">install_cx_oracle: true
+<pre><code class="language-YAML">pyoracledb_install: true
 </code></pre>
-<h3 id="install_from_nfs">install_from_nfs</h3>
-<p>Mount NFS-Server for installation media?</p>
-<p><code>nfs_server_sw</code> and <code>nfs_server_sw_path</code> are needed, when <code>install_from_nfs: true</code></p>
+<h3 id="pyoracledb_umask">pyoracledb_umask</h3>
+<p>Define umask for pip installation of python-oracledb</p>
+<h3 id="pyoracledb_use_proxy">pyoracledb_use_proxy</h3>
+<p>Use a http_proxy for the pip installation</p>
 <h4 id="default-value-2">Default value</h4>
-<pre><code class="language-YAML">install_from_nfs: false
+<pre><code class="language-YAML">pyoracledb_use_proxy: false
 </code></pre>
-<h3 id="is_sw_source_local">is_sw_source_local</h3>
+<h3 id="pyoracledb_version">pyoracledb_version</h3>
+<p>Version of python-oracledb for Python versions without an own variable <code>pyoracledb_version_py&lt;major&gt;&lt;minor&gt;</code>.</p>
+<p>The version is updated by renovate.
+The version is selected with the Python version of the target host (<code>ansible_python_interpreter</code>).</p>
 <h4 id="default-value-3">Default value</h4>
-<pre><code class="language-YAML">is_sw_source_local: true
+<pre><code class="language-YAML">pyoracledb_version: 26.1.0
 </code></pre>
-<h3 id="oracle_stage">oracle_stage</h3>
-<p>Defines the base directory for response files, configuration firles etc. for <code>ansible-oracle</code>.</p>
-<p>There is usually no need to change this variable.</p>
+<h3 id="pyoracledb_version_py36">pyoracledb_version_py36</h3>
+<p>Version of python-oracledb for Python 3.6 (Oracle Linux / RHEL 8, SLES 15).
+Last release for Python 3.6, not updated by renovate.</p>
 <h4 id="default-value-4">Default value</h4>
-<pre><code class="language-YAML">oracle_stage: /u01/stage
+<pre><code class="language-YAML">pyoracledb_version_py36: 1.4.2
 </code></pre>
-<h3 id="oracle_sw_copy">oracle_sw_copy</h3>
+<h3 id="pyoracledb_version_py37">pyoracledb_version_py37</h3>
+<p>Version of python-oracledb for Python 3.7.
+Last release for Python 3.7, not updated by renovate.</p>
 <h4 id="default-value-5">Default value</h4>
-<pre><code class="language-YAML">oracle_sw_copy: '{{ not (install_from_nfs | bool) }}'
+<pre><code class="language-YAML">pyoracledb_version_py37: 2.3.0
 </code></pre>
-<h3 id="use_proxy">use_proxy</h3>
-<p>Use a http_proxy for installation</p>
+<h3 id="pyoracledb_version_py38">pyoracledb_version_py38</h3>
+<p>Version of python-oracledb for Python 3.8.
+Last release for Python 3.8, not updated by renovate.</p>
 <h4 id="default-value-6">Default value</h4>
-<pre><code class="language-YAML">use_proxy: false
+<pre><code class="language-YAML">pyoracledb_version_py38: 3.0.0
+</code></pre>
+<h3 id="pyoracledb_version_py39">pyoracledb_version_py39</h3>
+<p>Version of python-oracledb for Python 3.9 (Oracle Linux / RHEL 9).
+Last release for Python 3.9, not updated by renovate.</p>
+<h4 id="default-value-7">Default value</h4>
+<pre><code class="language-YAML">pyoracledb_version_py39: 4.0.2
+</code></pre>
+<h3 id="pyoracledb_wheel_dir">pyoracledb_wheel_dir</h3>
+<p>Directory with wheel files of python-oracledb for an installation without the Python package index.</p>
+<p>pip selects the wheel file matching the Python version of the target host
+(<code>pip install --no-index --find-links &lt;pyoracledb_wheel_dir&gt; oracledb==&lt;version&gt;</code>),
+so one directory can contain the wheel files for all Python versions (e.g. <code>cp36</code> and <code>cp39</code>).</p>
+<ul>
+<li>local directory on the Ansible controller, copied to <code>&lt;oracle_stage&gt;/pyoracledb</code> on the target host
+when <code>is_sw_source_local: true</code> and <code>oracle_sw_copy: true</code>.
+With <code>oracle_sw_copy: false</code> the directory must exist on the target host (e.g. NFS).</li>
+<li>URL (<code>http://</code>, <code>https://</code>) of a page with links to the wheel files, used directly by pip</li>
+</ul>
+<p>The role ensures pip &gt;= 19.3 (needed for manylinux2014 wheels, the system pip of OL8 is 9.0.3).
+Add a pip wheel to the directory for target hosts with an older pip, e.g. <code>pip-21.3.1-py3-none-any.whl</code> for Python 3.6.</p>
+<p>Download the wheel files on a host with access to the package index, e.g.:
+<code>pip download --no-deps --only-binary=:all: --python-version 3.9 --platform manylinux2014_x86_64 -d &lt;dir&gt; oracledb==4.0.2</code></p>
+<h4 id="example-usage-1">Example usage</h4>
+<pre><code class="language-YAML">pyoracledb_wheel_dir: /sw/python-oracledb
 </code></pre>
 <h2 id="discovered-tags">Discovered Tags</h2>
-<p><strong><em>cx_oracle</em></strong></p>
+<p><strong><em>pyoracledb</em></strong></p>
 <h2 id="dependencies">Dependencies</h2>
-<p>None.</p>
+<ul>
+<li>orasw_meta</li>
+</ul>
 <h2 id="license">License</h2>
 <p>license (MIT)</p>
 <h2 id="author">Author</h2>
-<p>[Mikael Sandström]</p>
+<p>[Thorsten Bruhns]</p>
 
 	<div class="td-page-meta__lastmod">
-  Last modified October 30, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/2bffd9a3b3f3ab736a0fbfd4b040838e4e026136">ansible-core 2.16 is the new minimal version of ansible-oracle (requires_ansible in meta/runtime.yml, min_ansible_version of all roles) (2bffd9a3)</a>
+  Last modified November 4, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/e110580f9366a115da7deabd98d31685e0348494">pyoracledb: the version of python-oracledb depends on the Python version of the target host (e110580f)</a>
 </div>
 
 </div>

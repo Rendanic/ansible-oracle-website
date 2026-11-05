@@ -36,8 +36,8 @@ Note The complete list of changes is in CHANGELOG.rst. This guide only covers th
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-10-30T22:51:45+01:00">
-		<meta property="article:modified_time" content="2026-10-30T22:51:45+01:00">
+		<meta property="article:published_time" content="2026-11-05T08:34:55+01:00">
+		<meta property="article:modified_time" content="2026-11-05T08:34:55+01:00">
 
 	<meta itemprop="name" content="Breaking Changes - Upgrade Guide">
 	<meta itemprop="description" content="This guide lists all changes in ansible-oracle which require an action in your inventory, playbooks or environment when upgrading to a new major version.
@@ -46,9 +46,9 @@ Find your current version and the target version.
 Read the overview table of every major version in between.
 Check the column Affected if against your inventory. Only the rows that match need an action.
 Note The complete list of changes is in CHANGELOG.rst. This guide only covers the changes from the section Breaking Changes / Porting Guide and explains the required actions.">
-	<meta itemprop="datePublished" content="2026-10-30T22:51:45+01:00">
-	<meta itemprop="dateModified" content="2026-10-30T22:51:45+01:00">
-	<meta itemprop="wordCount" content="1564">
+	<meta itemprop="datePublished" content="2026-11-05T08:34:55+01:00">
+	<meta itemprop="dateModified" content="2026-11-05T08:34:55+01:00">
+	<meta itemprop="wordCount" content="5277">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Breaking Changes - Upgrade Guide">
 	<meta name="twitter:description" content="This guide lists all changes in ansible-oracle which require an action in your inventory, playbooks or environment when upgrading to a new major version.
@@ -165,12 +165,24 @@ Note The complete list of changes is in CHANGELOG.rst. This guide only covers th
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
   <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
+  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
+  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolespyoracledb-li">
+  <a href="/docs/roles/pyoracledb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolespyoracledb"><span class="">pyoracledb</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
+  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesautoupgrade-li">
   <a href="/docs/roles/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesautoupgrade"><span class="">autoupgrade</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
   <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescxoracle-li">
-  <a href="/docs/roles/cxoracle/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescxoracle"><span class="">cxoracle</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesglobal_handlers-li">
   <a href="/docs/roles/global_handlers/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesglobal_handlers"><span class="">global_handlers</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraapex-li">
@@ -183,8 +195,6 @@ Note The complete list of changes is in CHANGELOG.rst. This guide only covers th
   <a href="/docs/roles/oradb_datapatch/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_datapatch"><span class="">oradb_datapatch</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_facts-li">
   <a href="/docs/roles/oradb_facts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_facts"><span class="">oradb_facts</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
-  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_grants-li">
   <a href="/docs/roles/oradb_manage_grants/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_grants"><span class="">oradb_manage_grants</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_parameters-li">
@@ -211,14 +221,10 @@ Note The complete list of changes is in CHANGELOG.rst. This guide only covers th
   <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_tzupgrade-li">
   <a href="/docs/roles/oradb_tzupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_tzupgrade"><span class="">oradb_tzupgrade</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
-  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_cron-li">
   <a href="/docs/roles/orahost_cron/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_cron"><span class="">orahost_cron</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_logrotate-li">
   <a href="/docs/roles/orahost_logrotate/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_logrotate"><span class="">orahost_logrotate</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
-  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_ssh-li">
   <a href="/docs/roles/orahost_ssh/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_ssh"><span class="">orahost_ssh</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_storage-li">
@@ -227,22 +233,16 @@ Note The complete list of changes is in CHANGELOG.rst. This guide only covers th
   <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
   <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
-  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
   <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswahf_install-li">
   <a href="/docs/roles/oraswahf_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswahf_install"><span class="">oraswahf_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_golden_image-li">
   <a href="/docs/roles/oraswdb_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_golden_image"><span class="">oraswdb_golden_image</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
-  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
   <a href="/docs/roles/oraswdb_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_manage_patches"><span class="">oraswdb_manage_patches</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_golden_image-li">
   <a href="/docs/roles/oraswgi_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_golden_image"><span class="">oraswgi_golden_image</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
-  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_manage_patches-li">
   <a href="/docs/roles/oraswgi_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_manage_patches"><span class="">oraswgi_manage_patches</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_meta-li">
@@ -294,6 +294,19 @@ Note The complete list of changes is in CHANGELOG.rst. This guide only covers th
         <li><a href="#_templating_changes_with_ansible_core_2_19">1.5. Templating changes with ansible-core 2.19</a></li>
         <li><a href="#_other_ansible_core_2_19_changes_for_own_playbooks_and_inventories">1.6. Other ansible-core 2.19 changes for own playbooks and inventories</a></li>
         <li><a href="#_default_of_oracle_sw_copy_and_oracle_sw_unpack_with_install_from_nfs">1.7. Default of oracle_sw_copy and oracle_sw_unpack with install_from_nfs</a></li>
+        <li><a href="#_firewall_enabled_by_default_on_rhelol">1.8. Firewall enabled by default on RHEL/OL</a></li>
+        <li><a href="#_supported_versions_in_db_homes_config">1.9. Supported versions in db_homes_config</a></li>
+        <li><a href="#_python_oracledb_replaces_cx_oracle">1.10. python-oracledb replaces cx_Oracle</a></li>
+        <li><a href="#_oracle_profile_oracle_job_oracle_directory_oracle_grants_and_oracle_privs_names_in_double_quotes_are_case_sensitive">1.11. oracle_profile, oracle_job, oracle_directory, oracle_grants and oracle_privs: names in double quotes are case sensitive</a></li>
+        <li><a href="#_oracle_db_uses_hostname_for_the_database_connection">1.12. oracle_db uses hostname for the database connection</a></li>
+        <li><a href="#_quotas_for_users_in_oracle_user_and_oradb_manage_users">1.13. Quotas for users in oracle_user and oradb_manage_users</a></li>
+        <li><a href="#_internal_variables_of_oraasm_manage_diskgroups_removed">1.14. Internal variables of oraasm_manage_diskgroups removed</a></li>
+        <li><a href="#_autostart_of_databases_with_one_systemd_unit_per_database_and_listener">1.15. Autostart of databases with one systemd unit per database and listener</a>
+          <ul>
+            <li><a href="#_restart_of_a_database_after_a_crash">1.15.1. Restart of a database after a crash</a></li>
+          </ul>
+        </li>
+        <li><a href="#_autostart_of_databases_is_enabled_by_default">1.16. Autostart of databases is enabled by default</a></li>
       </ul>
     </li>
     <li><a href="#_adding_new_breaking_changes">2. Adding new breaking changes</a></li>
@@ -407,14 +420,84 @@ This guide only covers the changes from the section <em>Breaking Changes / Porti
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>install_from_nfs: true</code> <strong>and</strong> <code>oracle_sw_copy</code> or <code>oracle_sw_unpack</code> are not set in inventory</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Set <code>oracle_sw_copy: true</code> and <code>oracle_sw_unpack: true</code> to keep the old behavior or test the installation directly from NFS</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_firewall_enabled_by_default_on_rhelol">Firewall enabled by default on RHEL/OL</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Target hosts with RHEL/OL <strong>and</strong> <code>firewalld</code> is installed <strong>and</strong> <code>disable_firewall</code> is not set in inventory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Check the permanent <code>firewalld</code> config before the upgrade, or set <code>disable_firewall: true</code> and <code>firewall_open_listener_ports: false</code> to keep the old behavior</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_supported_versions_in_db_homes_config">Supported versions in db_homes_config</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>db_homes_config</code> contains an ORACLE_HOME with a <code>version</code> other than <code>19.3.0.0</code> or <code>26.1.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Upgrade the databases to 19c or 26ai, then remove the old ORACLE_HOMEs from <code>db_homes_config</code>. Emergency switch: <code>assert_db_homes_config: false</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_python_oracledb_replaces_cx_oracle">python-oracledb replaces cx_Oracle</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Always: the modules require python-oracledb instead of cx_Oracle on the target hosts. Action needed if the target hosts have no access to the Python package index, a proxy is needed (<code>use_proxy</code>, <code>http_proxy</code>), <code>install_cx_oracle</code> / <code>cx_oracle_source</code> / <code>cx_oracle3_source</code> / <code>cx_oracle_umask</code> are set in inventory or the role <code>cxoracle</code> is used in own playbooks</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set the new variables <code>pyoracledb_wheel_dir</code>, <code>pyoracledb_use_proxy</code> and <code>pyoracledb_http_proxy</code>, replace the role <code>cxoracle</code> by <code>pyoracledb</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#oracle_profile">oracle_job, oracle_directory, oracle_grants and oracle_privs: names in double quotes are case sensitive</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A name of a profile, user, role, object or directory is enclosed in <code>&#34;</code> by mistake (<code>profiles</code> and <code>grants</code>, <code>object_privs</code>, <code>directory_privs</code> of <code>users</code> in <code>oracle_databases</code> / <code>oracle_pdbs</code>, or the modules in own playbooks), <strong>or</strong> an existing profile, user, role or object has a name in lower or mixed case</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Remove the <code>&#34;</code> from the name, or write the name exactly as stored in the data dictionary in <code>&#34;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_oracle_db_uses_hostname_for_the_database_connection">oracle_db uses hostname for the database connection</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The listener does not listen on <code>oracle_hostname</code> (default: <code>ansible_fqdn</code>), <strong>or</strong> own playbooks use <code>oracle_db</code> with <code>hostname</code> / <code>host</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set <code>oracle_hostname</code> to an address of the listener, this is also the way to use another listener address</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_quotas_for_users_in_oracle_user_and_oradb_manage_users">Quotas for users in oracle_user and oradb_manage_users</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quotas</code> is set for a user (new option, without <code>quotas</code> no quota is removed or changed), <strong>or</strong> own playbooks use <code>quotas</code> from the old module PR (<code>&#39;&lt;tablespace&gt;:&lt;size&gt;&#39;</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No action without <code>quotas</code>, the quotas of the user are not changed. With <code>quotas</code>: add the default tablespace to <code>quotas</code>, if the user needs a quota there, and use the format <code>{tablespace: &lt;name&gt;, size: &lt;size&gt;}</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_internal_variables_of_oraasm_manage_diskgroups_removed">Internal variables of oraasm_manage_diskgroups removed</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Own playbooks or inventories use the internal variables <code>_oraasm_manage_diskgroups_attr_name</code> or <code>_oraasm_manage_diskgroups_attr_value</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No action for inventories with <code>asm_diskgroups</code>. Otherwise use <code>attributes</code> of <code>asm_diskgroups</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_autostart_of_databases_with_one_systemd_unit_per_database_and_listener">Autostart of databases with one systemd unit per database and listener</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autostartup_service: true</code> on a Single Instance without Grid Infrastructure / Oracle Restart with systemd</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No action for the new solution, it replaces <code>oracle-rdbms.service</code> with the next run of <code>oradb_manage_db</code>. A crashed database is restarted after 2 minutes, set <code>autostartup_service_restart: false</code> to disable it. Set <code>autostartup_service_mode: legacy</code> <strong>before</strong> the upgrade to keep the solution of 4.x</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_autostart_of_databases_is_enabled_by_default">Autostart of databases is enabled by default</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Single Instance without Grid Infrastructure / Oracle Restart <strong>and</strong> <code>autostartup_service</code> is not set in the inventory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No action, if the databases should start with the server. Otherwise set <code>autostartup_service: false</code></p></td>
+</tr>
 </tbody>
 </table>
 </div>
 <div class="sect2">
 <h3 id="_minimum_ansible_core_2_16">1.2. Minimum ansible-core 2.16</h3>
 <div class="paragraph">
-<p><code>ansible-oracle</code> 5.x requires ansible-core 2.16 or newer (4.x: 2.14).
-The minimum version is defined by <code>requires_ansible</code> in <code>meta/runtime.yml</code> and <code>min_ansible_version</code> in <code>meta/main.yml</code> of all roles.</p>
+<p><code>ansible-oracle</code> 5.x supports ansible-core 2.16 - 2.19.
+<code>ansible-oracle</code> 4.x supports ansible-core 2.14 - 2.18, so ansible-core 2.19 requires <code>ansible-oracle</code> 5.x.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 66.6667%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><code>ansible-oracle</code></th>
+<th class="tableblock halign-left valign-top">ansible-core</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.14 - 2.18</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.16 - 2.19</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The minimum version is defined by <code>requires_ansible</code> in <code>meta/runtime.yml</code> and <code>min_ansible_version</code> in <code>meta/main.yml</code> of all roles.</p>
 </div>
 <div class="paragraph">
 <p>Check the version on the controller or in your execution environment:</p>
@@ -801,6 +884,990 @@ oracle_sw_unpack: true</code></pre>
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_firewall_enabled_by_default_on_rhelol">1.8. Firewall enabled by default on RHEL/OL</h3>
+<div class="paragraph">
+<p>Until 4.x the role <code>orahost</code> stopped and disabled <code>firewalld</code> on RHEL/OL by default (<code>disable_firewall: true</code>).
+As of 5.0.0 <code>firewalld</code> stays active and the role opens the ports of the Oracle listeners:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 28.5714%;"/>
+<col style="width: 28.5714%;"/>
+<col style="width: 42.8572%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">4.x</th>
+<th class="tableblock halign-left valign-top">5.0.0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>disable_firewall</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>firewall_open_listener_ports</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">- (not available)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code> (new)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The change applies only to RHEL/OL target hosts with installed <code>firewalld</code>.
+SUSE is not changed.</p>
+</div>
+<div class="paragraph">
+<p>What <code>orahost</code> does with the new defaults:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Checks, if the permanent <code>firewalld</code> config allows the SSH connection of Ansible (service <code>ssh</code>, port and target of the zone).
+The play fails, when starting <code>firewalld</code> would block SSH.
+Rich rules and zones bound to sources are not evaluated by this check.</p>
+</li>
+<li>
+<p>Starts and enables <code>firewalld</code>.</p>
+</li>
+<li>
+<p>Opens the following TCP ports in the permanent and the running config:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>all ports from <code>address</code> in <code>oracle_listeners_config</code> with a <code>host</code> (IPC addresses are ignored, <code>listener_port</code> is used for addresses without <code>port</code>),</p>
+</li>
+<li>
+<p>all ports from the new variable <code>oracle_extra_firewall_ports</code>,</p>
+</li>
+<li>
+<p><code>oracle_scan_port</code> with <code>oracle_install_option_gi: CRS_CONFIG</code>.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Other ports are not opened automatically, e.g. EM Express (5500), ORDS/APEX or the Enterprise Manager agent.
+Add them to <code>oracle_extra_firewall_ports</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_extra_firewall_ports:
+  - 5500  # EM Express</code></pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+Oracle RAC needs unrestricted network traffic on the private interconnect.
+Allow the interconnect in <code>firewalld</code> (for example with a trusted zone for the interconnect interfaces) or set <code>disable_firewall: true</code> on the cluster nodes.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>Combinations of both variables:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;"/>
+<col style="width: 16.6666%;"/>
+<col style="width: 66.6668%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><code>disable_firewall</code></th>
+<th class="tableblock halign-left valign-top"><code>firewall_open_listener_ports</code></th>
+<th class="tableblock halign-left valign-top">Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default in 5.0.0: <code>firewalld</code> is started and enabled, ports are opened immediately and permanently</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Behavior of 4.x: <code>firewalld</code> is stopped and disabled</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>firewalld</code> is stopped and disabled, ports are only added to the permanent config (prepared for a later start)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>firewalld</code> is not changed by <code>orahost</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Keep the behavior of 4.x:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">disable_firewall: true
+firewall_open_listener_ports: false</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_supported_versions_in_db_homes_config">1.9. Supported versions in db_homes_config</h3>
+<div class="paragraph">
+<p>The role <code>orasw_meta</code> checks <code>db_homes_config</code>.
+It is a dependency of nearly all roles, so the check runs in nearly every playbook.
+As of 5.0.0 only Oracle 19c and 26ai are accepted as <code>version</code>:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;"/>
+<col style="width: 75%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Version</th>
+<th class="tableblock halign-left valign-top">Allowed <code>version</code> in <code>db_homes_config</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>26.1.0.0</code>, <code>21.3.0.0</code>, <code>19.3.0.0</code>, <code>18.3.0.0</code>, <code>12.2.0.1</code>, <code>12.1.0.2</code>, <code>11.2.0.4</code>, <code>11.2.0.3</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>26.1.0.0</code>, <code>19.3.0.0</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><code>version</code> is the base release of the ORACLE_HOME.
+Release Updates are not part of it, e.g. an ORACLE_HOME with 19.32 uses <code>version: 19.3.0.0</code>.</p>
+</div>
+<div class="paragraph">
+<p>An ORACLE_HOME with another version stops the playbook with a failed assert, even when the ORACLE_HOME is not used by the playbook.
+Upgrade the databases to 19c or 26ai, e.g. with the role <code>autoupgrade</code>, and remove the old ORACLE_HOMEs from <code>db_homes_config</code> afterwards.</p>
+</div>
+<div class="paragraph">
+<p>The assert can be disabled in emergency cases:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">assert_db_homes_config: false</code></pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+<code>assert_db_homes_config: false</code> disables all checks of <code>db_homes_config</code>, not only the check of the version.
+Missing <code>oracle_home</code>, <code>edition</code> or <code>opatch_minversion</code> are no longer detected.
+ORACLE_HOMEs with other versions are not tested with <code>ansible-oracle</code> 5.x.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_python_oracledb_replaces_cx_oracle">1.10. python-oracledb replaces cx_Oracle</h3>
+<div class="paragraph">
+<p>python-oracledb (Python package <code>oracledb</code>) is the successor of cx_Oracle.
+All modules of <code>ansible-oracle</code> are migrated from cx_Oracle to python-oracledb.
+cx_Oracle is no longer used.</p>
+</div>
+<div class="paragraph">
+<p>The new role <code>pyoracledb</code> installs python-oracledb with <code>pip3</code> on the target hosts.
+The playbook <code>os.yml</code> executes <code>pyoracledb</code> instead of <code>cxoracle</code>.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The role <code>cxoracle</code> and its variables are removed.
+Variables like <code>install_cx_oracle</code> or <code>cx_oracle_source</code> in the inventory have no effect anymore.
+Own playbooks using the role <code>opitzconsulting.ansible_oracle.cxoracle</code> fail, replace it by <code>opitzconsulting.ansible_oracle.pyoracledb</code>.
+cx_Oracle is not removed from existing target hosts.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>The modules require python-oracledb on the target hosts instead of cx_Oracle.
+python-oracledb is used in thick mode, so the Oracle Client libraries must be found
+(<code>ORACLE_HOME</code> and <code>LD_LIBRARY_PATH</code>), like with cx_Oracle before.</p>
+</div>
+<div class="paragraph">
+<p>Migrated modules:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>oracle_asmdg</code></p>
+</li>
+<li>
+<p><code>oracle_asmvol</code></p>
+</li>
+<li>
+<p><code>oracle_awr</code></p>
+</li>
+<li>
+<p><code>oracle_db</code></p>
+</li>
+<li>
+<p><code>oracle_directory</code></p>
+</li>
+<li>
+<p><code>oracle_facts</code></p>
+</li>
+<li>
+<p><code>oracle_grants</code></p>
+</li>
+<li>
+<p><code>oracle_job</code></p>
+</li>
+<li>
+<p><code>oracle_jobclass</code></p>
+</li>
+<li>
+<p><code>oracle_jobschedule</code></p>
+</li>
+<li>
+<p><code>oracle_jobwindow</code></p>
+</li>
+<li>
+<p><code>oracle_ldapuser</code></p>
+</li>
+<li>
+<p><code>oracle_parameter</code></p>
+</li>
+<li>
+<p><code>oracle_pdb</code></p>
+</li>
+<li>
+<p><code>oracle_privs</code></p>
+</li>
+<li>
+<p><code>oracle_profile</code></p>
+</li>
+<li>
+<p><code>oracle_redo</code></p>
+</li>
+<li>
+<p><code>oracle_role</code></p>
+</li>
+<li>
+<p><code>oracle_rsrc_consgroup</code></p>
+</li>
+<li>
+<p><code>oracle_services</code> (python-oracledb is only used without Grid Infrastructure)</p>
+</li>
+<li>
+<p><code>oracle_sql</code></p>
+</li>
+<li>
+<p><code>oracle_stats_prefs</code></p>
+</li>
+<li>
+<p><code>oracle_tablespace</code></p>
+</li>
+<li>
+<p><code>oracle_user</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The role <code>pyoracledb</code> installs a fixed version of python-oracledb, depending on the Python version of the target host
+(<code>ansible_python_interpreter</code>, needs <code>gather_facts</code>):</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Python on the target host</th>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.6 (Oracle Linux / RHEL 8, SLES 15)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pyoracledb_version_py36</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.4.2</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pyoracledb_version_py37</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.3.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pyoracledb_version_py38</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.0.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.9 (Oracle Linux / RHEL 9)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pyoracledb_version_py39</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4.0.2</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">all other versions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pyoracledb_version</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">26.1.0 (updated by renovate)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Without changes in the inventory, <code>pyoracledb</code> installs this version from the Python package index (<code>pip install oracledb==&lt;version&gt;</code>).
+The installation fails, when the target hosts have no access to the package index.</p>
+</div>
+<div class="paragraph">
+<p>The wheel files of python-oracledb need pip 19.3 or newer (<code>manylinux2014</code>).
+The system pip of Oracle Linux / RHEL 8 is 9.0.3, it would try to build python-oracledb from source, which fails.
+Therefore <code>pyoracledb</code> installs <code>pip&gt;=19.3</code> first, if pip is older (Python 3.6: pip 21.3.1 in <code>/usr/local</code>).</p>
+</div>
+<div class="paragraph">
+<p>The role <code>pyoracledb</code> uses own variables with the prefix <code>pyoracledb_</code>.
+The variables of the removed role <code>cxoracle</code> are not used by <code>pyoracledb</code>, even <code>use_proxy</code>, <code>http_proxy</code> and <code>extra_args</code>:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;"/>
+<col style="width: 20%;"/>
+<col style="width: 60%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><code>cxoracle</code></th>
+<th class="tableblock halign-left valign-top"><code>pyoracledb</code></th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>install_cx_oracle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pyoracledb_install</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Install the package? Default: <code>true</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cx_oracle_source</code>, <code>cx_oracle3_source</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pyoracledb_wheel_dir</code> (and <code>pyoracledb_version*</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directory with wheel files instead of a single package or file. Default: package index</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cx_oracle_umask</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pyoracledb_umask</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">umask for the pip installation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>use_proxy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pyoracledb_use_proxy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use a proxy for the pip installation. Default: <code>false</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>http_proxy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pyoracledb_http_proxy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Proxy for the pip installation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>extra_args</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pyoracledb_extra_args</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Additional arguments for pip, e.g. <code>--index-url=…​</code> for an internal mirror. The default contains the proxy and the client certificates <code>get_url_ssl_client_cert</code> / <code>get_url_ssl_client_key</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><code>cx_oracle_source</code> / <code>cx_oracle3_source</code> pointed to one package or file.
+<code>pyoracledb_wheel_dir</code> points to a directory with wheel files of python-oracledb, pip selects the file matching the Python version
+(<code>pip install --no-index --find-links &lt;pyoracledb_wheel_dir&gt; oracledb==&lt;version&gt;</code>).
+One directory can contain the wheel files for all Python versions of the target hosts (e.g. <code>cp36</code> and <code>cp39</code>):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>local directory on the Ansible controller, copied to <code>&lt;oracle_stage&gt;/pyoracledb</code> when <code>is_sw_source_local: true</code> and <code>oracle_sw_copy: true</code>.
+With <code>oracle_sw_copy: false</code> the directory must exist on the target host (e.g. NFS).</p>
+</li>
+<li>
+<p>URL (<code>http://</code>, <code>https://</code>) of a page with links to the wheel files, used directly by pip</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>use_proxy</code>, <code>http_proxy</code> and <code>extra_args</code> can be kept in the inventory, if they are used for other purposes.</p>
+</div>
+<div class="paragraph">
+<p>Example of the migration of the inventory:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml"># before (cxoracle)
+cx_oracle_source: &#34;file:///sw/cx_Oracle-8.3.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl&#34;
+use_proxy: true
+http_proxy: proxy.example:3128
+
+# after (pyoracledb)
+pyoracledb_wheel_dir: /sw/python-oracledb
+pyoracledb_use_proxy: true
+pyoracledb_http_proxy: proxy.example:3128</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Download the wheel files for the target hosts on a host with access to the package index,
+one command per Python version with the matching version from the table above:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-shell" data-lang="shell">pip download --no-deps --only-binary=:all: --python-version 3.6 \
+  --platform manylinux2014_x86_64 -d /sw/python-oracledb oracledb==1.4.2
+# pip for Python 3.6 (the system pip of OL8 is too old for the wheel files)
+pip download --no-deps --only-binary=:all: --python-version 3.6 \
+  -d /sw/python-oracledb pip==21.3.1
+pip download --no-deps --only-binary=:all: --python-version 3.9 \
+  --platform manylinux2014_x86_64 -d /sw/python-oracledb oracledb==4.0.2</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Skip the installation of python-oracledb:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">pyoracledb_install: false</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_oracle_profile_oracle_job_oracle_directory_oracle_grants_and_oracle_privs_names_in_double_quotes_are_case_sensitive">1.11. oracle_profile, oracle_job, oracle_directory, oracle_grants and oracle_privs: names in double quotes are case sensitive</h3>
+<div class="paragraph">
+<p>The modules <code>oracle_profile</code>, <code>oracle_job</code>, <code>oracle_directory</code>, <code>oracle_grants</code> and <code>oracle_privs</code> handle names like SQL (ANSI): a name in double quotes (<code>&#34;</code>) is case sensitive, a name without quotes is converted to uppercase.
+All other modules are not changed.
+The functions for this are in <code>plugins/module_utils/oracle_identifier.py</code> and can be used by more modules in the future.
+Such a change will be listed here.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;"/>
+<col style="width: 40%;"/>
+<col style="width: 40%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Module</th>
+<th class="tableblock halign-left valign-top">Before</th>
+<th class="tableblock halign-left valign-top">Now</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_profile</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name was not quoted in the SQL statements, but compared case insensitive with <code>DBA_PROFILES</code>.
+A name in <code>&#34;</code> was created case sensitive, but not found in the next run (ORA-02379).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A name in <code>&#34;</code> is used case sensitive, e.g. <code>name: &#39;&#34;Gestion/Monitorizacion&#34;&#39;</code>.
+A name without <code>&#34;</code> is used in uppercase and compared exactly with <code>DBA_PROFILES</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_job</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A <code>job_name</code> with <code>&#34;</code> failed with <code>Invalid job name</code>.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A part of <code>job_name</code> in <code>&#34;</code> is case sensitive, e.g. <code>job_name: &#39;SYSTEM.&#34;My_Job&#34;&#39;</code>.
+<code>convert_to_upper</code> works as before for parts without <code>&#34;</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_directory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name was not quoted in the SQL statements and compared in uppercase with <code>DBA_DIRECTORIES</code>.
+A name in <code>&#34;</code> was created case sensitive, but not found in the next run (ORA-00955).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A name in <code>&#34;</code> is used case sensitive, e.g. <code>directory_name: &#39;&#34;MyDir&#34;&#39;</code>.
+<code>&#34;MyDir&#34;</code> and <code>MYDIR</code> are two different directories.
+A name without <code>&#34;</code> is used in uppercase as before.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_grants</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The grantee (<code>schema</code>, <code>role</code>) was compared in uppercase, roles and objects in <code>grants</code> and <code>object_privs</code> were compared case insensitive, but not quoted in the SQL statements.
+A grantee or object in <code>&#34;</code> was not found.
+Granting or revoking a privilege on an object with a lower or mixed case name failed (ORA-00942).
+With <code>state: absent</code> the names in <code>grants</code> had to be in lowercase.
+<code>directory_privs</code> needed <code>sys.&lt;directory&gt;</code>.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Grantee, roles in <code>grants</code>, owner and object in <code>object_privs</code> and the directory in <code>directory_privs</code> can be in <code>&#34;</code> (case sensitive), e.g. <code>schema: &#39;&#34;MyUser&#34;&#39;</code>, <code>grants: [&#39;&#34;MyRole&#34;&#39;]</code>, <code>object_privs: [&#39;select:&#34;MyOwner&#34;.&#34;MyTable&#34;&#39;]</code>.
+Names without <code>&#34;</code> are used in uppercase and compared exactly.
+<code>state: absent</code> compares in any case.
+An object without owner is in the current schema of the connection, <code>sys.</code> is optional for directories.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_privs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Names with <code>&#34;</code> failed with <code>Invalid privilege</code>, <code>Invalid user/role</code> or <code>Invalid object</code>.
+<code>convert_to_upper</code> was valid for all names in <code>roles</code> and <code>objs</code>.
+A role in <code>privs</code> was always converted to uppercase.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A name in <code>&#34;</code> is case sensitive in <code>roles</code>, <code>objs</code> (owner and object, also with the wildcard <code>%</code>) and for a role in <code>privs</code>, e.g. <code>roles: [&#39;&#34;MyUser&#34;&#39;]</code>, <code>objs: [&#39;&#34;MyOwner&#34;.%&#39;]</code>, <code>privs: [&#39;&#34;MyRole&#34;&#39;]</code>.
+<code>convert_to_upper</code> works as before for names without <code>&#34;</code>.
+No action needed, names without <code>&#34;</code> are handled as before.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>PDB names are not affected: Oracle stores them always in uppercase, <code>oracle_pdb</code> converts the name to uppercase as before.</p>
+</div>
+<div class="paragraph">
+<p>For most inventories nothing changes, because names without <code>&#34;</code> are stored in uppercase as before.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Check names which are enclosed in <code>&#34;</code> by mistake, e.g. from a copied SQL statement.
+They are case sensitive now and refer to a different object than before, so the module creates a new profile or directory with the exact name, or grants a privilege on a different object or role.
+The roles of <code>ansible-oracle</code> do not use <code>oracle_directory</code>, so only own playbooks are affected for directories.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>An existing profile with a name in lower or mixed case (created outside of <code>ansible-oracle</code>) was found before with a name in any case.
+Now the name must be given exactly in <code>&#34;</code>, otherwise the module creates a new profile in uppercase.</p>
+</div>
+<div class="paragraph">
+<p>The same applies to <code>oracle_grants</code>: a grant on an existing object or role with a lower or mixed case name, which was found before with a name in any case, must be given exactly in <code>&#34;</code>.
+Otherwise the module tries to grant the privilege on the uppercase name (ORA-00942 or ORA-01919) and, with <code>grants_mode: enforce</code>, revokes the existing grant.</p>
+</div>
+<div class="listingblock">
+<div class="title">Find objects and roles with a name in lower or mixed case</div>
+<div class="content">
+<pre class="highlight"><code class="language-sql" data-lang="sql">select owner, object_name, object_type from dba_objects where object_name &lt;&gt; upper(object_name) or owner &lt;&gt; upper(owner);
+select role from dba_roles where role &lt;&gt; upper(role);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Find profiles with a name in lower or mixed case</div>
+<div class="content">
+<pre class="highlight"><code class="language-sql" data-lang="sql">select distinct profile from dba_profiles where profile &lt;&gt; upper(profile);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Profile with a mixed case name in the inventory</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_pdbs:
+  - cdb: DB1
+    pdb_name: ORCLPDB
+    profiles:
+      # before: MyProfile was found case insensitive
+      # - name: MyProfile
+      - name: &#39;&#34;MyProfile&#34;&#39;
+        state: present
+        attributes:
+          - {name: password_life_time, value: unlimited}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_oracle_db_uses_hostname_for_the_database_connection">1.12. oracle_db uses hostname for the database connection</h3>
+<div class="paragraph">
+<p>This is a bugfix (<a href="https://github.com/oravirt/ansible-oracle/issues/542">#542</a>), but it changes the address used for the database connection.</p>
+</div>
+<div class="paragraph">
+<p><code>oracle_db</code> ignored the option <code>hostname</code> (alias <code>host</code>) and always connected to the local host name (<code>os.uname()[1]</code>).
+This forced a listener on that address, which is not allowed in all environments.
+Now <code>oracle_db</code> connects to <code>hostname</code>, without <code>hostname</code> to <code>os.uname()[1]</code> as before.</p>
+</div>
+<div class="paragraph">
+<p>The roles <code>oradb_manage_db</code>, <code>oradb_manage_parameters</code> and <code>oradb_datapatch</code> pass <code>oracle_hostname</code> as <code>hostname</code>, like all other <code>oradb_manage_*</code> roles already do.
+<code>oracle_hostname</code> defaults to <code>ansible_fqdn</code>, so all roles connect to <code>ansible_fqdn</code> unless <code>oracle_hostname</code> is set in inventory.</p>
+</div>
+<div class="paragraph">
+<p>For most inventories nothing changes, because the other <code>oradb_manage_*</code> roles already need a listener on <code>oracle_hostname</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">Use another listener address</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml"># default: ansible_fqdn
+oracle_hostname: dbhost-lsnr.example.com</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<code>oracle_hostname</code> is also used as host name in the RDBMS installation and as node name for Grid Infrastructure.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+An explicit <code>hostname: localhost</code> for <code>oracle_db</code> in own playbooks was ignored before.
+Now the module connects to <code>localhost</code>, which works only, if the listener listens on this address.
+Remove <code>hostname</code> to keep the old behavior.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_quotas_for_users_in_oracle_user_and_oradb_manage_users">1.13. Quotas for users in oracle_user and oradb_manage_users</h3>
+<div class="paragraph">
+<p>This is a new feature (<a href="https://github.com/oravirt/ansible-oracle/issues/312">#312</a>), not a breaking change.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Without <code>quotas</code> no quota is removed or changed, the existing quotas of a user are kept.
+<code>quotas_mode</code> has no effect without <code>quotas</code>.
+A user with <code>default_tablespace</code> gets <code>QUOTA UNLIMITED</code> on this tablespace as before.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>Quotas are only removed, if the inventory says so: with <code>size: 0</code> for a tablespace in <code>quotas</code>, or with <code>quotas_mode: enforce</code> for all tablespaces not in <code>quotas</code>.</p>
+</div>
+<div class="paragraph">
+<p><code>oracle_user</code> and the <code>users</code> of <code>oracle_databases</code> / <code>oracle_pdbs</code> (role <code>oradb_manage_users</code>) have two new options:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>quotas</code>: list of <code>tablespace</code> and <code>size</code>.
+<code>size</code> is the number of bytes with an optional unit <code>K</code>, <code>M</code>, <code>G</code>, <code>T</code>, <code>P</code>, <code>E</code> or <code>unlimited</code>.
+<code>size: 0</code> removes the quota on the tablespace.</p>
+</li>
+<li>
+<p><code>quotas_mode</code>: <code>append</code> (default) changes only the tablespaces in <code>quotas</code>, <code>enforce</code> removes all other quotas of the user.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+With <code>quotas</code>, the default tablespace gets no automatic <code>QUOTA UNLIMITED</code>.
+Add the default tablespace to <code>quotas</code>, if the user needs a quota there.
+An existing quota on the default tablespace is kept with <code>quotas_mode: append</code>, but removed with <code>quotas_mode: enforce</code>, if the tablespace is not in <code>quotas</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>Oracle rounds a quota up to whole blocks of the tablespace, e.g. <code>size: 1000</code> is stored as 8192 bytes with a block size of 8K.
+The comparison uses blocks, so the module is idempotent for such sizes.</p>
+</div>
+<div class="listingblock">
+<div class="title">User with quotas, all other quotas are removed</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_pdbs:
+  - cdb: orcl
+    pdb_name: ORCLPDB
+    users:
+      - schema: app
+        state: present
+        default_tablespace: app_data
+        quotas_mode: enforce
+        quotas:
+          # without this entry, app has no quota on its default tablespace
+          - tablespace: app_data
+            size: unlimited
+          - tablespace: app_index
+            size: 500M</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The old pull request for quotas in <code>ansible-oracle-modules</code> (<a href="https://github.com/oravirt/ansible-oracle-modules/pull/158">#158</a>) used a list of strings <code>&#39;&lt;tablespace&gt;:&lt;size&gt;&#39;</code>.
+This format is not supported, use <code>{tablespace: &lt;name&gt;, size: &lt;size&gt;}</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_internal_variables_of_oraasm_manage_diskgroups_removed">1.14. Internal variables of oraasm_manage_diskgroups removed</h3>
+<div class="paragraph">
+<p>This is not a breaking change for inventories, the variables were internal (prefix <code>_</code>).
+It is listed here for own playbooks or roles which used them.</p>
+</div>
+<div class="paragraph">
+<p>The role <code>oraasm_manage_diskgroups</code> built the attributes for <code>oracle_asmdg</code> in the variables <code>_oraasm_manage_diskgroups_attr_name</code> and <code>_oraasm_manage_diskgroups_attr_value</code>.
+For a disk group without <code>attributes</code> they contained the string <code>None</code>, which was passed to <code>oracle_asmdg</code> as attribute (<a href="https://github.com/oravirt/ansible-oracle/issues/491">#491</a>).
+The variables are removed, the role passes <code>attributes</code> of <code>asm_diskgroups</code> directly to <code>oracle_asmdg</code>, a disk group without <code>attributes</code> gets no attributes.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+No action is needed for inventories with <code>asm_diskgroups</code>, <code>attributes</code> works as before.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Attributes of a disk group</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">asm_diskgroups:
+  - diskgroup: data
+    state: present
+    attributes:
+      - {name: compatible.asm, value: 19.0.0.0.0}
+      - {name: compatible.rdbms, value: 19.0.0.0.0}
+    disk:
+      - {device: /dev/sdb, asmlabel: data01}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_autostart_of_databases_with_one_systemd_unit_per_database_and_listener">1.15. Autostart of databases with one systemd unit per database and listener</h3>
+<div class="paragraph">
+<p>The autostart with <code>autostartup_service: true</code> (Single Instance without Grid Infrastructure / Oracle Restart) uses new systemd units (<a href="https://github.com/oravirt/ansible-oracle/issues/265">#265</a>).
+The solution of 4.x is still available with <code>autostartup_service_mode: legacy</code>.</p>
+</div>
+<div class="paragraph">
+<p>The service <code>oracle-rdbms.service</code> of 4.x had some problems:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>systemd killed a database after 90 seconds, when <code>shutdown immediate</code> took longer (default timeout, <code>KillMode=control-group</code>).</p>
+</li>
+<li>
+<p>A database without <code>~/.profile_&lt;ORACLE_SID&gt;</code> was not shut down, but killed by systemd.</p>
+</li>
+<li>
+<p>A database started outside of systemd (e.g. with <code>sqlplus</code> in a ssh session) was killed with the session during a shutdown of the server.</p>
+</li>
+<li>
+<p>Remote file systems (e.g. NFS) could be unmounted before the database was stopped.</p>
+</li>
+<li>
+<p>A failed start of a database was not reported, the service was active.</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;"/>
+<col style="width: 40%;"/>
+<col style="width: 40%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"></th>
+<th class="tableblock halign-left valign-top">4.x (<code>autostartup_service_mode: legacy</code>)</th>
+<th class="tableblock halign-left valign-top">5.x (<code>autostartup_service_mode: units</code>, default)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Units</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle-rdbms.service</code> for all databases in <code>/etc/oratab</code>, created by <code>oraswdb_install</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle-db@&lt;ORACLE_SID&gt;.service</code> per database from <code>oracle_databases</code> and <code>oracle-listener@&lt;LISTENER_NAME&gt;.service</code> per listener from <code>listener_installed</code> (or <code>listener_name</code> of <code>oracle_databases</code>), grouped by <code>oracle-databases.target</code> and <code>oracle-listeners.target</code>, created by <code>oradb_manage_db</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Start/stop script</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/usr/local/bin/manage_oracle_rdbms_procs.sh</code>, listener from <code>~/.profile_&lt;ORACLE_SID&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/usr/local/bin/oracle-systemd</code>, environment in <code>/etc/sysconfig/oracledb/db-&lt;ORACLE_SID&gt;</code> and <code>/etc/sysconfig/oracledb/listener-&lt;LISTENER_NAME&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timeouts</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">systemd default (90 seconds), then the database is killed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autostartup_service_start_timeout</code> / <code>autostartup_service_stop_timeout</code> (default <code>15min</code>), systemd never kills a database (<code>KillMode=process</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Databases started outside of systemd</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">killed during a shutdown of the server</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attached to their unit by <code>oracle-adopt.timer</code> (<code>autostartup_service_adopt_interval</code>, systemd API <code>AttachProcessesToUnit</code>) and at the start of the unit</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dependencies</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autostartup_service_dependency</code> (default <code>network.target</code>) in <code>Requires=</code> and <code>After=</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autostartup_service_dependency</code> in <code>Requires=</code> and <code>After=</code> of all units, <code>After=network-online.target remote-fs.target local-fs.target</code> is always set</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Start of a single database</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">not possible</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>systemctl start oracle-db@&lt;ORACLE_SID&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Crash of a database</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">not detected, the service stays active</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The unit monitors PMON. After a crash (no <code>Instance shutdown complete</code> / <code>Instance shutdown (abort) complete</code> in the alert log) systemd restarts the database after <code>autostartup_service_restart_sec</code> (default <code>2min</code>), see <a href="#_restart_of_a_database_after_a_crash">Restart of a database after a crash</a>.
+A shutdown in sqlplus is not restarted, the unit is inactive.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ORACLE_HOME of a database</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">from <code>/etc/oratab</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">from <code>/etc/oratab</code> (start), from the running instance (stop)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The migration is done by the next run of <code>oradb_manage_db</code> (playbook <code>manage_db.yml</code>).
+The databases and listeners are not restarted: the new units are started and attach the running databases and listeners.
+<code>oracle-rdbms.service</code> is disabled.
+Its unit file is removed, when the service is inactive, otherwise in the first run after the next reboot.
+An active service without unit file would be stopped without its stop script during a shutdown.</p>
+</div>
+<div class="sect3">
+<h4 id="_restart_of_a_database_after_a_crash">1.15.1. Restart of a database after a crash</h4>
+<div class="paragraph">
+<p>This is new behavior compared to 4.x: <code>oracle-rdbms.service</code> did not detect a crash, a crashed database stayed down until it was started manually.</p>
+</div>
+<div class="paragraph">
+<p>The unit <code>oracle-db@&lt;ORACLE_SID&gt;.service</code> monitors PMON of the database every 10 seconds.
+When PMON is gone, the last entry in the alert log decides:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 40%;"/>
+<col style="width: 60%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Last entry in the alert log</th>
+<th class="tableblock halign-left valign-top">Unit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Instance shutdown complete</code> or <code>Instance shutdown (abort) complete</code> (shutdown in sqlplus, also <code>shutdown abort</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">inactive, no restart.
+The unit is started again by <code>oracle-adopt.timer</code>, when the database is started in sqlplus.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">other entry, e.g. <code>Instance terminated by …​</code> (crash)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autostartup_service_restart: true</code> (default): restart after <code>autostartup_service_restart_sec</code> (default <code>2min</code>), max. 10 starts of the unit within 1 hour.
+<code>autostartup_service_restart: false</code>: failed, no restart.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><code>autostartup_service_restart</code> can be set for all databases or per database in <code>oracle_databases</code>.
+A change is used by the next run of <code>oradb_manage_db</code> without a restart of the database.</p>
+</div>
+<div class="listingblock">
+<div class="title">Restart after a crash only for DB1</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">autostartup_service_restart: false
+
+oracle_databases:
+  - oracle_db_name: DB1
+    autostartup_service_restart: true
+    ...</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Check the restart, when a database must not start automatically after a crash, e.g. because a crash is analyzed before the restart or another tool restarts the database.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Set <code>autostartup_service_mode: legacy</code> in the inventory <strong>before</strong> the upgrade to 5.x to keep the solution of 4.x.
+<code>oraswdb_install</code> creates <code>oracle-rdbms.service</code> as before and <code>oradb_manage_db</code> does not create the new units.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Keep the autostart of 4.x</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">autostartup_service: true
+autostartup_service_mode: legacy</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A switch from <code>units</code> back to <code>legacy</code> removes the new units in the next run of <code>oradb_manage_db</code> (the databases are not stopped).
+Active units are disabled and their unit files are removed in the first run after the next reboot.
+Run <code>oraswdb_install</code> (playbook <code>swdb.yml</code>) to create <code>oracle-rdbms.service</code> again.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<code>dbora</code> for init (EL6) is not changed.
+Restart the databases with <code>systemctl restart oracle-db@&lt;ORACLE_SID&gt;</code> instead of <code>sqlplus</code>, then the database is always in its unit.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_autostart_of_databases_is_enabled_by_default">1.16. Autostart of databases is enabled by default</h3>
+<div class="paragraph">
+<p>The default of <code>autostartup_service</code> is <code>true</code> since 5.0.0 (4.x: <code>false</code>).
+A Single Instance without Grid Infrastructure / Oracle Restart gets the autostart of the databases and listeners with the next run of <code>oraswdb_install</code> and <code>oradb_manage_db</code>, when <code>autostartup_service</code> is not set in the inventory.
+The solution is selected with <code>autostartup_service_mode</code>, see <a href="#_autostart_of_databases_with_one_systemd_unit_per_database_and_listener">Autostart of databases with one systemd unit per database and listener</a>.</p>
+</div>
+<div class="paragraph">
+<p><code>autostartup_service</code> is not used with Grid Infrastructure / Oracle Restart, the databases are started by the Clusterware.</p>
+</div>
+<div class="paragraph">
+<p>The databases are written with the flag <code>Y</code> into <code>/etc/oratab</code> (as before with <code>autostartup_service: true</code>).</p>
+</div>
+<div class="listingblock">
+<div class="title">Keep the behavior of 4.x without autostart</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">autostartup_service: false</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -826,7 +1893,7 @@ oracle_sw_unpack: true</code></pre>
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified October 30, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/9b4a99305954380ad8d06c3bdc46ff9deddf978e">ansible 2.19 (9b4a9930)</a>
+  Last modified November 5, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/6611d59b5d21c817b1213a50a1df180167518a41">oradb_manage_db: autostart with one systemd unit per database and listener (6611d59b)</a>
 </div>
 
 </div>

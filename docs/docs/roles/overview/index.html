@@ -63,7 +63,8 @@ Manages opatchauto type of patches as well as &#39;normal&#39; one-offs
 1.10. oraswdb-manage-patches Statefully manage patches in a DB environment
 Uses the oracle_opatch module
 Manages opatchauto type of patches as well as &#39;normal&#39; one-offs
-1.11. cxoracle Installs cx_Oracle in preparation for using ansible-oracle-modules See https://oracle.github.io/python-cx_Oracle/
+1.11. pyoracledb Installs python-oracledb with pip, needed by the modules of ansible-oracle
+Replaces the removed role cxoracle See https://python-oracledb.readthedocs.io/
 1.12. orahost-cron Configures cron schedules if needed
 1.13. orahost-logrotate Logs grow. Log rotation solves the problem of always-growing logs.
 1.14. oradb-manage-&lt;*&gt; Statefully manages various aspects of the DB. They all use modules from ansible-oracle-modules
@@ -123,7 +124,8 @@ Manages opatchauto type of patches as well as &#39;normal&#39; one-offs
 1.10. oraswdb-manage-patches Statefully manage patches in a DB environment
 Uses the oracle_opatch module
 Manages opatchauto type of patches as well as &#39;normal&#39; one-offs
-1.11. cxoracle Installs cx_Oracle in preparation for using ansible-oracle-modules See https://oracle.github.io/python-cx_Oracle/
+1.11. pyoracledb Installs python-oracledb with pip, needed by the modules of ansible-oracle
+Replaces the removed role cxoracle See https://python-oracledb.readthedocs.io/
 1.12. orahost-cron Configures cron schedules if needed
 1.13. orahost-logrotate Logs grow. Log rotation solves the problem of always-growing logs.
 1.14. oradb-manage-&lt;*&gt; Statefully manages various aspects of the DB. They all use modules from ansible-oracle-modules
@@ -138,8 +140,8 @@ oradb-manage-services">
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-10-28T17:22:50+01:00">
-		<meta property="article:modified_time" content="2026-10-28T17:22:50+01:00">
+		<meta property="article:published_time" content="2026-11-04T10:05:13+01:00">
+		<meta property="article:modified_time" content="2026-11-04T10:05:13+01:00">
 
 	<meta itemprop="name" content="Overview">
 	<meta itemprop="description" content="1. Roles 1.1. common These roles are used to configure settings common to all machines
@@ -187,7 +189,8 @@ Manages opatchauto type of patches as well as &#39;normal&#39; one-offs
 1.10. oraswdb-manage-patches Statefully manage patches in a DB environment
 Uses the oracle_opatch module
 Manages opatchauto type of patches as well as &#39;normal&#39; one-offs
-1.11. cxoracle Installs cx_Oracle in preparation for using ansible-oracle-modules See https://oracle.github.io/python-cx_Oracle/
+1.11. pyoracledb Installs python-oracledb with pip, needed by the modules of ansible-oracle
+Replaces the removed role cxoracle See https://python-oracledb.readthedocs.io/
 1.12. orahost-cron Configures cron schedules if needed
 1.13. orahost-logrotate Logs grow. Log rotation solves the problem of always-growing logs.
 1.14. oradb-manage-&lt;*&gt; Statefully manages various aspects of the DB. They all use modules from ansible-oracle-modules
@@ -199,9 +202,9 @@ oradb-manage-users
 oradb-manage-grants
 oradb-manage-redo
 oradb-manage-services">
-	<meta itemprop="datePublished" content="2026-10-28T17:22:50+01:00">
-	<meta itemprop="dateModified" content="2026-10-28T17:22:50+01:00">
-	<meta itemprop="wordCount" content="372">
+	<meta itemprop="datePublished" content="2026-11-04T10:05:13+01:00">
+	<meta itemprop="dateModified" content="2026-11-04T10:05:13+01:00">
+	<meta itemprop="wordCount" content="380">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Overview">
 	<meta name="twitter:description" content="1. Roles 1.1. common These roles are used to configure settings common to all machines
@@ -249,7 +252,8 @@ Manages opatchauto type of patches as well as &#39;normal&#39; one-offs
 1.10. oraswdb-manage-patches Statefully manage patches in a DB environment
 Uses the oracle_opatch module
 Manages opatchauto type of patches as well as &#39;normal&#39; one-offs
-1.11. cxoracle Installs cx_Oracle in preparation for using ansible-oracle-modules See https://oracle.github.io/python-cx_Oracle/
+1.11. pyoracledb Installs python-oracledb with pip, needed by the modules of ansible-oracle
+Replaces the removed role cxoracle See https://python-oracledb.readthedocs.io/
 1.12. orahost-cron Configures cron schedules if needed
 1.13. orahost-logrotate Logs grow. Log rotation solves the problem of always-growing logs.
 1.14. oradb-manage-&lt;*&gt; Statefully manages various aspects of the DB. They all use modules from ansible-oracle-modules
@@ -369,12 +373,24 @@ oradb-manage-services">
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesoverview-li">
   <a href="/docs/roles/overview/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="td-sidebar-nav-active-item">Overview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
+  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
+  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolespyoracledb-li">
+  <a href="/docs/roles/pyoracledb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolespyoracledb"><span class="">pyoracledb</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
+  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesautoupgrade-li">
   <a href="/docs/roles/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesautoupgrade"><span class="">autoupgrade</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
   <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescxoracle-li">
-  <a href="/docs/roles/cxoracle/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescxoracle"><span class="">cxoracle</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesglobal_handlers-li">
   <a href="/docs/roles/global_handlers/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesglobal_handlers"><span class="">global_handlers</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraapex-li">
@@ -387,8 +403,6 @@ oradb-manage-services">
   <a href="/docs/roles/oradb_datapatch/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_datapatch"><span class="">oradb_datapatch</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_facts-li">
   <a href="/docs/roles/oradb_facts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_facts"><span class="">oradb_facts</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
-  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_grants-li">
   <a href="/docs/roles/oradb_manage_grants/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_grants"><span class="">oradb_manage_grants</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_parameters-li">
@@ -415,14 +429,10 @@ oradb-manage-services">
   <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_tzupgrade-li">
   <a href="/docs/roles/oradb_tzupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_tzupgrade"><span class="">oradb_tzupgrade</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
-  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_cron-li">
   <a href="/docs/roles/orahost_cron/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_cron"><span class="">orahost_cron</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_logrotate-li">
   <a href="/docs/roles/orahost_logrotate/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_logrotate"><span class="">orahost_logrotate</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
-  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_ssh-li">
   <a href="/docs/roles/orahost_ssh/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_ssh"><span class="">orahost_ssh</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_storage-li">
@@ -431,22 +441,16 @@ oradb-manage-services">
   <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
   <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
-  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
   <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswahf_install-li">
   <a href="/docs/roles/oraswahf_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswahf_install"><span class="">oraswahf_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_golden_image-li">
   <a href="/docs/roles/oraswdb_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_golden_image"><span class="">oraswdb_golden_image</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
-  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
   <a href="/docs/roles/oraswdb_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_manage_patches"><span class="">oraswdb_manage_patches</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_golden_image-li">
   <a href="/docs/roles/oraswgi_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_golden_image"><span class="">oraswgi_golden_image</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
-  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_manage_patches-li">
   <a href="/docs/roles/oraswgi_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_manage_patches"><span class="">oraswgi_manage_patches</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_meta-li">
@@ -496,7 +500,7 @@ oradb-manage-services">
         <li><a href="#_oradb_manage_db">1.8. oradb-manage-db</a></li>
         <li><a href="#_oraswgi_manage_patches">1.9. oraswgi-manage-patches</a></li>
         <li><a href="#_oraswdb_manage_patches">1.10. oraswdb-manage-patches</a></li>
-        <li><a href="#_cxoracle">1.11. cxoracle</a></li>
+        <li><a href="#_pyoracledb">1.11. pyoracledb</a></li>
         <li><a href="#_orahost_cron">1.12. orahost-cron</a></li>
         <li><a href="#_orahost_logrotate">1.13. orahost-logrotate</a></li>
         <li><a href="#_oradb_manage">1.14. oradb-manage-&lt;*&gt;</a></li>
@@ -744,13 +748,15 @@ Instance/RAC installations.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_cxoracle">1.11. cxoracle</h3>
+<h3 id="_pyoracledb">1.11. pyoracledb</h3>
 <div class="ulist">
 <ul>
 <li>
-<p>Installs cx_Oracle in preparation for using
-<a href="https://github.com/oravirt/ansible-oracle-modules">ansible-oracle-modules</a>
-See <a class="bare" href="https://oracle.github.io/python-cx_Oracle/">https://oracle.github.io/python-cx_Oracle/</a></p>
+<p>Installs python-oracledb with pip, needed by the modules of ansible-oracle</p>
+</li>
+<li>
+<p>Replaces the removed role cxoracle
+See <a class="bare" href="https://python-oracledb.readthedocs.io/">https://python-oracledb.readthedocs.io/</a></p>
 </li>
 </ul>
 </div>
@@ -810,7 +816,7 @@ See <a class="bare" href="https://oracle.github.io/python-cx_Oracle/">https://or
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified October 28, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/4ec67a0dfa85140b0a888cceb8ae389d91c1d976">chore: fix typos in doc (4ec67a0d)</a>
+  Last modified November 4, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/914ae2c40d072ccb6bbf2aab42d26702b51b6f14">cxoracle: the role is removed, all modules use python-oracledb instead of cx_Oracle. Use the role pyoracledb (see doc/guides/breaking_changes.adoc) (914ae2c4)</a>
 </div>
 
 </div>
