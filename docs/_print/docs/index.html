@@ -321,7 +321,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>3.2: <a href="#pg-df389f0fd67da23712005b22d5d20abf">oradb_manage_db</a></li>
+<li>3.2: <a href="#pg-df389f0fd67da23712005b22d5d20abf">orasw_meta</a></li>
 
 
     
@@ -329,7 +329,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>3.3: <a href="#pg-df389f0fd67da23712005b22d5d20abf">orasw_meta</a></li>
+<li>3.3: <a href="#pg-df389f0fd67da23712005b22d5d20abf">common</a></li>
 
 
     
@@ -337,7 +337,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>3.4: <a href="#pg-df389f0fd67da23712005b22d5d20abf">oraswdb_install</a></li>
+<li>3.4: <a href="#pg-df389f0fd67da23712005b22d5d20abf">oradb_manage_db</a></li>
 
 
     
@@ -345,7 +345,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>3.5: <a href="#pg-df389f0fd67da23712005b22d5d20abf">orahost_meta</a></li>
+<li>3.5: <a href="#pg-df389f0fd67da23712005b22d5d20abf">oraswdb_install</a></li>
 
 
     
@@ -353,7 +353,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>3.6: <a href="#pg-df389f0fd67da23712005b22d5d20abf">oraswgi_install</a></li>
+<li>3.6: <a href="#pg-df389f0fd67da23712005b22d5d20abf">orahost_meta</a></li>
 
 
     
@@ -361,7 +361,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>3.7: <a href="#pg-df389f0fd67da23712005b22d5d20abf">pyoracledb</a></li>
+<li>3.7: <a href="#pg-df389f0fd67da23712005b22d5d20abf">oraswgi_install</a></li>
 
 
     
@@ -369,7 +369,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>3.8: <a href="#pg-df389f0fd67da23712005b22d5d20abf">orahost</a></li>
+<li>3.8: <a href="#pg-df389f0fd67da23712005b22d5d20abf">pyoracledb</a></li>
 
 
     
@@ -377,7 +377,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>3.9: <a href="#pg-df389f0fd67da23712005b22d5d20abf">autoupgrade</a></li>
+<li>3.9: <a href="#pg-df389f0fd67da23712005b22d5d20abf">orahost</a></li>
 
 
     
@@ -385,7 +385,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>3.10: <a href="#pg-df389f0fd67da23712005b22d5d20abf">common</a></li>
+<li>3.10: <a href="#pg-df389f0fd67da23712005b22d5d20abf">autoupgrade</a></li>
 
 
     
@@ -8523,6 +8523,11 @@ This guide only covers the changes from the section <em>Breaking Changes / Porti
 <td class="tableblock halign-left valign-top"><p class="tableblock">Single Instance without Grid Infrastructure / Oracle Restart <strong>and</strong> <code>autostartup_service</code> is not set in the inventory</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No action, if the databases should start with the server. Otherwise set <code>autostartup_service: false</code></p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_init_parameters_for_one_instance_sid_and_dbca">init_parameters for one instance: sid and dbca</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An entry in <code>init_parameters</code> of <code>oracle_databases</code> has an attribute <code>sid</code> other than <code><strong></strong></code><strong> *and</strong> <code>dbca: true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Remove <code>dbca: true</code> from the entry. The parameter is set by <code>oradb_manage_parameters</code> after the creation of the database</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -9926,6 +9931,51 @@ The solution is selected with <code>autostartup_service_mode</code>, see <a href
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_init_parameters_for_one_instance_sid_and_dbca">1.17. init_parameters for one instance: sid and dbca</h3>
+<div class="paragraph">
+<p><code>init_parameters</code> in <code>oracle_databases</code> and <code>oracle_pdbs</code> support the new attribute <code>sid</code> (<a href="https://github.com/oravirt/ansible-oracle/issues/677">#677</a>).
+It is the <code>SID</code> clause of <code>ALTER SYSTEM SET</code>, e.g. for <code>local_listener</code> per RAC instance.
+Without <code>sid</code> or with <code>sid: &#39;*&#39;</code> the parameter is set for all instances as before.</p>
+</div>
+<div class="paragraph">
+<p>dbca has no <code>SID</code> clause for initialization parameters.
+A parameter for one instance would be set for all instances during the creation of the database.
+Therefore <code>sid</code> other than <code>*</code> together with <code>dbca: true</code> is not allowed, the assert of <code>oracle_databases</code> in <code>orasw_meta</code> fails.
+Entries with <code>sid</code> and without <code>dbca</code> are not passed to dbca (default <code>dbca: false</code> for these entries), they are set by <code>oradb_manage_parameters</code> after the creation of the database.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<code>sid</code> is case-sensitive like the <code>SID</code> clause of <code>ALTER SYSTEM</code>, use the instance name exactly as in <code>V$INSTANCE.INSTANCE_NAME</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Not allowed</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_databases:
+  - oracle_db_name: orcl
+    init_parameters:
+      - {name: local_listener, value: &#39;rac1-vip:1521&#39;, scope: both, state: present, sid: orcl1, dbca: true}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">local_listener per instance</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_databases:
+  - oracle_db_name: orcl
+    init_parameters:
+      - {name: local_listener, value: &#39;rac1-vip:1521&#39;, scope: both, state: present, sid: orcl1}
+      - {name: local_listener, value: &#39;rac2-vip:1521&#39;, scope: both, state: present, sid: orcl2}</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -10423,107 +10473,7 @@ See <a class="bare" href="https://python-oracledb.readthedocs.io/">https://pytho
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.2 - oradb_manage_db</h1>
-    
-	<p>Create, modify and remove Oracle Databases</p>
-<h2 id="table-of-contents">Table of contents</h2>
-<ul>
-<li><a href="#requirements">Requirements</a></li>
-<li><a href="#default-variables">Default Variables</a>
-<ul>
-<li><a href="#dbca_templatename">dbca_templatename</a></li>
-<li><a href="#hostgroup_hub">hostgroup_hub</a></li>
-<li><a href="#listener_name">listener_name</a></li>
-<li><a href="#oracle_gi_cluster_type">oracle_gi_cluster_type</a></li>
-</ul>
-</li>
-<li><a href="#discovered-tags">Discovered Tags</a></li>
-<li><a href="#open-tasks">Open Tasks</a></li>
-<li><a href="#dependencies">Dependencies</a></li>
-<li><a href="#license">License</a></li>
-<li><a href="#author">Author</a></li>
-</ul>
-<hr>
-<h2 id="requirements">Requirements</h2>
-<ul>
-<li>Minimum Ansible version: <code>2.16.0</code></li>
-</ul>
-<h2 id="default-variables">Default Variables</h2>
-<h3 id="dbca_templatename">dbca_templatename</h3>
-<p>Default template name used by DBCA during execution.</p>
-<h4 id="default-value">Default value</h4>
-<pre><code class="language-YAML">dbca_templatename: General_Purpose.dbc
-</code></pre>
-<h3 id="hostgroup_hub">hostgroup_hub</h3>
-<h4 id="default-value-1">Default value</h4>
-<pre><code class="language-YAML">hostgroup_hub: '{{ hostgroup }}-hub'
-</code></pre>
-<h3 id="listener_name">listener_name</h3>
-<p>Default name for LISTENER</p>
-<h4 id="default-value-2">Default value</h4>
-<pre><code class="language-YAML">listener_name: LISTENER
-</code></pre>
-<h3 id="oracle_gi_cluster_type">oracle_gi_cluster_type</h3>
-<h4 id="default-value-3">Default value</h4>
-<pre><code class="language-YAML">oracle_gi_cluster_type: STANDARD
-</code></pre>
-<h2 id="discovered-tags">Discovered Tags</h2>
-<p><strong><em>always</em></strong></p>
-<p><strong><em>autostartup_service</em></strong></p>
-<p><strong><em>create_cdb,dotprofile_db</em></strong></p>
-<p><strong><em>create_db</em></strong></p>
-<p><strong><em>create_db,dbca,customdbcatemplate,dotprofile_db,listener2</em></strong></p>
-<p><strong><em>create_db,dotprofile_db</em></strong></p>
-<p><strong><em>customdbcatemplate</em></strong></p>
-<p><strong><em>dbca</em></strong></p>
-<p><strong><em>dbcatemplate</em></strong></p>
-<p><strong><em>dotprofile_db</em></strong></p>
-<p><strong><em>listener</em></strong></p>
-<p><strong><em>listener2</em></strong></p>
-<p><strong><em>listener_install</em></strong></p>
-<p><strong><em>manage_db</em></strong></p>
-<p><strong><em>molecule-idempotence-notest</em></strong></p>
-<p><strong><em>odb_assert</em></strong></p>
-<p><strong><em>psout</em></strong></p>
-<p><strong><em>remove_db,dbca</em></strong></p>
-<p><strong><em>responsefile_netca, listener_install</em></strong></p>
-<p><strong><em>set_fact</em></strong></p>
-<p><strong><em>sql_script</em></strong></p>
-<p><strong><em>sqlnet</em></strong></p>
-<p><strong><em>sqlnet2</em></strong></p>
-<p><strong><em>switch_home</em></strong></p>
-<p><strong><em>tnsnames</em></strong></p>
-<p><strong><em>tnsnames2</em></strong></p>
-<p><strong><em>update_oratab</em></strong></p>
-<h2 id="open-tasks">Open Tasks</h2>
-<ul>
-<li>(bug): replace netca with new listener_details tasks</li>
-</ul>
-<h2 id="dependencies">Dependencies</h2>
-<ul>
-<li>orahost_meta</li>
-<li>orasw_meta</li>
-</ul>
-<h2 id="license">License</h2>
-<p>license (MIT)</p>
-<h2 id="author">Author</h2>
-<p>[Mikael Sandström]</p>
-
-</div>
-
-
-
-    
-	
-  
-    
-    
-	
-    
-
-<div class="td-content" style="page-break-before: always">
-    
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.3 - orasw_meta</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.2 - orasw_meta</h1>
     
 	<p><em>Important</em></p>
 <p>The description for variables is work in progress.!</p>
@@ -11078,6 +11028,42 @@ Will be overridden by opatch_db_conflict_check and opatch_gi_conflict_check.</p>
 			</tr>
 	</tbody>
 </table>
+<p><em>init_parameters</em></p>
+<p>Initialization parameters, managed by <code>oradb_manage_parameters</code> (also in <code>oracle_pdbs</code>).</p>
+<table>
+	<thead>
+			<tr>
+					<th>Attribute</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>name</td>
+					<td>name of the parameter</td>
+			</tr>
+			<tr>
+					<td>value</td>
+					<td>value of the parameter</td>
+			</tr>
+			<tr>
+					<td>scope</td>
+					<td><code>both</code> (default), <code>spfile</code> or <code>memory</code></td>
+			</tr>
+			<tr>
+					<td>state</td>
+					<td><code>present</code>, <code>absent</code> or <code>reset</code></td>
+			</tr>
+			<tr>
+					<td>sid</td>
+					<td>instance name for the <code>SID</code> clause, default <code>*</code> (all instances). Case-sensitive, e.g. for <code>local_listener</code> per RAC instance. The instance does not need to run, then only the spfile is changed.</td>
+			</tr>
+			<tr>
+					<td>dbca</td>
+					<td><code>false</code>: not used during creation with dbca (only <code>oracle_databases</code>). Default <code>true</code>, <code>false</code> for entries with <code>sid</code> other than <code>*</code>. <code>dbca: true</code> with <code>sid</code> other than <code>*</code> is not allowed (dbca has no <code>SID</code> clause).</td>
+			</tr>
+	</tbody>
+</table>
 <h4 id="example-usage-10">Example usage</h4>
 <pre><code class="language-YAML">
 # IMPORTANT! This following example shows the general structure of oracle_databases.
@@ -11095,6 +11081,9 @@ oracle_databases:
       - {name: system, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false}
     init_parameters:
       - {name: audit_trail, value: 'NONE', scope: spfile, state: present}
+      # RAC: one entry per instance
+      - {name: local_listener, value: 'rac1-vip:1521', scope: both, state: present, sid: orcl1}
+      - {name: local_listener, value: 'rac2-vip:1521', scope: both, state: present, sid: orcl2}
     profiles:
       - name: DEFAULT
     users:
@@ -11537,7 +11526,542 @@ Usually no need to change it.</p>
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.4 - oraswdb_install</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.3 - common</h1>
+    
+	<p>sets up the host generic stuff</p>
+<h2 id="table-of-contents">Table of contents</h2>
+<ul>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#default-variables">Default Variables</a>
+<ul>
+<li><a href="#common_packages">common_packages</a></li>
+<li><a href="#common_packages_el10">common_packages_el10</a></li>
+<li><a href="#common_packages_el6">common_packages_el6</a></li>
+<li><a href="#common_packages_el7">common_packages_el7</a></li>
+<li><a href="#common_packages_el8">common_packages_el8</a></li>
+<li><a href="#common_packages_el9">common_packages_el9</a></li>
+<li><a href="#common_packages_sles">common_packages_sles</a></li>
+<li><a href="#configure_epel_repo">configure_epel_repo</a></li>
+<li><a href="#configure_motd">configure_motd</a></li>
+<li><a href="#configure_ntp">configure_ntp</a></li>
+<li><a href="#configure_public_yum_repo">configure_public_yum_repo</a></li>
+<li><a href="#epel10_rpm">epel10_rpm</a></li>
+<li><a href="#epel6_rpm">epel6_rpm</a></li>
+<li><a href="#epel7_rpm">epel7_rpm</a></li>
+<li><a href="#epel8_rpm">epel8_rpm</a></li>
+<li><a href="#epel9_rpm">epel9_rpm</a></li>
+<li><a href="#http_proxy">http_proxy</a></li>
+<li><a href="#https_proxy">https_proxy</a></li>
+<li><a href="#install_os_packages">install_os_packages</a></li>
+<li><a href="#motd_template">motd_template</a></li>
+<li><a href="#no_proxy">no_proxy</a></li>
+<li><a href="#ntp_type">ntp_type</a></li>
+<li><a href="#ol6_repo_file">ol6_repo_file</a></li>
+<li><a href="#ol7_repo_file">ol7_repo_file</a></li>
+<li><a href="#proxy_env">proxy_env</a></li>
+<li><a href="#use_proxy">use_proxy</a></li>
+</ul>
+</li>
+<li><a href="#discovered-tags">Discovered Tags</a></li>
+<li><a href="#dependencies">Dependencies</a></li>
+<li><a href="#license">License</a></li>
+<li><a href="#author">Author</a></li>
+</ul>
+<hr>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>Minimum Ansible version: <code>2.16.0</code></li>
+</ul>
+<h2 id="default-variables">Default Variables</h2>
+<h3 id="common_packages">common_packages</h3>
+<p>This is an internal variable only. Do not define it!</p>
+<h4 id="default-value">Default value</h4>
+<pre><code class="language-YAML">common_packages: _unset_
+</code></pre>
+<h3 id="common_packages_el10">common_packages_el10</h3>
+<p>List of RPMs for RHEL10 or OL10</p>
+<h4 id="default-value-1">Default value</h4>
+<pre><code class="language-YAML">common_packages_el10:
+  - bc
+  - binutils
+  - elfutils-libelf
+  - fontconfig
+  - glibc
+  - glibc-devel
+  - ksh
+  - libaio
+  - libgcc
+  - libibverbs
+  - libstdc++
+  - libvirt-libs
+  - libxcb
+  - libX11
+  - libXau
+  - libXi
+  - libXrender
+  - libXtst
+  - libxcrypt-compat
+  - make
+  - policycoreutils
+  - policycoreutils-python-utils
+  - smartmontools
+  - sysstat
+  - xz-devel
+  - acl
+  - autofs
+  - bind-utils
+  - ethtool
+  - expect
+  - git
+  - grubby
+  - initscripts
+  - libaio-devel
+  - libnsl
+  - libstdc++-devel
+  - lsof
+  - lvm2
+  - module-init-tools
+  - nc
+  - net-tools
+  - nfs-utils
+  - openssh-clients
+  - pam
+  - parted
+  - procps
+  - psmisc
+  - python3
+  - python3-pip
+  - python3-packaging
+  - rlwrap
+  - tar
+  - unzip
+  - util-linux-ng
+  - xfsprogs
+</code></pre>
+<h3 id="common_packages_el6">common_packages_el6</h3>
+<p>List of RPMs for RHEL6 or OL6</p>
+<h4 id="default-value-2">Default value</h4>
+<pre><code class="language-YAML">common_packages_el6:
+  - screen
+  - facter
+  - procps
+  - module-init-tools
+  - ethtool
+  - lsof
+  - bc
+  - nc
+  - bind-utils
+  - nfs-utils
+  - make
+  - sysstat
+  - unzip
+  - openssh-clients
+  - compat-libcap1
+  - collectl
+  - rlwrap
+  - tigervnc-server
+  - ntp
+  - expect
+  - git
+  - lvm2
+  - xfsprogs
+  - btrfs-progs
+  - tmux
+  - python-devel
+  - python-pip
+  - libselinux-python
+  - twm
+  - autofs
+  - parted
+  - ksh
+</code></pre>
+<h3 id="common_packages_el7">common_packages_el7</h3>
+<p>List of RPMs for RHEL7 or OL7</p>
+<h4 id="default-value-3">Default value</h4>
+<pre><code class="language-YAML">common_packages_el7:
+  - screen
+  - facter
+  - procps
+  - module-init-tools
+  - ethtool
+  - lsof
+  - bc
+  - nc
+  - bind-utils
+  - nfs-utils
+  - make
+  - sysstat
+  - unzip
+  - openssh-clients
+  - compat-libcap1
+  - collectl
+  - rlwrap
+  - tigervnc-server
+  - ntp
+  - expect
+  - git
+  - lvm2
+  - xfsprogs
+  - btrfs-progs
+  - python-devel
+  - python-pip
+  - libselinux-python
+  - autofs
+  - parted
+  - mlocate
+  - ksh
+  - psmisc
+  - grubby
+</code></pre>
+<h3 id="common_packages_el8">common_packages_el8</h3>
+<p>List of RPMs for RHEL8 or OL8</p>
+<h4 id="default-value-4">Default value</h4>
+<pre><code class="language-YAML">common_packages_el8:
+  - facter
+  - procps
+  - module-init-tools
+  - ethtool
+  - lsof
+  - bc
+  - binutils
+  - elfutils-libelf
+  - elfutils-libelf-devel
+  - fontconfig-devel
+  - glibc
+  - glibc-devel
+  - ksh
+  - libaio
+  - libaio-devel
+  - libXrender
+  - libX11
+  - libXau
+  - libXi
+  - libXtst
+  - libgcc
+  - libnsl
+  - librdmacm
+  - libstdc++
+  - libstdc++-devel
+  - libxcb
+  - libibverbs
+  - make
+  - smartmontools
+  - sysstat
+  - nc
+  - bind-utils
+  - nfs-utils
+  - unzip
+  - openssh-clients
+  - rlwrap
+  - tigervnc-server
+  - expect
+  - git
+  - lvm2
+  - xfsprogs
+  - autofs
+  - parted
+  - mlocate
+  - psmisc
+  - python3
+  - python3-pip
+  - grubby
+</code></pre>
+<h3 id="common_packages_el9">common_packages_el9</h3>
+<p>List of RPMs for RHEL9 or OL9</p>
+<h4 id="default-value-5">Default value</h4>
+<pre><code class="language-YAML">common_packages_el9:
+  - autofs
+  - bind-utils
+  - binutils
+  - ethtool
+  - expect
+  - facter
+  - fontconfig
+  - git
+  - glibc
+  - glibc-devel
+  - grubby
+  - initscripts
+  - ksh
+  - libaio
+  - libaio-devel
+  - libgcc
+  - libnsl
+  - libstdc++
+  - libstdc++-devel
+  - lsof
+  - lvm2
+  - make
+  - mlocate
+  - module-init-tools
+  - nc
+  - net-tools
+  - nfs-utils
+  - openssh-clients
+  - pam
+  - parted
+  - policycoreutils
+  - policycoreutils-python-utils
+  - procps
+  - psmisc
+  - python3
+  - python3-pip
+  - python3-packaging
+  - rlwrap
+  - smartmontools
+  - sysstat
+  - tar
+  - unzip
+  - util-linux-ng
+  - xfsprogs
+  - xorg-x11-utils
+  - xorg-x11-xauth
+</code></pre>
+<h3 id="common_packages_sles">common_packages_sles</h3>
+<p>List of RPMs for SuSE Linux Enterprise Server</p>
+<h4 id="default-value-6">Default value</h4>
+<pre><code class="language-YAML">common_packages_sles:
+  - screen
+  - procps
+  - module-init-tools
+  - ethtool
+  - bc
+  - bind-utils
+  - make
+  - sysstat
+  - unzip
+  - chrony
+  - expect
+  - lvm2
+  - autofs
+</code></pre>
+<h3 id="configure_epel_repo">configure_epel_repo</h3>
+<h4 id="default-value-7">Default value</h4>
+<pre><code class="language-YAML">configure_epel_repo: true
+</code></pre>
+<h3 id="configure_motd">configure_motd</h3>
+<p>Configure Message of the day</p>
+<h4 id="default-value-8">Default value</h4>
+<pre><code class="language-YAML">configure_motd: true
+</code></pre>
+<h3 id="configure_ntp">configure_ntp</h3>
+<p>Configure ntpd or chrony on target system.
+The chrony or ntp is automatically chosen by <code>ntp_type</code>.</p>
+<h4 id="default-value-9">Default value</h4>
+<pre><code class="language-YAML">configure_ntp: true
+</code></pre>
+<h3 id="configure_public_yum_repo">configure_public_yum_repo</h3>
+<h4 id="default-value-10">Default value</h4>
+<pre><code class="language-YAML">configure_public_yum_repo: true
+</code></pre>
+<h3 id="epel10_rpm">epel10_rpm</h3>
+<p>URL for epel-release-latest-10.noarch.rpm</p>
+<h4 id="default-value-11">Default value</h4>
+<pre><code class="language-YAML">epel10_rpm: oracle-epel-release-el10
+</code></pre>
+<h3 id="epel6_rpm">epel6_rpm</h3>
+<p>Url for epel-release-latest-6.noarch.rpm</p>
+<h4 id="default-value-12">Default value</h4>
+<pre><code class="language-YAML">epel6_rpm: https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+</code></pre>
+<h3 id="epel7_rpm">epel7_rpm</h3>
+<p>Url for epel-release-latest-7.noarch.rpm</p>
+<h4 id="default-value-13">Default value</h4>
+<pre><code class="language-YAML">epel7_rpm: https://archives.fedoraproject.org/pub/archive/epel/7/x86_64/Packages/e/epel-release-7-14.noarch.rpm
+</code></pre>
+<h3 id="epel8_rpm">epel8_rpm</h3>
+<p>Url for epel-release-latest-8.noarch.rpm</p>
+<h4 id="default-value-14">Default value</h4>
+<pre><code class="language-YAML">epel8_rpm: https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+</code></pre>
+<h3 id="epel9_rpm">epel9_rpm</h3>
+<p>Url for epel-release-latest-9.noarch.rpm</p>
+<h4 id="default-value-15">Default value</h4>
+<pre><code class="language-YAML">epel9_rpm: oracle-epel-release-el9
+</code></pre>
+<h3 id="http_proxy">http_proxy</h3>
+<p>Define the http proxy for downloads</p>
+<h4 id="default-value-16">Default value</h4>
+<pre><code class="language-YAML">http_proxy: ''
+</code></pre>
+<h3 id="https_proxy">https_proxy</h3>
+<p>Define the https proxy for downloads</p>
+<h4 id="default-value-17">Default value</h4>
+<pre><code class="language-YAML">https_proxy: ''
+</code></pre>
+<h3 id="install_os_packages">install_os_packages</h3>
+<h4 id="default-value-18">Default value</h4>
+<pre><code class="language-YAML">install_os_packages: true
+</code></pre>
+<h3 id="motd_template">motd_template</h3>
+<p>Used templatename for Message of the day</p>
+<h4 id="default-value-19">Default value</h4>
+<pre><code class="language-YAML">motd_template: motd.j2
+</code></pre>
+<h3 id="no_proxy">no_proxy</h3>
+<p>Define no_proxy list für downlads.</p>
+<h4 id="default-value-20">Default value</h4>
+<pre><code class="language-YAML">no_proxy: ''
+</code></pre>
+<h3 id="ntp_type">ntp_type</h3>
+<p>This is an internal variable only. Do not define it!</p>
+<h4 id="default-value-21">Default value</h4>
+<pre><code class="language-YAML">ntp_type: _unset_
+</code></pre>
+<h3 id="ol6_repo_file">ol6_repo_file</h3>
+<p>The variable is used to cleanup the yum repolist for old installations.</p>
+<h4 id="default-value-22">Default value</h4>
+<pre><code class="language-YAML">ol6_repo_file: public-yum-ol6.repo
+</code></pre>
+<h3 id="ol7_repo_file">ol7_repo_file</h3>
+<p>The variable is used to cleanup the yum repolist for old installations.</p>
+<h4 id="default-value-23">Default value</h4>
+<pre><code class="language-YAML">ol7_repo_file: public-yum-ol7.repo
+</code></pre>
+<h3 id="proxy_env">proxy_env</h3>
+<p>This is an internal variable for downloading patches.
+Usually no need to change it.</p>
+<h4 id="default-value-24">Default value</h4>
+<pre><code class="language-YAML">proxy_env:
+  http_proxy: '{{ http_proxy }}'
+  https_proxy: '{{ https_proxy }}'
+  no_proxy: '{{ no_proxy }}'
+</code></pre>
+<h3 id="use_proxy">use_proxy</h3>
+<p>Enable Proxy for Download</p>
+<h4 id="default-value-25">Default value</h4>
+<pre><code class="language-YAML">use_proxy: false
+</code></pre>
+<h2 id="discovered-tags">Discovered Tags</h2>
+<p><strong><em>common_assert</em></strong></p>
+<p><strong><em>commonpackages</em></strong></p>
+<p><strong><em>epelrepo</em></strong></p>
+<p><strong><em>motd</em></strong></p>
+<p><strong><em>olrepo</em></strong></p>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li>global_handlers</li>
+</ul>
+<h2 id="license">License</h2>
+<p>license (MIT)</p>
+<h2 id="author">Author</h2>
+<p>[Mikael Sandström]</p>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.4 - oradb_manage_db</h1>
+    
+	<p>Create, modify and remove Oracle Databases</p>
+<h2 id="table-of-contents">Table of contents</h2>
+<ul>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#default-variables">Default Variables</a>
+<ul>
+<li><a href="#dbca_templatename">dbca_templatename</a></li>
+<li><a href="#hostgroup_hub">hostgroup_hub</a></li>
+<li><a href="#listener_name">listener_name</a></li>
+<li><a href="#oracle_gi_cluster_type">oracle_gi_cluster_type</a></li>
+</ul>
+</li>
+<li><a href="#discovered-tags">Discovered Tags</a></li>
+<li><a href="#open-tasks">Open Tasks</a></li>
+<li><a href="#dependencies">Dependencies</a></li>
+<li><a href="#license">License</a></li>
+<li><a href="#author">Author</a></li>
+</ul>
+<hr>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>Minimum Ansible version: <code>2.16.0</code></li>
+</ul>
+<h2 id="default-variables">Default Variables</h2>
+<h3 id="dbca_templatename">dbca_templatename</h3>
+<p>Default template name used by DBCA during execution.</p>
+<h4 id="default-value">Default value</h4>
+<pre><code class="language-YAML">dbca_templatename: General_Purpose.dbc
+</code></pre>
+<h3 id="hostgroup_hub">hostgroup_hub</h3>
+<h4 id="default-value-1">Default value</h4>
+<pre><code class="language-YAML">hostgroup_hub: '{{ hostgroup }}-hub'
+</code></pre>
+<h3 id="listener_name">listener_name</h3>
+<p>Default name for LISTENER</p>
+<h4 id="default-value-2">Default value</h4>
+<pre><code class="language-YAML">listener_name: LISTENER
+</code></pre>
+<h3 id="oracle_gi_cluster_type">oracle_gi_cluster_type</h3>
+<h4 id="default-value-3">Default value</h4>
+<pre><code class="language-YAML">oracle_gi_cluster_type: STANDARD
+</code></pre>
+<h2 id="discovered-tags">Discovered Tags</h2>
+<p><strong><em>always</em></strong></p>
+<p><strong><em>autostartup_service</em></strong></p>
+<p><strong><em>create_cdb,dotprofile_db</em></strong></p>
+<p><strong><em>create_db</em></strong></p>
+<p><strong><em>create_db,dbca,customdbcatemplate,dotprofile_db,listener2</em></strong></p>
+<p><strong><em>create_db,dotprofile_db</em></strong></p>
+<p><strong><em>customdbcatemplate</em></strong></p>
+<p><strong><em>dbca</em></strong></p>
+<p><strong><em>dbcatemplate</em></strong></p>
+<p><strong><em>dotprofile_db</em></strong></p>
+<p><strong><em>listener</em></strong></p>
+<p><strong><em>listener2</em></strong></p>
+<p><strong><em>listener_install</em></strong></p>
+<p><strong><em>manage_db</em></strong></p>
+<p><strong><em>molecule-idempotence-notest</em></strong></p>
+<p><strong><em>odb_assert</em></strong></p>
+<p><strong><em>psout</em></strong></p>
+<p><strong><em>remove_db,dbca</em></strong></p>
+<p><strong><em>responsefile_netca, listener_install</em></strong></p>
+<p><strong><em>set_fact</em></strong></p>
+<p><strong><em>sql_script</em></strong></p>
+<p><strong><em>sqlnet</em></strong></p>
+<p><strong><em>sqlnet2</em></strong></p>
+<p><strong><em>switch_home</em></strong></p>
+<p><strong><em>tnsnames</em></strong></p>
+<p><strong><em>tnsnames2</em></strong></p>
+<p><strong><em>update_oratab</em></strong></p>
+<h2 id="open-tasks">Open Tasks</h2>
+<ul>
+<li>(bug): replace netca with new listener_details tasks</li>
+</ul>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li>orahost_meta</li>
+<li>orasw_meta</li>
+</ul>
+<h2 id="license">License</h2>
+<p>license (MIT)</p>
+<h2 id="author">Author</h2>
+<p>[Mikael Sandström]</p>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.5 - oraswdb_install</h1>
     
 	<p>Install Oracle Database Software</p>
 <h2 id="table-of-contents">Table of contents</h2>
@@ -11728,7 +12252,7 @@ unless a <code>filesource</code> dict element provides a full path / complete UR
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.5 - orahost_meta</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.6 - orahost_meta</h1>
     
 	<p>Meta role used by other roles to share variable defaults.</p>
 <h2 id="table-of-contents">Table of contents</h2>
@@ -12091,7 +12615,7 @@ See <code>grid_user</code> and <code>oracle_user</code> for Grid-Infrastructure 
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.6 - oraswgi_install</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.7 - oraswgi_install</h1>
     
 	<p>Install Grid Infrastructure / ORacle Restart software.</p>
 <p>This role has a dependency to <code>orahost_meta</code> and <code>orasw_meta</code> for default parameter.</p>
@@ -12319,7 +12843,7 @@ unless a <code>filesource</code> dict element provides a full path / complete UR
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.7 - pyoracledb</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.8 - pyoracledb</h1>
     
 	<p>Install python-oracledb with pip.</p>
 <p>python-oracledb is the successor of cx_Oracle and is used by the modules of ansible-oracle.
@@ -12454,7 +12978,7 @@ Add a pip wheel to the directory for target hosts with an older pip, e.g. <code>
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.8 - orahost</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.9 - orahost</h1>
     
 	<p>Role to configure the hostsystem for ansible-oracle</p>
 <h2 id="table-of-contents">Table of contents</h2>
@@ -13078,7 +13602,7 @@ disable transparent hugepages using kernel command line.</p>
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.9 - autoupgrade</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.10 - autoupgrade</h1>
     
 	<p>Manage Oracle AutoUpgrade.</p>
 <p>The role has no <code>tasks/main.yml</code>.
@@ -13744,438 +14268,6 @@ Requires a Fast Recovery Area and Enterprise Edition.</p>
 <p>license (MIT)</p>
 <h2 id="author">Author</h2>
 <p>[Thorsten Bruhns]</p>
-
-</div>
-
-
-
-    
-	
-  
-    
-    
-	
-    
-
-<div class="td-content" style="page-break-before: always">
-    
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.10 - common</h1>
-    
-	<p>sets up the host generic stuff</p>
-<h2 id="table-of-contents">Table of contents</h2>
-<ul>
-<li><a href="#requirements">Requirements</a></li>
-<li><a href="#default-variables">Default Variables</a>
-<ul>
-<li><a href="#common_packages">common_packages</a></li>
-<li><a href="#common_packages_el10">common_packages_el10</a></li>
-<li><a href="#common_packages_el6">common_packages_el6</a></li>
-<li><a href="#common_packages_el7">common_packages_el7</a></li>
-<li><a href="#common_packages_el8">common_packages_el8</a></li>
-<li><a href="#common_packages_el9">common_packages_el9</a></li>
-<li><a href="#common_packages_sles">common_packages_sles</a></li>
-<li><a href="#configure_epel_repo">configure_epel_repo</a></li>
-<li><a href="#configure_motd">configure_motd</a></li>
-<li><a href="#configure_ntp">configure_ntp</a></li>
-<li><a href="#configure_public_yum_repo">configure_public_yum_repo</a></li>
-<li><a href="#epel10_rpm">epel10_rpm</a></li>
-<li><a href="#epel6_rpm">epel6_rpm</a></li>
-<li><a href="#epel7_rpm">epel7_rpm</a></li>
-<li><a href="#epel8_rpm">epel8_rpm</a></li>
-<li><a href="#epel9_rpm">epel9_rpm</a></li>
-<li><a href="#http_proxy">http_proxy</a></li>
-<li><a href="#https_proxy">https_proxy</a></li>
-<li><a href="#install_os_packages">install_os_packages</a></li>
-<li><a href="#motd_template">motd_template</a></li>
-<li><a href="#no_proxy">no_proxy</a></li>
-<li><a href="#ntp_type">ntp_type</a></li>
-<li><a href="#ol6_repo_file">ol6_repo_file</a></li>
-<li><a href="#ol7_repo_file">ol7_repo_file</a></li>
-<li><a href="#proxy_env">proxy_env</a></li>
-<li><a href="#use_proxy">use_proxy</a></li>
-</ul>
-</li>
-<li><a href="#discovered-tags">Discovered Tags</a></li>
-<li><a href="#dependencies">Dependencies</a></li>
-<li><a href="#license">License</a></li>
-<li><a href="#author">Author</a></li>
-</ul>
-<hr>
-<h2 id="requirements">Requirements</h2>
-<ul>
-<li>Minimum Ansible version: <code>2.16.0</code></li>
-</ul>
-<h2 id="default-variables">Default Variables</h2>
-<h3 id="common_packages">common_packages</h3>
-<p>This is an internal variable only. Do not define it!</p>
-<h4 id="default-value">Default value</h4>
-<pre><code class="language-YAML">common_packages: _unset_
-</code></pre>
-<h3 id="common_packages_el10">common_packages_el10</h3>
-<p>List of RPMs for RHEL10 or OL10</p>
-<h4 id="default-value-1">Default value</h4>
-<pre><code class="language-YAML">common_packages_el10:
-  - bc
-  - binutils
-  - elfutils-libelf
-  - fontconfig
-  - glibc
-  - glibc-devel
-  - ksh
-  - libaio
-  - libgcc
-  - libibverbs
-  - libstdc++
-  - libvirt-libs
-  - libxcb
-  - libX11
-  - libXau
-  - libXi
-  - libXrender
-  - libXtst
-  - libxcrypt-compat
-  - make
-  - policycoreutils
-  - policycoreutils-python-utils
-  - smartmontools
-  - sysstat
-  - xz-devel
-  - autofs
-  - bind-utils
-  - ethtool
-  - expect
-  - git
-  - grubby
-  - initscripts
-  - libaio-devel
-  - libnsl
-  - libstdc++-devel
-  - lsof
-  - lvm2
-  - module-init-tools
-  - nc
-  - net-tools
-  - nfs-utils
-  - openssh-clients
-  - pam
-  - parted
-  - procps
-  - psmisc
-  - python3
-  - python3-pip
-  - rlwrap
-  - tar
-  - unzip
-  - util-linux-ng
-  - xfsprogs
-</code></pre>
-<h3 id="common_packages_el6">common_packages_el6</h3>
-<p>List of RPMs for RHEL6 or OL6</p>
-<h4 id="default-value-2">Default value</h4>
-<pre><code class="language-YAML">common_packages_el6:
-  - screen
-  - facter
-  - procps
-  - module-init-tools
-  - ethtool
-  - lsof
-  - bc
-  - nc
-  - bind-utils
-  - nfs-utils
-  - make
-  - sysstat
-  - unzip
-  - openssh-clients
-  - compat-libcap1
-  - collectl
-  - rlwrap
-  - tigervnc-server
-  - ntp
-  - expect
-  - git
-  - lvm2
-  - xfsprogs
-  - btrfs-progs
-  - tmux
-  - python-devel
-  - python-pip
-  - libselinux-python
-  - twm
-  - autofs
-  - parted
-  - ksh
-</code></pre>
-<h3 id="common_packages_el7">common_packages_el7</h3>
-<p>List of RPMs for RHEL7 or OL7</p>
-<h4 id="default-value-3">Default value</h4>
-<pre><code class="language-YAML">common_packages_el7:
-  - screen
-  - facter
-  - procps
-  - module-init-tools
-  - ethtool
-  - lsof
-  - bc
-  - nc
-  - bind-utils
-  - nfs-utils
-  - make
-  - sysstat
-  - unzip
-  - openssh-clients
-  - compat-libcap1
-  - collectl
-  - rlwrap
-  - tigervnc-server
-  - ntp
-  - expect
-  - git
-  - lvm2
-  - xfsprogs
-  - btrfs-progs
-  - python-devel
-  - python-pip
-  - libselinux-python
-  - autofs
-  - parted
-  - mlocate
-  - ksh
-  - psmisc
-  - grubby
-</code></pre>
-<h3 id="common_packages_el8">common_packages_el8</h3>
-<p>List of RPMs for RHEL8 or OL8</p>
-<h4 id="default-value-4">Default value</h4>
-<pre><code class="language-YAML">common_packages_el8:
-  - facter
-  - procps
-  - module-init-tools
-  - ethtool
-  - lsof
-  - bc
-  - binutils
-  - elfutils-libelf
-  - elfutils-libelf-devel
-  - fontconfig-devel
-  - glibc
-  - glibc-devel
-  - ksh
-  - libaio
-  - libaio-devel
-  - libXrender
-  - libX11
-  - libXau
-  - libXi
-  - libXtst
-  - libgcc
-  - libnsl
-  - librdmacm
-  - libstdc++
-  - libstdc++-devel
-  - libxcb
-  - libibverbs
-  - make
-  - smartmontools
-  - sysstat
-  - nc
-  - bind-utils
-  - nfs-utils
-  - unzip
-  - openssh-clients
-  - rlwrap
-  - tigervnc-server
-  - expect
-  - git
-  - lvm2
-  - xfsprogs
-  - autofs
-  - parted
-  - mlocate
-  - psmisc
-  - python3
-  - python3-pip
-  - grubby
-</code></pre>
-<h3 id="common_packages_el9">common_packages_el9</h3>
-<p>List of RPMs for RHEL9 or OL9</p>
-<h4 id="default-value-5">Default value</h4>
-<pre><code class="language-YAML">common_packages_el9:
-  - autofs
-  - bind-utils
-  - binutils
-  - ethtool
-  - expect
-  - facter
-  - fontconfig
-  - git
-  - glibc
-  - glibc-devel
-  - grubby
-  - initscripts
-  - ksh
-  - libaio
-  - libaio-devel
-  - libgcc
-  - libnsl
-  - libstdc++
-  - libstdc++-devel
-  - lsof
-  - lvm2
-  - make
-  - mlocate
-  - module-init-tools
-  - nc
-  - net-tools
-  - nfs-utils
-  - openssh-clients
-  - pam
-  - parted
-  - policycoreutils
-  - policycoreutils-python-utils
-  - procps
-  - psmisc
-  - python3
-  - python3-pip
-  - rlwrap
-  - smartmontools
-  - sysstat
-  - tar
-  - unzip
-  - util-linux-ng
-  - xfsprogs
-  - xorg-x11-utils
-  - xorg-x11-xauth
-</code></pre>
-<h3 id="common_packages_sles">common_packages_sles</h3>
-<p>List of RPMs for SuSE Linux Enterprise Server</p>
-<h4 id="default-value-6">Default value</h4>
-<pre><code class="language-YAML">common_packages_sles:
-  - screen
-  - procps
-  - module-init-tools
-  - ethtool
-  - bc
-  - bind-utils
-  - make
-  - sysstat
-  - unzip
-  - chrony
-  - expect
-  - lvm2
-  - autofs
-</code></pre>
-<h3 id="configure_epel_repo">configure_epel_repo</h3>
-<h4 id="default-value-7">Default value</h4>
-<pre><code class="language-YAML">configure_epel_repo: true
-</code></pre>
-<h3 id="configure_motd">configure_motd</h3>
-<p>Configure Message of the day</p>
-<h4 id="default-value-8">Default value</h4>
-<pre><code class="language-YAML">configure_motd: true
-</code></pre>
-<h3 id="configure_ntp">configure_ntp</h3>
-<p>Configure ntpd or chrony on target system.
-The chrony or ntp is automatically chosen by <code>ntp_type</code>.</p>
-<h4 id="default-value-9">Default value</h4>
-<pre><code class="language-YAML">configure_ntp: true
-</code></pre>
-<h3 id="configure_public_yum_repo">configure_public_yum_repo</h3>
-<h4 id="default-value-10">Default value</h4>
-<pre><code class="language-YAML">configure_public_yum_repo: true
-</code></pre>
-<h3 id="epel10_rpm">epel10_rpm</h3>
-<p>URL for epel-release-latest-10.noarch.rpm</p>
-<h4 id="default-value-11">Default value</h4>
-<pre><code class="language-YAML">epel10_rpm: oracle-epel-release-el10
-</code></pre>
-<h3 id="epel6_rpm">epel6_rpm</h3>
-<p>Url for epel-release-latest-6.noarch.rpm</p>
-<h4 id="default-value-12">Default value</h4>
-<pre><code class="language-YAML">epel6_rpm: https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
-</code></pre>
-<h3 id="epel7_rpm">epel7_rpm</h3>
-<p>Url for epel-release-latest-7.noarch.rpm</p>
-<h4 id="default-value-13">Default value</h4>
-<pre><code class="language-YAML">epel7_rpm: https://archives.fedoraproject.org/pub/archive/epel/7/x86_64/Packages/e/epel-release-7-14.noarch.rpm
-</code></pre>
-<h3 id="epel8_rpm">epel8_rpm</h3>
-<p>Url for epel-release-latest-8.noarch.rpm</p>
-<h4 id="default-value-14">Default value</h4>
-<pre><code class="language-YAML">epel8_rpm: https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
-</code></pre>
-<h3 id="epel9_rpm">epel9_rpm</h3>
-<p>Url for epel-release-latest-9.noarch.rpm</p>
-<h4 id="default-value-15">Default value</h4>
-<pre><code class="language-YAML">epel9_rpm: oracle-epel-release-el9
-</code></pre>
-<h3 id="http_proxy">http_proxy</h3>
-<p>Define the http proxy for downloads</p>
-<h4 id="default-value-16">Default value</h4>
-<pre><code class="language-YAML">http_proxy: ''
-</code></pre>
-<h3 id="https_proxy">https_proxy</h3>
-<p>Define the https proxy for downloads</p>
-<h4 id="default-value-17">Default value</h4>
-<pre><code class="language-YAML">https_proxy: ''
-</code></pre>
-<h3 id="install_os_packages">install_os_packages</h3>
-<h4 id="default-value-18">Default value</h4>
-<pre><code class="language-YAML">install_os_packages: true
-</code></pre>
-<h3 id="motd_template">motd_template</h3>
-<p>Used templatename for Message of the day</p>
-<h4 id="default-value-19">Default value</h4>
-<pre><code class="language-YAML">motd_template: motd.j2
-</code></pre>
-<h3 id="no_proxy">no_proxy</h3>
-<p>Define no_proxy list für downlads.</p>
-<h4 id="default-value-20">Default value</h4>
-<pre><code class="language-YAML">no_proxy: ''
-</code></pre>
-<h3 id="ntp_type">ntp_type</h3>
-<p>This is an internal variable only. Do not define it!</p>
-<h4 id="default-value-21">Default value</h4>
-<pre><code class="language-YAML">ntp_type: _unset_
-</code></pre>
-<h3 id="ol6_repo_file">ol6_repo_file</h3>
-<p>The variable is used to cleanup the yum repolist for old installations.</p>
-<h4 id="default-value-22">Default value</h4>
-<pre><code class="language-YAML">ol6_repo_file: public-yum-ol6.repo
-</code></pre>
-<h3 id="ol7_repo_file">ol7_repo_file</h3>
-<p>The variable is used to cleanup the yum repolist for old installations.</p>
-<h4 id="default-value-23">Default value</h4>
-<pre><code class="language-YAML">ol7_repo_file: public-yum-ol7.repo
-</code></pre>
-<h3 id="proxy_env">proxy_env</h3>
-<p>This is an internal variable for downloading patches.
-Usually no need to change it.</p>
-<h4 id="default-value-24">Default value</h4>
-<pre><code class="language-YAML">proxy_env:
-  http_proxy: '{{ http_proxy }}'
-  https_proxy: '{{ https_proxy }}'
-  no_proxy: '{{ no_proxy }}'
-</code></pre>
-<h3 id="use_proxy">use_proxy</h3>
-<p>Enable Proxy for Download</p>
-<h4 id="default-value-25">Default value</h4>
-<pre><code class="language-YAML">use_proxy: false
-</code></pre>
-<h2 id="discovered-tags">Discovered Tags</h2>
-<p><strong><em>common_assert</em></strong></p>
-<p><strong><em>commonpackages</em></strong></p>
-<p><strong><em>epelrepo</em></strong></p>
-<p><strong><em>motd</em></strong></p>
-<p><strong><em>olrepo</em></strong></p>
-<h2 id="dependencies">Dependencies</h2>
-<ul>
-<li>global_handlers</li>
-</ul>
-<h2 id="license">License</h2>
-<p>license (MIT)</p>
-<h2 id="author">Author</h2>
-<p>[Mikael Sandström]</p>
 
 </div>
 
@@ -17254,6 +17346,130 @@ Each Pull-Requests needs a fragment from Release 3.0.0 onwards!
 </tbody></table>
 </div>
 </div>
+<div class="sect2">
+<h3 id="claude-pr">2.2. Create Pull-Requests with Claude Code</h3>
+<div class="paragraph">
+<p><code>tools/claude/skills/pr</code> contains the skill <code>/pr</code> for <a href="https://claude.com/claude-code">Claude Code</a>.
+It creates a Pull-Request from the current state of the local working copy: create a branch, commit, add a changelog fragment, push into the fork and run <code>gh pr create</code>.</p>
+</div>
+<div class="sect3">
+<h4 id="_setup">2.2.1. Setup</h4>
+<div class="paragraph">
+<p><code>gh</code> is part of <code>shell.nix</code> and must be logged in once (see <a href="#setup-gh">Setup gh for renovate</a>).
+Without a <code>gh</code> in the <code>PATH</code> the skill uses <code>nix-shell -p gh</code>.</p>
+</div>
+<div class="paragraph">
+<p>Install the skill as personal skill for Claude Code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>mkdir -p ~/.claude/skills
+ln -sfn &#34;$(pwd)/tools/claude/skills/pr&#34; ~/.claude/skills/pr</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The symlink points into the working copy.
+<code>/pr</code> is missing on branches without <code>tools/claude</code>.
+Use <code>cp -r</code> instead of <code>ln -sfn</code> for an independent copy.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_usage">2.2.2. Usage</h4>
+<div class="listingblock">
+<div class="content">
+<pre>/pr [draft] [base=&lt;branch&gt;] [milestone=&lt;name&gt;] [label=&lt;l1,l2,...&gt;] [notes on content]</pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;"/>
+<col style="width: 75%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Argument</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>draft</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create the Pull-Request as draft.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>base=&lt;branch&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Target branch. Default: default branch of the target repository.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>milestone=&lt;name&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Milestone in the target repository, name or number (e.g. <code>milestone=4.17</code>).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>label=&lt;l1,l2,…​&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Comma-separated labels in the target repository (e.g. <code>label=bug</code>).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">any text</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hints for title and description of the Pull-Request.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Examples</div>
+<div class="content">
+<pre>/pr milestone=4.17 label=bug
+/pr draft milestone=&#34;5.0.0 alpha&#34; label=enhancement,breaking_change</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_behavior">2.2.3. Behavior</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>The target is the remote <code>upstream</code>, if it exists (Pull-Request from <code>&lt;fork-owner&gt;:&lt;branch&gt;</code> into <code>oravirt/ansible-oracle</code>), otherwise <code>origin</code>.</p>
+</li>
+<li>
+<p>On the default branch a new branch is created.</p>
+</li>
+<li>
+<p>A missing fragment in <code>changelogs/fragments</code> is created. The PR reference is added later with <code>tools/release/fix_fragments.py</code>.</p>
+</li>
+<li>
+<p>Labels and milestones are checked against the target repository before pushing. Unknown values stop the skill, nothing is created.
+Setting labels or milestones in <code>oravirt/ansible-oracle</code> needs the <code>triage</code> permission.</p>
+</li>
+<li>
+<p>An existing Pull-Request for the branch is updated (push, labels, milestone) instead of creating a new one.</p>
+</li>
+<li>
+<p>The skill asks before a force push, a push into the default branch, unrelated uncommitted changes or merge conflicts.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Invoking <code>/pr</code> allows Claude to push the branch and to create the Pull-Request without further confirmation.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -17834,7 +18050,7 @@ The local checks use the token from <code>gh auth token</code>, if <code>gh</cod
 </div>
 </div>
 <div class="sect2">
-<h3 id="_setup_gh_for_renovate">4.2. Setup gh for renovate</h3>
+<h3 id="setup-gh">4.2. Setup gh for renovate</h3>
 <div class="admonitionblock important">
 <table>
 <tbody><tr>
@@ -17842,7 +18058,7 @@ The local checks use the token from <code>gh auth token</code>, if <code>gh</cod
 <div class="title">Important</div>
 </td>
 <td class="content">
-The GitHub CLI <code>gh</code> is only needed for running renovate against your fork on GitHub (<code>task renovate:fork</code>).<br/>
+The GitHub CLI <code>gh</code> is only needed for running renovate against your fork on GitHub (<code>task renovate:fork</code>) and for the Claude Code skill <code>/pr</code> (see <a href="#claude-pr">Create Pull-Requests with Claude Code</a>).<br/>
 The local checks work without it.
 </td>
 </tr>
@@ -18225,7 +18441,7 @@ The tests are shared by the scenarios in <code>extensions/molecule/shared_config
 <p>The database is created once with <code>converge</code>, the tests can be repeated as often as needed.</p>
 </div>
 <div class="sect3">
-<h4 id="_usage">6.7.1. Usage</h4>
+<h4 id="_usage_2">6.7.1. Usage</h4>
 <div class="listingblock">
 <div class="content">
 <pre>cd extensions
@@ -18518,7 +18734,98 @@ Every module test uses the wallet and sysdba at least once.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_oracle_xe_not_used_at_the_moment">6.8. Oracle XE (not used at the moment!)</h3>
+<h3 id="claude-aotest">6.8. Run molecule tests with Claude Code</h3>
+<div class="paragraph">
+<p><code>tools/claude/skills/aotest</code> contains the skill <code>/aotest</code> for <a href="https://claude.com/claude-code">Claude Code</a>.
+It runs the molecule actions of <code>extensions/Taskfile.yml</code> inside <code>nix-shell</code> and reports the result.</p>
+</div>
+<div class="paragraph">
+<p>Install the skill like <code>/pr</code> (see <a href="#claude-pr">Create Pull-Requests with Claude Code</a>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>mkdir -p ~/.claude/skills
+ln -sfn &#34;$(pwd)/tools/claude/skills/aotest&#34; ~/.claude/skills/aotest</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Usage</div>
+<div class="content">
+<pre>/aotest [S=&lt;scenario&gt;] [T=full|destroy|converge|module[,...]] [M=&lt;module&gt;[,&lt;module&gt;...]]</pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;"/>
+<col style="width: 20%;"/>
+<col style="width: 60%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Argument</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>S=&lt;scenario&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dbfs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scenario in <code>extensions/molecule</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>T=&lt;action&gt;[,…​]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>module</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Actions in the given order: <code>full</code> (<code>task test</code>), <code>destroy</code>, <code>converge</code>, <code>module</code> (<code>task module-test</code>).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>M=&lt;module&gt;[,…​]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">all modules</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Modules for <code>T=module</code>, see <a href="#module-tests">Module tests</a>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Examples</div>
+<div class="content">
+<pre>/aotest                                   # module tests in dbfs
+/aotest S=has-ol9 M=oracle_asmdg
+/aotest S=dbfs T=destroy,converge,module
+/aotest S=dbfs-ol10 T=full</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Scenario, actions and modules are checked before the start.</p>
+</li>
+<li>
+<p>Each action runs in the background with its own log file. A failed action stops the following actions.</p>
+</li>
+<li>
+<p><code>T=module</code> on a scenario without running instances is not started, the skill proposes <code>T=converge,module</code>.</p>
+</li>
+<li>
+<p>The report contains the <code>PLAY RECAP</code>, the summary of the module tests and the failed checks with message.
+The skill does not change code or tests.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Invoking <code>/aotest</code> allows Claude to run the requested actions, including <code>destroy</code> and <code>converge</code>, without further confirmation.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_oracle_xe_not_used_at_the_moment">6.9. Oracle XE (not used at the moment!)</h3>
 <div class="admonitionblock important">
 <table>
 <tbody><tr>

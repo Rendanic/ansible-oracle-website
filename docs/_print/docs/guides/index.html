@@ -7543,6 +7543,11 @@ This guide only covers the changes from the section <em>Breaking Changes / Porti
 <td class="tableblock halign-left valign-top"><p class="tableblock">Single Instance without Grid Infrastructure / Oracle Restart <strong>and</strong> <code>autostartup_service</code> is not set in the inventory</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No action, if the databases should start with the server. Otherwise set <code>autostartup_service: false</code></p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_init_parameters_for_one_instance_sid_and_dbca">init_parameters for one instance: sid and dbca</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An entry in <code>init_parameters</code> of <code>oracle_databases</code> has an attribute <code>sid</code> other than <code><strong></strong></code><strong> *and</strong> <code>dbca: true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Remove <code>dbca: true</code> from the entry. The parameter is set by <code>oradb_manage_parameters</code> after the creation of the database</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -8943,6 +8948,51 @@ The solution is selected with <code>autostartup_service_mode</code>, see <a href
 <div class="title">Keep the behavior of 4.x without autostart</div>
 <div class="content">
 <pre class="highlight"><code class="language-yaml" data-lang="yaml">autostartup_service: false</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_init_parameters_for_one_instance_sid_and_dbca">1.17. init_parameters for one instance: sid and dbca</h3>
+<div class="paragraph">
+<p><code>init_parameters</code> in <code>oracle_databases</code> and <code>oracle_pdbs</code> support the new attribute <code>sid</code> (<a href="https://github.com/oravirt/ansible-oracle/issues/677">#677</a>).
+It is the <code>SID</code> clause of <code>ALTER SYSTEM SET</code>, e.g. for <code>local_listener</code> per RAC instance.
+Without <code>sid</code> or with <code>sid: &#39;*&#39;</code> the parameter is set for all instances as before.</p>
+</div>
+<div class="paragraph">
+<p>dbca has no <code>SID</code> clause for initialization parameters.
+A parameter for one instance would be set for all instances during the creation of the database.
+Therefore <code>sid</code> other than <code>*</code> together with <code>dbca: true</code> is not allowed, the assert of <code>oracle_databases</code> in <code>orasw_meta</code> fails.
+Entries with <code>sid</code> and without <code>dbca</code> are not passed to dbca (default <code>dbca: false</code> for these entries), they are set by <code>oradb_manage_parameters</code> after the creation of the database.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<code>sid</code> is case-sensitive like the <code>SID</code> clause of <code>ALTER SYSTEM</code>, use the instance name exactly as in <code>V$INSTANCE.INSTANCE_NAME</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Not allowed</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_databases:
+  - oracle_db_name: orcl
+    init_parameters:
+      - {name: local_listener, value: &#39;rac1-vip:1521&#39;, scope: both, state: present, sid: orcl1, dbca: true}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">local_listener per instance</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_databases:
+  - oracle_db_name: orcl
+    init_parameters:
+      - {name: local_listener, value: &#39;rac1-vip:1521&#39;, scope: both, state: present, sid: orcl1}
+      - {name: local_listener, value: &#39;rac2-vip:1521&#39;, scope: both, state: present, sid: orcl2}</code></pre>
 </div>
 </div>
 </div>

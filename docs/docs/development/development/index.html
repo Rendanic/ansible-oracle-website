@@ -128,8 +128,8 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-04T18:10:51+01:00">
-		<meta property="article:modified_time" content="2026-11-04T18:10:51+01:00">
+		<meta property="article:published_time" content="2026-11-06T06:24:06+01:00">
+		<meta property="article:modified_time" content="2026-11-06T06:24:06+01:00">
 
 	<meta itemprop="name" content="How to develop">
 	<meta itemprop="description" content="1. How to develop in ansible-oracle? Important This is an example how most of the development in ansible-oracle is done.
@@ -184,9 +184,9 @@ Each commit is locally checked against multiple rules, to prevent failures in gi
 This tool is recommended but not mandatory for contributing to ansible-oracle. Install the git hook once (cd into repository before) pre-commit install Important Do not forget to place change files in stage area of git before starting pre-commit.
 pre-commit works only on the data of the stage area! run outside git pre-commit run 1.3.2. ansible-doctor Start ansible-doctor with pre-commit pre-commit run ansible-doctor Start ansible-doctor to create new README.md file cd ansible-oracle # nix-shell .venv/ansible-doctor/bin/ansible-doctor -f -r roles # local Ansible-Controller ~/venv/ansible-doctor/bin/ansible-doctor -f -r roles 1.3.3. Start Playbook Important Don’t forget to set the working branch in requirements.yml.
 Remove/Disable devsec.hardening for faster installation of Ansible collection, when devsec should not be tested. Edit requirements.yml --- collections: # - name: devsec.hardening # version: 8.2.0 - name: https://github.com/Rendanic/ansible-oracle.git type: git version: devbranch Execute ansible-playbook ansible-galaxy collection install --force -r requirements.yml &amp;&amp; ansible-playbook -i inventory/hasfd -e hostgroup=&#39;all&#39; playbooks/single-instance-asm.yml --limit &#39;*19c*&#39;">
-	<meta itemprop="datePublished" content="2026-11-04T18:10:51+01:00">
-	<meta itemprop="dateModified" content="2026-11-04T18:10:51+01:00">
-	<meta itemprop="wordCount" content="5884">
+	<meta itemprop="datePublished" content="2026-11-06T06:24:06+01:00">
+	<meta itemprop="dateModified" content="2026-11-06T06:24:06+01:00">
+	<meta itemprop="wordCount" content="6387">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="How to develop">
 	<meta name="twitter:description" content="1. How to develop in ansible-oracle? Important This is an example how most of the development in ansible-oracle is done.
@@ -349,10 +349,12 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
   <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
-  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
   <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
+  <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
   <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
@@ -365,8 +367,6 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
   <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesautoupgrade-li">
   <a href="/docs/roles/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesautoupgrade"><span class="">autoupgrade</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
-  <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesglobal_handlers-li">
   <a href="/docs/roles/global_handlers/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesglobal_handlers"><span class="">global_handlers</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraapex-li">
@@ -499,6 +499,13 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
     <li><a href="#_pull_requests">2. Pull-Requests</a>
       <ul>
         <li><a href="#_important_information">2.1. Important Information</a></li>
+        <li><a href="#claude-pr">2.2. Create Pull-Requests with Claude Code</a>
+          <ul>
+            <li><a href="#_setup">2.2.1. Setup</a></li>
+            <li><a href="#_usage">2.2.2. Usage</a></li>
+            <li><a href="#_behavior">2.2.3. Behavior</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li><a href="#_create_new_releases_in_ansible_oracle">3. Create new Releases in <code>ansible-oracle</code></a>
@@ -523,7 +530,7 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
     <li><a href="#_check_dependencies_with_renovate">4. Check dependencies with renovate</a>
       <ul>
         <li><a href="#_local_checks">4.1. Local checks</a></li>
-        <li><a href="#_setup_gh_for_renovate">4.2. Setup gh for renovate</a></li>
+        <li><a href="#setup-gh">4.2. Setup gh for renovate</a></li>
         <li><a href="#_run_renovate_against_your_fork">4.3. Run renovate against your fork</a></li>
       </ul>
     </li>
@@ -543,14 +550,15 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
         <li><a href="#_create_golden_images_from_dbfs_installation">6.6. Create Golden-Images from <code>dbfs</code> installation</a></li>
         <li><a href="#module-tests">6.7. Module tests</a>
           <ul>
-            <li><a href="#_usage">6.7.1. Usage</a></li>
+            <li><a href="#_usage_2">6.7.1. Usage</a></li>
             <li><a href="#_structure">6.7.2. Structure</a></li>
             <li><a href="#_result_of_a_test_run">6.7.3. Result of a test run</a></li>
             <li><a href="#_known_bugs">6.7.4. Known bugs</a></li>
             <li><a href="#_conventions_for_a_module_test">6.7.5. Conventions for a module test</a></li>
           </ul>
         </li>
-        <li><a href="#_oracle_xe_not_used_at_the_moment">6.8. Oracle XE (not used at the moment!)</a></li>
+        <li><a href="#claude-aotest">6.8. Run molecule tests with Claude Code</a></li>
+        <li><a href="#_oracle_xe_not_used_at_the_moment">6.9. Oracle XE (not used at the moment!)</a></li>
       </ul>
     </li>
   </ul>
@@ -1111,6 +1119,130 @@ Each Pull-Requests needs a fragment from Release 3.0.0 onwards!
 </td>
 </tr>
 </tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="claude-pr">2.2. Create Pull-Requests with Claude Code</h3>
+<div class="paragraph">
+<p><code>tools/claude/skills/pr</code> contains the skill <code>/pr</code> for <a href="https://claude.com/claude-code">Claude Code</a>.
+It creates a Pull-Request from the current state of the local working copy: create a branch, commit, add a changelog fragment, push into the fork and run <code>gh pr create</code>.</p>
+</div>
+<div class="sect3">
+<h4 id="_setup">2.2.1. Setup</h4>
+<div class="paragraph">
+<p><code>gh</code> is part of <code>shell.nix</code> and must be logged in once (see <a href="#setup-gh">Setup gh for renovate</a>).
+Without a <code>gh</code> in the <code>PATH</code> the skill uses <code>nix-shell -p gh</code>.</p>
+</div>
+<div class="paragraph">
+<p>Install the skill as personal skill for Claude Code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>mkdir -p ~/.claude/skills
+ln -sfn &#34;$(pwd)/tools/claude/skills/pr&#34; ~/.claude/skills/pr</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The symlink points into the working copy.
+<code>/pr</code> is missing on branches without <code>tools/claude</code>.
+Use <code>cp -r</code> instead of <code>ln -sfn</code> for an independent copy.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_usage">2.2.2. Usage</h4>
+<div class="listingblock">
+<div class="content">
+<pre>/pr [draft] [base=&lt;branch&gt;] [milestone=&lt;name&gt;] [label=&lt;l1,l2,...&gt;] [notes on content]</pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;"/>
+<col style="width: 75%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Argument</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>draft</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create the Pull-Request as draft.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>base=&lt;branch&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Target branch. Default: default branch of the target repository.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>milestone=&lt;name&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Milestone in the target repository, name or number (e.g. <code>milestone=4.17</code>).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>label=&lt;l1,l2,…​&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Comma-separated labels in the target repository (e.g. <code>label=bug</code>).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">any text</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hints for title and description of the Pull-Request.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Examples</div>
+<div class="content">
+<pre>/pr milestone=4.17 label=bug
+/pr draft milestone=&#34;5.0.0 alpha&#34; label=enhancement,breaking_change</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_behavior">2.2.3. Behavior</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>The target is the remote <code>upstream</code>, if it exists (Pull-Request from <code>&lt;fork-owner&gt;:&lt;branch&gt;</code> into <code>oravirt/ansible-oracle</code>), otherwise <code>origin</code>.</p>
+</li>
+<li>
+<p>On the default branch a new branch is created.</p>
+</li>
+<li>
+<p>A missing fragment in <code>changelogs/fragments</code> is created. The PR reference is added later with <code>tools/release/fix_fragments.py</code>.</p>
+</li>
+<li>
+<p>Labels and milestones are checked against the target repository before pushing. Unknown values stop the skill, nothing is created.
+Setting labels or milestones in <code>oravirt/ansible-oracle</code> needs the <code>triage</code> permission.</p>
+</li>
+<li>
+<p>An existing Pull-Request for the branch is updated (push, labels, milestone) instead of creating a new one.</p>
+</li>
+<li>
+<p>The skill asks before a force push, a push into the default branch, unrelated uncommitted changes or merge conflicts.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Invoking <code>/pr</code> allows Claude to push the branch and to create the Pull-Request without further confirmation.
+</td>
+</tr>
+</tbody></table>
+</div>
 </div>
 </div>
 </div>
@@ -1693,7 +1825,7 @@ The local checks use the token from <code>gh auth token</code>, if <code>gh</cod
 </div>
 </div>
 <div class="sect2">
-<h3 id="_setup_gh_for_renovate">4.2. Setup gh for renovate</h3>
+<h3 id="setup-gh">4.2. Setup gh for renovate</h3>
 <div class="admonitionblock important">
 <table>
 <tbody><tr>
@@ -1701,7 +1833,7 @@ The local checks use the token from <code>gh auth token</code>, if <code>gh</cod
 <div class="title">Important</div>
 </td>
 <td class="content">
-The GitHub CLI <code>gh</code> is only needed for running renovate against your fork on GitHub (<code>task renovate:fork</code>).<br/>
+The GitHub CLI <code>gh</code> is only needed for running renovate against your fork on GitHub (<code>task renovate:fork</code>) and for the Claude Code skill <code>/pr</code> (see <a href="#claude-pr">Create Pull-Requests with Claude Code</a>).<br/>
 The local checks work without it.
 </td>
 </tr>
@@ -2084,7 +2216,7 @@ The tests are shared by the scenarios in <code>extensions/molecule/shared_config
 <p>The database is created once with <code>converge</code>, the tests can be repeated as often as needed.</p>
 </div>
 <div class="sect3">
-<h4 id="_usage">6.7.1. Usage</h4>
+<h4 id="_usage_2">6.7.1. Usage</h4>
 <div class="listingblock">
 <div class="content">
 <pre>cd extensions
@@ -2377,7 +2509,98 @@ Every module test uses the wallet and sysdba at least once.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_oracle_xe_not_used_at_the_moment">6.8. Oracle XE (not used at the moment!)</h3>
+<h3 id="claude-aotest">6.8. Run molecule tests with Claude Code</h3>
+<div class="paragraph">
+<p><code>tools/claude/skills/aotest</code> contains the skill <code>/aotest</code> for <a href="https://claude.com/claude-code">Claude Code</a>.
+It runs the molecule actions of <code>extensions/Taskfile.yml</code> inside <code>nix-shell</code> and reports the result.</p>
+</div>
+<div class="paragraph">
+<p>Install the skill like <code>/pr</code> (see <a href="#claude-pr">Create Pull-Requests with Claude Code</a>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>mkdir -p ~/.claude/skills
+ln -sfn &#34;$(pwd)/tools/claude/skills/aotest&#34; ~/.claude/skills/aotest</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Usage</div>
+<div class="content">
+<pre>/aotest [S=&lt;scenario&gt;] [T=full|destroy|converge|module[,...]] [M=&lt;module&gt;[,&lt;module&gt;...]]</pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;"/>
+<col style="width: 20%;"/>
+<col style="width: 60%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Argument</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>S=&lt;scenario&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dbfs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scenario in <code>extensions/molecule</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>T=&lt;action&gt;[,…​]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>module</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Actions in the given order: <code>full</code> (<code>task test</code>), <code>destroy</code>, <code>converge</code>, <code>module</code> (<code>task module-test</code>).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>M=&lt;module&gt;[,…​]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">all modules</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Modules for <code>T=module</code>, see <a href="#module-tests">Module tests</a>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">Examples</div>
+<div class="content">
+<pre>/aotest                                   # module tests in dbfs
+/aotest S=has-ol9 M=oracle_asmdg
+/aotest S=dbfs T=destroy,converge,module
+/aotest S=dbfs-ol10 T=full</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Scenario, actions and modules are checked before the start.</p>
+</li>
+<li>
+<p>Each action runs in the background with its own log file. A failed action stops the following actions.</p>
+</li>
+<li>
+<p><code>T=module</code> on a scenario without running instances is not started, the skill proposes <code>T=converge,module</code>.</p>
+</li>
+<li>
+<p>The report contains the <code>PLAY RECAP</code>, the summary of the module tests and the failed checks with message.
+The skill does not change code or tests.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Invoking <code>/aotest</code> allows Claude to run the requested actions, including <code>destroy</code> and <code>converge</code>, without further confirmation.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_oracle_xe_not_used_at_the_moment">6.9. Oracle XE (not used at the moment!)</h3>
 <div class="admonitionblock important">
 <table>
 <tbody><tr>
@@ -2415,7 +2638,7 @@ docker pull container-registry.oracle.com/database/express:21.3.0-xe</pre>
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 4, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/8c346f05af1e990bdfea13e19916a49d84e5d3e0">updated pip-modules, collections, go.mod and configuration for renovate (8c346f05)</a>
+  Last modified November 6, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/e4e95cecb28bff0a02e3f7db42bcc4a58c45f926">tools: Claude Code skill /aotest for running molecule tests (e4e95cec)</a>
 </div>
 
 </div>
