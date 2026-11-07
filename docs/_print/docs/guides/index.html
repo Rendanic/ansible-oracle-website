@@ -221,7 +221,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>11: <a href="#pg-df389f0fd67da23712005b22d5d20abf">Standby Databases</a></li>
+<li>11: <a href="#pg-df389f0fd67da23712005b22d5d20abf">Data Guard Guide</a></li>
 
 
     
@@ -229,7 +229,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>12: <a href="#pg-df389f0fd67da23712005b22d5d20abf">Breaking Changes - Upgrade Guide</a></li>
+<li>12: <a href="#pg-df389f0fd67da23712005b22d5d20abf">Standby Databases</a></li>
 
 
     
@@ -237,7 +237,15 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>13: <a href="#pg-df389f0fd67da23712005b22d5d20abf">Setup ASM for Oracle Grid Infrastructure / Restart</a></li>
+<li>13: <a href="#pg-df389f0fd67da23712005b22d5d20abf">Breaking Changes - Upgrade Guide</a></li>
+
+
+    
+  
+    
+    
+	
+<li>14: <a href="#pg-df389f0fd67da23712005b22d5d20abf">Setup ASM for Oracle Grid Infrastructure / Restart</a></li>
 
 
     
@@ -7422,7 +7430,727 @@ A new RAC <code>ORACLE_HOME</code> needs the cluster installation before the swi
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">11 - Standby Databases</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">11 - Data Guard Guide</h1>
+    
+	
+<div class="paragraph">
+<p>This guide installs an Oracle AI Database 26ai with Data Guard on two Oracle Linux 9 VMs with <code>ansible-oracle</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>dataguard-dbfs1</code>: primary database <code>DB1_SITE1</code> (container database <code>DB1</code> with the PDB <code>ORCLPDB</code>)</p>
+</li>
+<li>
+<p><code>dataguard-dbfs2</code>: physical standby database <code>DB1_SITE2</code>, managed by the Data Guard Broker</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The 1st VM exports its installation media with NFS.
+AutoUpgrade downloads the gold image on the 1st VM only, the 2nd VM mounts the installation media with NFS.</p>
+</div>
+<div class="paragraph">
+<p>The guide is based on the <a href="/docs/guides/beginner/">Beginners Guide</a>.
+Steps that are identical are referenced and not repeated.</p>
+</div>
+<div class="paragraph">
+<p>See <a href="/docs/guides/standby_databases/">Standby Databases</a> for the details of the Data Guard implementation in <code>ansible-oracle</code>.</p>
+</div>
+<div class="sect1">
+<h2 id="_overview">1. Overview</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_architecture_overview">1.1. Architecture overview</h3>
+<div class="imageblock">
+<div class="content">
+<img src="http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/oravirt/ansible-oracle/master/doc/guides/dataguard.puml" alt="Architecture"/>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_what_are_we_going_to_do">1.2. What are we going to do?</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Prepare the Ansible controller: Ansible in Ubuntu on WSL2 on Windows.</p>
+</li>
+<li>
+<p>Create two Oracle Linux 9 VMs on Hyper-V.</p>
+</li>
+<li>
+<p>Configure the inventory with the IP addresses and login user of the VMs.</p>
+</li>
+<li>
+<p>Start the playbook <code>playbooks/do_all.yml</code>. It executes all needed playbooks:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><code>opitzconsulting.ansible_oracle.os</code>: prepare both VMs</p>
+</li>
+<li>
+<p><code>playbooks/nfs_server.yml</code>: NFS server on <code>dataguard-dbfs1</code>, export of the installation media <code>/u01/sw</code></p>
+</li>
+<li>
+<p><code>playbooks/autoupgrade.yml</code>: install AutoUpgrade on <code>dataguard-dbfs1</code> and download a <em>gold image</em> from My Oracle Support</p>
+</li>
+<li>
+<p><code>opitzconsulting.ansible_oracle.single_instance_fs</code> on both VMs:</p>
+<div class="olist lowerroman">
+<ol class="lowerroman" type="i">
+<li>
+<p>install the ORACLE_HOME on <code>dataguard-dbfs1</code> from <code>/u01/sw</code> and on <code>dataguard-dbfs2</code> from the NFS share,</p>
+</li>
+<li>
+<p>create the primary database <code>DB1_SITE1</code> with <code>dbca</code>,</p>
+</li>
+<li>
+<p>create the physical standby database <code>DB1_SITE2</code> with RMAN <code>DUPLICATE …​ FROM ACTIVE DATABASE</code>,</p>
+</li>
+<li>
+<p>create the Data Guard Broker configuration <code>DG1</code>.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_defaults">1.3. Defaults</h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Defaults used in this guide</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>~/git/ansible-oracle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">git repository on the Ansible controller</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>~/git/ansible-oracle/example/dataguard/ansible</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Working directory for all Ansible commands</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dataguard-dbfs1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the 1st VM in the inventory: initial primary, NFS server</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>192.168.66.166</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IP address of the 1st VM (<code>ansible_host</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dataguard-dbfs2</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the 2nd VM in the inventory: initial physical standby, NFS client</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>192.168.66.167</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IP address of the 2nd VM (<code>ansible_host</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ol</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Login user on the VMs (<code>ansible_user</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u01/sw</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Installation media: target of the download on <code>dataguard-dbfs1</code>, NFS mount point on <code>dataguard-dbfs2</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u01/stage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Staging directory on the VMs (<code>oracle_stage</code>)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_requirements">2. Requirements</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_oracle_linux_9_vms">2.1. Oracle Linux 9 VMs</h3>
+<div class="paragraph">
+<p>Two VMs with the requirements of the <a href="/docs/guides/beginner/#_oracle_linux_9_vm">Beginners Guide</a> are needed.</p>
+</div>
+<div class="paragraph">
+<p>In addition:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Both VMs reach each other on the fixed IP addresses: SSH is not needed between the VMs,
+but the listener port <code>1521</code> (Data Guard) and NFS from <code>dataguard-dbfs2</code> to <code>dataguard-dbfs1</code>.
+The playbooks open the ports in <code>firewalld</code>.</p>
+</li>
+<li>
+<p>Internet access for My Oracle Support is needed on <code>dataguard-dbfs1</code> only.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_the_vms_with_hyper_v_and_packer">2.2. Create the VMs with Hyper-V and Packer</h3>
+<div class="paragraph">
+<p>Build the Oracle Linux 9 template as described in
+<a href="/docs/guides/beginner/#_create_the_vm_with_hyper_v_and_packer">Create the VM with Hyper-V and Packer</a> of the Beginners Guide.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+All steps in this chapter are executed in PowerShell on Windows, not in WSL.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Create the VMs from the template</div>
+<div class="content">
+<pre>cd OL9
+.\create-vm.ps1 -NewVMName dataguard-dbfs1 -Hostname dataguard-dbfs1 -ExternalSwitch intern_66 -FixedIP 192.168.66.166 -CPUs 2 -MemoryGB 8
+.\create-vm.ps1 -NewVMName dataguard-dbfs2 -Hostname dataguard-dbfs2 -ExternalSwitch intern_66 -FixedIP 192.168.66.167 -CPUs 2 -MemoryGB 8</pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The template has a disk with 80 GB, but the guide needs 81 GB free space in the volume group <code>ol</code>.<br/>
+Increase the disk of both VMs, e.g. to 130 GB, before you start the installation.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ansible_controller_and_my_oracle_support">2.3. Ansible controller and My Oracle Support</h3>
+<div class="paragraph">
+<p>The requirements are identical to the Beginners Guide:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="/docs/guides/beginner/#_ansible_controller">Ansible controller</a></p>
+</li>
+<li>
+<p><a href="/docs/guides/beginner/#_my_oracle_support">My Oracle Support</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_setup_ansible_controller">3. Setup Ansible controller</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Follow <a href="/docs/guides/beginner/#_setup_ansible_controller">Setup Ansible controller</a> of the Beginners Guide,
+but install the collections in the working directory of this guide.</p>
+</div>
+<div class="listingblock">
+<div class="title">Install collections</div>
+<div class="content">
+<pre>cd ~/git/ansible-oracle/example/dataguard/ansible
+ansible-galaxy collection install -r requirements.yml</pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Data Guard needs <code>ansible-oracle</code> 5.0.0 or newer (role <code>oradb_standby</code>).<br/>
+Use the development entry in <code>requirements.yml</code> to install the collection from the git repository,
+as long as 5.0.0 is not released.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configure_inventory">4. Configure inventory</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_ip_addresses_and_login_user">4.1. IP addresses and login user</h3>
+<div class="paragraph">
+<p>The VMs are configured in <code>inventory/hosts.yml</code>.
+Change <code>ansible_host</code> and <code>ansible_user</code> for your VMs.</p>
+</div>
+<div class="listingblock">
+<div class="title">inventory/hosts.yml</div>
+<div class="content">
+<pre>---
+all:
+  children:
+    # both database servers of the Data Guard configuration DG1
+    dbfs:
+      hosts:
+        dataguard-dbfs1:
+          # IP address or DNS name of the 1st Oracle Linux 9 VM (initial primary)
+          ansible_host: 192.168.66.166
+          # Login user on the VM with sudo privileges (SSH key login)
+          ansible_user: ol
+        dataguard-dbfs2:
+          # IP address or DNS name of the 2nd Oracle Linux 9 VM (initial physical standby)
+          ansible_host: 192.168.66.167
+          ansible_user: ol
+
+    # NFS server for the installation media (playbooks/nfs_server.yml)
+    # AutoUpgrade downloads the gold image on this host only.
+    nfs_server:
+      hosts:
+        dataguard-dbfs1:
+
+    # Database servers which mount the installation media from nfs_server
+    nfs_client:
+      hosts:
+        dataguard-dbfs2:</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>ansible_host</code> is used for the connect identifiers of the databases (<code>group_vars/dbfs/tnsnames.yml</code>),
+for <code>local_listener</code> (<code>group_vars/dbfs/database_DB1.yml</code>) and for the NFS export.
+No DNS is needed between the VMs.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The host names <code>dataguard-dbfs1</code> and <code>dataguard-dbfs2</code> are used in <code>db_standby_config</code>
+(<code>group_vars/dbfs/standby.yml</code>), in <code>group_vars/dbfs/tnsnames.yml</code> and as directories in <code>host_vars</code>.
+Change all of them, when you rename a host.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ssh_key_connection_test_credentials_and_passwords">4.2. SSH key, connection test, credentials and passwords</h3>
+<div class="paragraph">
+<p>Follow the Beginners Guide for both VMs:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="/docs/guides/beginner/#_ssh_key">SSH key</a>: <code>ssh-copy-id</code> for <code>ol@192.168.66.166</code> and <code>ol@192.168.66.167</code></p>
+</li>
+<li>
+<p><a href="/docs/guides/beginner/#_check_the_connection">Check the connection</a></p>
+</li>
+<li>
+<p><a href="/docs/guides/beginner/#_my_oracle_support_credentials">My Oracle Support credentials</a> (<code>.env</code> in <code>example/dataguard/ansible</code>)</p>
+</li>
+<li>
+<p><a href="/docs/guides/beginner/#_database_passwords">Database passwords</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_data_guard_configuration">4.3. Data Guard configuration</h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Inventory files for Data Guard</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">File</th>
+<th class="tableblock halign-left valign-top">Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group_vars/dbfs/standby.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>db_standby_config</code>: configuration <code>DG1</code> with the members <code>DB1_SITE1</code> (<code>initial_role: primary</code>) and <code>DB1_SITE2</code> (<code>initial_role: physical_standby</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group_vars/dbfs/tnsnames.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Connect identifiers <code>DB1_SITE1</code> and <code>DB1_SITE2</code> with the IP addresses of the VMs</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group_vars/dbfs/database_DB1.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database <code>DB1</code> with <code>standby_config: DG1</code> for both members</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>host_vars/&lt;host&gt;/databases.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>db1_unique_name</code>: <code>db_unique_name</code> of the member on the host</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The database is defined once for both members.
+Only the <code>db_unique_name</code> differs, it is set per host with <code>db1_unique_name</code>.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. Data Guard specific settings of the database in group_vars/dbfs/database_DB1.yml</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Setting</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_db_unique_name: &#34;{{ db1_unique_name }}&#34;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DB1_SITE1</code> or <code>DB1_SITE2</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>standby_config: DG1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Assignment to the Data Guard configuration</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>listener_name: LISTENER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Static listener entry <code>&lt;db_unique_name&gt;_DGMGRL</code> for RMAN <code>DUPLICATE</code> and the broker</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>archivelog</code>, <code>force_logging</code>, <code>flashback</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>local_listener</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>//&lt;ansible_host&gt;:1521</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>db_create_file_dest</code>, <code>db_create_online_log_dest_1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Managed Files (OMF) are mandatory</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dg_broker_config_file1/2</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u01/app/oracle/dbs/dr1&lt;db_unique_name&gt;.dat</code>: outside of the read-only ORACLE_HOME</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dg_broker_start</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TRUE</code>, below <code>dg_broker_config_file1/2</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>standby_file_management</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AUTO</code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_installation_media_with_nfs">4.4. Installation media with NFS</h3>
+<div class="paragraph">
+<p>AutoUpgrade is installed and executed on <code>dataguard-dbfs1</code> only (group <code>nfs_server</code>).
+The download of the gold image works as in the Beginners Guide,
+see <a href="/docs/guides/beginner/#_autoupgrade_on_the_vm">AutoUpgrade on the VM</a>.</p>
+</div>
+<div class="paragraph">
+<p><code>playbooks/nfs_server.yml</code> configures <code>dataguard-dbfs1</code> as NFS server:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>package <code>nfs-utils</code>, service <code>nfs-server</code></p>
+</li>
+<li>
+<p>directory <code>/u01/sw</code> (owner <code>oracle</code>), target of the AutoUpgrade download</p>
+</li>
+<li>
+<p>export of <code>/u01/sw</code> read only for the IP addresses of the group <code>nfs_client</code> (<code>/etc/exports.d/oracle-sw.exports</code>)</p>
+</li>
+<li>
+<p>services <code>nfs</code>, <code>rpc-bind</code> and <code>mountd</code> in <code>firewalld</code>, when <code>firewalld</code> is running</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>dataguard-dbfs2</code> (group <code>nfs_client</code>) mounts the share during the installation of the ORACLE_HOME
+(role <code>oraswdb_install</code>) and unmounts it afterwards.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. NFS settings in inventory/group_vars/all/software_src.yml</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>install_from_nfs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code>, <code>true</code> in <code>host_vars/dataguard-dbfs2/software_src.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mount the NFS share during the installation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nfs_server_sw</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ansible_host</code> of the 1st host of the group <code>nfs_server</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NFS server</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nfs_server_sw_path</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u01/sw</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Exported directory on the NFS server</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_stage_remote</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u01/sw</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Source of the installation media: mount point on the NFS client, local directory on the NFS server</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_sw_copy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The ORACLE_HOME is extracted directly from <code>oracle_stage_remote</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The mount point is identical to the directory on the NFS server.
+Therefore the symlink <code>db_home_26_latest.zip</code> of the gold image works on both hosts.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+Use the same settings for any database server, which mounts its installation media from an existing NFS server:
+<code>install_from_nfs: true</code>, <code>nfs_server_sw</code>, <code>nfs_server_sw_path</code> and <code>oracle_stage_remote</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_install_databases_with_ansible">5. Install databases with Ansible</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="title">Start installation</div>
+<div class="content">
+<pre>cd ~/git/ansible-oracle/example/dataguard/ansible
+ansible-playbook playbooks/do_all.yml</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The execution takes approx. 60 minutes plus the download of the gold image.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p><code>single_instance_fs</code> is executed for both VMs in one play.
+<code>oradb_standby</code> needs the facts of the primary database on <code>dataguard-dbfs1</code>
+to create the standby database on <code>dataguard-dbfs2</code>.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. Configuration of the databases</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">dataguard-dbfs1</th>
+<th class="tableblock halign-left valign-top">dataguard-dbfs2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ORACLE_BASE</p></td>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock"><code>/u01/app/oracle</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ORACLE_HOME</p></td>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock"><code>/u01/app/oracle/product/db26_si_ee</code> (read-only)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ORACLE_SID</p></td>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock"><code>DB1</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">db_unique_name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DB1_SITE1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DB1_SITE2</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">initial role</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">primary</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">physical standby</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Created by</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dbca</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN <code>DUPLICATE …​ FROM ACTIVE DATABASE</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PDB</p></td>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock"><code>ORCLPDB</code> (open on the primary only)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">db_create_file_dest</p></td>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock"><code>/u02/oradata</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">db_recovery_file_dest</p></td>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock"><code>/u02/fra</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Listener</p></td>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock"><code>LISTENER</code>, port 1521</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data Guard Broker</p></td>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">configuration <code>DG1</code>, <code>MaxPerformance</code>, <code>LogXptMode</code> <code>ASYNC</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The systemd unit <code>oracle-db@DB1.service</code> starts the database in <code>MOUNT</code> and opens a primary database only.
+The physical standby database is not opened read only (no Active Data Guard).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_how_to_work_with_the_data_guard_configuration">6. How to work with the Data Guard configuration</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="title">Login into the 1st VM and set the environment</div>
+<div class="content">
+<pre>ssh ol@192.168.66.166
+sudo -iu oracle
+ocenv
+DB1</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Show the broker configuration</div>
+<div class="content">
+<pre>dgmgrl / &#34;show configuration&#34;</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre>Configuration - DG1
+
+  Protection Mode: MaxPerformance
+  Members:
+  DB1_SITE1 - Primary database
+    DB1_SITE2 - Physical standby database
+
+Fast-Start Failover:  Disabled
+
+Configuration Status:
+SUCCESS</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The broker needs approx. 1 minute after the creation until the status is <code>SUCCESS</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Switchover to DB1_SITE2 (password of SYS)</div>
+<div class="content">
+<pre>dgmgrl sys@DB1_SITE1
+DGMGRL&gt; validate database DB1_SITE2;
+DGMGRL&gt; switchover to DB1_SITE2;</pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The inventory is not changed after a switchover.
+<code>initial_role</code> is used for the creation of the databases only, <code>ansible-oracle</code> does not switch back.
+See <a href="/docs/guides/standby_databases/#_role_transitions_outside_of_ansible_oracle">Role transitions outside of ansible-oracle</a>.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_next_steps">7. Next Steps</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="/docs/guides/standby_databases/">Standby Databases in <code>ansible-oracle</code></a></p>
+</li>
+<li>
+<p><a href="/docs/guides/autoupgrade/">Oracle AutoUpgrade in <code>ansible-oracle</code></a></p>
+</li>
+<li>
+<p><a href="/docs/roles/overview/">List of roles in <code>ansible-oracle</code></a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">12 - Standby Databases</h1>
     
 	
 <div class="admonitionblock important">
@@ -7829,8 +8557,18 @@ All decisions at runtime are based on <code>database_role</code> from <code>v$da
 </ul>
 </div>
 <div class="paragraph">
-<p>Listener, <code>tnsnames.ora</code>, <code>oratab</code> and the systemd units are configured for all members.
-The systemd unit of a database with <code>standby_config</code> uses <code>ORACLE_START_MODE=auto</code>:
+<p>Listener, <code>tnsnames.ora</code>, <code>oratab</code> and the systemd units are configured for all members.</p>
+</div>
+<div class="paragraph">
+<p>Before <code>dbca</code>, <code>oradb_manage_db</code> creates the missing directories of a database with <code>standby_config</code>
+(<code>orasw_meta/tasks/standby_prepare.yml</code>): file destinations, <code>audit_file_dest</code>, <code>diagnostic_dest</code>
+and the directories of <code>dg_broker_config_file1/2</code> from <code>init_parameters</code>.
+<code>oradb_manage_parameters</code> sets <code>dg_broker_start=TRUE</code> on the primary before <code>oradb_standby</code> is executed,
+the broker configuration files must be accessible at this time.
+Existing directories are not changed (owner, group and mode are kept).</p>
+</div>
+<div class="paragraph">
+<p>The systemd unit of a database with <code>standby_config</code> uses <code>ORACLE_START_MODE=auto</code>:
 the database is started in <code>MOUNT</code> and only a <code>PRIMARY</code> database is opened.
 A physical standby database is never opened read only by the autostart (no Active Data Guard).</p>
 </div>
@@ -7968,8 +8706,9 @@ An empty <code>local_listener</code> registers the instance at the default liste
 </div>
 </li>
 <li>
-<p>The directories of <code>datafile_dest</code>, <code>recoveryfile_dest</code> and <code>db_create_file_dest</code>, <code>db_create_online_log_dest_n</code>,
-<code>db_recovery_file_dest</code>, <code>audit_file_dest</code>, <code>diagnostic_dest</code> from <code>init_parameters</code> are created before <code>NOMOUNT</code>.
+<p>Missing directories of <code>datafile_dest</code>, <code>recoveryfile_dest</code> and <code>db_create_file_dest</code>, <code>db_create_online_log_dest_n</code>,
+<code>db_recovery_file_dest</code>, <code>audit_file_dest</code>, <code>diagnostic_dest</code>, <code>dg_broker_config_file1/2</code> from <code>init_parameters</code>
+are created before <code>NOMOUNT</code>. Existing directories are not changed (owner, group and mode are kept).
 Parameters of the cloned SPFile that are not defined in <code>init_parameters</code> keep the value of the primary
 (after <code>PARAMETER_VALUE_CONVERT</code>): their directories must exist on the standby host.</p>
 </li>
@@ -8431,6 +9170,18 @@ Both default to <code>oracle_db_name</code>.</p>
 <div class="sect1">
 <h2 id="_example_data_guard_with_2_hosts">10. Example: Data Guard with 2 hosts</h2>
 <div class="sectionbody">
+<div class="admonitionblock tip">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+A complete example with 2 VMs is the <a href="/docs/guides/dataguard/">Data Guard Guide</a> (<code>example/dataguard</code>).
+</td>
+</tr>
+</tbody></table>
+</div>
 <div class="paragraph">
 <p>Hosts <code>dbhost1</code> (primary) and <code>dbhost2</code> (standby) are members of the group <code>dg_db1</code>.</p>
 </div>
@@ -8643,7 +9394,7 @@ Members with more than 1 host (<code>hosts</code>) are allowed by the inventory 
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">12 - Breaking Changes - Upgrade Guide</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">13 - Breaking Changes - Upgrade Guide</h1>
     
 	
 <div class="paragraph">
@@ -10263,7 +11014,7 @@ Entries with <code>sid</code> and without <code>dbca</code> are not passed to db
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">13 - Setup ASM for Oracle Grid Infrastructure / Restart</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">14 - Setup ASM for Oracle Grid Infrastructure / Restart</h1>
     
 	
 <div class="sect1">

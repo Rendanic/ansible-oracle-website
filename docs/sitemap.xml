@@ -10,7 +10,7 @@
     <lastmod>2026-10-28T21:52:27+01:00</lastmod>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/development/development/</loc>
-    <lastmod>2026-11-07T17:31:09+01:00</lastmod>
+    <lastmod>2026-11-07T19:36:02+01:00</lastmod>
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/features/featurelist/</loc>
@@ -77,20 +77,24 @@
     <lastmod>2026-10-24T10:36:34+02:00</lastmod>
     <priority>0</priority>
   </url><url>
-    <loc>https://www.ansible-oracle.eu/docs/guides/standby_databases/</loc>
-    <lastmod>2026-11-07T17:34:38+01:00</lastmod>
+    <loc>https://www.ansible-oracle.eu/docs/guides/dataguard/</loc>
+    <lastmod>2026-11-07T19:36:02+01:00</lastmod>
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/roles/oradb_standby/</loc>
-    <lastmod>2026-11-07T17:31:09+01:00</lastmod>
+    <lastmod>2026-11-07T19:36:02+01:00</lastmod>
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/roles/orasw_meta/</loc>
-    <lastmod>2026-11-07T17:31:09+01:00</lastmod>
+    <lastmod>2026-11-07T19:36:02+01:00</lastmod>
+    <priority>0</priority>
+  </url><url>
+    <loc>https://www.ansible-oracle.eu/docs/guides/standby_databases/</loc>
+    <lastmod>2026-11-07T19:36:02+01:00</lastmod>
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/roles/orasw_meta_internal/</loc>
-    <lastmod>2026-11-07T17:06:24+01:00</lastmod>
+    <lastmod>2026-11-07T19:36:01+01:00</lastmod>
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/guides/breaking_changes/</loc>

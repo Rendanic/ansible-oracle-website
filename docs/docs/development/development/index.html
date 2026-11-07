@@ -128,8 +128,8 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-07T17:31:09+01:00">
-		<meta property="article:modified_time" content="2026-11-07T17:31:09+01:00">
+		<meta property="article:published_time" content="2026-11-07T19:36:02+01:00">
+		<meta property="article:modified_time" content="2026-11-07T19:36:02+01:00">
 
 	<meta itemprop="name" content="How to develop">
 	<meta itemprop="description" content="1. How to develop in ansible-oracle? Important This is an example how most of the development in ansible-oracle is done.
@@ -184,8 +184,8 @@ Each commit is locally checked against multiple rules, to prevent failures in gi
 This tool is recommended but not mandatory for contributing to ansible-oracle. Install the git hook once (cd into repository before) pre-commit install Important Do not forget to place change files in stage area of git before starting pre-commit.
 pre-commit works only on the data of the stage area! run outside git pre-commit run 1.3.2. ansible-doctor Start ansible-doctor with pre-commit pre-commit run ansible-doctor Start ansible-doctor to create new README.md file cd ansible-oracle # nix-shell .venv/ansible-doctor/bin/ansible-doctor -f -r roles # local Ansible-Controller ~/venv/ansible-doctor/bin/ansible-doctor -f -r roles 1.3.3. Start Playbook Important Don’t forget to set the working branch in requirements.yml.
 Remove/Disable devsec.hardening for faster installation of Ansible collection, when devsec should not be tested. Edit requirements.yml --- collections: # - name: devsec.hardening # version: 8.2.0 - name: https://github.com/Rendanic/ansible-oracle.git type: git version: devbranch Execute ansible-playbook ansible-galaxy collection install --force -r requirements.yml &amp;&amp; ansible-playbook -i inventory/hasfd -e hostgroup=&#39;all&#39; playbooks/single-instance-asm.yml --limit &#39;*19c*&#39;">
-	<meta itemprop="datePublished" content="2026-11-07T17:31:09+01:00">
-	<meta itemprop="dateModified" content="2026-11-07T17:31:09+01:00">
+	<meta itemprop="datePublished" content="2026-11-07T19:36:02+01:00">
+	<meta itemprop="dateModified" content="2026-11-07T19:36:02+01:00">
 	<meta itemprop="wordCount" content="6612">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="How to develop">
@@ -338,6 +338,8 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
   <a href="/docs/guides/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
   <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
+  <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_databases-li">
   <a href="/docs/guides/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="">Standby Databases</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
@@ -2689,7 +2691,7 @@ docker pull container-registry.oracle.com/database/express:21.3.0-xe</pre>
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 7, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/020fe43095f94508a2b51a2b6be995770e0d8480">molecule: dataguard - standby creation and switchover tests (020fe430)</a>
+  Last modified November 7, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/303a6b761c87d17cc6c94e855c3023bbf64f09cf">molecule: dataguard - standby creation and switchover tests (303a6b76)</a>
 </div>
 
 </div>
