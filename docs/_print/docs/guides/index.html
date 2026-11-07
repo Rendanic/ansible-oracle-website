@@ -221,7 +221,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>11: <a href="#pg-df389f0fd67da23712005b22d5d20abf">Breaking Changes - Upgrade Guide</a></li>
+<li>11: <a href="#pg-df389f0fd67da23712005b22d5d20abf">Standby Databases - Inventory Structure</a></li>
 
 
     
@@ -229,7 +229,15 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>12: <a href="#pg-df389f0fd67da23712005b22d5d20abf">Setup ASM for Oracle Grid Infrastructure / Restart</a></li>
+<li>12: <a href="#pg-df389f0fd67da23712005b22d5d20abf">Breaking Changes - Upgrade Guide</a></li>
+
+
+    
+  
+    
+    
+	
+<li>13: <a href="#pg-df389f0fd67da23712005b22d5d20abf">Setup ASM for Oracle Grid Infrastructure / Restart</a></li>
 
 
     
@@ -7414,7 +7422,949 @@ A new RAC <code>ORACLE_HOME</code> needs the cluster installation before the swi
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">11 - Breaking Changes - Upgrade Guide</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">11 - Standby Databases - Inventory Structure</h1>
+    
+	
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+This guide describes the <strong>planned</strong> inventory structure for standby databases
+(<a href="https://github.com/oravirt/ansible-oracle/issues/65">Issue #65</a>).<br/>
+Implemented: asserts for the inventory and the creation of a physical standby database (role <code>oradb_standby</code>).
+Not implemented yet: Data Guard Broker, redo transport. Variable names and attributes may change.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>The inventory structure is shared by different standby technologies:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Oracle Data Guard (<code>type: dataguard</code>)</p>
+</li>
+<li>
+<p>Dbvisit StandbyMP (<code>type: dbvisit</code>) - reserved, not planned for the first implementation</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Attributes that apply to every technology are defined at the top level.
+Attributes for one technology are placed in a sub-dictionary named after it
+(<code>dg</code> for Data Guard, <code>dbvisit</code> for Dbvisit).
+No additional variables are needed when a new technology is added.</p>
+</div>
+<div class="paragraph">
+<p>Only Oracle Database 19c and newer are supported.</p>
+</div>
+<div class="sect1">
+<h2 id="_overview">1. Overview</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Location</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>db_standby_config</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group_vars</code> of all members</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Standby configurations with technology, members and topology</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_databases[].standby_config</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>host_vars</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reference from a database to an entry in <code>db_standby_config</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_databases[].oracle_db_unique_name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>host_vars</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>db_unique_name</code> of the local member</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_tnsnames_config</code> / <code>tnsnames_installed</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group_vars</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TNS aliases for redo transport, broker and RMAN duplicate</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_listeners_config</code> / <code>listener_installed</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>group_vars</code> / <code>host_vars</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Listener with static entries for the instances</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><code>db_standby_config</code> must be identical on all members of a configuration.
+Each member needs the complete topology, e.g. for <code>log_archive_config</code>, <code>fal_server</code>
+or <code>ADD DATABASE</code> in the broker.
+The topology is never collected from <code>hostvars</code> of other hosts.
+Only the current role of the other members (<code>database_role</code> from <code>oradb_facts</code>) is read from <code>hostvars</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_db_standby_config">2. db_standby_config</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>List of standby configurations.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Attributes of a standby configuration</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Mandatory</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the configuration. Referenced by <code>oracle_databases[].standby_config</code>. Used as name of the broker configuration for Data Guard.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dataguard</code> or <code>dbvisit</code>. No default value.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>members</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of members, see below.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data Guard attributes of the configuration. Only allowed with <code>type: dataguard</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dbvisit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dbvisit attributes of the configuration. Only allowed with <code>type: dbvisit</code>.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Attributes of a member</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Mandatory</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hosts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of <code>inventory_hostname</code> of the member. More than 1 host for RAC.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>db_unique_name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dataguard</code>: yes, <code>dbvisit</code>: no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>db_unique_name</code> of the member. Default for <code>dbvisit</code>: <code>oracle_db_name</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>initial_role</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>primary</code> or <code>physical_standby</code>. Used during creation only, see <a href="#_initial_role">initial_role</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data Guard attributes of the member. Only allowed with <code>type: dataguard</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dbvisit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dbvisit attributes of the member. Only allowed with <code>type: dbvisit</code>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_data_guard_attributes_dg">2.1. Data Guard attributes (<code>dg</code>)</h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. Configuration (<code>db_standby_config[].dg</code>)</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>protection_mode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MaxPerformance</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MaxPerformance</code>, <code>MaxAvailability</code> or <code>MaxProtection</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>create_method</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_duplicate_active</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default method for the creation of the standby databases, see <a href="#_creation_of_a_standby_database">Creation of a standby database</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>create_tasks_file</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tasks file for <code>create_method: custom</code></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. Member (<code>db_standby_config[].members[].dg</code>)</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>connect_identifier</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TNS alias from <code>oracle_tnsnames_config</code>. Used for redo transport and as broker property <code>DGConnectIdentifier</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>log_xpt_mode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ASYNC</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker property <code>LogXptMode</code>: <code>ASYNC</code>, <code>SYNC</code> or <code>FASTSYNC</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>delay_mins</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker property <code>DelayMins</code> (delay of redo apply in minutes)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>create_method</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>create_method</code> of the configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Method for the creation of this standby database</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>create_tasks_file</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>create_tasks_file</code> of the configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tasks file for <code>create_method: custom</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<code>MaxAvailability</code> and <code>MaxProtection</code> need <code>SYNC</code> or <code>FASTSYNC</code> for at least one standby member.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dbvisit_attributes_dbvisit">2.2. Dbvisit attributes (<code>dbvisit</code>)</h3>
+<div class="paragraph">
+<p>Reserved for a later implementation.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_oracle_databases">3. oracle_databases</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A database becomes a member of a standby configuration with the attribute <code>standby_config</code>.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. Additional attributes in <code>oracle_databases</code></caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>standby_config</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code> of an entry in <code>db_standby_config</code>. The type is inherited from that entry.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_db_unique_name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory for <code>type: dataguard</code>. Must match <code>db_unique_name</code> of the local member.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>listener_name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory for <code>type: dataguard</code>. Adds the static entries for the instance to <code>listener.ora</code>, including <code>&lt;db_unique_name&gt;_DGMGRL</code> (used by RMAN <code>DUPLICATE</code> and the broker). See <a href="https://github.com/oravirt/ansible-oracle/blob/master/roles/oradb_manage_db/LISTENER.md">LISTENER.md</a>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>All technology specific attributes of a database are defined in its member in <code>db_standby_config</code>
+(e.g. <code>members[].dg.connect_identifier</code>), not in <code>oracle_databases</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_assignment_of_a_database_to_a_member">4. Assignment of a database to a member</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The member of a database is found by the following rules:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Search all members of the referenced configuration with <code>inventory_hostname</code> in <code>hosts</code>.</p>
+</li>
+<li>
+<p>When more than 1 member matches (e.g. primary and standby on the same host),
+the member with <code>db_unique_name</code> = <code>oracle_db_unique_name</code> is used.</p>
+</li>
+<li>
+<p>Exactly 1 member must match. Otherwise the play fails.</p>
+</li>
+</ol>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Setup</th>
+<th class="tableblock halign-left valign-top">Unique by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data Guard, different hosts</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">host</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data Guard, same host</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">host + <code>db_unique_name</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dbvisit (same <code>db_unique_name</code> on all members)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">host</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RAC</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">host (more than 1 entry in <code>hosts</code>)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_initial_role">5. initial_role</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>initial_role</code> is only used when a member is created:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>primary</code>: the database is created with <code>dbca</code>.</p>
+</li>
+<li>
+<p><code>physical_standby</code>: the database is created as standby of the primary.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The role is never enforced afterwards.
+After a switchover or failover the inventory is <strong>not</strong> changed and <code>ansible-oracle</code> does not switch back.
+All decisions at runtime are based on <code>database_role</code> from <code>v$database</code>.</p>
+</div>
+<div class="paragraph">
+<p><code>oradb_manage_db</code> does not execute <code>oracle_db</code> (<code>dbca</code>) for a database of a standby configuration, when</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the instance is running and <code>database_role</code> is not <code>PRIMARY</code>, or</p>
+</li>
+<li>
+<p>the instance is not running/mounted and <code>initial_role</code> of the member is <code>physical_standby</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Listener, <code>tnsnames.ora</code>, <code>oratab</code> and the systemd units are configured for all members.
+The systemd unit of a database with <code>standby_config</code> uses <code>ORACLE_START_MODE=auto</code>:
+the database is started in <code>MOUNT</code> and only a <code>PRIMARY</code> database is opened.
+A physical standby database is never opened read only by the autostart (no Active Data Guard).</p>
+</div>
+<div class="paragraph">
+<p><code>oradb_facts</code> stores <code>database_role</code> in <code>oracledb_facts[&lt;db_unique_name&gt;]</code>.
+<code>state</code> is <code>present</code> for a <code>PRIMARY</code> database only and <code>standby</code> for all other roles.
+All roles which check <code>state == &#39;present&#39;</code> (e.g. <code>oradb_manage_pdb</code>, <code>oradb_manage_redo</code>,
+<code>oradb_manage_users</code>) skip a standby database.
+<code>oradb_manage_parameters</code> changes the <code>init_parameters</code> of <code>oracle_databases</code> on a standby database too
+(<code>state: standby</code>), but not the parameters of PDBs and without a restart for <code>scope: spfile</code>.
+A database of a standby configuration that is not reachable (e.g. not created yet) gets <code>state: unreachable</code>
+without a failure of <code>oradb_facts</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_creation_of_a_standby_database">6. Creation of a standby database</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The role <code>oradb_standby</code> (playbook <code>manage_db.yml</code>, after <code>oradb_manage_db</code>, only when <code>db_standby_config</code> is not empty) creates a missing standby database:
+a member with <code>initial_role: physical_standby</code> without an SPFile of the instance.
+An existing database is never changed by <code>oradb_standby</code>.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. create_method</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Method</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_duplicate_active</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN <code>DUPLICATE TARGET DATABASE FOR STANDBY FROM ACTIVE DATABASE USING COMPRESSED BACKUPSET</code> from the standby host (default)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>external</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The standby database is created outside of <code>ansible-oracle</code>. A warning is shown while the database is missing.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>custom</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The tasks file <code>create_tasks_file</code> is included. The result must be a mounted physical standby database.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The SPFile of the standby database is created by <code>rman_duplicate_active</code> only.
+With <code>external</code> and <code>custom</code> the SPFile is the responsibility of the DBA.</p>
+</div>
+<div class="paragraph">
+<p>Steps for <code>rman_duplicate_active</code> and <code>custom</code>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The primary database is searched in the facts of the other members:
+<code>hostvars[&lt;host&gt;].oracledb_facts[&lt;db_unique_name&gt;].database_role</code> = <code>PRIMARY</code> (<code>oradb_facts</code>).
+The hosts of the primary database must be part of the play.</p>
+</li>
+<li>
+<p>The primary database is prepared over its <code>connect_identifier</code> (idempotent):
+<code>FORCE LOGGING</code>, <code>standby_file_management=AUTO</code>
+and standby redo logs (number of online redo log groups + 1 per thread, OMF is needed).
+<code>log_archive_config</code>, <code>fal_server</code> and <code>log_archive_dest_n</code> are set by the Data Guard Broker (<code>dgmgrl</code>).</p>
+</li>
+<li>
+<p>The standby database is created with the method.</p>
+</li>
+<li>
+<p>The result is checked: SPFile exists and <code>database_role</code> = <code>PHYSICAL STANDBY</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Details of <code>rman_duplicate_active</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Password file and PFile (<code>db_name</code> only) in <code>orabaseconfig/dbs</code>, instance in <code>NOMOUNT</code></p>
+</li>
+<li>
+<p><code>target</code>: <code>connect_identifier</code> of the primary, <code>auxiliary</code>: <code>//&lt;host&gt;:&lt;port&gt;/&lt;db_unique_name&gt;_DGMGRL</code>
+(host and port from <code>oracle_tnsnames_config</code> of the <code>connect_identifier</code> of the standby)</p>
+</li>
+<li>
+<p>The SPFile of the primary is cloned (<code>SPFILE PARAMETER_VALUE_CONVERT &#39;&lt;primary db_unique_name&gt;&#39;,&#39;&lt;standby db_unique_name&gt;&#39;</code>).
+Different or additional parameters of the standby are read from <code>init_parameters</code> of the standby database
+in <code>oracle_databases</code> (<code>state: present</code>, <code>scope</code> not <code>memory</code>, <code>sid</code> <code>*</code>) and set with <code>SET</code>.
+The role sets in addition:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>db_unique_name</code> of the member (always)</p>
+</li>
+<li>
+<p><code>control_files</code>: <code>&lt;db_create_file_dest&gt;/&lt;db_unique_name&gt;/controlfile/control01.ctl</code>, unless defined in <code>init_parameters</code></p>
+</li>
+<li>
+<p><code>local_listener</code>: empty, unless defined in <code>init_parameters</code>.
+The value of the primary is usually a TNS alias (e.g. <code>LISTENER_&lt;SID&gt;</code> from <code>dbca</code>), which does not exist on the standby host.
+An empty <code>local_listener</code> registers the instance at the default listener (local host, port 1521).</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>The directories of <code>datafile_dest</code>, <code>recoveryfile_dest</code> and <code>db_create_file_dest</code>, <code>db_create_online_log_dest_n</code>,
+<code>db_recovery_file_dest</code> from <code>init_parameters</code> are created before <code>DUPLICATE</code>.</p>
+</li>
+<li>
+<p>A failed <code>DUPLICATE</code> stops the auxiliary instance and removes the SPFile created by <code>DUPLICATE</code>.
+The next run starts a new <code>DUPLICATE</code>.</p>
+</li>
+<li>
+<p>The RMAN command file contains passwords and is removed after <code>DUPLICATE</code>.
+The logfile is in <code>oradb_standby_rman_logdir</code>.</p>
+</li>
+<li>
+<p>Redo Apply is started after <code>DUPLICATE</code> (<code>oradb_standby_start_apply</code>).</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<code>local_listener</code> of the standby database is empty after <code>DUPLICATE</code>, unless it is defined in <code>init_parameters</code>
+of the standby database in <code>oracle_databases</code>.<br/>
+The DBA is responsible for the inventory: a listener with a different address or port than the default
+(local host, port 1521) needs <code>local_listener</code> in <code>init_parameters</code> of the standby database.
+Otherwise the instance is not registered at the listener and the dynamic services (e.g. <code>&lt;db_unique_name&gt;</code>) are missing.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+Define <code>local_listener</code> with EZConnect in <code>init_parameters</code> of all members, e.g.
+<code>- {name: local_listener, value: &#39;//dbhost1:1521&#39;, scope: both, state: present}</code>.<br/>
+The primary gets a clean value instead of the alias <code>LISTENER_&lt;SID&gt;</code> from <code>dbca</code> (set by <code>oradb_manage_parameters</code>),
+the standby gets its own value with <code>SET</code> in RMAN <code>DUPLICATE</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>The SYS password is read from <code>dbpasswords[&lt;oracle_db_name&gt;][&#39;sys&#39;]</code> or <code>default_dbpass</code>, like <code>dbca</code> in <code>oradb_manage_db</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_data_guard_broker_configuration_file">7. Data Guard Broker configuration file</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>oradb_standby</code> creates a <code>dgmgrl</code> script for each database with <code>type: dataguard</code>:
+<code>$ORACLE_BASE/admin/&lt;db_unique_name&gt;/pfile/dgmgrl.cfg</code>.</p>
+</div>
+<div class="paragraph">
+<p>Each member gets its own file with the <strong>local</strong> database as primary database.
+The file is valid on the host where the database is the <code>PRIMARY</code> at execution time
+(e.g. after a switchover the file on the new primary is used).
+The content depends on the inventory only, not on the current role ⇒ it is identical on every run.</p>
+</div>
+<div class="ulist">
+<div class="title">Content</div>
+<ul>
+<li>
+<p><code>CREATE CONFIGURATION &#39;&lt;name&gt;&#39; AS PRIMARY DATABASE IS &#39;&lt;local db_unique_name&gt;&#39; CONNECT IDENTIFIER IS &#39;&lt;connect_identifier&gt;&#39;</code></p>
+</li>
+<li>
+<p><code>ADD DATABASE …​ MAINTAINED AS PHYSICAL</code> for all other members</p>
+</li>
+<li>
+<p><code>EDIT DATABASE …​ SET PROPERTY</code> <code>LogXptMode</code> (<code>log_xpt_mode</code>) and <code>DelayMins</code> (<code>delay_mins</code>) for all members</p>
+</li>
+<li>
+<p><code>ENABLE CONFIGURATION</code></p>
+</li>
+<li>
+<p><code>EDIT CONFIGURATION SET PROTECTION MODE</code> (only when <code>protection_mode</code> is not <code>MaxPerformance</code>)</p>
+</li>
+<li>
+<p><code>SHOW CONFIGURATION</code></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">Usage on the host of the primary database</div>
+<div class="content">
+<pre>dgmgrl / &#34;@$ORACLE_BASE/admin/&lt;db_unique_name&gt;/pfile/dgmgrl.cfg&#34;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Requirements: <code>dg_broker_start=TRUE</code> on all members and no existing broker configuration.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<code>dg_broker_start</code> must be defined in <code>init_parameters</code> of all members, with <code>dbca: false</code>:<br/>
+<code>- {name: dg_broker_start, value: &#39;TRUE&#39;, scope: both, state: present, dbca: false}</code><br/>
+The value is set by <code>oradb_manage_parameters</code> on the primary and on a mounted standby database
+(<code>state: standby</code>), a new standby database gets it with <code>SET</code> in RMAN <code>DUPLICATE</code>.
+<code>oradb_standby</code> executes the file once on the host of the primary database
+(<code>oradb_standby_broker_create: true</code>, default), after the creation of the standby databases, when
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the local database is the <code>PRIMARY</code> (<code>oradb_facts</code>),</p>
+</li>
+<li>
+<p>no broker configuration exists (<code>show configuration</code> returns <code>ORA-16532</code>) and</p>
+</li>
+<li>
+<p>all other members are <code>PHYSICAL STANDBY</code> databases (<code>oradb_facts</code> of the hosts of the members).
+Otherwise a warning is shown, e.g. for a standby database with <code>create_method: external</code> that does not exist yet.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>An existing broker configuration is never changed. Lines with <code>Error:</code> in the output of <code>dgmgrl</code> fail the task.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_validation">8. Validation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The rules are checked by the role <code>orasw_meta</code> (<code>roles/orasw_meta/tasks/assert_standby.yml</code>).
+The asserts can be disabled with <code>orasw_meta_assert_db_standby_config: false</code>.</p>
+</div>
+<div class="paragraph">
+<p><code>db_standby_config</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>db_standby_config</code> is a list.</p>
+</li>
+<li>
+<p><code>name</code> is defined and unique in <code>db_standby_config</code>.</p>
+</li>
+<li>
+<p><code>type</code> is defined and has an allowed value.</p>
+</li>
+<li>
+<p>Only the sub-dictionary matching <code>type</code> is defined (<code>dg</code> or <code>dbvisit</code>)
+in the configuration and its members.</p>
+</li>
+<li>
+<p><code>members</code> is a non empty list.</p>
+</li>
+<li>
+<p><code>hosts</code> is a non empty list for each member. Each host exists in the inventory.</p>
+</li>
+<li>
+<p><code>initial_role</code> is <code>primary</code> or <code>physical_standby</code>. Exactly 1 member has <code>initial_role: primary</code>.</p>
+</li>
+<li>
+<p>When the current host is part of a member, at least 1 database in <code>oracle_databases</code>
+references the configuration.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>type: dataguard</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>db_unique_name</code> is defined for each member and unique in the configuration (case insensitive).</p>
+</li>
+<li>
+<p><code>protection_mode</code> is <code>MaxPerformance</code>, <code>MaxAvailability</code> or <code>MaxProtection</code> (case sensitive).</p>
+</li>
+<li>
+<p><code>log_xpt_mode</code> is <code>ASYNC</code>, <code>SYNC</code> or <code>FASTSYNC</code>.</p>
+</li>
+<li>
+<p><code>delay_mins</code> is an integer &gt;= 0.</p>
+</li>
+<li>
+<p><code>MaxAvailability</code> and <code>MaxProtection</code> need <code>SYNC</code> or <code>FASTSYNC</code> for at least 1 member
+with <code>initial_role: physical_standby</code>.</p>
+</li>
+<li>
+<p><code>connect_identifier</code> is defined for each member and exists in <code>oracle_tnsnames_config</code>.</p>
+</li>
+<li>
+<p><code>create_method</code> is <code>rman_duplicate_active</code>, <code>external</code> or <code>custom</code>.
+<code>custom</code> needs <code>create_tasks_file</code> in the member or in the configuration.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>oracle_databases</code> with <code>standby_config</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>dg</code> and <code>dbvisit</code> are not defined.</p>
+</li>
+<li>
+<p><code>standby_config</code> references an existing entry.</p>
+</li>
+<li>
+<p>Exactly 1 member matches the database, see <a href="#_assignment_of_a_database_to_a_member">Assignment of a database to a member</a>.</p>
+</li>
+<li>
+<p><code>type: dataguard</code>: <code>oracle_db_unique_name</code> and <code>listener_name</code> are defined.</p>
+</li>
+<li>
+<p><code>oracle_db_unique_name</code> matches <code>db_unique_name</code> of the member (case insensitive).
+Both default to <code>oracle_db_name</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_example_data_guard_with_2_hosts">9. Example: Data Guard with 2 hosts</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Hosts <code>dbhost1</code> (primary) and <code>dbhost2</code> (standby) are members of the group <code>dg_db1</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">inventory/hosts.yml</div>
+<div class="content">
+<pre>all:
+  children:
+    dg_db1:
+      hosts:
+        dbhost1:
+        dbhost2:</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">inventory/group_vars/dg_db1/standby.yml</div>
+<div class="content">
+<pre>db_standby_config:
+  - name: DG1
+    type: dataguard
+    dg:
+      protection_mode: MaxPerformance
+    members:
+      - hosts: [dbhost1]
+        db_unique_name: DB1_SITE1
+        initial_role: primary
+        dg:
+          connect_identifier: DB1_SITE1
+          log_xpt_mode: ASYNC
+      - hosts: [dbhost2]
+        db_unique_name: DB1_SITE2
+        initial_role: physical_standby
+        dg:
+          connect_identifier: DB1_SITE2
+          log_xpt_mode: ASYNC
+          delay_mins: 0
+
+oracle_tnsnames_config:
+  DB1_SITE1:
+    connect:
+      service_name: DB1_SITE1
+    address:
+      - host: dbhost1
+        port: 1521
+  DB1_SITE2:
+    connect:
+      service_name: DB1_SITE2
+    address:
+      - host: dbhost2
+        port: 1521
+
+tnsnames_installed:
+  - tnsname: DB1_SITE1
+    home: db19-si-ee
+    state: present
+  - tnsname: DB1_SITE2
+    home: db19-si-ee
+    state: present</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">inventory/host_vars/dbhost1/databases.yml</div>
+<div class="content">
+<pre>oracle_databases:
+  - home: db19-si-ee
+    oracle_db_name: DB1
+    oracle_db_unique_name: DB1_SITE1
+    listener_name: LISTENER
+    standby_config: DG1
+    init_parameters:
+      - {name: local_listener, value: &#39;//dbhost1:1521&#39;, scope: both, state: present}
+      - {name: dg_broker_start, value: &#39;TRUE&#39;, scope: both, state: present, dbca: false}
+    # ... other attributes of oracle_databases</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">inventory/host_vars/dbhost2/databases.yml</div>
+<div class="content">
+<pre>oracle_databases:
+  - home: db19-si-ee
+    oracle_db_name: DB1
+    oracle_db_unique_name: DB1_SITE2
+    listener_name: LISTENER
+    standby_config: DG1
+    init_parameters:
+      - {name: local_listener, value: &#39;//dbhost2:1521&#39;, scope: both, state: present}
+      - {name: dg_broker_start, value: &#39;TRUE&#39;, scope: both, state: present, dbca: false}
+    # ... other attributes of oracle_databases</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>listener_name</code> adds a static entry for the instance to <code>listener.ora</code>
+(see <a href="https://github.com/oravirt/ansible-oracle/blob/master/roles/oradb_manage_db/LISTENER.md">LISTENER.md</a>).
+The static entry is needed for RMAN duplicate, because the auxiliary instance is in <code>NOMOUNT</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_open_points">10. Open Points and TODOs</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_open_points_2">10.1. Open Points</h3>
+<div class="paragraph">
+<p>The following points are not decided yet:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Topic</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_db_unique_name</code> in <code>host_vars</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_databases</code> must be placed in <code>host_vars</code>, because <code>oracle_db_unique_name</code> differs per member. Alternative: derive it in <code>orasw_meta</code> from the member. Then <code>oracle_databases</code> could be placed in <code>group_vars</code>, but all roles must use the derived value.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List vs. dictionary</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>db_standby_config</code> is a list with <code>name</code>. <code>oracle_listeners_config</code> and <code>oracle_tnsnames_config</code> are dictionaries.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_todo">10.2. TODO</h3>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p>❏ <strong>Standby redo logs with <code>oradb_manage_redo</code></strong><br/>
+The standby redo logs are created by <code>oradb_standby</code> on the primary database before <code>DUPLICATE</code>
+(number of online redo log groups + 1 per thread, size of the largest online redo log).
+They should be managed by <code>oradb_manage_redo</code> on all members (primary and standby), based on
+<code>redolog_size</code> and <code>redolog_groups</code> in <code>oracle_databases</code>. <code>oradb_manage_redo</code> skips a standby database at the moment.</p>
+</li>
+<li>
+<p>❏ <strong>RMAN backups with <code>oradb_rman</code></strong><br/>
+Backups depending on the current role of the database (e.g. backups on the standby database only),
+archivelog deletion policy <code>APPLIED ON ALL STANDBY</code> / <code>SHIPPED TO ALL STANDBY</code>,
+RMAN configuration (<code>db_unique_name</code> in the RMAN catalog).</p>
+</li>
+<li>
+<p>❏ <strong>Support for Oracle Restart</strong><br/>
+<code>srvctl add database -role PHYSICAL_STANDBY -startoption MOUNT</code> for the standby database,
+SPFile and password file in ASM, no systemd units of <code>oradb_manage_db</code>.
+<code>standby_state.yml</code> and <code>rman_duplicate_active</code> support databases on filesystem without Oracle Restart only.</p>
+</li>
+<li>
+<p>❏ <strong>Management of database services</strong><br/>
+Role based services with <code>oradb_manage_services</code>: services for the role <code>PRIMARY</code> or <code>PHYSICAL_STANDBY</code>
+(<code>srvctl -role</code> with Oracle Restart, a trigger or the broker for databases on filesystem),
+e.g. a service for the application on the primary database only.</p>
+</li>
+<li>
+<p>❏ <strong>Changes of an existing broker configuration</strong><br/>
+<code>dgmgrl.cfg</code> is executed only when no broker configuration exists.
+Changes of properties, protection mode or new members are not applied to an existing configuration.</p>
+</li>
+<li>
+<p>❏ <strong>Out-of-Place Patching</strong><br/>
+<code>switch_home.yml</code> in <code>oradb_manage_db</code> starts the database with <code>startup</code> ⇒ opens a standby database read only.
+Datapatch must run on the primary database only.</p>
+</li>
+<li>
+<p>❏ <strong>RAC</strong><br/>
+Members with more than 1 host (<code>hosts</code>) are allowed by the inventory structure, but not supported by <code>oradb_standby</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">12 - Breaking Changes - Upgrade Guide</h1>
     
 	
 <div class="paragraph">
@@ -9034,7 +9984,7 @@ Entries with <code>sid</code> and without <code>dbca</code> are not passed to db
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">12 - Setup ASM for Oracle Grid Infrastructure / Restart</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">13 - Setup ASM for Oracle Grid Infrastructure / Restart</h1>
     
 	
 <div class="sect1">

@@ -128,8 +128,8 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-06T06:24:06+01:00">
-		<meta property="article:modified_time" content="2026-11-06T06:24:06+01:00">
+		<meta property="article:published_time" content="2026-11-06T19:10:06+01:00">
+		<meta property="article:modified_time" content="2026-11-06T19:10:06+01:00">
 
 	<meta itemprop="name" content="How to develop">
 	<meta itemprop="description" content="1. How to develop in ansible-oracle? Important This is an example how most of the development in ansible-oracle is done.
@@ -184,9 +184,9 @@ Each commit is locally checked against multiple rules, to prevent failures in gi
 This tool is recommended but not mandatory for contributing to ansible-oracle. Install the git hook once (cd into repository before) pre-commit install Important Do not forget to place change files in stage area of git before starting pre-commit.
 pre-commit works only on the data of the stage area! run outside git pre-commit run 1.3.2. ansible-doctor Start ansible-doctor with pre-commit pre-commit run ansible-doctor Start ansible-doctor to create new README.md file cd ansible-oracle # nix-shell .venv/ansible-doctor/bin/ansible-doctor -f -r roles # local Ansible-Controller ~/venv/ansible-doctor/bin/ansible-doctor -f -r roles 1.3.3. Start Playbook Important Don’t forget to set the working branch in requirements.yml.
 Remove/Disable devsec.hardening for faster installation of Ansible collection, when devsec should not be tested. Edit requirements.yml --- collections: # - name: devsec.hardening # version: 8.2.0 - name: https://github.com/Rendanic/ansible-oracle.git type: git version: devbranch Execute ansible-playbook ansible-galaxy collection install --force -r requirements.yml &amp;&amp; ansible-playbook -i inventory/hasfd -e hostgroup=&#39;all&#39; playbooks/single-instance-asm.yml --limit &#39;*19c*&#39;">
-	<meta itemprop="datePublished" content="2026-11-06T06:24:06+01:00">
-	<meta itemprop="dateModified" content="2026-11-06T06:24:06+01:00">
-	<meta itemprop="wordCount" content="6387">
+	<meta itemprop="datePublished" content="2026-11-06T19:10:06+01:00">
+	<meta itemprop="dateModified" content="2026-11-06T19:10:06+01:00">
+	<meta itemprop="wordCount" content="6480">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="How to develop">
 	<meta name="twitter:description" content="1. How to develop in ansible-oracle? Important This is an example how most of the development in ansible-oracle is done.
@@ -338,6 +338,8 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
   <a href="/docs/guides/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
   <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_inventory-li">
+  <a href="/docs/guides/standby_inventory/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_inventory"><span class="">Standby Databases - Inventory Structure</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
   <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
@@ -349,6 +351,10 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
   <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
+  <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
+  <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
   <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
@@ -417,8 +423,6 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
   <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
   <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
-  <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswahf_install-li">
   <a href="/docs/roles/oraswahf_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswahf_install"><span class="">oraswahf_install</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_golden_image-li">
@@ -2005,6 +2009,10 @@ There is no parameter to increase the timeout. Pull container manually before st
 <td class="tableblock halign-left valign-top"><p class="tableblock">Same as <code>dbfs</code> on OL10: Oracle AI Database 26ai with module tests. Requires installation media in /vagrant on local host.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">dataguard</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data Guard on OL10 with Oracle AI Database 26ai: 2 containers <code>dataguard-1</code> (primary) and <code>dataguard-2</code> (standby). Only the primary database is created at the moment. Requires installation media in /vagrant on local host.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">default</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Stage for testing common and orahost roles with different Distributions.</p></td>
 </tr>
@@ -2021,7 +2029,7 @@ There is no parameter to increase the timeout. Pull container manually before st
 <div class="sect2">
 <h3 id="_directory_for_installation_media_and_patches">6.1. Directory for installation media and patches</h3>
 <div class="paragraph">
-<p>The scenarios <code>dbfs</code>, <code>dbfs-ol9</code>, <code>dbfs-ol10</code>, <code>download</code> and <code>golden</code> mount a local directory as <code>/vagrant</code> into the container.
+<p>The scenarios <code>dbfs</code>, <code>dbfs-ol9</code>, <code>dbfs-ol10</code>, <code>dataguard</code>, <code>download</code> and <code>golden</code> mount a local directory as <code>/vagrant</code> into the container.
 The local directory must be defined by <code>MOLECULE_SW_DIR</code>, there is no default. The path inside the container is always <code>/vagrant</code>.</p>
 </div>
 <div class="listingblock">
@@ -2049,10 +2057,17 @@ task --list
 task pull                      # pull container images before the 1st run
 task converge S=dbfs-ol9
 task converge S=dbfs-ol9 -- -vv  # arguments after -- are passed to molecule
+task converge S=dbfs-ol9 C=false # without reinstalling the collection
 task login S=default H=ol9
 task destroy S=dbfs-ol9
 task collection                # reinstall collection after role changes</pre>
 </div>
+</div>
+<div class="paragraph">
+<p><code>task converge</code> and <code>task test</code> install the collection from the repository (<code>task collection</code>) before molecule is started.
+The dependency step of molecule installs the collection only when the version in <code>galaxy.yml</code> has changed.
+Without the installation, changes in <code>plugins/</code> or <code>roles/</code> are not used.
+<code>C=false</code> skips the installation.</p>
 </div>
 <div class="paragraph">
 <p>The tasks are also available from the repository root as <code>task molecule:&lt;task&gt;</code>.</p>
@@ -2240,8 +2255,8 @@ task module-test S=has-ol9 M=oracle_asmdg               # selected modules in ha
 <div class="title">Important</div>
 </td>
 <td class="content">
-<code>molecule side-effect</code> alone does not install the collection, only <code>converge</code> does.<br/>
-Without <code>task collection</code> the tests use the code of the last converge.
+<code>molecule side-effect</code> alone does not install the collection.<br/>
+Without <code>task collection</code> the tests use the code of the last <code>task converge</code> or <code>task collection</code>.
 </td>
 </tr>
 </tbody></table>
@@ -2638,7 +2653,7 @@ docker pull container-registry.oracle.com/database/express:21.3.0-xe</pre>
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 6, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/e4e95cecb28bff0a02e3f7db42bcc4a58c45f926">tools: Claude Code skill /aotest for running molecule tests (e4e95cec)</a>
+  Last modified November 6, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/a2134c3cb5cd53fbac62f8640ef00f2a406e507f">orasw_meta, molecule: inventory structure and asserts for standby databases (a2134c3c)</a>
 </div>
 
 </div>

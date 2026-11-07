@@ -1572,6 +1572,10 @@ There is no parameter to increase the timeout. Pull container manually before st
 <td class="tableblock halign-left valign-top"><p class="tableblock">Same as <code>dbfs</code> on OL10: Oracle AI Database 26ai with module tests. Requires installation media in /vagrant on local host.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">dataguard</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data Guard on OL10 with Oracle AI Database 26ai: 2 containers <code>dataguard-1</code> (primary) and <code>dataguard-2</code> (standby). Only the primary database is created at the moment. Requires installation media in /vagrant on local host.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">default</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Stage for testing common and orahost roles with different Distributions.</p></td>
 </tr>
@@ -1588,7 +1592,7 @@ There is no parameter to increase the timeout. Pull container manually before st
 <div class="sect2">
 <h3 id="_directory_for_installation_media_and_patches">6.1. Directory for installation media and patches</h3>
 <div class="paragraph">
-<p>The scenarios <code>dbfs</code>, <code>dbfs-ol9</code>, <code>dbfs-ol10</code>, <code>download</code> and <code>golden</code> mount a local directory as <code>/vagrant</code> into the container.
+<p>The scenarios <code>dbfs</code>, <code>dbfs-ol9</code>, <code>dbfs-ol10</code>, <code>dataguard</code>, <code>download</code> and <code>golden</code> mount a local directory as <code>/vagrant</code> into the container.
 The local directory must be defined by <code>MOLECULE_SW_DIR</code>, there is no default. The path inside the container is always <code>/vagrant</code>.</p>
 </div>
 <div class="listingblock">
@@ -1616,10 +1620,17 @@ task --list
 task pull                      # pull container images before the 1st run
 task converge S=dbfs-ol9
 task converge S=dbfs-ol9 -- -vv  # arguments after -- are passed to molecule
+task converge S=dbfs-ol9 C=false # without reinstalling the collection
 task login S=default H=ol9
 task destroy S=dbfs-ol9
 task collection                # reinstall collection after role changes</pre>
 </div>
+</div>
+<div class="paragraph">
+<p><code>task converge</code> and <code>task test</code> install the collection from the repository (<code>task collection</code>) before molecule is started.
+The dependency step of molecule installs the collection only when the version in <code>galaxy.yml</code> has changed.
+Without the installation, changes in <code>plugins/</code> or <code>roles/</code> are not used.
+<code>C=false</code> skips the installation.</p>
 </div>
 <div class="paragraph">
 <p>The tasks are also available from the repository root as <code>task molecule:&lt;task&gt;</code>.</p>
@@ -1807,8 +1818,8 @@ task module-test S=has-ol9 M=oracle_asmdg               # selected modules in ha
 <div class="title">Important</div>
 </td>
 <td class="content">
-<code>molecule side-effect</code> alone does not install the collection, only <code>converge</code> does.<br/>
-Without <code>task collection</code> the tests use the code of the last converge.
+<code>molecule side-effect</code> alone does not install the collection.<br/>
+Without <code>task collection</code> the tests use the code of the last <code>task converge</code> or <code>task collection</code>.
 </td>
 </tr>
 </tbody></table>
