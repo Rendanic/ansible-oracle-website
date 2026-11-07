@@ -8822,6 +8822,26 @@ The systemd unit of a database with <code>standby_config</code> uses <code>ORACL
 the database is started in <code>MOUNT</code> and only a <code>PRIMARY</code> database is opened.
 A physical standby database is never opened read only by the autostart (no Active Data Guard).</p>
 </div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Standby databases are supported with the systemd units of <code>oradb_manage_db</code> only
+(<code>autostartup_service_mode: units</code>, default since 5.0.0).</p>
+</div>
+<div class="paragraph">
+<p>The <code>legacy</code> solution (<code>oracle-rdbms.service</code> with <code>dbstart</code>) does not know <code>ORACLE_START_MODE=auto</code>:
+it opens every database, a physical standby database is opened read only
+(Active Data Guard, separate license).</p>
+</div>
+</td>
+</tr>
+</tbody></table>
+</div>
 <div class="paragraph">
 <p><code>oradb_facts</code> stores <code>database_role</code> in <code>oracledb_facts[&lt;db_unique_name&gt;]</code>.
 <code>state</code> is <code>present</code> for a <code>PRIMARY</code> database only and <code>standby</code> for all other roles.
@@ -8903,8 +8923,11 @@ and standby redo logs (number of online redo log groups + 1 per thread, OMF is n
 <div class="ulist">
 <ul>
 <li>
-<p>Password file in <code>orabaseconfig/dbs</code>, PFile (<code>db_name</code> only) in <code>$ORACLE_BASE/admin/&lt;db_unique_name&gt;/pfile/init&lt;SID&gt;_duplicate.ora</code>
+<p>Password file in <code>orabaseconfig/dbs</code>, PFile in <code>$ORACLE_BASE/admin/&lt;db_unique_name&gt;/pfile/init&lt;SID&gt;_duplicate.ora</code>
 (an existing PFile in <code>dbs</code> is not overwritten), instance in <code>NOMOUNT</code>.
+The PFile contains <code>db_name</code> and <code>audit_file_dest</code>, <code>diagnostic_dest</code> from <code>init_parameters</code> (when defined).
+Without them the instance uses the defaults (e.g. <code>$ORACLE_BASE/admin/&lt;db_name&gt;/adump</code>) and the start fails,
+when these directories cannot be written.
 The PFile is kept after <code>DUPLICATE</code> for a manual repeat of RMAN <code>DUPLICATE</code> on the host.</p>
 </li>
 <li>
@@ -8934,7 +8957,9 @@ An empty <code>local_listener</code> registers the instance at the default liste
 </li>
 <li>
 <p>The directories of <code>datafile_dest</code>, <code>recoveryfile_dest</code> and <code>db_create_file_dest</code>, <code>db_create_online_log_dest_n</code>,
-<code>db_recovery_file_dest</code> from <code>init_parameters</code> are created before <code>DUPLICATE</code>.</p>
+<code>db_recovery_file_dest</code>, <code>audit_file_dest</code>, <code>diagnostic_dest</code> from <code>init_parameters</code> are created before <code>NOMOUNT</code>.
+Parameters of the cloned SPFile that are not defined in <code>init_parameters</code> keep the value of the primary
+(after <code>PARAMETER_VALUE_CONVERT</code>): their directories must exist on the standby host.</p>
 </li>
 <li>
 <p>A failed <code>DUPLICATE</code> stops the auxiliary instance and removes the SPFile created by <code>DUPLICATE</code>.
@@ -9052,11 +9077,64 @@ The content depends on the inventory only, not on the current role ⇒ it is ide
 <div class="title">Important</div>
 </td>
 <td class="content">
-<code>dg_broker_start</code> and <code>standby_file_management</code> must be defined in <code>init_parameters</code>
-of all members (<code>state: present</code>, <code>sid: &#39;*&#39;</code>). <code>oradb_standby</code> checks this with an assert:<br/>
-<code>- {name: dg_broker_start, value: &#39;TRUE&#39;, scope: both, state: present, dbca: false}</code><br/>
-<code>- {name: standby_file_management, value: &#39;AUTO&#39;, scope: both, state: present}</code><br/>
-<code>dg_broker_start</code> must be <code>TRUE</code>, the value of <code>standby_file_management</code> is not checked (e.g. <code>MANUAL</code> is allowed).<br/>
+<code>dg_broker_config_file1</code>, <code>dg_broker_config_file2</code>, <code>dg_broker_start</code> and <code>standby_file_management</code>
+must be defined in <code>init_parameters</code> of all members (<code>state: present</code>, <code>sid: &#39;*&#39;</code>).
+<code>orasw_meta</code> checks this with an assert at the start of every play (before <code>oradb_manage_parameters</code>):
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">init_parameters:
+  # before dg_broker_start: the files cannot be changed while the broker is running
+  # read-only ORACLE_HOME: ORACLE_BASE/dbs (location of SPFile and password file)
+  - {name: dg_broker_config_file1, value: &#39;/u01/app/oracle/dbs/dr1&lt;db_unique_name&gt;.dat&#39;, scope: both, state: present, dbca: false}
+  - {name: dg_broker_config_file2, value: &#39;/u01/app/oracle/dbs/dr2&lt;db_unique_name&gt;.dat&#39;, scope: both, state: present, dbca: false}
+  - {name: dg_broker_start, value: &#39;TRUE&#39;, scope: both, state: present, dbca: false}
+  - {name: standby_file_management, value: &#39;AUTO&#39;, scope: both, state: present}</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>dg_broker_config_file1/2</code> must be different and must not be below the <code>ORACLE_HOME</code>:
+the default (<code>$ORACLE_HOME/dbs</code>) is lost with Out-of-Place Patching.
+Recommendation:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>read-only <code>ORACLE_HOME</code>: <code>$ORACLE_BASE/dbs</code> (<code>orabaseconfig</code>, location of SPFile and password file)</p>
+</li>
+<li>
+<p>read-write <code>ORACLE_HOME</code>: <code>$ORACLE_BASE/admin/&lt;db_unique_name&gt;/dgbroker</code> (<code>dbs</code> is below the <code>ORACLE_HOME</code>)</p>
+<div class="literalblock">
+<div class="content">
+<pre>  The directories are created by `oradb_standby`.
+- `dg_broker_start` must be `TRUE`, the value of `standby_file_management` is not checked (e.g. `MANUAL` is allowed).</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+<code>dg_broker_config_file1/2</code> can only be changed while the broker is stopped (<code>dg_broker_start=FALSE</code>),
+otherwise <code>ORA-16573: attempt to change or access configuration file for an enabled broker configuration</code>.<br/>
+<code>oradb_manage_parameters</code> changes the parameters in the order of <code>init_parameters</code>
+⇒ <code>dg_broker_start</code> must <strong>always</strong> be defined <strong>below</strong> <code>dg_broker_config_file1</code> and <code>dg_broker_config_file2</code>
+(checked by the assert in <code>orasw_meta</code>).<br/>
+When the parameters are added to an existing environment with a running broker, the DBA must stop the broker
+on each member before the next run of <code>ansible-oracle</code> (<code>alter system set dg_broker_start=FALSE</code>)
+and copy the existing broker configuration files to the new location, if the configuration should be kept.
 The value is set by <code>oradb_manage_parameters</code> on the primary and on a mounted standby database
 (<code>state: standby</code>), a new standby database gets it with <code>SET</code> in RMAN <code>DUPLICATE</code>.
 <code>oradb_standby</code> executes the file once on the host of the primary database
@@ -9088,7 +9166,159 @@ A warning is shown, when the broker is not available (e.g. <code>dg_broker_start
 </div>
 </div>
 <div class="sect1">
-<h2 id="_validation">8. Validation</h2>
+<h2 id="_role_transitions">8. Role transitions outside of ansible-oracle</h2>
+<div class="sectionbody">
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+This section describes the <strong>planned</strong> behavior. Only the current behavior is implemented.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>Switchover, failover and Fast-Start Failover are usually executed outside of <code>ansible-oracle</code>
+(DBA, broker observer). <code>ansible-oracle</code> must handle the result of a role transition on the next run.</p>
+</div>
+<div class="ulist">
+<div class="title">Current behavior after a failover</div>
+<ul>
+<li>
+<p>The old primary database needs a reinstatement (<code>ORA-16661</code> in the broker configuration).</p>
+</li>
+<li>
+<p><code>oradb_standby</code> does nothing: the database of the old primary has an SPFile and <code>initial_role: primary</code>.</p>
+</li>
+<li>
+<p><code>oradb_manage_db</code> skips <code>oracle_db</code> while the instance of the old primary is running with a role other than <code>PRIMARY</code>.</p>
+</li>
+<li>
+<p><code>oradb_manage_db</code> does not start the systemd unit of a database that is skipped as standby database
+(it may not exist yet or be damaged), a warning is shown when the instance is not running.</p>
+<div class="admonitionblock warning">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+When the instance of the old primary is <strong>not</strong> running, its role is unknown and <code>initial_role</code> is <code>primary</code>
+⇒ <code>oracle_db</code> in <code>oradb_manage_db</code> would start and open the database (split brain).
+<code>oradb_manage_db</code> must check the facts of the other members before <code>oracle_db</code>, see <a href="#_open_points">Open Points and TODOs</a>.
+</td>
+</tr>
+</tbody></table>
+</div>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_case_1_reinstate_automatic_not_destructive">8.1. Case 1: Reinstate (automatic, not destructive)</h3>
+<div class="paragraph">
+<p>The broker reports <code>ORA-16661</code> for a member ⇒ <code>REINSTATE DATABASE &#39;&lt;member&gt;&#39;</code> on the current primary.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Requires Flashback Database on the old primary (<code>flashback: true</code> in <code>oracle_databases</code>).</p>
+</li>
+<li>
+<p>Typical case after a failover, no RMAN <code>DUPLICATE</code> needed.</p>
+</li>
+<li>
+<p>Planned switch: <code>oradb_standby_reinstate</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_case_2_missing_member_automatic_not_destructive">8.2. Case 2: Missing member (automatic, not destructive)</h3>
+<div class="paragraph">
+<p>The database of a member does not exist (e.g. a reinstalled server of the old primary)
+and another member is the <code>PRIMARY</code> (<code>oradb_facts</code>) ⇒ the member is created as standby database,
+independent of <code>initial_role</code>. <code>initial_role</code> is only used for the initial setup (no member is <code>PRIMARY</code>).</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ENABLE DATABASE &#39;&lt;member&gt;&#39;</code> (or <code>ADD DATABASE</code>) in the broker after the creation.</p>
+</li>
+<li>
+<p><code>oradb_manage_db</code> must use the same rule to skip <code>dbca</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_case_3_rebuild_of_an_existing_standby_database_on_request_only_destructive">8.3. Case 3: Rebuild of an existing standby database (on request only, destructive)</h3>
+<div class="paragraph">
+<p>Most frequent case in practice: a reinstatement is not possible (no Flashback Database) or the standby database is damaged.</p>
+</div>
+<div class="paragraph">
+<p>The rebuild is never executed automatically. It is requested at runtime with the <code>db_unique_name</code> of the member,
+never in the inventory (otherwise every run would rebuild the standby database):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>ansible-playbook -i &lt;inventory&gt; playbooks/standby_rebuild.yml -e &#39;{&#34;oradb_standby_rebuild&#34;: [&#34;DB1_SITE1&#34;]}&#39;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The rebuild uses the current creation of a standby database (<code>create_method: rman_duplicate_active</code>).
+<code>create_method: custom</code> is not supported for a rebuild at the moment.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 7. Steps of the rebuild on the host of the member</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Step</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Checks</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The member is not the <code>PRIMARY</code> (local state). Another member is the <code>PRIMARY</code> (<code>oradb_facts</code>). Otherwise the rebuild fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DISABLE DATABASE &#39;&lt;member&gt;&#39;</code> on the primary (no failure, when the member is already disabled, e.g. after a failover).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Autostart</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>systemctl stop oracle-db@&lt;SID&gt;</code> ⇒ no restart by systemd.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Drop</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>shutdown abort</code>, <code>startup mount restrict exclusive</code>, SQL <code>DROP DATABASE</code> (data files, redo logs, control files, SPFile with OMF), remove the broker configuration files (<code>dg_broker_config_file1/2</code>). Backups and archived redo logs are not removed: backups of a standby database are valid for the whole configuration. A database that cannot be mounted (e.g. lost control files or data files) is not dropped: the SPFile and the broker configuration files are removed, a warning lists the remaining files below the file destinations of the member.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The SPFile does not exist ⇒ creation with <code>rman_duplicate_active</code>, see <a href="#_creation_of_a_standby_database">Creation of a standby database</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ENABLE DATABASE &#39;&lt;member&gt;&#39;</code> (or <code>ADD DATABASE</code>) on the primary, check of the member in <code>SHOW CONFIGURATION</code>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The playbook <code>standby_rebuild.yml</code> executes <code>oradb_facts</code> and <code>oradb_standby</code> on all hosts of the configuration only:
+<code>oradb_manage_db</code> is not executed (see the warning above), the hosts of the primary database must be part of the play.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_validation">9. Validation</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The rules are checked by the role <code>orasw_meta</code> (<code>roles/orasw_meta/tasks/assert_standby.yml</code>).
@@ -9178,12 +9408,16 @@ with <code>initial_role: physical_standby</code>.</p>
 <p><code>oracle_db_unique_name</code> matches <code>db_unique_name</code> of the member (case insensitive).
 Both default to <code>oracle_db_name</code>.</p>
 </li>
+<li>
+<p><code>type: dataguard</code>: <code>init_parameters</code> contain <code>dg_broker_config_file1/2</code> (different, not below <code>ORACLE_HOME</code>),
+<code>dg_broker_start=TRUE</code> below both file parameters and <code>standby_file_management</code>.</p>
+</li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_example_data_guard_with_2_hosts">9. Example: Data Guard with 2 hosts</h2>
+<h2 id="_example_data_guard_with_2_hosts">10. Example: Data Guard with 2 hosts</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Hosts <code>dbhost1</code> (primary) and <code>dbhost2</code> (standby) are members of the group <code>dg_db1</code>.</p>
@@ -9256,6 +9490,8 @@ tnsnames_installed:
     standby_config: DG1
     init_parameters:
       - {name: local_listener, value: &#39;//dbhost1:1521&#39;, scope: both, state: present}
+      - {name: dg_broker_config_file1, value: &#39;/u01/app/oracle/dbs/dr1DB1_SITE1.dat&#39;, scope: both, state: present, dbca: false}
+      - {name: dg_broker_config_file2, value: &#39;/u01/app/oracle/dbs/dr2DB1_SITE1.dat&#39;, scope: both, state: present, dbca: false}
       - {name: dg_broker_start, value: &#39;TRUE&#39;, scope: both, state: present, dbca: false}
       - {name: standby_file_management, value: &#39;AUTO&#39;, scope: both, state: present}
     # ... other attributes of oracle_databases</pre>
@@ -9272,6 +9508,8 @@ tnsnames_installed:
     standby_config: DG1
     init_parameters:
       - {name: local_listener, value: &#39;//dbhost2:1521&#39;, scope: both, state: present}
+      - {name: dg_broker_config_file1, value: &#39;/u01/app/oracle/dbs/dr1DB1_SITE2.dat&#39;, scope: both, state: present, dbca: false}
+      - {name: dg_broker_config_file2, value: &#39;/u01/app/oracle/dbs/dr2DB1_SITE2.dat&#39;, scope: both, state: present, dbca: false}
       - {name: dg_broker_start, value: &#39;TRUE&#39;, scope: both, state: present, dbca: false}
       - {name: standby_file_management, value: &#39;AUTO&#39;, scope: both, state: present}
     # ... other attributes of oracle_databases</pre>
@@ -9285,10 +9523,10 @@ The static entry is needed for RMAN duplicate, because the auxiliary instance is
 </div>
 </div>
 <div class="sect1">
-<h2 id="_open_points">10. Open Points and TODOs</h2>
+<h2 id="_open_points">11. Open Points and TODOs</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_open_points_2">10.1. Open Points</h3>
+<h3 id="_open_points_2">11.1. Open Points</h3>
 <div class="paragraph">
 <p>The following points are not decided yet:</p>
 </div>
@@ -9316,7 +9554,7 @@ The static entry is needed for RMAN duplicate, because the auxiliary instance is
 </table>
 </div>
 <div class="sect2">
-<h3 id="_todo">10.2. TODO</h3>
+<h3 id="_todo">11.2. TODO</h3>
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
@@ -9343,6 +9581,21 @@ SPFile and password file in ASM, no systemd units of <code>oradb_manage_db</code
 Role based services with <code>oradb_manage_services</code>: services for the role <code>PRIMARY</code> or <code>PHYSICAL_STANDBY</code>
 (<code>srvctl -role</code> with Oracle Restart, a trigger or the broker for databases on filesystem),
 e.g. a service for the application on the primary database only.</p>
+</li>
+<li>
+<p>❏ <strong>Split brain protection in <code>oradb_manage_db</code></strong><br/>
+<code>oracle_db</code> must not be executed for a member, when another member is the <code>PRIMARY</code> (<code>oradb_facts</code>),
+see <a href="#_role_transitions">Role transitions outside of ansible-oracle</a>.</p>
+</li>
+<li>
+<p>❏ <strong>Reinstate after a failover</strong> (case 1 in <a href="#_role_transitions">Role transitions outside of ansible-oracle</a>), <code>flashback: true</code> in the molecule scenario.</p>
+</li>
+<li>
+<p>❏ <strong>Creation of a missing member independent of <code>initial_role</code></strong> (case 2 in <a href="#_role_transitions">Role transitions outside of ansible-oracle</a>).</p>
+</li>
+<li>
+<p>❏ <strong>Rebuild of a standby database on request</strong> (case 3 in <a href="#_role_transitions">Role transitions outside of ansible-oracle</a>):
+<code>oradb_standby_rebuild</code>, <code>playbooks/standby_rebuild.yml</code>, molecule test: failover, rebuild, switchover back.</p>
 </li>
 <li>
 <p>❏ <strong>Changes of an existing broker configuration</strong><br/>
@@ -11850,7 +12103,9 @@ A change is used without a restart of the database.</p>
 <p>Not set by default. Must be identical on all members of a configuration.
 A database is assigned with <code>standby_config</code> in <code>oracle_databases</code>.</p>
 <p>The inventory structure is described in <code>doc/guides/standby_databases.adoc</code>.</p>
-<p>IMPORTANT! Only the asserts are implemented at the moment.</p>
+<p>Type <code>dataguard</code>: the standby databases and the broker configuration are created
+by the role <code>oradb_standby</code>.</p>
+<p>IMPORTANT! Only the asserts are implemented for type <code>dbvisit</code> at the moment.</p>
 <h4 id="example-usage-3">Example usage</h4>
 <pre><code class="language-YAML">db_standby_config:
   - name: DG1

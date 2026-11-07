@@ -1176,7 +1176,9 @@ A change is used without a restart of the database.</p>
 <p>Not set by default. Must be identical on all members of a configuration.
 A database is assigned with <code>standby_config</code> in <code>oracle_databases</code>.</p>
 <p>The inventory structure is described in <code>doc/guides/standby_databases.adoc</code>.</p>
-<p>IMPORTANT! Only the asserts are implemented at the moment.</p>
+<p>Type <code>dataguard</code>: the standby databases and the broker configuration are created
+by the role <code>oradb_standby</code>.</p>
+<p>IMPORTANT! Only the asserts are implemented for type <code>dbvisit</code> at the moment.</p>
 <h4 id="example-usage-3">Example usage</h4>
 <pre><code class="language-YAML">db_standby_config:
   - name: DG1

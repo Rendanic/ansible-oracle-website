@@ -32,16 +32,16 @@ Table of contents Requirements Default Variables oradb_standby_broker_create ora
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-07T10:46:44+01:00">
-		<meta property="article:modified_time" content="2026-11-07T10:46:44+01:00">
+		<meta property="article:published_time" content="2026-11-07T17:31:09+01:00">
+		<meta property="article:modified_time" content="2026-11-07T17:31:09+01:00">
 
 	<meta itemprop="name" content="oradb_standby">
 	<meta itemprop="description" content="Creates standby databases for the standby configurations in db_standby_config.
 The method for the creation is selected with create_method in db_standby_config:
 rman_duplicate_active: RMAN DUPLICATE ... FOR STANDBY FROM ACTIVE DATABASE (default) external: the standby database is created outside of ansible-oracle custom: tasks file from create_tasks_file The inventory structure is described in doc/guides/standby_databases.adoc.
 Table of contents Requirements Default Variables oradb_standby_broker_create oradb_standby_rman_compressed oradb_standby_rman_logdir oradb_standby_rman_parallel oradb_standby_start_apply Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables oradb_standby_broker_create Create the Data Guard Broker configuration with dgmgrl.cfg on the host of the primary database, when no broker configuration exists and all other members are physical standby databases.">
-	<meta itemprop="datePublished" content="2026-11-07T10:46:44+01:00">
-	<meta itemprop="dateModified" content="2026-11-07T10:46:44+01:00">
+	<meta itemprop="datePublished" content="2026-11-07T17:31:09+01:00">
+	<meta itemprop="dateModified" content="2026-11-07T17:31:09+01:00">
 	<meta itemprop="wordCount" content="202">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="oradb_standby">
@@ -415,7 +415,7 @@ of the standby database.</p>
 </ul>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 7, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/6a3e450de2253a3a4fd869a1b1267fa239ae7d8f">oradb_standby: creation of standby databases and broker configuration (6a3e450d)</a>
+  Last modified November 7, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/07caf26c6df32433d6c624a05cfe02970aff38a4">oradb_standby: creation of standby databases and broker configuration (07caf26c)</a>
 </div>
 
 </div>
