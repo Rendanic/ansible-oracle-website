@@ -8838,7 +8838,7 @@ without a failure of <code>oradb_facts</code>.</p>
 <h2 id="_creation_of_a_standby_database">6. Creation of a standby database</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The role <code>oradb_standby</code> (playbook <code>manage_db.yml</code>, after <code>oradb_manage_db</code>, only when <code>db_standby_config</code> is not empty) creates a missing standby database:
+<p>The role <code>oradb_standby</code> (playbook <code>manage_db.yml</code>, after <code>oradb_manage_parameters</code>, only when <code>db_standby_config</code> is not empty) creates a missing standby database:
 a member with <code>initial_role: physical_standby</code> without an SPFile of the instance.
 An existing database is never changed by <code>oradb_standby</code>.</p>
 </div>
@@ -8885,7 +8885,7 @@ The hosts of the primary database must be part of the play.</p>
 </li>
 <li>
 <p>The primary database is prepared over its <code>connect_identifier</code> (idempotent):
-<code>FORCE LOGGING</code>, <code>standby_file_management=AUTO</code>
+<code>FORCE LOGGING</code>
 and standby redo logs (number of online redo log groups + 1 per thread, OMF is needed).
 <code>log_archive_config</code>, <code>fal_server</code> and <code>log_archive_dest_n</code> are set by the Data Guard Broker (<code>dgmgrl</code>).</p>
 </li>
@@ -8903,7 +8903,9 @@ and standby redo logs (number of online redo log groups + 1 per thread, OMF is n
 <div class="ulist">
 <ul>
 <li>
-<p>Password file and PFile (<code>db_name</code> only) in <code>orabaseconfig/dbs</code>, instance in <code>NOMOUNT</code></p>
+<p>Password file in <code>orabaseconfig/dbs</code>, PFile (<code>db_name</code> only) in <code>$ORACLE_BASE/admin/&lt;db_unique_name&gt;/pfile/init&lt;SID&gt;_duplicate.ora</code>
+(an existing PFile in <code>dbs</code> is not overwritten), instance in <code>NOMOUNT</code>.
+The PFile is kept after <code>DUPLICATE</code> for a manual repeat of RMAN <code>DUPLICATE</code> on the host.</p>
 </li>
 <li>
 <p><code>target</code>: <code>connect_identifier</code> of the primary, <code>auxiliary</code>: <code>//&lt;host&gt;:&lt;port&gt;/&lt;db_unique_name&gt;_DGMGRL</code>
@@ -8939,11 +8941,26 @@ An empty <code>local_listener</code> registers the instance at the default liste
 The next run starts a new <code>DUPLICATE</code>.</p>
 </li>
 <li>
-<p>The RMAN command file contains passwords and is removed after <code>DUPLICATE</code>.
-The logfile is in <code>oradb_standby_rman_logdir</code>.</p>
-</li>
-<li>
-<p>Redo Apply is started after <code>DUPLICATE</code> (<code>oradb_standby_start_apply</code>).</p>
+<p>RMAN script <code>duplicate_&lt;db_unique_name&gt;.rman</code> and shell script <code>duplicate_&lt;db_unique_name&gt;.sh</code>
+in <code>$ORACLE_BASE/admin/&lt;db_unique_name&gt;/pfile</code>, without passwords.
+The shell script reads the SYS password from the environment variable <code>ORADB_STANDBY_SYS_PASSWORD</code>
+(or from stdin, when the variable is not set and stdin is not a terminal)
+and passes the connections with stdin to RMAN (not visible in the process list, <code>connect target *</code> in the logfile).
+Ansible uses the same scripts and passes the password with stdin, because the environment of a task with <code>become</code>
+is visible in the process list. Both files are kept for a manual repeat on the host:</p>
+<div class="listingblock">
+<div class="content">
+<pre>sqlplus / as sysdba &lt;&lt;&lt; &#34;startup nomount pfile=&#39;$ORACLE_BASE/admin/&lt;db_unique_name&gt;/pfile/init&lt;SID&gt;_duplicate.ora&#39;&#34;
+read -rs ORADB_STANDBY_SYS_PASSWORD; export ORADB_STANDBY_SYS_PASSWORD
+$ORACLE_BASE/admin/&lt;db_unique_name&gt;/pfile/duplicate_&lt;db_unique_name&gt;.sh</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  The logfile is in `oradb_standby_rman_logdir`.
+- Redo Apply is started after `DUPLICATE` (`oradb_standby_start_apply`).</pre>
+</div>
+</div>
 </li>
 </ul>
 </div>
@@ -9035,8 +9052,11 @@ The content depends on the inventory only, not on the current role ⇒ it is ide
 <div class="title">Important</div>
 </td>
 <td class="content">
-<code>dg_broker_start</code> must be defined in <code>init_parameters</code> of all members, with <code>dbca: false</code>:<br/>
+<code>dg_broker_start</code> and <code>standby_file_management</code> must be defined in <code>init_parameters</code>
+of all members (<code>state: present</code>, <code>sid: &#39;*&#39;</code>). <code>oradb_standby</code> checks this with an assert:<br/>
 <code>- {name: dg_broker_start, value: &#39;TRUE&#39;, scope: both, state: present, dbca: false}</code><br/>
+<code>- {name: standby_file_management, value: &#39;AUTO&#39;, scope: both, state: present}</code><br/>
+<code>dg_broker_start</code> must be <code>TRUE</code>, the value of <code>standby_file_management</code> is not checked (e.g. <code>MANUAL</code> is allowed).<br/>
 The value is set by <code>oradb_manage_parameters</code> on the primary and on a mounted standby database
 (<code>state: standby</code>), a new standby database gets it with <code>SET</code> in RMAN <code>DUPLICATE</code>.
 <code>oradb_standby</code> executes the file once on the host of the primary database
@@ -9060,7 +9080,10 @@ Otherwise a warning is shown, e.g. for a standby database with <code>create_meth
 </ul>
 </div>
 <div class="paragraph">
-<p>An existing broker configuration is never changed. Lines with <code>Error:</code> in the output of <code>dgmgrl</code> fail the task.</p>
+<p>An existing broker configuration is never changed.
+Errors in the output of <code>dgmgrl</code> (<code>Error:</code>, <code>ORA-</code>, <code>Syntax error</code>, <code>…​ was not found</code>) fail the task,
+all members must be part of the configuration afterwards.
+A warning is shown, when the broker is not available (e.g. <code>dg_broker_start</code> not <code>TRUE</code>).</p>
 </div>
 </div>
 </div>
@@ -9234,6 +9257,7 @@ tnsnames_installed:
     init_parameters:
       - {name: local_listener, value: &#39;//dbhost1:1521&#39;, scope: both, state: present}
       - {name: dg_broker_start, value: &#39;TRUE&#39;, scope: both, state: present, dbca: false}
+      - {name: standby_file_management, value: &#39;AUTO&#39;, scope: both, state: present}
     # ... other attributes of oracle_databases</pre>
 </div>
 </div>
@@ -9249,6 +9273,7 @@ tnsnames_installed:
     init_parameters:
       - {name: local_listener, value: &#39;//dbhost2:1521&#39;, scope: both, state: present}
       - {name: dg_broker_start, value: &#39;TRUE&#39;, scope: both, state: present, dbca: false}
+      - {name: standby_file_management, value: &#39;AUTO&#39;, scope: both, state: present}
     # ... other attributes of oracle_databases</pre>
 </div>
 </div>
@@ -19360,7 +19385,7 @@ There is no parameter to increase the timeout. Pull container manually before st
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">dataguard</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Data Guard on OL10 with Oracle AI Database 26ai: 2 containers <code>dataguard-1</code> (primary) and <code>dataguard-2</code> (standby). Only the primary database is created at the moment. Requires installation media in /vagrant on local host.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data Guard on OL10 with Oracle AI Database 26ai: 2 containers <code>dataguard-1</code> (primary) and <code>dataguard-2</code> (standby created by <code>oradb_standby</code>), broker configuration <code>DG1</code>. Side-effect: switchover tests, see <a href="#dataguard-tests">Data Guard tests</a>. Requires installation media in /vagrant on local host.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">default</p></td>
@@ -19546,7 +19571,42 @@ molecule test -s golden</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="module-tests">6.7. Module tests</h3>
+<h3 id="dataguard-tests">6.7. Data Guard tests</h3>
+<div class="paragraph">
+<p>The side-effect of the scenario <code>dataguard</code> tests the Data Guard configuration created by <code>converge</code>
+(<code>extensions/molecule/dataguard/side_effect.yml</code>, tasks in <code>extensions/molecule/dataguard/tasks</code>):</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Initial state: broker configuration <code>SUCCESS</code>, <code>DB1_SITE1</code> primary (<code>READ WRITE</code>), <code>DB1_SITE2</code> physical standby (<code>MOUNTED</code>)</p>
+</li>
+<li>
+<p><code>VALIDATE DATABASE</code> (repeated until <code>Ready for Switchover: Yes</code>) and switchover to <code>DB1_SITE2</code></p>
+</li>
+<li>
+<p>Roles after the switchover, tempfiles of all temporary tablespaces of the new primary
+(RMAN <code>DUPLICATE</code> does not copy tempfiles, they are created when the standby is opened as primary)</p>
+</li>
+<li>
+<p>Switchover back to <code>DB1_SITE1</code>, roles and tempfiles</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cd extensions
+task side-effect S=dataguard</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The tests connect with <code>dgmgrl</code> and <code>sqlplus</code> from <code>dataguard-1</code> with the connect identifiers of <code>db_standby_config</code>,
+the SYS password is passed with stdin (<code>no_log</code>).
+After a failed test the configuration may stay switched over: the next run expects <code>DB1_SITE1</code> as primary.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="module-tests">6.8. Module tests</h3>
 <div class="paragraph">
 <p>The side-effect of the scenarios <code>dbfs</code>, <code>dbfs-ol10</code> and <code>has-ol9</code> tests the modules of <code>opitzconsulting.ansible_oracle</code> against an existing database.
 The tests are shared by the scenarios in <code>extensions/molecule/shared_config/module_tests</code>, only the scenario specific variables are in <code>&lt;scenario&gt;/module_tests.yml</code>.</p>
@@ -19581,7 +19641,7 @@ The tests are shared by the scenarios in <code>extensions/molecule/shared_config
 <p>The database is created once with <code>converge</code>, the tests can be repeated as often as needed.</p>
 </div>
 <div class="sect3">
-<h4 id="_usage_2">6.7.1. Usage</h4>
+<h4 id="_usage_2">6.8.1. Usage</h4>
 <div class="listingblock">
 <div class="content">
 <pre>cd extensions
@@ -19617,7 +19677,7 @@ Changes in <code>plugins/</code> or <code>roles/</code> are not used until the c
 </div>
 </div>
 <div class="sect3">
-<h4 id="_structure">6.7.2. Structure</h4>
+<h4 id="_structure">6.8.2. Structure</h4>
 <div class="paragraph">
 <p><code>&lt;scenario&gt;/side_effect.yml</code> imports <code>shared_config/module_tests/module_tests.yml</code>.
 The playbook loads <code>vars.yml</code>, <code>known_bugs.yml</code> and <code>&lt;scenario&gt;/module_tests.yml</code> (found with <code>MOLECULE_SCENARIO_DIRECTORY</code>).</p>
@@ -19722,7 +19782,7 @@ The playbook loads <code>vars.yml</code>, <code>known_bugs.yml</code> and <code>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_result_of_a_test_run">6.7.3. Result of a test run</h4>
+<h4 id="_result_of_a_test_run">6.8.3. Result of a test run</h4>
 <div class="paragraph">
 <p>A failed check does not stop the test run, the play fails at the end (<code>Assert that all checks passed</code>).</p>
 </div>
@@ -19795,7 +19855,7 @@ diff molecule/dbfs/module_tests_results/before.json molecule/dbfs/module_tests_r
 </div>
 </div>
 <div class="sect3">
-<h4 id="_known_bugs">6.7.4. Known bugs</h4>
+<h4 id="_known_bugs">6.8.4. Known bugs</h4>
 <div class="paragraph">
 <p><code>known_bugs.yml</code> (<code>mt_known_bugs_common</code>) contains the ids of checks that fail because of a known bug in a module in all scenarios.
 Bugs that depend on the environment (database version, Grid Infrastructure) are in <code>mt_known_bugs_scenario</code> in <code>&lt;scenario&gt;/module_tests.yml</code>.</p>
@@ -19806,7 +19866,7 @@ A check from these lists that passes is reported as <code>KNOWN BUGS NOT REPRODU
 </div>
 </div>
 <div class="sect3">
-<h4 id="_conventions_for_a_module_test">6.7.5. Conventions for a module test</h4>
+<h4 id="_conventions_for_a_module_test">6.8.5. Conventions for a module test</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -19874,7 +19934,7 @@ Every module test uses the wallet and sysdba at least once.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="claude-aotest">6.8. Run molecule tests with Claude Code</h3>
+<h3 id="claude-aotest">6.9. Run molecule tests with Claude Code</h3>
 <div class="paragraph">
 <p><code>tools/claude/skills/aotest</code> contains the skill <code>/aotest</code> for <a href="https://claude.com/claude-code">Claude Code</a>.
 It runs the molecule actions of <code>extensions/Taskfile.yml</code> inside <code>nix-shell</code> and reports the result.</p>
@@ -19965,7 +20025,7 @@ Invoking <code>/aotest</code> allows Claude to run the requested actions, includ
 </div>
 </div>
 <div class="sect2">
-<h3 id="_oracle_xe_not_used_at_the_moment">6.9. Oracle XE (not used at the moment!)</h3>
+<h3 id="_oracle_xe_not_used_at_the_moment">6.10. Oracle XE (not used at the moment!)</h3>
 <div class="admonitionblock important">
 <table>
 <tbody><tr>

@@ -32,17 +32,17 @@ Dbvisit StandbyMP (type: dbvisit) - reserved, not planned for the first implemen
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-07T07:31:02+01:00">
-		<meta property="article:modified_time" content="2026-11-07T07:31:02+01:00">
+		<meta property="article:published_time" content="2026-11-07T10:46:44+01:00">
+		<meta property="article:modified_time" content="2026-11-07T10:46:44+01:00">
 
 	<meta itemprop="name" content="Standby Databases">
 	<meta itemprop="description" content="Important Standby databases are experimental in ansible-oracle (Issue #65).
 Implemented: inventory structure with asserts, creation of a physical standby database and of the Data Guard Broker configuration (role oradb_standby). See Open Points and TODOs for missing features. Variable names and attributes may change. The inventory structure is shared by different standby technologies:
 Oracle Data Guard (type: dataguard)
 Dbvisit StandbyMP (type: dbvisit) - reserved, not planned for the first implementation">
-	<meta itemprop="datePublished" content="2026-11-07T07:31:02+01:00">
-	<meta itemprop="dateModified" content="2026-11-07T07:31:02+01:00">
-	<meta itemprop="wordCount" content="2512">
+	<meta itemprop="datePublished" content="2026-11-07T10:46:44+01:00">
+	<meta itemprop="dateModified" content="2026-11-07T10:46:44+01:00">
+	<meta itemprop="wordCount" content="2714">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Standby Databases">
 	<meta name="twitter:description" content="Important Standby databases are experimental in ansible-oracle (Issue #65).
@@ -750,7 +750,7 @@ without a failure of <code>oradb_facts</code>.</p>
 <h2 id="_creation_of_a_standby_database">6. Creation of a standby database</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The role <code>oradb_standby</code> (playbook <code>manage_db.yml</code>, after <code>oradb_manage_db</code>, only when <code>db_standby_config</code> is not empty) creates a missing standby database:
+<p>The role <code>oradb_standby</code> (playbook <code>manage_db.yml</code>, after <code>oradb_manage_parameters</code>, only when <code>db_standby_config</code> is not empty) creates a missing standby database:
 a member with <code>initial_role: physical_standby</code> without an SPFile of the instance.
 An existing database is never changed by <code>oradb_standby</code>.</p>
 </div>
@@ -797,7 +797,7 @@ The hosts of the primary database must be part of the play.</p>
 </li>
 <li>
 <p>The primary database is prepared over its <code>connect_identifier</code> (idempotent):
-<code>FORCE LOGGING</code>, <code>standby_file_management=AUTO</code>
+<code>FORCE LOGGING</code>
 and standby redo logs (number of online redo log groups + 1 per thread, OMF is needed).
 <code>log_archive_config</code>, <code>fal_server</code> and <code>log_archive_dest_n</code> are set by the Data Guard Broker (<code>dgmgrl</code>).</p>
 </li>
@@ -815,7 +815,9 @@ and standby redo logs (number of online redo log groups + 1 per thread, OMF is n
 <div class="ulist">
 <ul>
 <li>
-<p>Password file and PFile (<code>db_name</code> only) in <code>orabaseconfig/dbs</code>, instance in <code>NOMOUNT</code></p>
+<p>Password file in <code>orabaseconfig/dbs</code>, PFile (<code>db_name</code> only) in <code>$ORACLE_BASE/admin/&lt;db_unique_name&gt;/pfile/init&lt;SID&gt;_duplicate.ora</code>
+(an existing PFile in <code>dbs</code> is not overwritten), instance in <code>NOMOUNT</code>.
+The PFile is kept after <code>DUPLICATE</code> for a manual repeat of RMAN <code>DUPLICATE</code> on the host.</p>
 </li>
 <li>
 <p><code>target</code>: <code>connect_identifier</code> of the primary, <code>auxiliary</code>: <code>//&lt;host&gt;:&lt;port&gt;/&lt;db_unique_name&gt;_DGMGRL</code>
@@ -851,11 +853,26 @@ An empty <code>local_listener</code> registers the instance at the default liste
 The next run starts a new <code>DUPLICATE</code>.</p>
 </li>
 <li>
-<p>The RMAN command file contains passwords and is removed after <code>DUPLICATE</code>.
-The logfile is in <code>oradb_standby_rman_logdir</code>.</p>
-</li>
-<li>
-<p>Redo Apply is started after <code>DUPLICATE</code> (<code>oradb_standby_start_apply</code>).</p>
+<p>RMAN script <code>duplicate_&lt;db_unique_name&gt;.rman</code> and shell script <code>duplicate_&lt;db_unique_name&gt;.sh</code>
+in <code>$ORACLE_BASE/admin/&lt;db_unique_name&gt;/pfile</code>, without passwords.
+The shell script reads the SYS password from the environment variable <code>ORADB_STANDBY_SYS_PASSWORD</code>
+(or from stdin, when the variable is not set and stdin is not a terminal)
+and passes the connections with stdin to RMAN (not visible in the process list, <code>connect target *</code> in the logfile).
+Ansible uses the same scripts and passes the password with stdin, because the environment of a task with <code>become</code>
+is visible in the process list. Both files are kept for a manual repeat on the host:</p>
+<div class="listingblock">
+<div class="content">
+<pre>sqlplus / as sysdba &lt;&lt;&lt; &#34;startup nomount pfile=&#39;$ORACLE_BASE/admin/&lt;db_unique_name&gt;/pfile/init&lt;SID&gt;_duplicate.ora&#39;&#34;
+read -rs ORADB_STANDBY_SYS_PASSWORD; export ORADB_STANDBY_SYS_PASSWORD
+$ORACLE_BASE/admin/&lt;db_unique_name&gt;/pfile/duplicate_&lt;db_unique_name&gt;.sh</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  The logfile is in `oradb_standby_rman_logdir`.
+- Redo Apply is started after `DUPLICATE` (`oradb_standby_start_apply`).</pre>
+</div>
+</div>
 </li>
 </ul>
 </div>
@@ -947,8 +964,11 @@ The content depends on the inventory only, not on the current role ⇒ it is ide
 <div class="title">Important</div>
 </td>
 <td class="content">
-<code>dg_broker_start</code> must be defined in <code>init_parameters</code> of all members, with <code>dbca: false</code>:<br/>
+<code>dg_broker_start</code> and <code>standby_file_management</code> must be defined in <code>init_parameters</code>
+of all members (<code>state: present</code>, <code>sid: &#39;*&#39;</code>). <code>oradb_standby</code> checks this with an assert:<br/>
 <code>- {name: dg_broker_start, value: &#39;TRUE&#39;, scope: both, state: present, dbca: false}</code><br/>
+<code>- {name: standby_file_management, value: &#39;AUTO&#39;, scope: both, state: present}</code><br/>
+<code>dg_broker_start</code> must be <code>TRUE</code>, the value of <code>standby_file_management</code> is not checked (e.g. <code>MANUAL</code> is allowed).<br/>
 The value is set by <code>oradb_manage_parameters</code> on the primary and on a mounted standby database
 (<code>state: standby</code>), a new standby database gets it with <code>SET</code> in RMAN <code>DUPLICATE</code>.
 <code>oradb_standby</code> executes the file once on the host of the primary database
@@ -972,7 +992,10 @@ Otherwise a warning is shown, e.g. for a standby database with <code>create_meth
 </ul>
 </div>
 <div class="paragraph">
-<p>An existing broker configuration is never changed. Lines with <code>Error:</code> in the output of <code>dgmgrl</code> fail the task.</p>
+<p>An existing broker configuration is never changed.
+Errors in the output of <code>dgmgrl</code> (<code>Error:</code>, <code>ORA-</code>, <code>Syntax error</code>, <code>…​ was not found</code>) fail the task,
+all members must be part of the configuration afterwards.
+A warning is shown, when the broker is not available (e.g. <code>dg_broker_start</code> not <code>TRUE</code>).</p>
 </div>
 </div>
 </div>
@@ -1146,6 +1169,7 @@ tnsnames_installed:
     init_parameters:
       - {name: local_listener, value: &#39;//dbhost1:1521&#39;, scope: both, state: present}
       - {name: dg_broker_start, value: &#39;TRUE&#39;, scope: both, state: present, dbca: false}
+      - {name: standby_file_management, value: &#39;AUTO&#39;, scope: both, state: present}
     # ... other attributes of oracle_databases</pre>
 </div>
 </div>
@@ -1161,6 +1185,7 @@ tnsnames_installed:
     init_parameters:
       - {name: local_listener, value: &#39;//dbhost2:1521&#39;, scope: both, state: present}
       - {name: dg_broker_start, value: &#39;TRUE&#39;, scope: both, state: present, dbca: false}
+      - {name: standby_file_management, value: &#39;AUTO&#39;, scope: both, state: present}
     # ... other attributes of oracle_databases</pre>
 </div>
 </div>
@@ -1252,7 +1277,7 @@ Members with more than 1 host (<code>hosts</code>) are allowed by the inventory 
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 7, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/52f0e991f42fc86117b710adc7387a9d5696328b">WIP: oradb_standby - standby creation and broker configuration (52f0e991)</a>
+  Last modified November 7, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/6a3e450de2253a3a4fd869a1b1267fa239ae7d8f">oradb_standby: creation of standby databases and broker configuration (6a3e450d)</a>
 </div>
 
 </div>
