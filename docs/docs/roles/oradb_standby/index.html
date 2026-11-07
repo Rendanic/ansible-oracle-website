@@ -20,34 +20,34 @@
 <title>oradb_standby | ansible-oracle Project</title>
 <meta name="description" content="Creates standby databases for the standby configurations in db_standby_config.
 The method for the creation is selected with create_method in db_standby_config:
-rman_duplicate_active: RMAN DUPLICATE ... FOR STANDBY FROM ACTIVE DATABASE (default) external: the standby database is created outside of ansible-oracle custom: tasks file from create_tasks_file The inventory structure is described in doc/guides/standby_inventory.adoc.
+rman_duplicate_active: RMAN DUPLICATE ... FOR STANDBY FROM ACTIVE DATABASE (default) external: the standby database is created outside of ansible-oracle custom: tasks file from create_tasks_file The inventory structure is described in doc/guides/standby_databases.adoc.
 Table of contents Requirements Default Variables oradb_standby_broker_create oradb_standby_rman_compressed oradb_standby_rman_logdir oradb_standby_rman_parallel oradb_standby_start_apply Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables oradb_standby_broker_create Create the Data Guard Broker configuration with dgmgrl.cfg on the host of the primary database, when no broker configuration exists and all other members are physical standby databases.">
 <meta property="og:url" content="https://www.ansible-oracle.eu/docs/roles/oradb_standby/">
 	<meta property="og:site_name" content="ansible-oracle Project">
 	<meta property="og:title" content="oradb_standby">
 	<meta property="og:description" content="Creates standby databases for the standby configurations in db_standby_config.
 The method for the creation is selected with create_method in db_standby_config:
-rman_duplicate_active: RMAN DUPLICATE ... FOR STANDBY FROM ACTIVE DATABASE (default) external: the standby database is created outside of ansible-oracle custom: tasks file from create_tasks_file The inventory structure is described in doc/guides/standby_inventory.adoc.
+rman_duplicate_active: RMAN DUPLICATE ... FOR STANDBY FROM ACTIVE DATABASE (default) external: the standby database is created outside of ansible-oracle custom: tasks file from create_tasks_file The inventory structure is described in doc/guides/standby_databases.adoc.
 Table of contents Requirements Default Variables oradb_standby_broker_create oradb_standby_rman_compressed oradb_standby_rman_logdir oradb_standby_rman_parallel oradb_standby_start_apply Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables oradb_standby_broker_create Create the Data Guard Broker configuration with dgmgrl.cfg on the host of the primary database, when no broker configuration exists and all other members are physical standby databases.">
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-07T07:05:24+01:00">
-		<meta property="article:modified_time" content="2026-11-07T07:05:24+01:00">
+		<meta property="article:published_time" content="2026-11-07T07:31:02+01:00">
+		<meta property="article:modified_time" content="2026-11-07T07:31:02+01:00">
 
 	<meta itemprop="name" content="oradb_standby">
 	<meta itemprop="description" content="Creates standby databases for the standby configurations in db_standby_config.
 The method for the creation is selected with create_method in db_standby_config:
-rman_duplicate_active: RMAN DUPLICATE ... FOR STANDBY FROM ACTIVE DATABASE (default) external: the standby database is created outside of ansible-oracle custom: tasks file from create_tasks_file The inventory structure is described in doc/guides/standby_inventory.adoc.
+rman_duplicate_active: RMAN DUPLICATE ... FOR STANDBY FROM ACTIVE DATABASE (default) external: the standby database is created outside of ansible-oracle custom: tasks file from create_tasks_file The inventory structure is described in doc/guides/standby_databases.adoc.
 Table of contents Requirements Default Variables oradb_standby_broker_create oradb_standby_rman_compressed oradb_standby_rman_logdir oradb_standby_rman_parallel oradb_standby_start_apply Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables oradb_standby_broker_create Create the Data Guard Broker configuration with dgmgrl.cfg on the host of the primary database, when no broker configuration exists and all other members are physical standby databases.">
-	<meta itemprop="datePublished" content="2026-11-07T07:05:24+01:00">
-	<meta itemprop="dateModified" content="2026-11-07T07:05:24+01:00">
+	<meta itemprop="datePublished" content="2026-11-07T07:31:02+01:00">
+	<meta itemprop="dateModified" content="2026-11-07T07:31:02+01:00">
 	<meta itemprop="wordCount" content="202">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="oradb_standby">
 	<meta name="twitter:description" content="Creates standby databases for the standby configurations in db_standby_config.
 The method for the creation is selected with create_method in db_standby_config:
-rman_duplicate_active: RMAN DUPLICATE ... FOR STANDBY FROM ACTIVE DATABASE (default) external: the standby database is created outside of ansible-oracle custom: tasks file from create_tasks_file The inventory structure is described in doc/guides/standby_inventory.adoc.
+rman_duplicate_active: RMAN DUPLICATE ... FOR STANDBY FROM ACTIVE DATABASE (default) external: the standby database is created outside of ansible-oracle custom: tasks file from create_tasks_file The inventory structure is described in doc/guides/standby_databases.adoc.
 Table of contents Requirements Default Variables oradb_standby_broker_create oradb_standby_rman_compressed oradb_standby_rman_logdir oradb_standby_rman_parallel oradb_standby_start_apply Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables oradb_standby_broker_create Create the Data Guard Broker configuration with dgmgrl.cfg on the host of the primary database, when no broker configuration exists and all other members are physical standby databases.">
 
 
@@ -146,8 +146,8 @@ Table of contents Requirements Default Variables oradb_standby_broker_create ora
   <a href="/docs/guides/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
   <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_inventory-li">
-  <a href="/docs/guides/standby_inventory/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_inventory"><span class="">Standby Databases - Inventory Structure</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_databases-li">
+  <a href="/docs/guides/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="">Standby Databases</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
   <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
@@ -161,10 +161,10 @@ Table of contents Requirements Default Variables oradb_standby_broker_create ora
   <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesoradb_standby-li">
   <a href="/docs/roles/oradb_standby/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="td-sidebar-nav-active-item">oradb_standby</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
-  <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
   <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
+  <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
   <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
@@ -346,7 +346,7 @@ Table of contents Requirements Default Variables oradb_standby_broker_create ora
 <li><code>external</code>: the standby database is created outside of <code>ansible-oracle</code></li>
 <li><code>custom</code>: tasks file from <code>create_tasks_file</code></li>
 </ul>
-<p>The inventory structure is described in <code>doc/guides/standby_inventory.adoc</code>.</p>
+<p>The inventory structure is described in <code>doc/guides/standby_databases.adoc</code>.</p>
 <h2 id="table-of-contents">Table of contents</h2>
 <ul>
 <li><a href="#requirements">Requirements</a></li>
@@ -415,7 +415,7 @@ of the standby database.</p>
 </ul>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 7, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/68a3027b3bb92350efa21f44ed4fbcb14d714e07">WIP: oradb_standby - standby creation and broker configuration (68a3027b)</a>
+  Last modified November 7, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/52f0e991f42fc86117b710adc7387a9d5696328b">WIP: oradb_standby - standby creation and broker configuration (52f0e991)</a>
 </div>
 
 </div>

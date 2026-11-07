@@ -133,7 +133,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>3: <a href="#pg-df389f0fd67da23712005b22d5d20abf">orasw_meta_internal</a></li>
+<li>3: <a href="#pg-df389f0fd67da23712005b22d5d20abf">orasw_meta</a></li>
 
 
     
@@ -141,7 +141,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>4: <a href="#pg-df389f0fd67da23712005b22d5d20abf">orasw_meta</a></li>
+<li>4: <a href="#pg-df389f0fd67da23712005b22d5d20abf">orasw_meta_internal</a></li>
 
 
     
@@ -792,7 +792,7 @@ See <a class="bare" href="https://python-oracledb.readthedocs.io/">https://pytho
 <li><code>external</code>: the standby database is created outside of <code>ansible-oracle</code></li>
 <li><code>custom</code>: tasks file from <code>create_tasks_file</code></li>
 </ul>
-<p>The inventory structure is described in <code>doc/guides/standby_inventory.adoc</code>.</p>
+<p>The inventory structure is described in <code>doc/guides/standby_databases.adoc</code>.</p>
 <h2 id="table-of-contents">Table of contents</h2>
 <ul>
 <li><a href="#requirements">Requirements</a></li>
@@ -874,418 +874,7 @@ of the standby database.</p>
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3 - orasw_meta_internal</h1>
-    
-	<p>Meta role used to store internal variables from <code>ansible-oracle</code>.</p>
-<p>Do not use any of the variables in your inventory!</p>
-<p>This will create issues and problems in <code>ansible-oracle</code> and is not supported.</p>
-<h2 id="table-of-contents">Table of contents</h2>
-<ul>
-<li><a href="#requirements">Requirements</a></li>
-<li><a href="#default-variables">Default Variables</a>
-<ul>
-<li><a href="#_db_password_cdb">_db_password_cdb</a></li>
-<li><a href="#_db_password_pdb">_db_password_pdb</a></li>
-<li><a href="#_db_service_name">_db_service_name</a></li>
-<li><a href="#_db_service_pdb">_db_service_pdb</a></li>
-<li><a href="#_db_unique_name_for_pdb">_db_unique_name_for_pdb</a></li>
-<li><a href="#_grid_env">_grid_env</a></li>
-<li><a href="#_listener_port_cdb">_listener_port_cdb</a></li>
-<li><a href="#_listener_port_pdb">_listener_port_pdb</a></li>
-<li><a href="#_odb_loop_helper">_odb_loop_helper</a></li>
-<li><a href="#_odb_standby_config">_odb_standby_config</a></li>
-<li><a href="#_odb_standby_create_method">_odb_standby_create_method</a></li>
-<li><a href="#_odb_standby_member">_odb_standby_member</a></li>
-<li><a href="#_odb_standby_others">_odb_standby_others</a></li>
-<li><a href="#_opdb_home">_opdb_home</a></li>
-<li><a href="#_opdb_loop_helper">_opdb_loop_helper</a></li>
-<li><a href="#_oracle_all_editions_options">_oracle_all_editions_options</a></li>
-<li><a href="#_oracle_db_instance_name">_oracle_db_instance_name</a></li>
-<li><a href="#_oracle_db_unique_name">_oracle_db_unique_name</a></li>
-<li><a href="#_oracle_ee_opiton_dict">_oracle_ee_opiton_dict</a></li>
-<li><a href="#_oracle_env">_oracle_env</a></li>
-<li><a href="#_oracle_env_pdb">_oracle_env_pdb</a></li>
-<li><a href="#_oracle_home_db">_oracle_home_db</a></li>
-<li><a href="#_oracle_home_db_pdb">_oracle_home_db_pdb</a></li>
-<li><a href="#_orasw_meta_standby_sid">_orasw_meta_standby_sid</a></li>
-<li><a href="#cluster_master">cluster_master</a></li>
-<li><a href="#db_mode">db_mode</a></li>
-<li><a href="#db_password">db_password</a></li>
-<li><a href="#db_service_name">db_service_name</a></li>
-<li><a href="#db_user">db_user</a></li>
-<li><a href="#db_version">db_version</a></li>
-<li><a href="#grid_env">grid_env</a></li>
-<li><a href="#listener_home">listener_home</a></li>
-<li><a href="#listener_port_template">listener_port_template</a></li>
-<li><a href="#listener_protocols">listener_protocols</a></li>
-<li><a href="#ocm_response_file">ocm_response_file</a></li>
-<li><a href="#oracle_all_editions_options">oracle_all_editions_options</a></li>
-<li><a href="#oracle_env">oracle_env</a></li>
-<li><a href="#oracle_env_lsnrctl">oracle_env_lsnrctl</a></li>
-<li><a href="#oracle_home_db">oracle_home_db</a></li>
-<li><a href="#oracle_home_gi">oracle_home_gi</a></li>
-<li><a href="#oracle_patch_install">oracle_patch_install</a></li>
-<li><a href="#oracle_patch_stage">oracle_patch_stage</a></li>
-<li><a href="#oracle_patch_stage_remote">oracle_patch_stage_remote</a></li>
-<li><a href="#oracle_stage_install">oracle_stage_install</a></li>
-<li><a href="#oracle_sw_copy">oracle_sw_copy</a></li>
-<li><a href="#oracle_sw_extract_path">oracle_sw_extract_path</a></li>
-<li><a href="#oracle_sw_unpack">oracle_sw_unpack</a></li>
-</ul>
-</li>
-<li><a href="#dependencies">Dependencies</a></li>
-<li><a href="#license">License</a></li>
-<li><a href="#author">Author</a></li>
-</ul>
-<hr>
-<h2 id="requirements">Requirements</h2>
-<ul>
-<li>Minimum Ansible version: <code>2.16.0</code></li>
-</ul>
-<h2 id="default-variables">Default Variables</h2>
-<h3 id="_db_password_cdb">_db_password_cdb</h3>
-<p>The variable is internal used only.</p>
-<p>Do not set it in inventory!</p>
-<h4 id="default-value">Default value</h4>
-<pre><code class="language-YAML">_db_password_cdb: _internal_used_
-</code></pre>
-<h3 id="_db_password_pdb">_db_password_pdb</h3>
-<p>The variable is internal used only.</p>
-<p>Do not set it in inventory!</p>
-<h4 id="default-value-1">Default value</h4>
-<pre><code class="language-YAML">_db_password_pdb: _internal_used_
-</code></pre>
-<h3 id="_db_service_name">_db_service_name</h3>
-<p>The variable is internal used only.</p>
-<p>Do not set it in inventory!</p>
-<h4 id="default-value-2">Default value</h4>
-<pre><code class="language-YAML">_db_service_name: _internal_used_
-</code></pre>
-<h3 id="_db_service_pdb">_db_service_pdb</h3>
-<p>The variable is internal used only.</p>
-<p>Do not set it in inventory!</p>
-<p>Get the service_name for a PDB.</p>
-<p>Requires <code>opdb</code> as <code>loop_var</code>.</p>
-<h4 id="default-value-3">Default value</h4>
-<pre><code class="language-YAML">_db_service_pdb: _internal_used_
-</code></pre>
-<h3 id="_db_unique_name_for_pdb">_db_unique_name_for_pdb</h3>
-<p>The variable is internal used only.</p>
-<p>Do not set it in inventory!</p>
-<p>get db_unique_name from CDB for current pdb
-Requires <code>opdb</code> as <code>loop_var</code>.</p>
-<h4 id="default-value-4">Default value</h4>
-<pre><code class="language-YAML">_db_unique_name_for_pdb: _internal_used_
-</code></pre>
-<h3 id="_grid_env">_grid_env</h3>
-<p>The variable is used for shell, command tasks to set environment Variables.</p>
-<p>Do not set it in inventory!</p>
-<h4 id="default-value-5">Default value</h4>
-<pre><code class="language-YAML">_grid_env:
-  ORACLE_HOME: '{{ oracle_home_gi }}'
-  LD_LIBRARY_PATH: '{{ oracle_home_gi }}/lib'
-</code></pre>
-<h3 id="_listener_port_cdb">_listener_port_cdb</h3>
-<p>The variable is internal used only.</p>
-<p>Do not set it in inventory!</p>
-<h4 id="default-value-6">Default value</h4>
-<pre><code class="language-YAML">_listener_port_cdb: _internal_used_
-</code></pre>
-<h3 id="_listener_port_pdb">_listener_port_pdb</h3>
-<p>The variable is internal used only.</p>
-<p>Do not set it in inventory!</p>
-<h4 id="default-value-7">Default value</h4>
-<pre><code class="language-YAML">_listener_port_pdb: _internal_used_
-</code></pre>
-<h3 id="_odb_loop_helper">_odb_loop_helper</h3>
-<p>The variable is internal used only.</p>
-<p>Do not set it in inventory!</p>
-<h4 id="default-value-8">Default value</h4>
-<pre><code class="language-YAML">_odb_loop_helper: _internal_used_
-</code></pre>
-<h3 id="_odb_standby_config">_odb_standby_config</h3>
-<p>The variable is internal used only.</p>
-<p>Do not set it in inventory!</p>
-<p>Entry of <code>db_standby_config</code> referenced by <code>standby_config</code> of the current database
-(<code>_odb_loop_helper</code>). Empty dictionary for a database without <code>standby_config</code>.</p>
-<h4 id="default-value-9">Default value</h4>
-<pre><code class="language-YAML">_odb_standby_config: _internal_used_
-</code></pre>
-<h3 id="_odb_standby_create_method">_odb_standby_create_method</h3>
-<p>The variable is internal used only.</p>
-<p>Do not set it in inventory!</p>
-<p>Method for the creation of the standby database of the current member:
-<code>create_method</code> of the member, of the configuration or <code>rman_duplicate_active</code>.</p>
-<h4 id="default-value-10">Default value</h4>
-<pre><code class="language-YAML">_odb_standby_create_method: _internal_used_
-</code></pre>
-<h3 id="_odb_standby_member">_odb_standby_member</h3>
-<p>The variable is internal used only.</p>
-<p>Do not set it in inventory!</p>
-<p>Member of <code>_odb_standby_config</code> for the current database and host:
-member with <code>inventory_hostname</code> in <code>hosts</code>, <code>db_unique_name</code> decides when more than 1 member matches.
-Empty dictionary when no or more than 1 member matches (checked by the asserts in <code>orasw_meta</code>).</p>
-<h4 id="default-value-11">Default value</h4>
-<pre><code class="language-YAML">_odb_standby_member: _internal_used_
-</code></pre>
-<h3 id="_odb_standby_others">_odb_standby_others</h3>
-<p>The variable is internal used only.</p>
-<p>Do not set it in inventory!</p>
-<p>All other members of <code>_odb_standby_config</code> (without <code>_odb_standby_member</code>).</p>
-<h4 id="default-value-12">Default value</h4>
-<pre><code class="language-YAML">_odb_standby_others: _internal_used_
-</code></pre>
-<h3 id="_opdb_home">_opdb_home</h3>
-<h4 id="default-value-13">Default value</h4>
-<pre><code class="language-YAML">_opdb_home: &quot;{{ (oracle_databases | selectattr('oracle_db_name', 'equalto', _opdb_loop_helper['cdb']))[0]['home'] }}&quot;
-</code></pre>
-<h3 id="_opdb_loop_helper">_opdb_loop_helper</h3>
-<p>The variable is internal used only.</p>
-<p>Do not set it in inventory!</p>
-<h4 id="default-value-14">Default value</h4>
-<pre><code class="language-YAML">_opdb_loop_helper: _internal_used_
-</code></pre>
-<h3 id="_oracle_all_editions_options">_oracle_all_editions_options</h3>
-<p>Defines linkable options available for all editions of oracle database (e.g. Unified auditing, DirectNFS)
-Dictionary key (dnfs, uniaud, etc.), suffixed by _on/_off, must match the make target in {{ oracle_home_db }}/rdbms/lib/ins_rdbms.mk
-match_file: File relative to {{ oracle_home_db }} where to grep for current state of the option
-enabled_matches: Pattern that matches in match_file if option currently is enabled</p>
-<h3 id="_oracle_db_instance_name">_oracle_db_instance_name</h3>
-<p>The variable is internal used only.</p>
-<p>Do not set it in inventory!</p>
-<h4 id="default-value-15">Default value</h4>
-<pre><code class="language-YAML">_oracle_db_instance_name: _internal_used_
-</code></pre>
-<h3 id="_oracle_db_unique_name">_oracle_db_unique_name</h3>
-<p>The variable is internal used only.</p>
-<p>Do not set it in inventory!</p>
-<h4 id="default-value-16">Default value</h4>
-<pre><code class="language-YAML">_oracle_db_unique_name: _internal_used_
-</code></pre>
-<h3 id="_oracle_ee_opiton_dict">_oracle_ee_opiton_dict</h3>
-<p>This is an internal variable in <code>ansible-oracle</code>.</p>
-<p><em>IMPORTANT</em></p>
-<p>Do not set this variable in inventory, set_fact &hellip;!</p>
-<h4 id="default-value-17">Default value</h4>
-<pre><code class="language-YAML">_oracle_ee_opiton_dict:
-  11.2.0.4: '{{ oracle_ee_options_112 }}'
-  12.1.0.1: '{{ oracle_ee_options_121 }}'
-  12.1.0.2: '{{ oracle_ee_options_121 }}'
-  12.2.0.1: '{{ oracle_ee_options_122 }}'
-  18.3.0.0: '{{ oracle_ee_options_183 }}'
-  19.3.0.0: '{{ oracle_ee_options_193 }}'
-  21.3.0.0: '{{ oracle_ee_options_213 }}'
-  26.1.0.0: '{{ oracle_ee_options_261 }}'
-</code></pre>
-<h3 id="_oracle_env">_oracle_env</h3>
-<p>The variable is used for shell, command tasks to set environment Variables.</p>
-<p>Do not set it in inventory!</p>
-<h4 id="default-value-18">Default value</h4>
-<pre><code class="language-YAML">_oracle_env:
-  ORACLE_HOME: '{{ _oracle_home_db }}'
-  LD_LIBRARY_PATH: '{{ _oracle_home_db }}/lib'
-</code></pre>
-<h3 id="_oracle_env_pdb">_oracle_env_pdb</h3>
-<h4 id="default-value-19">Default value</h4>
-<pre><code class="language-YAML">_oracle_env_pdb:
-  ORACLE_HOME: '{{ _oracle_home_db_pdb }}'
-  LD_LIBRARY_PATH: '{{ _oracle_home_db_pdb }}/lib'
-</code></pre>
-<h3 id="_oracle_home_db">_oracle_home_db</h3>
-<p>This is an internal variable in <code>ansible-oracle</code>.</p>
-<p>Do not set it in inventory!</p>
-<h4 id="default-value-20">Default value</h4>
-<pre><code class="language-YAML">_oracle_home_db: _internal_used_
-</code></pre>
-<h3 id="_oracle_home_db_pdb">_oracle_home_db_pdb</h3>
-<h4 id="default-value-21">Default value</h4>
-<pre><code class="language-YAML">_oracle_home_db_pdb: &quot;{{ db_homes_config[_opdb_home]['oracle_home'] }}&quot;
-</code></pre>
-<h3 id="_orasw_meta_standby_sid">_orasw_meta_standby_sid</h3>
-<p>The variable is internal used only.</p>
-<p>Do not set it in inventory!</p>
-<p>ORACLE_SID of the current database (<code>_odb_loop_helper</code>).</p>
-<h4 id="default-value-22">Default value</h4>
-<pre><code class="language-YAML">_orasw_meta_standby_sid: _internal_used_
-</code></pre>
-<h3 id="cluster_master">cluster_master</h3>
-<h4 id="default-value-23">Default value</h4>
-<pre><code class="language-YAML">cluster_master: '{{ ansible_play_batch[0] }}'
-</code></pre>
-<h3 id="db_mode">db_mode</h3>
-<h4 id="default-value-24">Default value</h4>
-<pre><code class="language-YAML">db_mode: sysdba
-</code></pre>
-<h3 id="db_password">db_password</h3>
-<h4 id="default-value-25">Default value</h4>
-<pre><code class="language-YAML">db_password: &gt;-
-  {% if dbpasswords is defined
-      and dbpasswords[item.oracle_db_name] is defined
-      and dbpasswords[item.oracle_db_name][db_user] is defined -%}
-    {{- dbpasswords[item.oracle_db_name][db_user] }}
-  {%- else %}{{ default_dbpass }}
-  {%- endif %}
-</code></pre>
-<h3 id="db_service_name">db_service_name</h3>
-<p><strong><em>Deprecated:</em></strong> since v4.0.0<br /></p>
-<h4 id="default-value-26">Default value</h4>
-<pre><code class="language-YAML">db_service_name: '{% if item is defined -%} {%- if item.oracle_db_unique_name is defined -%}{{ item.oracle_db_unique_name }}{%- elif item.oracle_db_instance_name is defined -%}{{ item.oracle_db_instance_name }}{%- else -%}{{ item.oracle_db_name }}{%- endif -%}{%- endif %}'
-</code></pre>
-<h3 id="db_user">db_user</h3>
-<h4 id="default-value-27">Default value</h4>
-<pre><code class="language-YAML">db_user: sys
-</code></pre>
-<h3 id="db_version">db_version</h3>
-<p>This is an internal variable in <code>ansible-oracle</code>.</p>
-<p><em>IMPORTANT</em></p>
-<p>Do not set this variable in inventory, set_fact &hellip;!</p>
-<p><strong><em>Deprecated:</em></strong> since v4.0.0<br /></p>
-<h4 id="default-value-28">Default value</h4>
-<pre><code class="language-YAML">db_version: _unset_
-</code></pre>
-<h3 id="grid_env">grid_env</h3>
-<p>The variable is used for shell, command tasks to set environment Variables.</p>
-<p>Do not set it in inventory!</p>
-<p><strong><em>Deprecated:</em></strong> since v4.0.0<br /></p>
-<h4 id="default-value-29">Default value</h4>
-<pre><code class="language-YAML">grid_env:
-  ORACLE_HOME: '{{ oracle_home_gi }}'
-  LD_LIBRARY_PATH: '{{ oracle_home_gi }}/lib'
-</code></pre>
-<h3 id="listener_home">listener_home</h3>
-<p><strong><em>Deprecated:</em></strong> since v4.0.0<br /></p>
-<h4 id="default-value-30">Default value</h4>
-<pre><code class="language-YAML">listener_home: &quot;{%- if lsnrinst is defined -%}{%- if db_homes_config[lsnrinst.home]['oracle_home'] is defined -%}{{ db_homes_config[lsnrinst.home]['oracle_home'] }}{%- else -%}{{ oracle_base }}/{{ db_homes_config[lsnrinst.home]['version'] }}/{{ db_homes_config[lsnrinst.home]['home'] }}{%- endif -%}{%- endif -%}&quot;
-</code></pre>
-<h3 id="listener_port_template">listener_port_template</h3>
-<p><strong><em>Deprecated:</em></strong> since v4.0.0<br /></p>
-<h4 id="default-value-31">Default value</h4>
-<pre><code class="language-YAML">listener_port_template: '{% if item.listener_port is defined %}{{ item.listener_port }}{% else %}{{ listener_port }}{% endif %}'
-</code></pre>
-<h3 id="listener_protocols">listener_protocols</h3>
-<p><strong><em>Deprecated:</em></strong> since v4.0.0<br /></p>
-<h4 id="default-value-32">Default value</h4>
-<pre><code class="language-YAML">listener_protocols: TCP
-</code></pre>
-<h3 id="ocm_response_file">ocm_response_file</h3>
-<h4 id="default-value-33">Default value</h4>
-<pre><code class="language-YAML">ocm_response_file: '{{ oracle_patch_stage }}/{{ db_version }}/ocm.rsp'
-</code></pre>
-<h3 id="oracle_all_editions_options">oracle_all_editions_options</h3>
-<h4 id="default-value-34">Default value</h4>
-<pre><code class="language-YAML">oracle_all_editions_options:
-  26.1.0.0: &amp;261_all_editions_options
-    dnfs:
-      match_file: rdbms/lib/odm/libnfsodm??.so
-      enabled_matches: .*
-    uniaud:
-      match_file: rdbms/lib/libknlopt.a
-      enabled_matches: \bkzaiang\.
-  21.3.0.0:
-    &lt;&lt;: *261_all_editions_options
-  19.3.0.0:
-    &lt;&lt;: *261_all_editions_options
-  18.3.0.0:
-    &lt;&lt;: *261_all_editions_options
-  12.2.0.1:
-    &lt;&lt;: *261_all_editions_options
-  12.1.0.2:
-    &lt;&lt;: *261_all_editions_options
-  12.1.0.1:
-    &lt;&lt;: *261_all_editions_options
-  11.2.0.4: &amp;1124_all_editions_options
-    dnfs:
-      match_file: rdbms/lib/odm/libnfsodm??.so
-      enabled_matches: .*
-  11.2.0.3:
-    &lt;&lt;: *1124_all_editions_options
-</code></pre>
-<h3 id="oracle_env">oracle_env</h3>
-<p>The variable is used for shell, command tasks to set environment Variables.</p>
-<p>Do not set it in inventory!</p>
-<p><strong><em>Deprecated:</em></strong> since v4.0.0<br /></p>
-<h4 id="default-value-35">Default value</h4>
-<pre><code class="language-YAML">oracle_env:
-  ORACLE_HOME: '{{ oracle_home_db }}'
-  LD_LIBRARY_PATH: '{{ oracle_home_db }}/lib'
-</code></pre>
-<h3 id="oracle_env_lsnrctl">oracle_env_lsnrctl</h3>
-<p>The variable is used for shell, command tasks to set environment Variables.</p>
-<p>Do not set it in inventory!</p>
-<p><strong><em>Deprecated:</em></strong> since v4.0.0<br /></p>
-<h4 id="default-value-36">Default value</h4>
-<pre><code class="language-YAML">oracle_env_lsnrctl:
-  ORACLE_BASE: '{{ oracle_base }}'
-  ORACLE_HOME: '{{ listener_home }}'
-  LD_LIBRARY_PATH: '{{ listener_home }}/lib'
-  PATH: '{{ listener_home }}/bin:$PATH:/usr/local/bin:/bin:/sbin:/usr/bin:/usr/sbin'
-</code></pre>
-<h3 id="oracle_home_db">oracle_home_db</h3>
-<p>This is an internal variable in <code>ansible-oracle</code>.</p>
-<p>The variable is deprecated and removed in a future version.</p>
-<p><em>IMPORTANT</em></p>
-<p>Do not set this variable in inventory, set_fact &hellip;!</p>
-<p><strong><em>Deprecated:</em></strong> since v4.0.0<br /></p>
-<h4 id="default-value-37">Default value</h4>
-<pre><code class="language-YAML">oracle_home_db: _unset_
-</code></pre>
-<h3 id="oracle_home_gi">oracle_home_gi</h3>
-<p>Custom setting for CRS_HOME.</p>
-<p>The default value depends on <code>_oraswgi_meta_configure_cluster</code> and <code>oracle_home_gi_cl</code> or <code>oracle_home_gi_so</code>.</p>
-<h4 id="default-value-38">Default value</h4>
-<pre><code class="language-YAML">oracle_home_gi: '{% if oracle_install_version_gi is defined -%}{%- if _oraswgi_meta_configure_cluster -%}{{ oracle_home_gi_cl }}{%- else -%}{{ oracle_home_gi_so }}{%- endif -%}{%- endif %}'
-</code></pre>
-<h3 id="oracle_patch_install">oracle_patch_install</h3>
-<h4 id="default-value-39">Default value</h4>
-<pre><code class="language-YAML">oracle_patch_install: '{% if not oracle_sw_copy | bool and not oracle_sw_unpack | bool %}{{ oracle_patch_stage_remote }}{% else %}{{ oracle_patch_stage }}{% endif %}'
-</code></pre>
-<h3 id="oracle_patch_stage">oracle_patch_stage</h3>
-<h4 id="default-value-40">Default value</h4>
-<pre><code class="language-YAML">oracle_patch_stage: '{{ oracle_stage }}/patches'
-</code></pre>
-<h3 id="oracle_patch_stage_remote">oracle_patch_stage_remote</h3>
-<h4 id="default-value-41">Default value</h4>
-<pre><code class="language-YAML">oracle_patch_stage_remote: '{{ oracle_stage_remote }}/patches'
-</code></pre>
-<h3 id="oracle_stage_install">oracle_stage_install</h3>
-<p>This is an internal variable. Do not set it in Inventory.</p>
-<h4 id="default-value-42">Default value</h4>
-<pre><code class="language-YAML">oracle_stage_install: '{% if not oracle_sw_copy | bool and not oracle_sw_unpack | bool %}{{ oracle_stage_remote }}{% else %}{{ oracle_stage }}{% endif %}'
-</code></pre>
-<h3 id="oracle_sw_copy">oracle_sw_copy</h3>
-<h4 id="default-value-43">Default value</h4>
-<pre><code class="language-YAML">oracle_sw_copy: '{{ not (install_from_nfs | bool) }}'
-</code></pre>
-<h3 id="oracle_sw_extract_path">oracle_sw_extract_path</h3>
-<h4 id="default-value-44">Default value</h4>
-<pre><code class="language-YAML">oracle_sw_extract_path: &quot;{%- if '18' in db_version -%}{{ oracle_home_db }}{%- else -%}{{ oracle_stage }}/{{ item[0].version }}{%- endif -%}&quot;
-</code></pre>
-<h3 id="oracle_sw_unpack">oracle_sw_unpack</h3>
-<h4 id="default-value-45">Default value</h4>
-<pre><code class="language-YAML">oracle_sw_unpack: '{{ not (install_from_nfs | bool) }}'
-</code></pre>
-<h2 id="dependencies">Dependencies</h2>
-<p>None.</p>
-<h2 id="license">License</h2>
-<p>license (MIT)</p>
-<h2 id="author">Author</h2>
-<p>[Thorsten Bruhns]</p>
-
-</div>
-
-
-
-    
-	
-  
-    
-    
-	
-    
-
-<div class="td-content" style="page-break-before: always">
-    
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">4 - orasw_meta</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3 - orasw_meta</h1>
     
 	<p><em>Important</em></p>
 <p>The description for variables is work in progress.!</p>
@@ -1586,7 +1175,7 @@ A change is used without a restart of the database.</p>
 <p>Defines the standby configurations (Data Guard, Dbvisit).</p>
 <p>Not set by default. Must be identical on all members of a configuration.
 A database is assigned with <code>standby_config</code> in <code>oracle_databases</code>.</p>
-<p>The inventory structure is described in <code>doc/guides/standby_inventory.adoc</code>.</p>
+<p>The inventory structure is described in <code>doc/guides/standby_databases.adoc</code>.</p>
 <p>IMPORTANT! Only the asserts are implemented at the moment.</p>
 <h4 id="example-usage-3">Example usage</h4>
 <pre><code class="language-YAML">db_standby_config:
@@ -2354,6 +1943,417 @@ Usually no need to change it.</p>
 <li>orahost_meta</li>
 <li>orasw_meta_internal</li>
 </ul>
+<h2 id="license">License</h2>
+<p>license (MIT)</p>
+<h2 id="author">Author</h2>
+<p>[Thorsten Bruhns]</p>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">4 - orasw_meta_internal</h1>
+    
+	<p>Meta role used to store internal variables from <code>ansible-oracle</code>.</p>
+<p>Do not use any of the variables in your inventory!</p>
+<p>This will create issues and problems in <code>ansible-oracle</code> and is not supported.</p>
+<h2 id="table-of-contents">Table of contents</h2>
+<ul>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#default-variables">Default Variables</a>
+<ul>
+<li><a href="#_db_password_cdb">_db_password_cdb</a></li>
+<li><a href="#_db_password_pdb">_db_password_pdb</a></li>
+<li><a href="#_db_service_name">_db_service_name</a></li>
+<li><a href="#_db_service_pdb">_db_service_pdb</a></li>
+<li><a href="#_db_unique_name_for_pdb">_db_unique_name_for_pdb</a></li>
+<li><a href="#_grid_env">_grid_env</a></li>
+<li><a href="#_listener_port_cdb">_listener_port_cdb</a></li>
+<li><a href="#_listener_port_pdb">_listener_port_pdb</a></li>
+<li><a href="#_odb_loop_helper">_odb_loop_helper</a></li>
+<li><a href="#_odb_standby_config">_odb_standby_config</a></li>
+<li><a href="#_odb_standby_create_method">_odb_standby_create_method</a></li>
+<li><a href="#_odb_standby_member">_odb_standby_member</a></li>
+<li><a href="#_odb_standby_others">_odb_standby_others</a></li>
+<li><a href="#_opdb_home">_opdb_home</a></li>
+<li><a href="#_opdb_loop_helper">_opdb_loop_helper</a></li>
+<li><a href="#_oracle_all_editions_options">_oracle_all_editions_options</a></li>
+<li><a href="#_oracle_db_instance_name">_oracle_db_instance_name</a></li>
+<li><a href="#_oracle_db_unique_name">_oracle_db_unique_name</a></li>
+<li><a href="#_oracle_ee_opiton_dict">_oracle_ee_opiton_dict</a></li>
+<li><a href="#_oracle_env">_oracle_env</a></li>
+<li><a href="#_oracle_env_pdb">_oracle_env_pdb</a></li>
+<li><a href="#_oracle_home_db">_oracle_home_db</a></li>
+<li><a href="#_oracle_home_db_pdb">_oracle_home_db_pdb</a></li>
+<li><a href="#_orasw_meta_standby_sid">_orasw_meta_standby_sid</a></li>
+<li><a href="#cluster_master">cluster_master</a></li>
+<li><a href="#db_mode">db_mode</a></li>
+<li><a href="#db_password">db_password</a></li>
+<li><a href="#db_service_name">db_service_name</a></li>
+<li><a href="#db_user">db_user</a></li>
+<li><a href="#db_version">db_version</a></li>
+<li><a href="#grid_env">grid_env</a></li>
+<li><a href="#listener_home">listener_home</a></li>
+<li><a href="#listener_port_template">listener_port_template</a></li>
+<li><a href="#listener_protocols">listener_protocols</a></li>
+<li><a href="#ocm_response_file">ocm_response_file</a></li>
+<li><a href="#oracle_all_editions_options">oracle_all_editions_options</a></li>
+<li><a href="#oracle_env">oracle_env</a></li>
+<li><a href="#oracle_env_lsnrctl">oracle_env_lsnrctl</a></li>
+<li><a href="#oracle_home_db">oracle_home_db</a></li>
+<li><a href="#oracle_home_gi">oracle_home_gi</a></li>
+<li><a href="#oracle_patch_install">oracle_patch_install</a></li>
+<li><a href="#oracle_patch_stage">oracle_patch_stage</a></li>
+<li><a href="#oracle_patch_stage_remote">oracle_patch_stage_remote</a></li>
+<li><a href="#oracle_stage_install">oracle_stage_install</a></li>
+<li><a href="#oracle_sw_copy">oracle_sw_copy</a></li>
+<li><a href="#oracle_sw_extract_path">oracle_sw_extract_path</a></li>
+<li><a href="#oracle_sw_unpack">oracle_sw_unpack</a></li>
+</ul>
+</li>
+<li><a href="#dependencies">Dependencies</a></li>
+<li><a href="#license">License</a></li>
+<li><a href="#author">Author</a></li>
+</ul>
+<hr>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>Minimum Ansible version: <code>2.16.0</code></li>
+</ul>
+<h2 id="default-variables">Default Variables</h2>
+<h3 id="_db_password_cdb">_db_password_cdb</h3>
+<p>The variable is internal used only.</p>
+<p>Do not set it in inventory!</p>
+<h4 id="default-value">Default value</h4>
+<pre><code class="language-YAML">_db_password_cdb: _internal_used_
+</code></pre>
+<h3 id="_db_password_pdb">_db_password_pdb</h3>
+<p>The variable is internal used only.</p>
+<p>Do not set it in inventory!</p>
+<h4 id="default-value-1">Default value</h4>
+<pre><code class="language-YAML">_db_password_pdb: _internal_used_
+</code></pre>
+<h3 id="_db_service_name">_db_service_name</h3>
+<p>The variable is internal used only.</p>
+<p>Do not set it in inventory!</p>
+<h4 id="default-value-2">Default value</h4>
+<pre><code class="language-YAML">_db_service_name: _internal_used_
+</code></pre>
+<h3 id="_db_service_pdb">_db_service_pdb</h3>
+<p>The variable is internal used only.</p>
+<p>Do not set it in inventory!</p>
+<p>Get the service_name for a PDB.</p>
+<p>Requires <code>opdb</code> as <code>loop_var</code>.</p>
+<h4 id="default-value-3">Default value</h4>
+<pre><code class="language-YAML">_db_service_pdb: _internal_used_
+</code></pre>
+<h3 id="_db_unique_name_for_pdb">_db_unique_name_for_pdb</h3>
+<p>The variable is internal used only.</p>
+<p>Do not set it in inventory!</p>
+<p>get db_unique_name from CDB for current pdb
+Requires <code>opdb</code> as <code>loop_var</code>.</p>
+<h4 id="default-value-4">Default value</h4>
+<pre><code class="language-YAML">_db_unique_name_for_pdb: _internal_used_
+</code></pre>
+<h3 id="_grid_env">_grid_env</h3>
+<p>The variable is used for shell, command tasks to set environment Variables.</p>
+<p>Do not set it in inventory!</p>
+<h4 id="default-value-5">Default value</h4>
+<pre><code class="language-YAML">_grid_env:
+  ORACLE_HOME: '{{ oracle_home_gi }}'
+  LD_LIBRARY_PATH: '{{ oracle_home_gi }}/lib'
+</code></pre>
+<h3 id="_listener_port_cdb">_listener_port_cdb</h3>
+<p>The variable is internal used only.</p>
+<p>Do not set it in inventory!</p>
+<h4 id="default-value-6">Default value</h4>
+<pre><code class="language-YAML">_listener_port_cdb: _internal_used_
+</code></pre>
+<h3 id="_listener_port_pdb">_listener_port_pdb</h3>
+<p>The variable is internal used only.</p>
+<p>Do not set it in inventory!</p>
+<h4 id="default-value-7">Default value</h4>
+<pre><code class="language-YAML">_listener_port_pdb: _internal_used_
+</code></pre>
+<h3 id="_odb_loop_helper">_odb_loop_helper</h3>
+<p>The variable is internal used only.</p>
+<p>Do not set it in inventory!</p>
+<h4 id="default-value-8">Default value</h4>
+<pre><code class="language-YAML">_odb_loop_helper: _internal_used_
+</code></pre>
+<h3 id="_odb_standby_config">_odb_standby_config</h3>
+<p>The variable is internal used only.</p>
+<p>Do not set it in inventory!</p>
+<p>Entry of <code>db_standby_config</code> referenced by <code>standby_config</code> of the current database
+(<code>_odb_loop_helper</code>). Empty dictionary for a database without <code>standby_config</code>.</p>
+<h4 id="default-value-9">Default value</h4>
+<pre><code class="language-YAML">_odb_standby_config: _internal_used_
+</code></pre>
+<h3 id="_odb_standby_create_method">_odb_standby_create_method</h3>
+<p>The variable is internal used only.</p>
+<p>Do not set it in inventory!</p>
+<p>Method for the creation of the standby database of the current member:
+<code>create_method</code> of the member, of the configuration or <code>rman_duplicate_active</code>.</p>
+<h4 id="default-value-10">Default value</h4>
+<pre><code class="language-YAML">_odb_standby_create_method: _internal_used_
+</code></pre>
+<h3 id="_odb_standby_member">_odb_standby_member</h3>
+<p>The variable is internal used only.</p>
+<p>Do not set it in inventory!</p>
+<p>Member of <code>_odb_standby_config</code> for the current database and host:
+member with <code>inventory_hostname</code> in <code>hosts</code>, <code>db_unique_name</code> decides when more than 1 member matches.
+Empty dictionary when no or more than 1 member matches (checked by the asserts in <code>orasw_meta</code>).</p>
+<h4 id="default-value-11">Default value</h4>
+<pre><code class="language-YAML">_odb_standby_member: _internal_used_
+</code></pre>
+<h3 id="_odb_standby_others">_odb_standby_others</h3>
+<p>The variable is internal used only.</p>
+<p>Do not set it in inventory!</p>
+<p>All other members of <code>_odb_standby_config</code> (without <code>_odb_standby_member</code>).</p>
+<h4 id="default-value-12">Default value</h4>
+<pre><code class="language-YAML">_odb_standby_others: _internal_used_
+</code></pre>
+<h3 id="_opdb_home">_opdb_home</h3>
+<h4 id="default-value-13">Default value</h4>
+<pre><code class="language-YAML">_opdb_home: &quot;{{ (oracle_databases | selectattr('oracle_db_name', 'equalto', _opdb_loop_helper['cdb']))[0]['home'] }}&quot;
+</code></pre>
+<h3 id="_opdb_loop_helper">_opdb_loop_helper</h3>
+<p>The variable is internal used only.</p>
+<p>Do not set it in inventory!</p>
+<h4 id="default-value-14">Default value</h4>
+<pre><code class="language-YAML">_opdb_loop_helper: _internal_used_
+</code></pre>
+<h3 id="_oracle_all_editions_options">_oracle_all_editions_options</h3>
+<p>Defines linkable options available for all editions of oracle database (e.g. Unified auditing, DirectNFS)
+Dictionary key (dnfs, uniaud, etc.), suffixed by _on/_off, must match the make target in {{ oracle_home_db }}/rdbms/lib/ins_rdbms.mk
+match_file: File relative to {{ oracle_home_db }} where to grep for current state of the option
+enabled_matches: Pattern that matches in match_file if option currently is enabled</p>
+<h3 id="_oracle_db_instance_name">_oracle_db_instance_name</h3>
+<p>The variable is internal used only.</p>
+<p>Do not set it in inventory!</p>
+<h4 id="default-value-15">Default value</h4>
+<pre><code class="language-YAML">_oracle_db_instance_name: _internal_used_
+</code></pre>
+<h3 id="_oracle_db_unique_name">_oracle_db_unique_name</h3>
+<p>The variable is internal used only.</p>
+<p>Do not set it in inventory!</p>
+<h4 id="default-value-16">Default value</h4>
+<pre><code class="language-YAML">_oracle_db_unique_name: _internal_used_
+</code></pre>
+<h3 id="_oracle_ee_opiton_dict">_oracle_ee_opiton_dict</h3>
+<p>This is an internal variable in <code>ansible-oracle</code>.</p>
+<p><em>IMPORTANT</em></p>
+<p>Do not set this variable in inventory, set_fact &hellip;!</p>
+<h4 id="default-value-17">Default value</h4>
+<pre><code class="language-YAML">_oracle_ee_opiton_dict:
+  11.2.0.4: '{{ oracle_ee_options_112 }}'
+  12.1.0.1: '{{ oracle_ee_options_121 }}'
+  12.1.0.2: '{{ oracle_ee_options_121 }}'
+  12.2.0.1: '{{ oracle_ee_options_122 }}'
+  18.3.0.0: '{{ oracle_ee_options_183 }}'
+  19.3.0.0: '{{ oracle_ee_options_193 }}'
+  21.3.0.0: '{{ oracle_ee_options_213 }}'
+  26.1.0.0: '{{ oracle_ee_options_261 }}'
+</code></pre>
+<h3 id="_oracle_env">_oracle_env</h3>
+<p>The variable is used for shell, command tasks to set environment Variables.</p>
+<p>Do not set it in inventory!</p>
+<h4 id="default-value-18">Default value</h4>
+<pre><code class="language-YAML">_oracle_env:
+  ORACLE_HOME: '{{ _oracle_home_db }}'
+  LD_LIBRARY_PATH: '{{ _oracle_home_db }}/lib'
+</code></pre>
+<h3 id="_oracle_env_pdb">_oracle_env_pdb</h3>
+<h4 id="default-value-19">Default value</h4>
+<pre><code class="language-YAML">_oracle_env_pdb:
+  ORACLE_HOME: '{{ _oracle_home_db_pdb }}'
+  LD_LIBRARY_PATH: '{{ _oracle_home_db_pdb }}/lib'
+</code></pre>
+<h3 id="_oracle_home_db">_oracle_home_db</h3>
+<p>This is an internal variable in <code>ansible-oracle</code>.</p>
+<p>Do not set it in inventory!</p>
+<h4 id="default-value-20">Default value</h4>
+<pre><code class="language-YAML">_oracle_home_db: _internal_used_
+</code></pre>
+<h3 id="_oracle_home_db_pdb">_oracle_home_db_pdb</h3>
+<h4 id="default-value-21">Default value</h4>
+<pre><code class="language-YAML">_oracle_home_db_pdb: &quot;{{ db_homes_config[_opdb_home]['oracle_home'] }}&quot;
+</code></pre>
+<h3 id="_orasw_meta_standby_sid">_orasw_meta_standby_sid</h3>
+<p>The variable is internal used only.</p>
+<p>Do not set it in inventory!</p>
+<p>ORACLE_SID of the current database (<code>_odb_loop_helper</code>).</p>
+<h4 id="default-value-22">Default value</h4>
+<pre><code class="language-YAML">_orasw_meta_standby_sid: _internal_used_
+</code></pre>
+<h3 id="cluster_master">cluster_master</h3>
+<h4 id="default-value-23">Default value</h4>
+<pre><code class="language-YAML">cluster_master: '{{ ansible_play_batch[0] }}'
+</code></pre>
+<h3 id="db_mode">db_mode</h3>
+<h4 id="default-value-24">Default value</h4>
+<pre><code class="language-YAML">db_mode: sysdba
+</code></pre>
+<h3 id="db_password">db_password</h3>
+<h4 id="default-value-25">Default value</h4>
+<pre><code class="language-YAML">db_password: &gt;-
+  {% if dbpasswords is defined
+      and dbpasswords[item.oracle_db_name] is defined
+      and dbpasswords[item.oracle_db_name][db_user] is defined -%}
+    {{- dbpasswords[item.oracle_db_name][db_user] }}
+  {%- else %}{{ default_dbpass }}
+  {%- endif %}
+</code></pre>
+<h3 id="db_service_name">db_service_name</h3>
+<p><strong><em>Deprecated:</em></strong> since v4.0.0<br /></p>
+<h4 id="default-value-26">Default value</h4>
+<pre><code class="language-YAML">db_service_name: '{% if item is defined -%} {%- if item.oracle_db_unique_name is defined -%}{{ item.oracle_db_unique_name }}{%- elif item.oracle_db_instance_name is defined -%}{{ item.oracle_db_instance_name }}{%- else -%}{{ item.oracle_db_name }}{%- endif -%}{%- endif %}'
+</code></pre>
+<h3 id="db_user">db_user</h3>
+<h4 id="default-value-27">Default value</h4>
+<pre><code class="language-YAML">db_user: sys
+</code></pre>
+<h3 id="db_version">db_version</h3>
+<p>This is an internal variable in <code>ansible-oracle</code>.</p>
+<p><em>IMPORTANT</em></p>
+<p>Do not set this variable in inventory, set_fact &hellip;!</p>
+<p><strong><em>Deprecated:</em></strong> since v4.0.0<br /></p>
+<h4 id="default-value-28">Default value</h4>
+<pre><code class="language-YAML">db_version: _unset_
+</code></pre>
+<h3 id="grid_env">grid_env</h3>
+<p>The variable is used for shell, command tasks to set environment Variables.</p>
+<p>Do not set it in inventory!</p>
+<p><strong><em>Deprecated:</em></strong> since v4.0.0<br /></p>
+<h4 id="default-value-29">Default value</h4>
+<pre><code class="language-YAML">grid_env:
+  ORACLE_HOME: '{{ oracle_home_gi }}'
+  LD_LIBRARY_PATH: '{{ oracle_home_gi }}/lib'
+</code></pre>
+<h3 id="listener_home">listener_home</h3>
+<p><strong><em>Deprecated:</em></strong> since v4.0.0<br /></p>
+<h4 id="default-value-30">Default value</h4>
+<pre><code class="language-YAML">listener_home: &quot;{%- if lsnrinst is defined -%}{%- if db_homes_config[lsnrinst.home]['oracle_home'] is defined -%}{{ db_homes_config[lsnrinst.home]['oracle_home'] }}{%- else -%}{{ oracle_base }}/{{ db_homes_config[lsnrinst.home]['version'] }}/{{ db_homes_config[lsnrinst.home]['home'] }}{%- endif -%}{%- endif -%}&quot;
+</code></pre>
+<h3 id="listener_port_template">listener_port_template</h3>
+<p><strong><em>Deprecated:</em></strong> since v4.0.0<br /></p>
+<h4 id="default-value-31">Default value</h4>
+<pre><code class="language-YAML">listener_port_template: '{% if item.listener_port is defined %}{{ item.listener_port }}{% else %}{{ listener_port }}{% endif %}'
+</code></pre>
+<h3 id="listener_protocols">listener_protocols</h3>
+<p><strong><em>Deprecated:</em></strong> since v4.0.0<br /></p>
+<h4 id="default-value-32">Default value</h4>
+<pre><code class="language-YAML">listener_protocols: TCP
+</code></pre>
+<h3 id="ocm_response_file">ocm_response_file</h3>
+<h4 id="default-value-33">Default value</h4>
+<pre><code class="language-YAML">ocm_response_file: '{{ oracle_patch_stage }}/{{ db_version }}/ocm.rsp'
+</code></pre>
+<h3 id="oracle_all_editions_options">oracle_all_editions_options</h3>
+<h4 id="default-value-34">Default value</h4>
+<pre><code class="language-YAML">oracle_all_editions_options:
+  26.1.0.0: &amp;261_all_editions_options
+    dnfs:
+      match_file: rdbms/lib/odm/libnfsodm??.so
+      enabled_matches: .*
+    uniaud:
+      match_file: rdbms/lib/libknlopt.a
+      enabled_matches: \bkzaiang\.
+  21.3.0.0:
+    &lt;&lt;: *261_all_editions_options
+  19.3.0.0:
+    &lt;&lt;: *261_all_editions_options
+  18.3.0.0:
+    &lt;&lt;: *261_all_editions_options
+  12.2.0.1:
+    &lt;&lt;: *261_all_editions_options
+  12.1.0.2:
+    &lt;&lt;: *261_all_editions_options
+  12.1.0.1:
+    &lt;&lt;: *261_all_editions_options
+  11.2.0.4: &amp;1124_all_editions_options
+    dnfs:
+      match_file: rdbms/lib/odm/libnfsodm??.so
+      enabled_matches: .*
+  11.2.0.3:
+    &lt;&lt;: *1124_all_editions_options
+</code></pre>
+<h3 id="oracle_env">oracle_env</h3>
+<p>The variable is used for shell, command tasks to set environment Variables.</p>
+<p>Do not set it in inventory!</p>
+<p><strong><em>Deprecated:</em></strong> since v4.0.0<br /></p>
+<h4 id="default-value-35">Default value</h4>
+<pre><code class="language-YAML">oracle_env:
+  ORACLE_HOME: '{{ oracle_home_db }}'
+  LD_LIBRARY_PATH: '{{ oracle_home_db }}/lib'
+</code></pre>
+<h3 id="oracle_env_lsnrctl">oracle_env_lsnrctl</h3>
+<p>The variable is used for shell, command tasks to set environment Variables.</p>
+<p>Do not set it in inventory!</p>
+<p><strong><em>Deprecated:</em></strong> since v4.0.0<br /></p>
+<h4 id="default-value-36">Default value</h4>
+<pre><code class="language-YAML">oracle_env_lsnrctl:
+  ORACLE_BASE: '{{ oracle_base }}'
+  ORACLE_HOME: '{{ listener_home }}'
+  LD_LIBRARY_PATH: '{{ listener_home }}/lib'
+  PATH: '{{ listener_home }}/bin:$PATH:/usr/local/bin:/bin:/sbin:/usr/bin:/usr/sbin'
+</code></pre>
+<h3 id="oracle_home_db">oracle_home_db</h3>
+<p>This is an internal variable in <code>ansible-oracle</code>.</p>
+<p>The variable is deprecated and removed in a future version.</p>
+<p><em>IMPORTANT</em></p>
+<p>Do not set this variable in inventory, set_fact &hellip;!</p>
+<p><strong><em>Deprecated:</em></strong> since v4.0.0<br /></p>
+<h4 id="default-value-37">Default value</h4>
+<pre><code class="language-YAML">oracle_home_db: _unset_
+</code></pre>
+<h3 id="oracle_home_gi">oracle_home_gi</h3>
+<p>Custom setting for CRS_HOME.</p>
+<p>The default value depends on <code>_oraswgi_meta_configure_cluster</code> and <code>oracle_home_gi_cl</code> or <code>oracle_home_gi_so</code>.</p>
+<h4 id="default-value-38">Default value</h4>
+<pre><code class="language-YAML">oracle_home_gi: '{% if oracle_install_version_gi is defined -%}{%- if _oraswgi_meta_configure_cluster -%}{{ oracle_home_gi_cl }}{%- else -%}{{ oracle_home_gi_so }}{%- endif -%}{%- endif %}'
+</code></pre>
+<h3 id="oracle_patch_install">oracle_patch_install</h3>
+<h4 id="default-value-39">Default value</h4>
+<pre><code class="language-YAML">oracle_patch_install: '{% if not oracle_sw_copy | bool and not oracle_sw_unpack | bool %}{{ oracle_patch_stage_remote }}{% else %}{{ oracle_patch_stage }}{% endif %}'
+</code></pre>
+<h3 id="oracle_patch_stage">oracle_patch_stage</h3>
+<h4 id="default-value-40">Default value</h4>
+<pre><code class="language-YAML">oracle_patch_stage: '{{ oracle_stage }}/patches'
+</code></pre>
+<h3 id="oracle_patch_stage_remote">oracle_patch_stage_remote</h3>
+<h4 id="default-value-41">Default value</h4>
+<pre><code class="language-YAML">oracle_patch_stage_remote: '{{ oracle_stage_remote }}/patches'
+</code></pre>
+<h3 id="oracle_stage_install">oracle_stage_install</h3>
+<p>This is an internal variable. Do not set it in Inventory.</p>
+<h4 id="default-value-42">Default value</h4>
+<pre><code class="language-YAML">oracle_stage_install: '{% if not oracle_sw_copy | bool and not oracle_sw_unpack | bool %}{{ oracle_stage_remote }}{% else %}{{ oracle_stage }}{% endif %}'
+</code></pre>
+<h3 id="oracle_sw_copy">oracle_sw_copy</h3>
+<h4 id="default-value-43">Default value</h4>
+<pre><code class="language-YAML">oracle_sw_copy: '{{ not (install_from_nfs | bool) }}'
+</code></pre>
+<h3 id="oracle_sw_extract_path">oracle_sw_extract_path</h3>
+<h4 id="default-value-44">Default value</h4>
+<pre><code class="language-YAML">oracle_sw_extract_path: &quot;{%- if '18' in db_version -%}{{ oracle_home_db }}{%- else -%}{{ oracle_stage }}/{{ item[0].version }}{%- endif -%}&quot;
+</code></pre>
+<h3 id="oracle_sw_unpack">oracle_sw_unpack</h3>
+<h4 id="default-value-45">Default value</h4>
+<pre><code class="language-YAML">oracle_sw_unpack: '{{ not (install_from_nfs | bool) }}'
+</code></pre>
+<h2 id="dependencies">Dependencies</h2>
+<p>None.</p>
 <h2 id="license">License</h2>
 <p>license (MIT)</p>
 <h2 id="author">Author</h2>

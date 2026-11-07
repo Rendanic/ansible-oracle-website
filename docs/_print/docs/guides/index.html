@@ -221,7 +221,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>11: <a href="#pg-df389f0fd67da23712005b22d5d20abf">Standby Databases - Inventory Structure</a></li>
+<li>11: <a href="#pg-df389f0fd67da23712005b22d5d20abf">Standby Databases</a></li>
 
 
     
@@ -7422,7 +7422,7 @@ A new RAC <code>ORACLE_HOME</code> needs the cluster installation before the swi
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">11 - Standby Databases - Inventory Structure</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">11 - Standby Databases</h1>
     
 	
 <div class="admonitionblock important">
@@ -7432,10 +7432,11 @@ A new RAC <code>ORACLE_HOME</code> needs the cluster installation before the swi
 <div class="title">Important</div>
 </td>
 <td class="content">
-This guide describes the <strong>planned</strong> inventory structure for standby databases
+Standby databases are <strong>experimental</strong> in <code>ansible-oracle</code>
 (<a href="https://github.com/oravirt/ansible-oracle/issues/65">Issue #65</a>).<br/>
-Implemented: asserts for the inventory and the creation of a physical standby database (role <code>oradb_standby</code>).
-Not implemented yet: Data Guard Broker, redo transport. Variable names and attributes may change.
+Implemented: inventory structure with asserts, creation of a physical standby database
+and of the Data Guard Broker configuration (role <code>oradb_standby</code>).
+See <a href="#_open_points">Open Points and TODOs</a> for missing features. Variable names and attributes may change.
 </td>
 </tr>
 </tbody></table>
