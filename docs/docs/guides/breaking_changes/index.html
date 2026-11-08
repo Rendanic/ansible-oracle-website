@@ -36,8 +36,8 @@ Note The complete list of changes is in CHANGELOG.rst. This guide only covers th
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-06T06:20:09+01:00">
-		<meta property="article:modified_time" content="2026-11-06T06:20:09+01:00">
+		<meta property="article:published_time" content="2026-11-08T08:15:24+01:00">
+		<meta property="article:modified_time" content="2026-11-08T08:15:24+01:00">
 
 	<meta itemprop="name" content="Breaking Changes - Upgrade Guide">
 	<meta itemprop="description" content="This guide lists all changes in ansible-oracle which require an action in your inventory, playbooks or environment when upgrading to a new major version.
@@ -46,9 +46,9 @@ Find your current version and the target version.
 Read the overview table of every major version in between.
 Check the column Affected if against your inventory. Only the rows that match need an action.
 Note The complete list of changes is in CHANGELOG.rst. This guide only covers the changes from the section Breaking Changes / Porting Guide and explains the required actions.">
-	<meta itemprop="datePublished" content="2026-11-06T06:20:09+01:00">
-	<meta itemprop="dateModified" content="2026-11-06T06:20:09+01:00">
-	<meta itemprop="wordCount" content="5507">
+	<meta itemprop="datePublished" content="2026-11-08T08:15:24+01:00">
+	<meta itemprop="dateModified" content="2026-11-08T08:15:24+01:00">
+	<meta itemprop="wordCount" content="5686">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Breaking Changes - Upgrade Guide">
 	<meta name="twitter:description" content="This guide lists all changes in ansible-oracle which require an action in your inventory, playbooks or environment when upgrading to a new major version.
@@ -154,12 +154,14 @@ Note The complete list of changes is in CHANGELOG.rst. This guide only covers th
   <a href="/docs/guides/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
   <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
+  <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguidesbreaking_changes-li">
+  <a href="/docs/guides/breaking_changes/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="td-sidebar-nav-active-item">Breaking Changes - Upgrade Guide</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
   <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_databases-li">
   <a href="/docs/guides/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="">Standby Databases</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguidesbreaking_changes-li">
-  <a href="/docs/guides/breaking_changes/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="td-sidebar-nav-active-item">Breaking Changes - Upgrade Guide</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
   <a href="/docs/guides/restart_rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="">Setup ASM for Oracle Grid Infrastructure / Restart</span></a>
 </li>
@@ -169,6 +171,8 @@ Note The complete list of changes is in CHANGELOG.rst. This guide only covers th
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
   <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
+  <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
   <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
@@ -225,8 +229,6 @@ Note The complete list of changes is in CHANGELOG.rst. This guide only covers th
   <a href="/docs/roles/oradb_manage_users/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_users"><span class="">oradb_manage_users</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_wallet-li">
   <a href="/docs/roles/oradb_manage_wallet/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_wallet"><span class="">oradb_manage_wallet</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
-  <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_tzupgrade-li">
   <a href="/docs/roles/oradb_tzupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_tzupgrade"><span class="">oradb_tzupgrade</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_cron-li">
@@ -314,6 +316,7 @@ Note The complete list of changes is in CHANGELOG.rst. This guide only covers th
         </li>
         <li><a href="#_autostart_of_databases_is_enabled_by_default">1.16. Autostart of databases is enabled by default</a></li>
         <li><a href="#_init_parameters_for_one_instance_sid_and_dbca">1.17. init_parameters for one instance: sid and dbca</a></li>
+        <li><a href="#_oradb_rman_control_file_record_keep_time_in_init_parameters">1.18. oradb_rman: control_file_record_keep_time in init_parameters</a></li>
       </ul>
     </li>
     <li><a href="#_adding_new_breaking_changes">2. Adding new breaking changes</a></li>
@@ -476,6 +479,11 @@ This guide only covers the changes from the section <em>Breaking Changes / Porti
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_init_parameters_for_one_instance_sid_and_dbca">init_parameters for one instance: sid and dbca</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">An entry in <code>init_parameters</code> of <code>oracle_databases</code> has an attribute <code>sid</code> other than <code><strong></strong></code><strong> *and</strong> <code>dbca: true</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Remove <code>dbca: true</code> from the entry. The parameter is set by <code>oradb_manage_parameters</code> after the creation of the database</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_oradb_rman_control_file_record_keep_time_in_init_parameters">oradb_rman: control_file_record_keep_time in init_parameters</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A database in <code>oracle_databases</code> has <code>rman_jobs</code> <strong>and</strong> <code>control_file_record_keep_time</code> is missing in <code>init_parameters</code> or smaller than the days of <code>RECOVERY WINDOW OF &lt;n&gt; DAYS</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add <code>control_file_record_keep_time</code> to <code>init_parameters</code>. Emergency switch: <code>oradb_rman_assert_control_file_record_keep_time: false</code></p></td>
 </tr>
 </tbody>
 </table>
@@ -1925,6 +1933,54 @@ Entries with <code>sid</code> and without <code>dbca</code> are not passed to db
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_oradb_rman_control_file_record_keep_time_in_init_parameters">1.18. oradb_rman: control_file_record_keep_time in init_parameters</h3>
+<div class="paragraph">
+<p><code>control_file_record_keep_time</code> defines, how many days the controlfile keeps the records of backups.
+Without RMAN catalog, RMAN knows only the backups in the controlfile:
+a value smaller than the recovery window makes backups unusable for RMAN, although they exist.</p>
+</div>
+<div class="paragraph">
+<p>As of 5.0.0 <code>oradb_rman</code> asserts for every database with <code>rman_jobs</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>control_file_record_keep_time</code> is defined in <code>init_parameters</code> (<code>state: present</code>, <code>sid: &#39;*&#39;</code>), and</p>
+</li>
+<li>
+<p>the value is &gt;= <code>&lt;n&gt;</code> for the retention policy <code>RECOVERY WINDOW OF &lt;n&gt; DAYS</code>
+(<code>rman_retention_policy</code> of the database or <code>oradb_rman_retention_policy_default</code>).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The playbook stops with a failed assert, when the parameter is missing or too small.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example for RECOVERY WINDOW OF 14 DAYS</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_databases:
+  - oracle_db_name: DB1
+    rman_retention_policy: &#39;RECOVERY WINDOW OF 14 DAYS&#39;
+    init_parameters:
+      - {name: control_file_record_keep_time, value: &#39;30&#39;, scope: both, state: present}
+    rman_jobs:
+      - {name: parameter}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The assert can be disabled in emergency cases:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oradb_rman_assert_control_file_record_keep_time: false</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="/docs/guides/rman/">RMAN Backups with oradb_rman</a>.</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1950,7 +2006,7 @@ Entries with <code>sid</code> and without <code>dbca</code> are not passed to db
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 6, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/39d3a5bfbdb06506a82a16bd0c324edc09a63eeb">oradb_manage_parameters, oracle_parameter: init_parameters per instance with sid (39d3a5bf)</a>
+  Last modified November 8, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/da6c82816387ac8cc0c20481994c5527243d1d52">oradb_rman: assert control_file_record_keep_time (da6c8281)</a>
 </div>
 
 </div>

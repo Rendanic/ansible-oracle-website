@@ -77,6 +77,18 @@
     <lastmod>2026-10-24T10:36:34+02:00</lastmod>
     <priority>0</priority>
   </url><url>
+    <loc>https://www.ansible-oracle.eu/docs/roles/oradb_rman/</loc>
+    <lastmod>2026-11-08T09:12:49+01:00</lastmod>
+    <priority>0</priority>
+  </url><url>
+    <loc>https://www.ansible-oracle.eu/docs/guides/rman/</loc>
+    <lastmod>2026-11-08T09:12:49+01:00</lastmod>
+    <priority>0</priority>
+  </url><url>
+    <loc>https://www.ansible-oracle.eu/docs/guides/breaking_changes/</loc>
+    <lastmod>2026-11-08T08:15:24+01:00</lastmod>
+    <priority>0</priority>
+  </url><url>
     <loc>https://www.ansible-oracle.eu/docs/guides/dataguard/</loc>
     <lastmod>2026-11-07T20:57:15+01:00</lastmod>
     <priority>0</priority>
@@ -95,10 +107,6 @@
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/guides/standby_databases/</loc>
     <lastmod>2026-11-07T20:57:15+01:00</lastmod>
-    <priority>0</priority>
-  </url><url>
-    <loc>https://www.ansible-oracle.eu/docs/guides/breaking_changes/</loc>
-    <lastmod>2026-11-06T06:20:09+01:00</lastmod>
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/roles/common/</loc>
@@ -198,10 +206,6 @@
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/roles/oradb_manage_wallet/</loc>
-    <lastmod>2026-10-30T22:59:56+01:00</lastmod>
-    <priority>0</priority>
-  </url><url>
-    <loc>https://www.ansible-oracle.eu/docs/roles/oradb_rman/</loc>
     <lastmod>2026-10-30T22:59:56+01:00</lastmod>
     <priority>0</priority>
   </url><url>

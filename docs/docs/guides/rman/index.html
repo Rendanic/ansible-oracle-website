@@ -1,0 +1,1202 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+<title>RMAN Backups with oradb_rman | ansible-oracle Project</title>
+<meta name="description" content=" This guide describes the configuration of RMAN backups with the role oradb_rman and the backup script rman_backup.sh.
+1. Overview oradb_rman is executed by the playbook opitzconsulting.ansible_oracle.manage_db (last role). It configures for every database in oracle_databases with rman_jobs:
+Table 1. Files created by oradb_rman File Description $ORACLE_BASE/bin/rman_backup.sh
+Backup script, executes an RMAN script
+&lt;RMAN_SCRIPTDIR&gt;/&lt;job&gt;.rman
+RMAN script of a job, from the template &lt;job&gt;.rman.j2
+$ORACLE_BASE/admin/&lt;db_unique_name&gt;/rman/rman_backup.cfg
+Configuration of rman_backup.sh for the database (mode 0600)
+/etc/cron.d/oracle_rman_ansible
+Crontab with one entry per job (oradb_rman_cronfile)
+&lt;oradb_rman_tns_admin&gt;/tnsnames.ora, sqlnet.ora
+Connection to the RMAN catalog (rman_tnsalias)
+&lt;oradb_rman_wallet_loc&gt;
+Wallet with the credential of the RMAN catalog (rman_wallet: true)
+The crontab contains no passwords and no directories:
+10 01 * * 0 oracle /u01/app/oracle/bin/rman_backup.sh -a online_level0 -s DB1 &gt; /dev/null 2&gt;&amp;1 All other settings are read by rman_backup.sh from rman_backup.cfg. The output is written by rman_backup.sh to a logfile per execution, see Logfiles.">
+<meta property="og:url" content="https://www.ansible-oracle.eu/docs/guides/rman/">
+	<meta property="og:site_name" content="ansible-oracle Project">
+	<meta property="og:title" content="RMAN Backups with oradb_rman">
+	<meta property="og:description" content="This guide describes the configuration of RMAN backups with the role oradb_rman and the backup script rman_backup.sh.
+1. Overview oradb_rman is executed by the playbook opitzconsulting.ansible_oracle.manage_db (last role). It configures for every database in oracle_databases with rman_jobs:
+Table 1. Files created by oradb_rman File Description $ORACLE_BASE/bin/rman_backup.sh
+Backup script, executes an RMAN script
+&lt;RMAN_SCRIPTDIR&gt;/&lt;job&gt;.rman
+RMAN script of a job, from the template &lt;job&gt;.rman.j2
+$ORACLE_BASE/admin/&lt;db_unique_name&gt;/rman/rman_backup.cfg
+Configuration of rman_backup.sh for the database (mode 0600)
+/etc/cron.d/oracle_rman_ansible
+Crontab with one entry per job (oradb_rman_cronfile)
+&lt;oradb_rman_tns_admin&gt;/tnsnames.ora, sqlnet.ora
+Connection to the RMAN catalog (rman_tnsalias)
+&lt;oradb_rman_wallet_loc&gt;
+Wallet with the credential of the RMAN catalog (rman_wallet: true)
+The crontab contains no passwords and no directories:
+10 01 * * 0 oracle /u01/app/oracle/bin/rman_backup.sh -a online_level0 -s DB1 &gt; /dev/null 2&gt;&amp;1 All other settings are read by rman_backup.sh from rman_backup.cfg. The output is written by rman_backup.sh to a logfile per execution, see Logfiles.">
+	<meta property="og:locale" content="en_us">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="docs">
+		<meta property="article:published_time" content="2026-11-08T09:12:49+01:00">
+		<meta property="article:modified_time" content="2026-11-08T09:12:49+01:00">
+
+	<meta itemprop="name" content="RMAN Backups with oradb_rman">
+	<meta itemprop="description" content="This guide describes the configuration of RMAN backups with the role oradb_rman and the backup script rman_backup.sh.
+1. Overview oradb_rman is executed by the playbook opitzconsulting.ansible_oracle.manage_db (last role). It configures for every database in oracle_databases with rman_jobs:
+Table 1. Files created by oradb_rman File Description $ORACLE_BASE/bin/rman_backup.sh
+Backup script, executes an RMAN script
+&lt;RMAN_SCRIPTDIR&gt;/&lt;job&gt;.rman
+RMAN script of a job, from the template &lt;job&gt;.rman.j2
+$ORACLE_BASE/admin/&lt;db_unique_name&gt;/rman/rman_backup.cfg
+Configuration of rman_backup.sh for the database (mode 0600)
+/etc/cron.d/oracle_rman_ansible
+Crontab with one entry per job (oradb_rman_cronfile)
+&lt;oradb_rman_tns_admin&gt;/tnsnames.ora, sqlnet.ora
+Connection to the RMAN catalog (rman_tnsalias)
+&lt;oradb_rman_wallet_loc&gt;
+Wallet with the credential of the RMAN catalog (rman_wallet: true)
+The crontab contains no passwords and no directories:
+10 01 * * 0 oracle /u01/app/oracle/bin/rman_backup.sh -a online_level0 -s DB1 &gt; /dev/null 2&gt;&amp;1 All other settings are read by rman_backup.sh from rman_backup.cfg. The output is written by rman_backup.sh to a logfile per execution, see Logfiles.">
+	<meta itemprop="datePublished" content="2026-11-08T09:12:49+01:00">
+	<meta itemprop="dateModified" content="2026-11-08T09:12:49+01:00">
+	<meta itemprop="wordCount" content="1756">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="RMAN Backups with oradb_rman">
+	<meta name="twitter:description" content="This guide describes the configuration of RMAN backups with the role oradb_rman and the backup script rman_backup.sh.
+1. Overview oradb_rman is executed by the playbook opitzconsulting.ansible_oracle.manage_db (last role). It configures for every database in oracle_databases with rman_jobs:
+Table 1. Files created by oradb_rman File Description $ORACLE_BASE/bin/rman_backup.sh
+Backup script, executes an RMAN script
+&lt;RMAN_SCRIPTDIR&gt;/&lt;job&gt;.rman
+RMAN script of a job, from the template &lt;job&gt;.rman.j2
+$ORACLE_BASE/admin/&lt;db_unique_name&gt;/rman/rman_backup.cfg
+Configuration of rman_backup.sh for the database (mode 0600)
+/etc/cron.d/oracle_rman_ansible
+Crontab with one entry per job (oradb_rman_cronfile)
+&lt;oradb_rman_tns_admin&gt;/tnsnames.ora, sqlnet.ora
+Connection to the RMAN catalog (rman_tnsalias)
+&lt;oradb_rman_wallet_loc&gt;
+Wallet with the credential of the RMAN catalog (rman_wallet: true)
+The crontab contains no passwords and no directories:
+10 01 * * 0 oracle /u01/app/oracle/bin/rman_backup.sh -a online_level0 -s DB1 &gt; /dev/null 2&gt;&amp;1 All other settings are read by rman_backup.sh from rman_backup.cfg. The output is written by rman_backup.sh to a logfile per execution, see Logfiles.">
+
+
+
+
+
+<link href="/scss/main.css" rel="stylesheet">
+
+<script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+  crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/css/prism.css"/>
+
+  </head>
+  <body class="td-page">
+    <header>
+      <nav class="td-navbar js-navbar-scroll" data-bs-theme="light">
+<div class="container-fluid flex-column flex-md-row">
+  <a class="navbar-brand" href="/"><span class="navbar-brand__logo navbar-logo"><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500"><g><path style="fill:#fff" d="M116.8525 421.9722c-5.7041.0-10.3442-4.3127-10.3442-9.6129V88.183c0-5.3002 4.6401-9.6117 10.3442-9.6117H320.858c3.0347.0 9.3959.5498 11.7506 2.6302l.3545.3442 58.905 63.2912c2.3101 2.491 2.9202 8.4928 2.9202 11.3184v256.2039c0 5.3002-4.6407 9.6129-10.3436 9.6129H116.8525z"/><g><g><g><path style="fill:#767676" d="M384.4445 423.2066H116.852c-6.3839.0-11.5786-4.8658-11.5786-10.8474V88.1831c0-5.9804 5.1947-10.8461 11.5786-10.8461h204.0062c.377.0 9.2786.0329 12.568 2.9389l.3947.3833 58.9508 63.337c3.2135 3.4652 3.2514 11.7924 3.2514 12.1593v256.2036C396.0231 418.3408 390.8284 423.2066 384.4445 423.2066zM116.5079 411.9189c.0848.0278.1999.0531.3441.0531h267.5925c.1442.0.2581-.0253.3441-.0531V156.1556c-.0076-.9033-.3593-3.7347-.7034-5.0037l-57.6527-61.9416c-1.4651-.3176-4.4533-.6389-5.5742-.6389H116.852c-.143.0-.2594.024-.3441.0531V411.9189zm267.4533-261.149zM327.0321 89.371v.0013V89.371z"/></g></g></g><g><g><path style="fill:#5b7fc0" d="M189.0874 210.1754l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4473C177.5953 212.627 183.0601 210.1742 189.0874 210.1754zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 234.1722 197.0804 232.033z"/><path style="opacity:.3;fill:#fff" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/><g><defs><path id="SVGID_1_" d="M194.7376 237.6875c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 234.2399 196.1861 236.239 194.7376 237.6875z"/></defs><clipPath id="SVGID_2_"><use xlink:href="#SVGID_1_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_2_);fill:#fff" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/><path style="opacity:.13;clip-path:url(#SVGID_2_);fill:#020202" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/></g><g><defs><path id="SVGID_3_" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/></defs><clipPath id="SVGID_4_"><use xlink:href="#SVGID_3_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_4_);fill:#5b7fc0" d="M172.6595 215.6045c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8475-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 209.1953 176.6171 211.647 172.6595 215.6045z"/></g></g><rect x="198.8952" y="225.1043" style="fill:#5b7fc0" width="122.6266" height="13.8671"/></g><g><path style="fill:#d95140" d="M189.0874 155.7611l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.0249 2.454-11.4897 6.4116-15.4473C177.5953 158.2128 183.0601 155.7599 189.0874 155.7611zm7.993 21.8577c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.2508 181.7667 197.0816 179.758 197.0804 177.6188z"/><path style="opacity:.3;fill:#fff" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/><g><defs><path id="SVGID_5_" d="M194.7376 183.2733c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 179.8256 196.1861 181.8248 194.7376 183.2733z"/></defs><clipPath id="SVGID_6_"><use xlink:href="#SVGID_5_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_6_);fill:#fff" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/><path style="opacity:.13;clip-path:url(#SVGID_6_);fill:#020202" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/></g><g><defs><path id="SVGID_7_" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/></defs><clipPath id="SVGID_8_"><use xlink:href="#SVGID_7_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_8_);fill:#d95140" d="M172.6595 161.1903c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 154.7811 176.6171 157.2327 172.6595 161.1903z"/></g><rect x="198.8952" y="170.69" style="fill:#d95140" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#56a55c" d="M189.5379 264.6147l.0012-.0012c7.7751.0012 15.0294 4.1862 18.932 10.9235 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032-5.8394.0-11.3281-2.2733-15.458-6.4032-4.13-4.13-6.4032-9.6186-6.4056-15.4628.0012-6.0249 2.454-11.4897 6.4116-15.4472C178.0458 267.0663 183.5105 264.6135 189.5379 264.6147zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6538 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.7013 290.6202 197.5321 288.6115 197.5309 286.4723z"/><path style="opacity:.3;fill:#fff" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/><g><defs><path id="SVGID_9_" d="M195.1881 292.1268c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9941 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.5344 288.6792 196.6366 290.6783 195.1881 292.1268z"/></defs><clipPath id="SVGID_10_"><use xlink:href="#SVGID_9_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_10_);fill:#fff" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/><path style="opacity:.13;clip-path:url(#SVGID_10_);fill:#020202" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/></g><g><defs><path id="SVGID_11_" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/></defs><clipPath id="SVGID_12_"><use xlink:href="#SVGID_11_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_12_);fill:#56a55c" d="M173.11 270.0439c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7325-11.1497-10.9151-18.926-10.9151C182.5311 263.6346 177.0676 266.0863 173.11 270.0439z"/></g></g><rect x="199.3456" y="279.5436" style="fill:#56a55c" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#f1bc42" d="M189.0874 318.7208l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3305-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4472C177.5953 321.1724 183.0601 318.7196 189.0874 318.7208zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 342.7176 197.0804 340.5784z"/><path style="opacity:.3;fill:#fff" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/><g><defs><path id="SVGID_13_" d="M194.7376 346.2329c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 342.7853 196.1861 344.7844 194.7376 346.2329z"/></defs><clipPath id="SVGID_14_"><use xlink:href="#SVGID_13_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_14_);fill:#fff" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/><path style="opacity:.13;clip-path:url(#SVGID_14_);fill:#020202" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/></g><g><defs><path id="SVGID_15_" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/></defs><clipPath id="SVGID_16_"><use xlink:href="#SVGID_15_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_16_);fill:#f1bc42" d="M172.6595 324.15c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8474-1.0151-7.6327-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 317.7407 176.6171 320.1924 172.6595 324.15z"/></g></g><rect x="198.8952" y="333.6497" style="fill:#f1bc42" width="122.6266" height="13.8671"/></g></g></svg></span><span class="navbar-brand__name">ansible-oracle Project</span></a>
+  <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/about/"><span>About</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/docs/"><span>Documentation</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/oravirt/ansible-oracle/releases" target="_blank" rel="noopener"><span>Releases</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/oravirt/ansible-oracle" target="_blank" rel="noopener"><span>Github</span></a>
+      </li>
+      </ul>
+  </div>
+  <div class="d-none d-lg-block">
+    
+  </div>
+</div>
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <aside class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            <div id="td-sidebar-menu" class="td-sidebar__inner">
+  <div id="content-mobile">
+  <form class="td-sidebar__search d-flex align-items-center">
+    
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ms-3 fas fa-bars" type="button" data-bs-toggle="collapse" data-bs-target="#td-section-nav" aria-controls="td-section-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  </div>
+  <div id="content-desktop"></div>
+  <nav class="td-sidebar-nav collapse td-sidebar-nav--search-disabled" id="td-section-nav">
+    <ul class="td-sidebar-nav__section pe-md-3 ul-0">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docs-li">
+  <a href="/docs/" title="Documentation" class="align-left ps-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-docs"><span class="">Docs</span></a>
+  <ul class="ul-1">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsfeatures-li">
+  <a href="/docs/features/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsfeatures"><span class="">Features</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsfeaturesfeaturelist-li">
+  <a href="/docs/features/featurelist/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsfeaturesfeaturelist"><span class="">Supported features in ansible-oracle</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docsguides-li">
+  <a href="/docs/guides/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsguides"><span class="">Guides</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguidesvagrant-li">
+  <a href="/docs/guides/vagrant/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsguidesvagrant"><span class="">Vagrant</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesvagrantwindows-li">
+  <a href="/docs/guides/vagrant/windows/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesvagrantwindows"><span class="">Vagrant on Windows</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesvagrantvagrant_basics-li">
+  <a href="/docs/guides/vagrant/vagrant_basics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesvagrantvagrant_basics"><span class="">Vagrant Basics</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbeginner-li">
+  <a href="/docs/guides/beginner/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbeginner"><span class="">Beginners Guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesadvanced-li">
+  <a href="/docs/guides/advanced/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesadvanced"><span class="">Advanced Guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesansible-container-li">
+  <a href="/docs/guides/ansible-container/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesansible-container"><span class="">Ansible as a Docker Container</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguideslocal-install-howto-li">
+  <a href="/docs/guides/local-install-howto/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguideslocal-install-howto"><span class="">HOWTO: Local Installation of Ansible-Oracle</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesinstall-and-patch-settings-li">
+  <a href="/docs/guides/install-and-patch-settings/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesinstall-and-patch-settings"><span class="">Installation &amp; Patching Settings for the Inventory</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesapex_ords-li">
+  <a href="/docs/guides/apex_ords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesapex_ords"><span class="">Setup APEX and ORDS</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesautoupgrade-li">
+  <a href="/docs/guides/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade"><span class="">Oracle AutoUpgrade</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesautoupgrade_upgrade-li">
+  <a href="/docs/guides/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
+  <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguidesrman-li">
+  <a href="/docs/guides/rman/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="td-sidebar-nav-active-item">RMAN Backups with oradb_rman</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
+  <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
+  <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_databases-li">
+  <a href="/docs/guides/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="">Standby Databases</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
+  <a href="/docs/guides/restart_rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="">Setup ASM for Oracle Grid Infrastructure / Restart</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsroles-li">
+  <a href="/docs/roles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsroles"><span class="">Ansible Roles</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
+  <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
+  <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
+  <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
+  <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
+  <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
+  <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+  <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
+  <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+  <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+  <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolespyoracledb-li">
+  <a href="/docs/roles/pyoracledb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolespyoracledb"><span class="">pyoracledb</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
+  <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesautoupgrade-li">
+  <a href="/docs/roles/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesautoupgrade"><span class="">autoupgrade</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesglobal_handlers-li">
+  <a href="/docs/roles/global_handlers/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesglobal_handlers"><span class="">global_handlers</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraapex-li">
+  <a href="/docs/roles/oraapex/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraapex"><span class="">oraapex</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraasm_manage_diskgroups-li">
+  <a href="/docs/roles/oraasm_manage_diskgroups/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraasm_manage_diskgroups"><span class="">oraasm_manage_diskgroups</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoracluvfy-li">
+  <a href="/docs/roles/oracluvfy/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoracluvfy"><span class="">oracluvfy</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_datapatch-li">
+  <a href="/docs/roles/oradb_datapatch/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_datapatch"><span class="">oradb_datapatch</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_facts-li">
+  <a href="/docs/roles/oradb_facts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_facts"><span class="">oradb_facts</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_grants-li">
+  <a href="/docs/roles/oradb_manage_grants/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_grants"><span class="">oradb_manage_grants</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_parameters-li">
+  <a href="/docs/roles/oradb_manage_parameters/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_parameters"><span class="">oradb_manage_parameters</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_pdb-li">
+  <a href="/docs/roles/oradb_manage_pdb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_pdb"><span class="">oradb_manage_pdb</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_profiles-li">
+  <a href="/docs/roles/oradb_manage_profiles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_profiles"><span class="">oradb_manage_profiles</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_redo-li">
+  <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="">oradb_manage_redo</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_roles-li">
+  <a href="/docs/roles/oradb_manage_roles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_roles"><span class="">oradb_manage_roles</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_services-li">
+  <a href="/docs/roles/oradb_manage_services/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_services"><span class="">oradb_manage_services</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_statspack-li">
+  <a href="/docs/roles/oradb_manage_statspack/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_statspack"><span class="">oradb_manage_statspack</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_tablespace-li">
+  <a href="/docs/roles/oradb_manage_tablespace/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_tablespace"><span class="">oradb_manage_tablespace</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_users-li">
+  <a href="/docs/roles/oradb_manage_users/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_users"><span class="">oradb_manage_users</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_wallet-li">
+  <a href="/docs/roles/oradb_manage_wallet/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_wallet"><span class="">oradb_manage_wallet</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_tzupgrade-li">
+  <a href="/docs/roles/oradb_tzupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_tzupgrade"><span class="">oradb_tzupgrade</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_cron-li">
+  <a href="/docs/roles/orahost_cron/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_cron"><span class="">orahost_cron</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_logrotate-li">
+  <a href="/docs/roles/orahost_logrotate/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_logrotate"><span class="">orahost_logrotate</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_ssh-li">
+  <a href="/docs/roles/orahost_ssh/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_ssh"><span class="">orahost_ssh</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_storage-li">
+  <a href="/docs/roles/orahost_storage/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_storage"><span class="">orahost_storage</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraords-li">
+  <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
+  <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswahf_install-li">
+  <a href="/docs/roles/oraswahf_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswahf_install"><span class="">oraswahf_install</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_golden_image-li">
+  <a href="/docs/roles/oraswdb_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_golden_image"><span class="">oraswdb_golden_image</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
+  <a href="/docs/roles/oraswdb_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_manage_patches"><span class="">oraswdb_manage_patches</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_golden_image-li">
+  <a href="/docs/roles/oraswgi_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_golden_image"><span class="">oraswgi_golden_image</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_manage_patches-li">
+  <a href="/docs/roles/oraswgi_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_manage_patches"><span class="">oraswgi_manage_patches</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_meta-li">
+  <a href="/docs/roles/oraswgi_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_meta"><span class="">oraswgi_meta</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsdevelopment-li">
+  <a href="/docs/development/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsdevelopment"><span class="">Development</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsdevelopmentdevelopment-li">
+  <a href="/docs/development/development/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsdevelopmentdevelopment"><span class="">How to develop</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsdevelopmentwebsite-li">
+  <a href="/docs/development/website/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsdevelopmentwebsite"><span class="">Website</span></a>
+</li>
+  </ul>
+</li>
+  </ul>
+</li>
+    </ul>
+  </nav>
+</div>
+
+          </aside>
+          <aside class="d-none d-xl-block col-xl-2 td-sidebar-toc d-print-none">
+            <div class="td-page-meta ms-2 pb-1 pt-2 mb-0">
+<a href="https://github.com/oravirt/ansible-oracle/tree/master/doc/guides/rman.adoc" class="td-page-meta--view td-page-meta__view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines fa-fw"></i> View page source</a>
+  <a href="https://github.com/oravirt/ansible-oracle/edit/master/doc/guides/rman.adoc" class="td-page-meta--edit td-page-meta__edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Edit this page</a>
+  <a href="https://github.com/oravirt/ansible-oracle/new/master/doc/guides?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" class="td-page-meta--child td-page-meta__child" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Create child page</a>
+  <a href="https://github.com/oravirt/ansible-oracle/issues/new?title=RMAN%20Backups%20with%20oradb_rman" class="td-page-meta--issue td-page-meta__issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create documentation issue</a>
+  <a href="https://github.com/oravirt/ansible-oracle/issues/new" class="td-page-meta--project td-page-meta__project-issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create project issue</a>
+  <a id="print" href="/_print/docs/guides/"><i class="fa-solid fa-print fa-fw"></i> Print entire section</a>
+
+</div>
+
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#_overview">1. Overview</a></li>
+    <li><a href="#_inventory">2. Inventory</a>
+      <ul>
+        <li><a href="#_rman_jobs">2.1. rman_jobs</a></li>
+        <li><a href="#_attributes_of_oracle_databases">2.2. Attributes of oracle_databases</a></li>
+        <li><a href="#_control_file_record_keep_time">2.3. control_file_record_keep_time</a></li>
+        <li><a href="#_global_variables">2.4. Global variables</a></li>
+        <li><a href="#_rman_templates">2.5. RMAN templates</a></li>
+        <li><a href="#_example">2.6. Example</a></li>
+      </ul>
+    </li>
+    <li><a href="#_rman_backup_sh">3. rman_backup.sh</a>
+      <ul>
+        <li><a href="#_usage">3.1. Usage</a></li>
+        <li><a href="#_order_of_the_settings">3.2. Order of the settings</a></li>
+        <li><a href="#_oracle_admin">3.3. ORACLE_ADMIN</a></li>
+        <li><a href="#_rman_backup_cfg">3.4. rman_backup.cfg</a></li>
+        <li><a href="#_catalog">3.5. Catalog</a></li>
+        <li><a href="#Logfiles">3.6. Logfiles</a></li>
+        <li><a href="#_parallel_executions">3.7. Parallel executions</a></li>
+        <li><a href="#_exit_codes">3.8. Exit codes</a></li>
+      </ul>
+    </li>
+    <li><a href="#_data_guard">4. Data Guard</a></li>
+    <li><a href="#_migration_from_older_versions">5. Migration from older versions</a></li>
+  </ul>
+</nav>
+      </div>
+    
+            
+	
+          </aside>
+          <main class="col-12 col-md-9 col-xl-8 ps-md-5" role="main">
+            
+  
+
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
+  <ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="/docs/">Docs</a></li>
+  <li class="breadcrumb-item">
+    <a href="/docs/guides/">Guides</a></li>
+  <li class="breadcrumb-item active" aria-current="page">
+    RMAN Backups with oradb_rman</li>
+  </ol>
+</nav>
+            
+<div class="td-content">
+	<h1>RMAN Backups with oradb_rman</h1>
+	
+	<header class="article-meta">
+		
+  </header>
+	
+<div class="paragraph">
+<p>This guide describes the configuration of RMAN backups with the role <code>oradb_rman</code>
+and the backup script <code>rman_backup.sh</code>.</p>
+</div>
+<div class="sect1">
+<h2 id="_overview">1. Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>oradb_rman</code> is executed by the playbook <code>opitzconsulting.ansible_oracle.manage_db</code> (last role).
+It configures for every database in <code>oracle_databases</code> with <code>rman_jobs</code>:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Files created by oradb_rman</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">File</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>$ORACLE_BASE/bin/rman_backup.sh</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Backup script, executes an RMAN script</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;RMAN_SCRIPTDIR&gt;/&lt;job&gt;.rman</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN script of a job, from the template <code>&lt;job&gt;.rman.j2</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>$ORACLE_BASE/admin/&lt;db_unique_name&gt;/rman/rman_backup.cfg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configuration of <code>rman_backup.sh</code> for the database (mode <code>0600</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/etc/cron.d/oracle_rman_ansible</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Crontab with one entry per job (<code>oradb_rman_cronfile</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;oradb_rman_tns_admin&gt;/tnsnames.ora</code>, <code>sqlnet.ora</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Connection to the RMAN catalog (<code>rman_tnsalias</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;oradb_rman_wallet_loc&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Wallet with the credential of the RMAN catalog (<code>rman_wallet: true</code>)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The crontab contains no passwords and no directories:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>10 01 * * 0 oracle /u01/app/oracle/bin/rman_backup.sh -a online_level0 -s DB1 &gt; /dev/null 2&gt;&amp;1</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>All other settings are read by <code>rman_backup.sh</code> from <code>rman_backup.cfg</code>.
+The output is written by <code>rman_backup.sh</code> to a logfile per execution, see <a href="#Logfiles">Logfiles</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_inventory">2. Inventory</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_rman_jobs">2.1. rman_jobs</h3>
+<div class="paragraph">
+<p><code>rman_jobs</code> is a list in an entry of <code>oracle_databases</code>.
+Every job executes the RMAN script <code>&lt;name&gt;.rman</code>.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Attributes of rman_jobs</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Mandatory</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the job = name of the template <code>&lt;name&gt;.rman.j2</code> and of the RMAN script <code>&lt;name&gt;.rman</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>state</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>present</code> (default) or <code>absent</code> (removes the crontab entry)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>minute</code>, <code>hour</code>, <code>day</code>, <code>weekday</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">for cron</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Schedule of the crontab entry. A job without schedule gets no crontab entry (e.g. <code>parameter</code>).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>disabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code>: the crontab entry is commented out</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>immediate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code>: the job is executed during the playbook (without catalog), e.g. for <code>parameter</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>service</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Backup only on the node where the service is running (Grid Infrastructure / Oracle Restart), <code>rman_backup.sh --service</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>role</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>primary</code> or <code>standby</code>: backup only when the database has this role (Data Guard), <code>rman_backup.sh --role</code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_attributes_of_oracle_databases">2.2. Attributes of oracle_databases</h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. RMAN attributes of an entry in oracle_databases</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_jobs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of jobs, see above</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_retention_policy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CONFIGURE RETENTION POLICY</code> in the template <code>parameter</code>, default: <code>oradb_rman_retention_policy_default</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_channel_disk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CONFIGURE CHANNEL DEVICE TYPE DISK</code>, default: <code>oradb_rman_channel_disk_default</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_controlfile_autobackup_disk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CONFIGURE CONTROLFILE AUTOBACKUP FORMAT</code>, default: <code>oradb_rman_controlfile_autobackup_disk_default</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_script_dir</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directory of the RMAN scripts of the database, default: <code>oradb_rman_script_dir</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_log_dir</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directory of the RMAN logfiles of the database, default: <code>oradb_rman_log_dir</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_tnsalias</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TNS alias of the RMAN catalog (entry in <code>oracle_tnsnames_config</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_user</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Owner of the RMAN catalog, password from <code>dbpasswords[&lt;rman_tnsalias&gt;][&lt;rman_user&gt;]</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_wallet</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code>: the password is stored in a wallet (<code>oradb_rman_wallet_loc</code>), the connect is <code>/@&lt;rman_tnsalias&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_db_unique_name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directory of <code>rman_backup.cfg</code>: <code>$ORACLE_BASE/admin/&lt;db_unique_name&gt;/rman</code>, default: <code>oracle_db_name</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><code>rman_password</code> in <code>oracle_databases</code> is deprecated. Use <code>dbpasswords</code> instead.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_control_file_record_keep_time">2.3. control_file_record_keep_time</h3>
+<div class="paragraph">
+<p>Best practice: <code>control_file_record_keep_time</code> is defined in <code>init_parameters</code> of every database with <code>rman_jobs</code>.
+The controlfile keeps the records of the backups for this number of days.
+Without catalog, RMAN knows only the backups in the controlfile.</p>
+</div>
+<div class="paragraph">
+<p><code>oradb_rman</code> asserts:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>control_file_record_keep_time</code> is defined in <code>init_parameters</code> (<code>state: present</code>, <code>sid: &#39;*&#39;</code>), and</p>
+</li>
+<li>
+<p>the value is &gt;= <code>&lt;n&gt;</code> for the retention policy <code>RECOVERY WINDOW OF &lt;n&gt; DAYS</code>.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>init_parameters:
+  - {name: control_file_record_keep_time, value: &#39;30&#39;, scope: both, state: present}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The assert can be disabled with <code>oradb_rman_assert_control_file_record_keep_time: false</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_global_variables">2.4. Global variables</h3>
+<div class="paragraph">
+<p>The variables of the role are described in the <a href="/docs/roles/oradb_rman/">README of oradb_rman</a>.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. Important variables</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_rman_script_dir</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>$ORACLE_BASE/rman</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN scripts (<code>RMAN_SCRIPTDIR</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_rman_log_dir</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>$ORACLE_BASE/rman/log</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Logfiles of <code>rman_backup.sh</code> (<code>RMAN_LOGDIR</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_rman_log_retention</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>30</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Days to keep the logfiles (<code>RMAN_LOG_RETENTION</code>), <code>0</code>: keep all</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_rman_cronfile</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_rman_ansible</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">File in <code>/etc/cron.d</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_rman_tns_admin</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>$ORACLE_BASE/rman/network/admin</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TNS_ADMIN</code> for the catalog (<code>RMAN_TNS_ADMIN</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_rman_cron_mkjob</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Prefix <code>mk-job</code> for checkmk</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The template <code>parameter</code> uses <code>rman_device_type_disk</code>
+(e.g. <code>&#39;PARALLELISM 1 BACKUP TYPE TO COMPRESSED BACKUPSET&#39;</code>),
+the templates <code>*_fra_disk</code> use <code>rman_fra_backupdir</code>.
+The role has no default for these variables, define them in the inventory when the templates are used.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rman_templates">2.5. RMAN templates</h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. Templates of oradb_rman</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>parameter</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN configuration: retention policy, controlfile autobackup, channel</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>online_level0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Online incremental level 0 backup, archive logs, <code>delete obsolete</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>online_level1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Online incremental level 1 backup, archive logs, <code>delete obsolete</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>offline_level0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Offline level 0 backup: the database is restarted in <code>MOUNT</code>, opened afterwards</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>archivelog</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Backup of the archive logs, deletes the archive logs backed up 1 time</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>*_fra_disk</code>, <code>parameter_rac</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Variants for backups of the FRA to disk and for RAC</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Own templates <code>&lt;name&gt;.rman.j2</code> are found by Ansible in the <code>templates</code> directory of the playbook
+(Ansible search path), the job uses the same <code>name</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_example">2.6. Example</h3>
+<div class="listingblock">
+<div class="title">Database with RMAN catalog and Data Guard</div>
+<div class="content">
+<pre>oracle_databases:
+  - oracle_db_name: DB1
+    oracle_db_unique_name: DB1_SITE1
+    ...
+    rman_retention_policy: &#39;RECOVERY WINDOW OF 14 DAYS&#39;
+    rman_tnsalias: RMANCAT
+    rman_user: rman_db1
+    rman_jobs:
+      - {name: parameter, immediate: true}
+      - {name: online_level0, role: standby, weekday: &#34;0&#34;, hour: &#34;01&#34;, minute: &#34;10&#34;, day: &#34;*&#34;}
+      - {name: online_level1, role: standby, weekday: &#34;1-6&#34;, hour: &#34;01&#34;, minute: &#34;10&#34;, day: &#34;*&#34;}
+      - {name: archivelog, weekday: &#34;*&#34;, hour: &#34;*&#34;, minute: &#34;30&#34;, day: &#34;*&#34;}
+
+rman_device_type_disk: &#39;PARALLELISM 1 BACKUP TYPE TO COMPRESSED BACKUPSET&#39;
+
+dbpasswords:
+  RMANCAT:
+    rman_db1: &lt;password&gt;</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_rman_backup_sh">3. rman_backup.sh</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_usage">3.1. Usage</h3>
+<div class="listingblock">
+<div class="content">
+<pre>rman_backup.sh -a &lt;action&gt; [-s &lt;ORACLE_SID|DB_NAME&gt;] [--admin &lt;Directory&gt;]
+               [-r &lt;Directory&gt;] [-l &lt;Directory&gt;] [-c &lt;CATALOGCONNECT&gt;] [-t &lt;TARGETCONNECT&gt;]
+               [--service &lt;Service&gt;] [--role &lt;PRIMARY|STANDBY&gt;] [--nocatalog]
+rman_backup.sh -h</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>-a</code> is the only mandatory parameter.
+All other settings are read from the command line, the environment or the configuration file.</p>
+</div>
+<div class="listingblock">
+<div class="title">Interactive usage as oracle</div>
+<div class="content">
+<pre>export ORACLE_SID=DB1
+$ORACLE_BASE/bin/rman_backup.sh -a archivelog
+$ORACLE_BASE/bin/rman_backup.sh -a online_level0 --nocatalog</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_order_of_the_settings">3.2. Order of the settings</h3>
+<div class="paragraph">
+<p>The first value wins:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>parameter on the command line</p>
+</li>
+<li>
+<p>environment variable</p>
+</li>
+<li>
+<p>configuration file <code>&lt;ORACLE_ADMIN&gt;/rman/rman_backup.cfg</code></p>
+</li>
+<li>
+<p>default of <code>rman_backup.sh</code></p>
+</li>
+</ol>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. Parameters, environment variables and defaults</caption>
+<colgroup>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Environment / rman_backup.cfg</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-a/--action</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN script <code>&lt;RMAN_SCRIPTDIR&gt;/&lt;action&gt;.rman</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-s/--ORACLE_SID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORACLE_SID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ORACLE_SID, DB_NAME in RAC environments (the instance is determined with <code>srvctl</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--admin</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORACLE_ADMIN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">see below</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directory of <code>rman/rman_backup.cfg</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-r/--rmanscriptdir</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_SCRIPTDIR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;ORACLE_ADMIN&gt;/rman</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN scripts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-l/--logdir</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_LOGDIR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;RMAN_SCRIPTDIR&gt;/log</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directory of the logfiles, see <a href="#Logfiles">Logfiles</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_LOG_RETENTION</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>30</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Remove logfiles older than <code>&lt;n&gt;</code> days, <code>0</code>: keep all</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-c/--catalogconnect</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_CATALOGCONNECT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no catalog</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>connect catalog &lt;value&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--nocatalog</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No catalog, even when <code>RMAN_CATALOGCONNECT</code> is set</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-t/--targetconnect</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_TARGETCONNECT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>connect target &lt;value&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--service</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_SERVICE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Backup only when the service runs on the current node (GI / Oracle Restart)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--role</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_ROLE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PRIMARY</code> or <code>STANDBY</code> (= <code>PHYSICAL STANDBY</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_TNS_ADMIN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TNS_ADMIN</code> for RMAN</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The old environment variables <code>RMANSCRIPTDIR</code>, <code>RMANLOGDIR</code>, <code>CATALOGCONNECT</code>, <code>TARGETCONNECT</code>
+and <code>RMANTNS_ADMIN</code> are still supported.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+Parameters are visible in the process list. Use <code>rman_backup.cfg</code> for the password of the catalog,
+not <code>-c</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_oracle_admin">3.3. ORACLE_ADMIN</h3>
+<div class="paragraph">
+<p><code>rman_backup.sh</code> determines <code>ORACLE_ADMIN</code> in the following order:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>--admin</code> or the environment variable <code>ORACLE_ADMIN</code></p>
+</li>
+<li>
+<p><code>$ORACLE_BASE/admin/&lt;db_unique_name&gt;</code>: <code>db_unique_name</code> is read from the running instance
+(<code>v$parameter</code>, <code>sqlplus / as sysdba</code>, works in <code>NOMOUNT</code>)</p>
+</li>
+<li>
+<p><code>$ORACLE_BASE/admin/&lt;ORACLE_SID&gt;</code>, when the instance is not running</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The <code>db_unique_name</code> makes the configuration unique on every member of a Data Guard configuration:
+the ORACLE_SID is identical on all members, the <code>db_unique_name</code> is different.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rman_backup_cfg">3.4. rman_backup.cfg</h3>
+<div class="paragraph">
+<p>The configuration file contains lines with <code>KEY=VALUE</code>.
+It is read line by line and <strong>not</strong> sourced: shell code is not executed.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># Managed by Ansible
+RMAN_SCRIPTDIR=/u01/app/oracle/rman
+RMAN_LOGDIR=/u01/app/oracle/rman/log
+RMAN_LOG_RETENTION=30
+RMAN_TNS_ADMIN=/u01/app/oracle/rman/network/admin
+RMAN_CATALOGCONNECT=rman_db1/&lt;password&gt;@RMANCAT</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Allowed keys: <code>RMAN_SCRIPTDIR</code>, <code>RMAN_LOGDIR</code>, <code>RMAN_LOG_RETENTION</code>, <code>RMAN_TARGETCONNECT</code>, <code>RMAN_CATALOGCONNECT</code>,
+<code>RMAN_SERVICE</code>, <code>RMAN_ROLE</code>, <code>RMAN_TNS_ADMIN</code>. Unknown keys and invalid lines are ignored with a warning.</p>
+</li>
+<li>
+<p>One pair of quotes around the value is removed.</p>
+</li>
+<li>
+<p>Empty lines and lines starting with <code>#</code> are ignored.</p>
+</li>
+<li>
+<p>The file could contain the password of the catalog: mode <code>0600</code>.
+<code>rman_backup.sh</code> warns, when the file is readable by other users.</p>
+</li>
+<li>
+<p><code>oradb_rman</code> creates the file. Manual changes are overwritten by the next execution of the role.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>RMAN_SERVICE</code> and <code>RMAN_ROLE</code> are set per job in the crontab (<code>--service</code>, <code>--role</code>) and not in the file,
+because the jobs of a database could use different values.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_catalog">3.5. Catalog</h3>
+<div class="paragraph">
+<p><code>rman_backup.sh</code> checks the connection to the catalog before the backup.
+The backup runs without catalog, when the catalog is not reachable.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="Logfiles">3.6. Logfiles</h3>
+<div class="paragraph">
+<p><code>rman_backup.sh</code> writes all output of the script, <code>sqlplus</code> and RMAN to stdout and to a logfile per execution.
+Manual executions are logged the same way as the cron jobs, the crontab redirects the output to <code>/dev/null</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;RMAN_LOGDIR&gt;/&lt;db_unique_name&gt;_&lt;action&gt;_&lt;YYYYmmdd&gt;_&lt;HHMMSS&gt;_&lt;pid&gt;.log
+&lt;RMAN_LOGDIR&gt;/&lt;db_unique_name&gt;_&lt;action&gt;.log -&gt; logfile of the last execution</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Every execution has its own logfile: parallel executions do not mix their output.</p>
+</li>
+<li>
+<p>The symlink points to the logfile of the last execution of the action (for monitoring and <code>tail</code>).</p>
+</li>
+<li>
+<p>Messages before the logfile is opened (e.g. reading <code>rman_backup.cfg</code>) are written to the logfile afterwards.</p>
+</li>
+<li>
+<p>Logfiles of the database and action older than <code>RMAN_LOG_RETENTION</code> days are removed.</p>
+</li>
+<li>
+<p>Errors before the logfile is opened (e.g. ORACLE_SID not in <code>/etc/oratab</code>) and the major actions
+are logged in syslog (tag <code>rman_backup.sh</code>).</p>
+</li>
+<li>
+<p><code>&lt;db_unique_name&gt;</code> is the name of the directory <code>ORACLE_ADMIN</code>, when the instance is not running.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_parallel_executions">3.7. Parallel executions</h3>
+<div class="paragraph">
+<p>Only one execution of an action is allowed for a database (lock file <code>&lt;RMAN_LOGDIR&gt;/.&lt;db_unique_name&gt;_&lt;action&gt;.lock</code>, <code>flock</code>).
+A 2nd execution of the same action stops immediately with exit code 30, e.g. an hourly <code>archivelog</code>
+while the last execution is still running.
+Different actions of a database run in parallel, e.g. <code>archivelog</code> during <code>online_level0</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_exit_codes">3.8. Exit codes</h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 7. Exit codes of rman_backup.sh</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Code</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN successful, or backup skipped (<code>--service</code> not running on this node, <code>--role</code> does not match)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Wrong parameters, service not existing</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10, 11, 12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ORACLE_SID not in <code>/etc/oratab</code>, ORACLE_HOME or ORACLE_BASE not found</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">13</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database role could not be determined (<code>--role</code>, instance not mounted)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">14</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_backup.cfg</code> not readable</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">21, 22, 23</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Log directory, RMAN script or logfile not existing</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The action is running already for the database</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">99</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN failed</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_data_guard">4. Data Guard</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>All members of a Data Guard configuration get the same <code>rman_jobs</code>.
+<code>role</code> decides, on which member a job executes the backup:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>role: standby</code>: backups of the database on the physical standby, the primary is not loaded</p>
+</li>
+<li>
+<p><code>role: primary</code>: backups on the primary only</p>
+</li>
+<li>
+<p>without <code>role</code>: the job runs on every member (e.g. <code>archivelog</code>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>After a switchover the backups follow the role automatically, the inventory is not changed.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Use an RMAN catalog for Data Guard.
+Backups of a physical standby database can be used for the primary database (and vice versa),
+the catalog makes the backups known to all members.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<code>archivelog</code> deletes all archive logs that were backed up once.
+Configure an <code>ARCHIVELOG DELETION POLICY</code> (e.g. <code>APPLIED ON ALL STANDBY</code>) with an own template
+to prevent the deletion of archive logs which are not yet applied on the standby database.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_from_older_versions">5. Migration from older versions</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>The crontab entries contained the directories and the catalog connect (<code>-r</code>, <code>-l</code>, <code>-c</code>)
+or the environment variables <code>RMANLOGDIR</code>, <code>RMANSCRIPTDIR</code> and <code>RMANTNS_ADMIN</code> in <code>/etc/cron.d</code>.
+<code>oradb_rman</code> removes the environment variables and recreates the crontab entries.
+The values are in <code>rman_backup.cfg</code> now.</p>
+</li>
+<li>
+<p>Existing calls of <code>rman_backup.sh</code> with all parameters still work.</p>
+</li>
+<li>
+<p>The logfiles are written to <code>RMAN_LOGDIR</code> per execution.
+An existing logfile <code>&lt;RMAN_LOGDIR&gt;/&lt;name&gt;_&lt;action&gt;.log</code> of older versions is renamed to <code>*.log.old</code> by the first execution.
+The cron output in <code>/var/log/oracle/rman/log</code> (<code>oradb_rman_cron_logdir</code>) is no longer written, the directory can be removed.</p>
+</li>
+<li>
+<p>Before this change, the attributes <code>service</code>, <code>rman_retention_policy</code>, <code>rman_channel_disk</code>,
+<code>rman_controlfile_autobackup_disk</code>, <code>rman_log_dir</code>, <code>rman_script_dir</code> and the catalog connect
+of a database were ignored by <code>oradb_rman</code> (bug).
+They are used now: check the values in the inventory before the update.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+	<div class="td-page-meta__lastmod">
+  Last modified November 8, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/d0d42dce9f9f6194ed3af163df8b66e329785480">oradb_rman: logfile per execution, lock per action (d0d42dce)</a>
+</div>
+
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      <footer class="td-footer row d-print-none">
+  <div class="container-fluid">
+    <div class="row mx-md-2">
+      <div class="td-footer__left col-6 col-sm-4 order-sm-1">
+        
+      </div><div class="td-footer__right col-6 col-sm-4 order-sm-3">
+        <ul class="td-footer__links-list">
+  
+  <li class="td-footer__links-item" data-bs-toggle="tooltip" title="GitHub" aria-label="GitHub">
+    <a target="_blank" rel="noopener" href="https://github.com/oravirt/ansible-oracle" aria-label="GitHub">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+</ul>
+
+      </div><div class="td-footer__center col-12 col-sm-4 py-2 order-sm-2">
+        <span class="td-footer__copyright">&copy;
+    2016&ndash;2026
+    <span class="td-footer__authors">Thorsten Bruhns | [MIT](<a class="bare" href="https://github.com/oravirt/ansible-oracle/blob/master/LICENSE">https://github.com/oravirt/ansible-oracle/blob/master/LICENSE</a>)</span></span><nav aria-label="Legal" class="td-footer__legal mt-2">
+  <ul class="list-inline mb-0">
+    <li class="list-inline-item"><a href="/legal-notice/">Legal Notice</a></li>
+    <li class="list-inline-item"><a href="/privacy/">Privacy</a></li>
+    <li class="list-inline-item"><a href="/accessibility/">Accessibility</a></li>
+    </ul>
+</nav>
+
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <script src="/js/main.js"></script>
+<script src='/js/prism.js'></script>
+<script src='/js/tabpane-persist.js'></script>
+
+  </body>
+</html>
