@@ -32,17 +32,17 @@ Dbvisit StandbyMP (type: dbvisit) - reserved, not planned for the first implemen
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-07T20:57:15+01:00">
-		<meta property="article:modified_time" content="2026-11-07T20:57:15+01:00">
+		<meta property="article:published_time" content="2026-11-08T14:38:19+01:00">
+		<meta property="article:modified_time" content="2026-11-08T14:38:19+01:00">
 
 	<meta itemprop="name" content="Standby Databases">
 	<meta itemprop="description" content="Important Standby databases are experimental in ansible-oracle (Issue #65).
 Implemented: inventory structure with asserts, creation of a physical standby database and of the Data Guard Broker configuration (role oradb_standby). See Open Points and TODOs for missing features. Variable names and attributes may change. The inventory structure is shared by different standby technologies:
 Oracle Data Guard (type: dataguard)
 Dbvisit StandbyMP (type: dbvisit) - reserved, not planned for the first implementation">
-	<meta itemprop="datePublished" content="2026-11-07T20:57:15+01:00">
-	<meta itemprop="dateModified" content="2026-11-07T20:57:15+01:00">
-	<meta itemprop="wordCount" content="3841">
+	<meta itemprop="datePublished" content="2026-11-08T14:38:19+01:00">
+	<meta itemprop="dateModified" content="2026-11-08T14:38:19+01:00">
+	<meta itemprop="wordCount" content="4303">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Standby Databases">
 	<meta name="twitter:description" content="Important Standby databases are experimental in ansible-oracle (Issue #65).
@@ -146,12 +146,12 @@ Dbvisit StandbyMP (type: dbvisit) - reserved, not planned for the first implemen
   <a href="/docs/guides/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
   <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
-  <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
   <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
   <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
+  <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguidesstandby_databases-li">
   <a href="/docs/guides/standby_databases/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="td-sidebar-nav-active-item">Standby Databases</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
@@ -165,12 +165,12 @@ Dbvisit StandbyMP (type: dbvisit) - reserved, not planned for the first implemen
   <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
   <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
-  <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
   <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
   <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
+  <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
   <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
@@ -291,20 +291,21 @@ Dbvisit StandbyMP (type: dbvisit) - reserved, not planned for the first implemen
     <li><a href="#_assignment_of_a_database_to_a_member">4. Assignment of a database to a member</a></li>
     <li><a href="#_initial_role">5. initial_role</a></li>
     <li><a href="#_creation_of_a_standby_database">6. Creation of a standby database</a></li>
-    <li><a href="#_data_guard_broker_configuration_file">7. Data Guard Broker configuration file</a></li>
-    <li><a href="#_role_transitions">8. Role transitions outside of ansible-oracle</a>
+    <li><a href="#_archivelog_deletion_policy">7. Archivelog deletion policy</a></li>
+    <li><a href="#_data_guard_broker_configuration_file">8. Data Guard Broker configuration file</a></li>
+    <li><a href="#_role_transitions">9. Role transitions outside of ansible-oracle</a>
       <ul>
-        <li><a href="#_case_1_reinstate_automatic_not_destructive">8.1. Case 1: Reinstate (automatic, not destructive)</a></li>
-        <li><a href="#_case_2_missing_member_automatic_not_destructive">8.2. Case 2: Missing member (automatic, not destructive)</a></li>
-        <li><a href="#_case_3_rebuild_of_an_existing_standby_database_on_request_only_destructive">8.3. Case 3: Rebuild of an existing standby database (on request only, destructive)</a></li>
+        <li><a href="#_case_1_reinstate_automatic_not_destructive">9.1. Case 1: Reinstate (automatic, not destructive)</a></li>
+        <li><a href="#_case_2_missing_member_automatic_not_destructive">9.2. Case 2: Missing member (automatic, not destructive)</a></li>
+        <li><a href="#_case_3_rebuild_of_an_existing_standby_database_on_request_only_destructive">9.3. Case 3: Rebuild of an existing standby database (on request only, destructive)</a></li>
       </ul>
     </li>
-    <li><a href="#_validation">9. Validation</a></li>
-    <li><a href="#_example_data_guard_with_2_hosts">10. Example: Data Guard with 2 hosts</a></li>
-    <li><a href="#_open_points">11. Open Points and TODOs</a>
+    <li><a href="#_validation">10. Validation</a></li>
+    <li><a href="#_example_data_guard_with_2_hosts">11. Example: Data Guard with 2 hosts</a></li>
+    <li><a href="#_open_points">12. Open Points and TODOs</a>
       <ul>
-        <li><a href="#_open_points_2">11.1. Open Points</a></li>
-        <li><a href="#_todo">11.2. TODO</a></li>
+        <li><a href="#_open_points_2">12.1. Open Points</a></li>
+        <li><a href="#_todo">12.2. TODO</a></li>
       </ul>
     </li>
   </ul>
@@ -465,8 +466,8 @@ Only the current role of the other members (<code>database_role</code> from <cod
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>dg</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Data Guard attributes of the configuration. Only allowed with <code>type: dataguard</code>.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dataguard</code>: for <code>archivelog_deletion_policy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data Guard attributes of the configuration. Only allowed with <code>type: dataguard</code>. Not needed, when <code>archivelog_deletion_policy</code> is defined in each member.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>dbvisit</code></p></td>
@@ -549,6 +550,11 @@ Only the current role of the other members (<code>database_role</code> from <cod
 <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Tasks file for <code>create_method: custom</code></p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>archivelog_deletion_policy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">- (mandatory here or in each member)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN <code>CONFIGURE ARCHIVELOG DELETION POLICY TO &lt;value&gt;</code> of all members, see <a href="#_archivelog_deletion_policy">Archivelog deletion policy</a></p></td>
+</tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
@@ -590,6 +596,11 @@ Only the current role of the other members (<code>database_role</code> from <cod
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>create_tasks_file</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>create_tasks_file</code> of the configuration</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Tasks file for <code>create_method: custom</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>archivelog_deletion_policy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>archivelog_deletion_policy</code> of the configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN <code>CONFIGURE ARCHIVELOG DELETION POLICY TO &lt;value&gt;</code> of this member</p></td>
 </tr>
 </tbody>
 </table>
@@ -640,6 +651,14 @@ Only the current role of the other members (<code>database_role</code> from <cod
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_db_unique_name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory for <code>type: dataguard</code>. Must match <code>db_unique_name</code> of the local member.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>archivelog</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory <code>true</code> for <code>type: dataguard</code> (ARCHIVELOG mode for redo transport and RMAN <code>DUPLICATE</code>).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>force_logging</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be <code>false</code> for <code>type: dataguard</code>. <code>oradb_standby</code> enables FORCE LOGGING on the primary database, <code>force_logging: false</code> would disable it again.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>listener_name</code></p></td>
@@ -960,7 +979,116 @@ the standby gets its own value with <code>SET</code> in RMAN <code>DUPLICATE</co
 </div>
 </div>
 <div class="sect1">
-<h2 id="_data_guard_broker_configuration_file">7. Data Guard Broker configuration file</h2>
+<h2 id="_archivelog_deletion_policy">7. Archivelog deletion policy</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>archivelog_deletion_policy</code> is mandatory for <code>type: dataguard</code>:
+in <code>dg</code> of the configuration (all members) or in <code>dg</code> of each member.
+The policy decides, when RMAN and the Fast Recovery Area may delete an archive log,
+e.g. not before it is applied on all standby databases.
+It belongs to the Data Guard configuration and must be defined consciously for every member.</p>
+</div>
+<div class="paragraph">
+<p><code>oradb_standby</code> executes RMAN on every member, primary and physical standby,
+because the policy is stored in the controlfile of each member:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>show archivelog deletion policy;
+configure archivelog deletion policy to &lt;archivelog_deletion_policy&gt;;</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>CONFIGURE</code> is only executed when the current policy differs (idempotent).
+<code>SHOW</code> prints <code>TO DISK</code> instead of <code>TO DEVICE TYPE DISK</code>, both are compared normalized.</p>
+</li>
+<li>
+<p>The instance must be mounted. A missing standby database (e.g. <code>create_method: external</code>) is skipped.</p>
+</li>
+<li>
+<p>The controlfile of a new standby database from RMAN <code>DUPLICATE</code> contains the policy of the primary,
+the policy of the member is configured afterwards.</p>
+</li>
+<li>
+<p>The warning <code>RMAN-08591: warning: invalid archived log deletion policy</code> (e.g. no standby destination yet) is no error.</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 7. Valid values (case insensitive)</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NONE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN default: no deletion policy</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>APPLIED ON [ALL] STANDBY</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Eligible after the archive log is applied on (all) standby databases</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SHIPPED TO [ALL] STANDBY</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Eligible after the archive log is shipped to (all) standby databases</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BACKED UP &lt;n&gt; TIMES TO DEVICE TYPE DISK|SBT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Eligible after <code>&lt;n&gt;</code> backups, can be repeated for several devices</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>APPLIED ON ALL STANDBY BACKED UP &lt;n&gt; TIMES TO DEVICE TYPE DISK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Combination: <code>APPLIED</code>/<code>SHIPPED</code> first, then <code>BACKED UP</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<code>BACKED UP</code> needs an RMAN catalog in a Data Guard configuration:
+without catalog the controlfile of a member knows only its own backups,
+e.g. the archive logs of a standby database are never eligible for deletion, when the backups run on the primary.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Example without RMAN catalog</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">db_standby_config:
+  - name: DG1
+    type: dataguard
+    dg:
+      archivelog_deletion_policy: APPLIED ON ALL STANDBY</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Example with RMAN catalog and backups on the standby database</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">db_standby_config:
+  - name: DG1
+    type: dataguard
+    dg:
+      archivelog_deletion_policy: APPLIED ON ALL STANDBY BACKED UP 1 TIMES TO DEVICE TYPE DISK</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_data_guard_broker_configuration_file">8. Data Guard Broker configuration file</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><code>oradb_standby</code> creates a <code>dgmgrl</code> script for each database with <code>type: dataguard</code>:
@@ -1100,7 +1228,7 @@ A warning is shown, when the broker is not available (e.g. <code>dg_broker_start
 </div>
 </div>
 <div class="sect1">
-<h2 id="_role_transitions">8. Role transitions outside of ansible-oracle</h2>
+<h2 id="_role_transitions">9. Role transitions outside of ansible-oracle</h2>
 <div class="sectionbody">
 <div class="admonitionblock important">
 <table>
@@ -1151,7 +1279,7 @@ When the instance of the old primary is <strong>not</strong> running, its role i
 </ul>
 </div>
 <div class="sect2">
-<h3 id="_case_1_reinstate_automatic_not_destructive">8.1. Case 1: Reinstate (automatic, not destructive)</h3>
+<h3 id="_case_1_reinstate_automatic_not_destructive">9.1. Case 1: Reinstate (automatic, not destructive)</h3>
 <div class="paragraph">
 <p>The broker reports <code>ORA-16661</code> for a member ⇒ <code>REINSTATE DATABASE &#39;&lt;member&gt;&#39;</code> on the current primary.</p>
 </div>
@@ -1170,7 +1298,7 @@ When the instance of the old primary is <strong>not</strong> running, its role i
 </div>
 </div>
 <div class="sect2">
-<h3 id="_case_2_missing_member_automatic_not_destructive">8.2. Case 2: Missing member (automatic, not destructive)</h3>
+<h3 id="_case_2_missing_member_automatic_not_destructive">9.2. Case 2: Missing member (automatic, not destructive)</h3>
 <div class="paragraph">
 <p>The database of a member does not exist (e.g. a reinstalled server of the old primary)
 and another member is the <code>PRIMARY</code> (<code>oradb_facts</code>) ⇒ the member is created as standby database,
@@ -1188,7 +1316,7 @@ independent of <code>initial_role</code>. <code>initial_role</code> is only used
 </div>
 </div>
 <div class="sect2">
-<h3 id="_case_3_rebuild_of_an_existing_standby_database_on_request_only_destructive">8.3. Case 3: Rebuild of an existing standby database (on request only, destructive)</h3>
+<h3 id="_case_3_rebuild_of_an_existing_standby_database_on_request_only_destructive">9.3. Case 3: Rebuild of an existing standby database (on request only, destructive)</h3>
 <div class="paragraph">
 <p>Most frequent case in practice: a reinstatement is not possible (no Flashback Database) or the standby database is damaged.</p>
 </div>
@@ -1206,7 +1334,7 @@ never in the inventory (otherwise every run would rebuild the standby database):
 <code>create_method: custom</code> is not supported for a rebuild at the moment.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. Steps of the rebuild on the host of the member</caption>
+<caption class="title">Table 8. Steps of the rebuild on the host of the member</caption>
 <colgroup>
 <col style="width: 50%;"/>
 <col style="width: 50%;"/>
@@ -1252,7 +1380,7 @@ never in the inventory (otherwise every run would rebuild the standby database):
 </div>
 </div>
 <div class="sect1">
-<h2 id="_validation">9. Validation</h2>
+<h2 id="_validation">10. Validation</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The rules are checked by the role <code>orasw_meta</code> (<code>roles/orasw_meta/tasks/assert_standby.yml</code>).
@@ -1319,6 +1447,10 @@ with <code>initial_role: physical_standby</code>.</p>
 <p><code>create_method</code> is <code>rman_duplicate_active</code>, <code>external</code> or <code>custom</code>.
 <code>custom</code> needs <code>create_tasks_file</code> in the member or in the configuration.</p>
 </li>
+<li>
+<p><code>archivelog_deletion_policy</code> is defined for each member (in the member or in the configuration)
+and is a valid policy, see <a href="#_archivelog_deletion_policy">Archivelog deletion policy</a>.</p>
+</li>
 </ul>
 </div>
 <div class="paragraph">
@@ -1339,6 +1471,9 @@ with <code>initial_role: physical_standby</code>.</p>
 <p><code>type: dataguard</code>: <code>oracle_db_unique_name</code> and <code>listener_name</code> are defined.</p>
 </li>
 <li>
+<p><code>type: dataguard</code>: <code>archivelog: true</code>, <code>force_logging</code> is not <code>false</code>.</p>
+</li>
+<li>
 <p><code>oracle_db_unique_name</code> matches <code>db_unique_name</code> of the member (case insensitive).
 Both default to <code>oracle_db_name</code>.</p>
 </li>
@@ -1351,7 +1486,7 @@ Both default to <code>oracle_db_name</code>.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_example_data_guard_with_2_hosts">10. Example: Data Guard with 2 hosts</h2>
+<h2 id="_example_data_guard_with_2_hosts">11. Example: Data Guard with 2 hosts</h2>
 <div class="sectionbody">
 <div class="admonitionblock tip">
 <table>
@@ -1387,6 +1522,7 @@ A complete example with 2 VMs is the <a href="/docs/guides/dataguard/">Data Guar
     type: dataguard
     dg:
       protection_mode: MaxPerformance
+      archivelog_deletion_policy: APPLIED ON ALL STANDBY
     members:
       - hosts: [dbhost1]
         db_unique_name: DB1_SITE1
@@ -1469,10 +1605,10 @@ The static entry is needed for RMAN duplicate, because the auxiliary instance is
 </div>
 </div>
 <div class="sect1">
-<h2 id="_open_points">11. Open Points and TODOs</h2>
+<h2 id="_open_points">12. Open Points and TODOs</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_open_points_2">11.1. Open Points</h3>
+<h3 id="_open_points_2">12.1. Open Points</h3>
 <div class="paragraph">
 <p>The following points are not decided yet:</p>
 </div>
@@ -1500,7 +1636,7 @@ The static entry is needed for RMAN duplicate, because the auxiliary instance is
 </table>
 </div>
 <div class="sect2">
-<h3 id="_todo">11.2. TODO</h3>
+<h3 id="_todo">12.2. TODO</h3>
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
@@ -1564,7 +1700,7 @@ Members with more than 1 host (<code>hosts</code>) are allowed by the inventory 
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 7, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/4d5a8c2bac0a61594d243cdec9f638c56b338d90">example: Data Guard Guide with NFS for installation media (4d5a8c2b)</a>
+  Last modified November 8, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/c06a8dc2e132a2cf4b3944a2945cbec09e18c66e">orasw_meta: assert archivelog for Data Guard, molecule dataguard asserts (c06a8dc2)</a>
 </div>
 
 </div>

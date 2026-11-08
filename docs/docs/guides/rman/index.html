@@ -56,8 +56,8 @@ The crontab contains no passwords and no directories:
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-08T09:12:49+01:00">
-		<meta property="article:modified_time" content="2026-11-08T09:12:49+01:00">
+		<meta property="article:published_time" content="2026-11-08T14:38:19+01:00">
+		<meta property="article:modified_time" content="2026-11-08T14:38:19+01:00">
 
 	<meta itemprop="name" content="RMAN Backups with oradb_rman">
 	<meta itemprop="description" content="This guide describes the configuration of RMAN backups with the role oradb_rman and the backup script rman_backup.sh.
@@ -76,9 +76,9 @@ Connection to the RMAN catalog (rman_tnsalias)
 Wallet with the credential of the RMAN catalog (rman_wallet: true)
 The crontab contains no passwords and no directories:
 10 01 * * 0 oracle /u01/app/oracle/bin/rman_backup.sh -a online_level0 -s DB1 &gt; /dev/null 2&gt;&amp;1 All other settings are read by rman_backup.sh from rman_backup.cfg. The output is written by rman_backup.sh to a logfile per execution, see Logfiles.">
-	<meta itemprop="datePublished" content="2026-11-08T09:12:49+01:00">
-	<meta itemprop="dateModified" content="2026-11-08T09:12:49+01:00">
-	<meta itemprop="wordCount" content="1756">
+	<meta itemprop="datePublished" content="2026-11-08T14:38:19+01:00">
+	<meta itemprop="dateModified" content="2026-11-08T14:38:19+01:00">
+	<meta itemprop="wordCount" content="2054">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="RMAN Backups with oradb_rman">
 	<meta name="twitter:description" content="This guide describes the configuration of RMAN backups with the role oradb_rman and the backup script rman_backup.sh.
@@ -194,12 +194,12 @@ The crontab contains no passwords and no directories:
   <a href="/docs/guides/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
   <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguidesrman-li">
-  <a href="/docs/guides/rman/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="td-sidebar-nav-active-item">RMAN Backups with oradb_rman</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
   <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
   <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguidesrman-li">
+  <a href="/docs/guides/rman/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="td-sidebar-nav-active-item">RMAN Backups with oradb_rman</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_databases-li">
   <a href="/docs/guides/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="">Standby Databases</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
@@ -213,12 +213,12 @@ The crontab contains no passwords and no directories:
   <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
   <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
-  <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
   <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
   <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
+  <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
   <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
@@ -493,20 +493,34 @@ Every job executes the RMAN script <code>&lt;name&gt;.rman</code>.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>immediate</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code>: the job is executed during the playbook (without catalog), e.g. for <code>parameter</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code>: the job is executed during the playbook (without catalog), e.g. for <code>parameter</code>. <code>service</code> and <code>role</code> are used as in the crontab.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>service</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Backup only on the node where the service is running (Grid Infrastructure / Oracle Restart), <code>rman_backup.sh --service</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Backup only on the node where the service is running (Grid Infrastructure / Oracle Restart), <code>rman_backup.sh --service</code>. Not together with <code>role</code>.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>role</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>primary</code> or <code>standby</code>: backup only when the database has this role (Data Guard), <code>rman_backup.sh --role</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>primary</code> or <code>standby</code>: backup only when the database has this role (Data Guard), <code>rman_backup.sh --role</code>. Not together with <code>service</code>.</p></td>
 </tr>
 </tbody>
 </table>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<code>service</code> and <code>role</code> are mutually exclusive in a job, an assert stops the role when both are defined.
+Both select the member or node which executes the backup, a combination makes no sense.
+For Data Guard use <code>role</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_attributes_of_oracle_databases">2.2. Attributes of oracle_databases</h3>
@@ -687,8 +701,12 @@ The role has no default for these variables, define them in the inventory when t
 <td class="tableblock halign-left valign-top"><p class="tableblock">RMAN configuration: retention policy, controlfile autobackup, channel</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>parameter_standby</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Like <code>parameter</code> without <code>CONFIGURE RETENTION POLICY</code> (not configurable on a standby database), use it with <code>role: standby</code></p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>online_level0</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Online incremental level 0 backup, archive logs, <code>delete obsolete</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Online incremental level 0 backup, archive logs, <code>delete obsolete &lt;rman_retention_policy&gt;</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>online_level1</code></p></td>
@@ -726,7 +744,8 @@ The role has no default for these variables, define them in the inventory when t
     rman_tnsalias: RMANCAT
     rman_user: rman_db1
     rman_jobs:
-      - {name: parameter, immediate: true}
+      - {name: parameter, role: primary, immediate: true}
+      - {name: parameter_standby, role: standby, immediate: true}
       - {name: online_level0, role: standby, weekday: &#34;0&#34;, hour: &#34;01&#34;, minute: &#34;10&#34;, day: &#34;*&#34;}
       - {name: online_level1, role: standby, weekday: &#34;1-6&#34;, hour: &#34;01&#34;, minute: &#34;10&#34;, day: &#34;*&#34;}
       - {name: archivelog, weekday: &#34;*&#34;, hour: &#34;*&#34;, minute: &#34;30&#34;, day: &#34;*&#34;}
@@ -869,7 +888,7 @@ $ORACLE_BASE/bin/rman_backup.sh -a online_level0 --nocatalog</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>--role</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_ROLE</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PRIMARY</code> or <code>STANDBY</code> (= <code>PHYSICAL STANDBY</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PRIMARY</code> or <code>STANDBY</code> (= <code>PHYSICAL STANDBY</code>). Use either <code>--service</code> or <code>--role</code>.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
@@ -1083,12 +1102,51 @@ Different actions of a database run in parallel, e.g. <code>archivelog</code> du
 <p><code>role: primary</code>: backups on the primary only</p>
 </li>
 <li>
-<p>without <code>role</code>: the job runs on every member (e.g. <code>archivelog</code>)</p>
+<p>without <code>role</code>: the job runs on every member</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
+<p>The <code>CONFIGURE</code> commands are stored in the controlfile of each member and must be executed on all members:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>parameter</code> with <code>role: primary</code></p>
+</li>
+<li>
+<p><code>parameter_standby</code> with <code>role: standby</code>: without <code>CONFIGURE RETENTION POLICY</code>,
+the retention policy is not configurable on a standby database</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>online_level0</code> uses <code>rman_retention_policy</code> in <code>delete obsolete</code>.
+Therefore it works on a standby database, whose controlfile (e.g. from RMAN <code>DUPLICATE</code>)
+does not contain the retention policy, and on a new primary after a switchover.</p>
+</div>
+<div class="paragraph">
 <p>After a switchover the backups follow the role automatically, the inventory is not changed.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example: CONFIGURE on all members, backups on the primary only</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_databases:
+  - oracle_db_name: DB1
+    rman_jobs:
+      # executed during the playbook: parameter on the primary, parameter_standby on the standby
+      - {name: parameter, role: primary, immediate: true}
+      - {name: parameter_standby, role: standby, immediate: true}
+      # role primary: crontab entry on every member, rman_backup.sh --role primary skips it on the standby
+      - {name: online_level0, role: primary, weekday: &#34;0&#34;, hour: &#34;01&#34;, minute: &#34;10&#34;, day: &#34;*&#34;}
+      - {name: archivelog, role: primary, weekday: &#34;*&#34;, hour: &#34;*&#34;, minute: &#34;30&#34;, day: &#34;*&#34;}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>All members get the same crontab entries.
+<code>rman_backup.sh</code> checks <code>database_role</code> in <code>v$database</code> at every execution
+and skips the backup with exit code 0, when the role does not match.
+Valid values of <code>role</code> are <code>primary</code> and <code>standby</code> (checked by an assert).</p>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -1112,7 +1170,9 @@ the catalog makes the backups known to all members.
 </td>
 <td class="content">
 <code>archivelog</code> deletes all archive logs that were backed up once.
-Configure an <code>ARCHIVELOG DELETION POLICY</code> (e.g. <code>APPLIED ON ALL STANDBY</code>) with an own template
+The <code>ARCHIVELOG DELETION POLICY</code> (e.g. <code>APPLIED ON ALL STANDBY</code>) is configured by <code>oradb_standby</code>
+with the mandatory attribute <code>archivelog_deletion_policy</code> in <code>db_standby_config</code>,
+see <a href="/docs/guides/standby_databases/#_archivelog_deletion_policy">Standby Databases - Archivelog deletion policy</a>,
 to prevent the deletion of archive logs which are not yet applied on the standby database.
 </td>
 </tr>
@@ -1151,7 +1211,7 @@ They are used now: check the values in the inventory before the update.</p>
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 8, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/d0d42dce9f9f6194ed3af163df8b66e329785480">oradb_rman: logfile per execution, lock per action (d0d42dce)</a>
+  Last modified November 8, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/37ce2bf51362e39dd5fa6605f49d16b5e2d4a282">oradb_standby: archivelog deletion policy in db_standby_config (37ce2bf5)</a>
 </div>
 
 </div>

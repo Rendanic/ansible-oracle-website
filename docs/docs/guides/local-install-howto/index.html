@@ -30,16 +30,16 @@ Note This guide aims at developers who want to test different setups with differ
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-04T10:05:13+01:00">
-		<meta property="article:modified_time" content="2026-11-04T10:05:13+01:00">
+		<meta property="article:published_time" content="2026-11-08T18:41:12+01:00">
+		<meta property="article:modified_time" content="2026-11-08T18:41:12+01:00">
 
 	<meta itemprop="name" content="HOWTO: Local Installation of Ansible-Oracle">
 	<meta itemprop="description" content="1. Intro This guide will show you how to get Ansible-Oracle up and running with a local installation (as opposed to a container or Vagrant setup).
 It is assumed that the server is airgapped and doesn’t have Internet access and therefore it’s demonstrated how to install all necessary binaries manually.
 Note This guide aims at developers who want to test different setups with different dependencies. To enable you to run the Ansible-Oracle environment independently of other versions of Ansible, Python and Galaxy modules, everything will be encapsulated within a Python Virtual Environment (venv). If you prefer to install everything globally, you’ll find info on how to do so below. The steps in this guide were tested with OL9.5, Python 3.9, Ansible 2.14 and Ansible-Oracle 4.11.1.">
-	<meta itemprop="datePublished" content="2026-11-04T10:05:13+01:00">
-	<meta itemprop="dateModified" content="2026-11-04T10:05:13+01:00">
-	<meta itemprop="wordCount" content="778">
+	<meta itemprop="datePublished" content="2026-11-08T18:41:12+01:00">
+	<meta itemprop="dateModified" content="2026-11-08T18:41:12+01:00">
+	<meta itemprop="wordCount" content="770">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="HOWTO: Local Installation of Ansible-Oracle">
 	<meta name="twitter:description" content="1. Intro This guide will show you how to get Ansible-Oracle up and running with a local installation (as opposed to a container or Vagrant setup).
@@ -142,12 +142,12 @@ Note This guide aims at developers who want to test different setups with differ
   <a href="/docs/guides/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
   <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
-  <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
   <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
   <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
+  <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_databases-li">
   <a href="/docs/guides/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="">Standby Databases</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
@@ -161,12 +161,12 @@ Note This guide aims at developers who want to test different setups with differ
   <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
   <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
-  <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
   <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
   <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
+  <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
   <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
@@ -430,10 +430,6 @@ This guide aims at developers who want to test different setups with different d
 <p><a class="bare" href="https://galaxy.ansible.com/ui/repo/published/community/crypto/">https://galaxy.ansible.com/ui/repo/published/community/crypto/</a></p>
 </li>
 <li>
-<p><a class="bare" href="https://galaxy.ansible.com/ui/repo/published/ibre5041/ansible_oracle_modules/">https://galaxy.ansible.com/ui/repo/published/ibre5041/ansible_oracle_modules/</a>
-3.2.3</p>
-</li>
-<li>
 <p><a class="bare" href="https://galaxy.ansible.com/ui/repo/published/devsec/hardening/">https://galaxy.ansible.com/ui/repo/published/devsec/hardening/</a> 8.8.0</p>
 </li>
 <li>
@@ -542,7 +538,6 @@ ansible-galaxy collection install /tmp/ansible_collections/community-general-9.5
 ansible-galaxy collection install /tmp/ansible_collections/community-crypto-2.24.0.tar.gz -p ~/ansible/ansible-oracle/.venv/lib/collections
 ansible-galaxy collection install /tmp/ansible_collections/community-mysql-3.12.0.tar.gz -p ~/ansible/ansible-oracle/.venv/lib/collections
 ansible-galaxy collection install /tmp/ansible_collections/devsec-hardening-8.8.0.tar.gz -p ~/ansible/ansible-oracle/.venv/lib/collections
-ansible-galaxy collection install /tmp/ansible_collections/ibre5041-ansible_oracle_modules-3.2.3.tar.gz -p ~/ansible/ansible-oracle/.venv/lib/collections
 ansible-galaxy collection install /tmp/ansible_collections/opitzconsulting-ansible_oracle-4.11.1.tar.gz -p ~/ansible/ansible-oracle/.venv/lib/collections</code></pre>
 </div>
 </div>
@@ -638,7 +633,7 @@ Then, run your playbooks as usual.</p>
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 4, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/e110580f9366a115da7deabd98d31685e0348494">pyoracledb: the version of python-oracledb depends on the Python version of the target host (e110580f)</a>
+  Last modified November 8, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/b83347f903101eaafa933f9470f0758303752fef">oracle_crs_listener: new module, replaces ibre5041.ansible_oracle_modules (b83347f9)</a>
 </div>
 
 </div>

@@ -1377,7 +1377,6 @@ Only update to the version in column <code>COMPATIBLE</code>.</p>
 <code>galaxy_requires.py</code> checks the dependencies of every version against the version ranges in <code>galaxy.yml</code> and the minimum ansible-core version.
 <code>COMPATIBLE</code> is the newest version without a conflict, the script fails and shows the conflicting dependency, when the version in <code>galaxy.yml</code> has a conflict.
 Only one level is checked (dependencies of dependencies are not checked), test the installation with <code>task molecule:collection</code> after an update.
-<code>ibre5041.ansible_oracle_modules</code> is limited to <code>&lt;3.4.0</code> in <code>renovate.json</code>, because 3.4.1 and newer depend on <code>community.crypto&gt;=3.0.0</code>.
 <code>opitzconsulting.ansible_oracle</code> in <code>requirements.yml</code> is disabled, because the version is set by <code>tools/release/galaxy_version.sh</code> (see <a href="#_collection_version_in_requirements_yml">Collection version in requirements.yml</a>).</p>
 </div>
 <div class="paragraph">
@@ -1416,16 +1415,13 @@ gh auth status</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The token of <code>gh</code> needs the scope <code>repo</code> for pushing branches into your fork.
-This is part of the default scopes of <code>gh auth login</code>.</p>
+<p>The token of <code>gh</code> needs the scope <code>repo</code> for pushing branches into your fork and <code>workflow</code> for updates in <code>.github/workflows</code>.
+Both are part of the default scopes of <code>gh auth login</code>.</p>
 </div>
 <div class="paragraph">
-<p>renovate reads the token from <code>RENOVATE_TOKEN</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>export RENOVATE_TOKEN=$(gh auth token)</pre>
-</div>
+<p><code>task renovate:fork</code> takes the token from <code>gh auth token</code> for each run.
+It is passed only to renovate and not stored anywhere.
+A token in <code>RENOVATE_TOKEN</code> is used instead, if it is set.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1445,8 +1441,27 @@ Without <code>renovate.json</code> renovate skips the fork (<code>disabled-no-co
 task renovate:fork:dry-run FORK_REPO=&lt;github user&gt;/ansible-oracle
 
 # create branches and Pull-Requests in the fork
-task renovate:fork FORK_REPO=&lt;github user&gt;/ansible-oracle</pre>
+task renovate:fork FORK_REPO=&lt;github user&gt;/ansible-oracle
+
+# with milestone and labels for the Pull-Requests
+task renovate:fork FORK_REPO=&lt;github user&gt;/ansible-oracle M=&lt;milestone&gt; L=&lt;label&gt;,&lt;label&gt;</pre>
 </div>
+</div>
+<div class="paragraph">
+<p>Optional parameters for the Pull-Requests:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>M</code>: number or title of a milestone in <code>FORK_REPO</code>. The task fails, when the title does not exist.</p>
+</li>
+<li>
+<p><code>L</code>: comma separated list of labels. Missing labels are created by GitHub.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Milestone and labels are set, when renovate creates a Pull-Request.</p>
 </div>
 <div class="paragraph">
 <p>The branches can be tested locally after <code>git fetch origin</code>.</p>
@@ -1468,6 +1483,40 @@ The clone is reset by each run, do not use it as working copy.
 </td>
 </tr>
 </tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_run_renovate_against_upstream">4.4. Run renovate against upstream</h3>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Only for maintainers with write access to <code>oravirt/ansible-oracle</code>.<br/>
+The branches and Pull-Requests are created in the upstream repository and are public.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>renovate runs directly on the upstream repository (<code>UPSTREAM_REPO</code>, default <code>oravirt/ansible-oracle</code>) and <code>UPSTREAM_BASE</code> (default <code>master</code>).
+The branches <code>pr/renovate/&lt;update&gt;</code> are pushed into the upstream repository, so they do not collide with the branches of <code>task renovate:fork</code> in your fork.
+The configuration is taken from <code>renovate.json</code> in <code>UPSTREAM_BASE</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># show what would be done
+task renovate:upstream:dry-run
+
+# create branches and Pull-Requests in upstream
+task renovate:upstream M=&lt;milestone&gt; L=&lt;label&gt;,&lt;label&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The task fails, when your GitHub account has no write access to <code>UPSTREAM_REPO</code>.
+<code>M</code> and <code>L</code> work as described for <code>task renovate:fork</code>, the milestone is searched in <code>UPSTREAM_REPO</code>.</p>
 </div>
 </div>
 </div>
@@ -1965,6 +2014,10 @@ The playbook loads <code>vars.yml</code>, <code>known_bugs.yml</code> and <code>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_asmdg.yml</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_asmdg</code> with an own disk group on the spare ASM disks (<code>has-ol9</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_crs_listener.yml</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_crs_listener</code> with an own listener <code>MOLTEST_LSNR</code> (srvctl, <code>has-ol9</code>)</p></td>
 </tr>
 </tbody>
 </table>
@@ -2497,6 +2550,12 @@ Code blocks are highlighted by Prism (light theme), Chroma is disabled for Markd
 <div class="paragraph">
 <p>The image of the hugo container is tagged with the tag of the base image, e.g. <code>rendanic/hugo:0.169.0-ext-ubuntu</code>.
 A new version in the Dockerfile builds a new image automatically with the next <code>task build</code>.</p>
+</div>
+<div class="paragraph">
+<p>renovate updates only <code>website/go.mod</code> and <code>website/go.sum</code>.
+<code>go</code> from <code>shell.nix</code> is needed for <code>go.sum</code>.
+The steps below are still manual, the Pull-Request of renovate (group <code>docsy</code>) lists them as a note.
+There is no github workflow which builds the website, so a Docsy Pull-Request is green even when the website is broken.</p>
 </div>
 <div class="paragraph">
 <p>Steps for an update of Docsy:</p>

@@ -32,16 +32,16 @@ Table of contents Requirements Default Variables oradb_rman_assert_control_file_
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-08T09:12:49+01:00">
-		<meta property="article:modified_time" content="2026-11-08T09:12:49+01:00">
+		<meta property="article:published_time" content="2026-11-08T14:38:19+01:00">
+		<meta property="article:modified_time" content="2026-11-08T14:38:19+01:00">
 
 	<meta itemprop="name" content="oradb_rman">
 	<meta itemprop="description" content="Oracle RMAN Backup for ansible-oracle
 Please use only oradb_rman_ variables from role oradb_rman.
 All other role variables from oradb_rman are deprecated and will be removed in a future release.
 Table of contents Requirements Default Variables oradb_rman_assert_control_file_record_keep_time oradb_rman_autofs oradb_rman_channel_disk_default oradb_rman_controlfile_autobackup_disk_default oradb_rman_cron_mkjob oradb_rman_cronfile oradb_rman_log_dir oradb_rman_log_retention oradb_rman_retention_policy_default oradb_rman_script_dir oradb_rman_tns_admin oradb_rman_tnsnames_installed oradb_rman_wallet_loc oradb_rman_wallet_password Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables oradb_rman_assert_control_file_record_keep_time Assert control_file_record_keep_time in init_parameters of databases with rman_jobs (state: present, sid: &#39;*&#39;).">
-	<meta itemprop="datePublished" content="2026-11-08T09:12:49+01:00">
-	<meta itemprop="dateModified" content="2026-11-08T09:12:49+01:00">
+	<meta itemprop="datePublished" content="2026-11-08T14:38:19+01:00">
+	<meta itemprop="dateModified" content="2026-11-08T14:38:19+01:00">
 	<meta itemprop="wordCount" content="424">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="oradb_rman">
@@ -146,12 +146,12 @@ Table of contents Requirements Default Variables oradb_rman_assert_control_file_
   <a href="/docs/guides/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
   <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
-  <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
   <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
   <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
+  <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_databases-li">
   <a href="/docs/guides/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="">Standby Databases</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
@@ -165,12 +165,12 @@ Table of contents Requirements Default Variables oradb_rman_assert_control_file_
   <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesoradb_rman-li">
   <a href="/docs/roles/oradb_rman/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="td-sidebar-nav-active-item">oradb_rman</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
-  <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
   <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
   <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
+  <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
   <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
@@ -534,7 +534,7 @@ This is needed for RMAN-Catalogconnections.</p>
 <p>[Thorsten Bruhns]</p>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 8, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/c4479a531df61c8d2f5ceb7664f0124c500ee1e5">oradb_rman: format in oradb_rman_channel_disk_default (c4479a53)</a>
+  Last modified November 8, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/b5d9b6c98cf60671f8dd815da6834cef3c1a6ff6">oradb_rman: format in oradb_rman_channel_disk_default (b5d9b6c9)</a>
 </div>
 
 </div>

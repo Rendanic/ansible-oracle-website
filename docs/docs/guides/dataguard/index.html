@@ -22,7 +22,7 @@
 dataguard-dbfs1: primary database DB1_SITE1 (container database DB1 with the PDB ORCLPDB)
 dataguard-dbfs2: physical standby database DB1_SITE2, managed by the Data Guard Broker
 The 1st VM exports its installation media with NFS. AutoUpgrade downloads the gold image on the 1st VM only, the 2nd VM mounts the installation media with NFS.
-The guide is based on the Beginners Guide. Steps that are identical are referenced and not repeated.">
+The 1st VM exports a 2nd NFS share for the RMAN backups, the 2nd VM mounts it permanently. A weekly level 0 backup and an hourly archivelog backup run on the current primary database.">
 <meta property="og:url" content="https://www.ansible-oracle.eu/docs/guides/dataguard/">
 	<meta property="og:site_name" content="ansible-oracle Project">
 	<meta property="og:title" content="Data Guard Guide">
@@ -30,29 +30,29 @@ The guide is based on the Beginners Guide. Steps that are identical are referenc
 dataguard-dbfs1: primary database DB1_SITE1 (container database DB1 with the PDB ORCLPDB)
 dataguard-dbfs2: physical standby database DB1_SITE2, managed by the Data Guard Broker
 The 1st VM exports its installation media with NFS. AutoUpgrade downloads the gold image on the 1st VM only, the 2nd VM mounts the installation media with NFS.
-The guide is based on the Beginners Guide. Steps that are identical are referenced and not repeated.">
+The 1st VM exports a 2nd NFS share for the RMAN backups, the 2nd VM mounts it permanently. A weekly level 0 backup and an hourly archivelog backup run on the current primary database.">
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-07T20:57:15+01:00">
-		<meta property="article:modified_time" content="2026-11-07T20:57:15+01:00">
+		<meta property="article:published_time" content="2026-11-08T14:38:19+01:00">
+		<meta property="article:modified_time" content="2026-11-08T14:38:19+01:00">
 
 	<meta itemprop="name" content="Data Guard Guide">
 	<meta itemprop="description" content="This guide installs an Oracle AI Database 26ai with Data Guard on two Oracle Linux 9 VMs with ansible-oracle:
 dataguard-dbfs1: primary database DB1_SITE1 (container database DB1 with the PDB ORCLPDB)
 dataguard-dbfs2: physical standby database DB1_SITE2, managed by the Data Guard Broker
 The 1st VM exports its installation media with NFS. AutoUpgrade downloads the gold image on the 1st VM only, the 2nd VM mounts the installation media with NFS.
-The guide is based on the Beginners Guide. Steps that are identical are referenced and not repeated.">
-	<meta itemprop="datePublished" content="2026-11-07T20:57:15+01:00">
-	<meta itemprop="dateModified" content="2026-11-07T20:57:15+01:00">
-	<meta itemprop="wordCount" content="1424">
+The 1st VM exports a 2nd NFS share for the RMAN backups, the 2nd VM mounts it permanently. A weekly level 0 backup and an hourly archivelog backup run on the current primary database.">
+	<meta itemprop="datePublished" content="2026-11-08T14:38:19+01:00">
+	<meta itemprop="dateModified" content="2026-11-08T14:38:19+01:00">
+	<meta itemprop="wordCount" content="1926">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Data Guard Guide">
 	<meta name="twitter:description" content="This guide installs an Oracle AI Database 26ai with Data Guard on two Oracle Linux 9 VMs with ansible-oracle:
 dataguard-dbfs1: primary database DB1_SITE1 (container database DB1 with the PDB ORCLPDB)
 dataguard-dbfs2: physical standby database DB1_SITE2, managed by the Data Guard Broker
 The 1st VM exports its installation media with NFS. AutoUpgrade downloads the gold image on the 1st VM only, the 2nd VM mounts the installation media with NFS.
-The guide is based on the Beginners Guide. Steps that are identical are referenced and not repeated.">
+The 1st VM exports a 2nd NFS share for the RMAN backups, the 2nd VM mounts it permanently. A weekly level 0 backup and an hourly archivelog backup run on the current primary database.">
 
 
 
@@ -150,12 +150,12 @@ The guide is based on the Beginners Guide. Steps that are identical are referenc
   <a href="/docs/guides/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
   <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
-  <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
   <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguidesdataguard-li">
   <a href="/docs/guides/dataguard/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="td-sidebar-nav-active-item">Data Guard Guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
+  <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_databases-li">
   <a href="/docs/guides/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="">Standby Databases</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
@@ -169,12 +169,12 @@ The guide is based on the Beginners Guide. Steps that are identical are referenc
   <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
   <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
-  <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
   <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
   <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
+  <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
   <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
@@ -305,6 +305,7 @@ The guide is based on the Beginners Guide. Steps that are identical are referenc
         <li><a href="#_ssh_key_connection_test_credentials_and_passwords">4.2. SSH key, connection test, credentials and passwords</a></li>
         <li><a href="#_data_guard_configuration">4.3. Data Guard configuration</a></li>
         <li><a href="#_installation_media_with_nfs">4.4. Installation media with NFS</a></li>
+        <li><a href="#_rman_backups_with_nfs">4.5. RMAN backups with NFS</a></li>
       </ul>
     </li>
     <li><a href="#_install_databases_with_ansible">5. Install databases with Ansible</a></li>
@@ -357,6 +358,10 @@ The guide is based on the Beginners Guide. Steps that are identical are referenc
 AutoUpgrade downloads the gold image on the 1st VM only, the 2nd VM mounts the installation media with NFS.</p>
 </div>
 <div class="paragraph">
+<p>The 1st VM exports a 2nd NFS share for the RMAN backups, the 2nd VM mounts it permanently.
+A weekly level 0 backup and an hourly archivelog backup run on the current primary database.</p>
+</div>
+<div class="paragraph">
 <p>The guide is based on the <a href="/docs/guides/beginner/">Beginners Guide</a>.
 Steps that are identical are referenced and not repeated.</p>
 </div>
@@ -395,7 +400,8 @@ Steps that are identical are referenced and not repeated.</p>
 <p><code>opitzconsulting.ansible_oracle.os</code>: prepare both VMs</p>
 </li>
 <li>
-<p><code>playbooks/nfs_server.yml</code>: NFS server on <code>dataguard-dbfs1</code>, export of the installation media <code>/u01/sw</code></p>
+<p><code>playbooks/nfs_server.yml</code>: NFS server on <code>dataguard-dbfs1</code>, export of the installation media <code>/u01/sw</code>
+and of the RMAN backups <code>/u01/app/oracle/backup</code>, permanent mount of the RMAN backups on <code>dataguard-dbfs2</code></p>
 </li>
 <li>
 <p><code>playbooks/autoupgrade.yml</code>: install AutoUpgrade on <code>dataguard-dbfs1</code> and download a <em>gold image</em> from My Oracle Support</p>
@@ -414,7 +420,10 @@ Steps that are identical are referenced and not repeated.</p>
 <p>create the physical standby database <code>DB1_SITE2</code> with RMAN <code>DUPLICATE …​ FROM ACTIVE DATABASE</code>,</p>
 </li>
 <li>
-<p>create the Data Guard Broker configuration <code>DG1</code>.</p>
+<p>create the Data Guard Broker configuration <code>DG1</code>,</p>
+</li>
+<li>
+<p>configure the RMAN backups with cron (role <code>oradb_rman</code>).</p>
 </li>
 </ol>
 </div>
@@ -471,6 +480,10 @@ Steps that are identical are referenced and not repeated.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u01/sw</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Installation media: target of the download on <code>dataguard-dbfs1</code>, NFS mount point on <code>dataguard-dbfs2</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u01/app/oracle/backup</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN backups: directory on <code>dataguard-dbfs1</code>, NFS mount point on <code>dataguard-dbfs2</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u01/stage</code></p></td>
@@ -692,7 +705,7 @@ Change all of them, when you rename a host.
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>group_vars/dbfs/standby.yml</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>db_standby_config</code>: configuration <code>DG1</code> with the members <code>DB1_SITE1</code> (<code>initial_role: primary</code>) and <code>DB1_SITE2</code> (<code>initial_role: physical_standby</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>db_standby_config</code>: configuration <code>DG1</code> with the members <code>DB1_SITE1</code> (<code>initial_role: primary</code>) and <code>DB1_SITE2</code> (<code>initial_role: physical_standby</code>), <code>archivelog_deletion_policy: APPLIED ON ALL STANDBY</code> (mandatory)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>group_vars/dbfs/tnsnames.yml</code></p></td>
@@ -854,6 +867,172 @@ Use the same settings for any database server, which mounts its installation med
 </tbody></table>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_rman_backups_with_nfs">4.5. RMAN backups with NFS</h3>
+<div class="paragraph">
+<p><code>playbooks/nfs_server.yml</code> configures the NFS share for the RMAN backups as well:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>dataguard-dbfs1</code>: directory <code>/u01/app/oracle/backup</code> and one subdirectory per <code>oracle_db_name</code> (<code>DB1</code>),
+owner <code>oracle</code>, mode <code>0750</code> (RMAN does not create directories)</p>
+</li>
+<li>
+<p><code>dataguard-dbfs1</code>: export of <code>/u01/app/oracle/backup</code> read write for the group <code>nfs_client</code> (<code>/etc/exports.d/oracle-backup.exports</code>)</p>
+</li>
+<li>
+<p><code>dataguard-dbfs2</code>: permanent mount (<code>/etc/fstab</code>) on the same path</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Both members write their backups into the same directory.
+Backups of the primary can be used on the standby and vice versa.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. Backup settings in inventory/group_vars/all/backup.yml</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nfs_server_backup</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ansible_host</code> of the 1st host of the group <code>nfs_server</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NFS server</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nfs_server_backup_path</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u01/app/oracle/backup</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Exported directory and mount point</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nfs_client_backup_opts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rw,bg,hard,tcp,timeo=600,rsize=1048576,wsize=1048576</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mount options on the NFS client</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_device_type_disk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PARALLELISM 1 BACKUP TYPE TO COMPRESSED BACKUPSET</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CONFIGURE DEVICE TYPE DISK</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The RMAN settings are part of <code>oracle_database_db1</code> in <code>group_vars/dbfs/database_DB1.yml</code>:</p>
+</div>
+<div class="listingblock">
+<div class="title">RMAN settings of DB1</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">  rman_retention_policy: &#39;RECOVERY WINDOW OF 7 DAYS&#39;
+  rman_channel_disk: &#34;format &#39;/u01/app/oracle/backup/%d/%d_%T_%U&#39;&#34;
+  rman_controlfile_autobackup_disk: &#34;&#39;/u01/app/oracle/backup/%d/%d_{{ db1_unique_name }}_%F&#39;&#34;
+  rman_jobs:
+    - {name: parameter, role: primary, immediate: true}
+    - {name: parameter_standby, role: standby, immediate: true}
+    - {name: online_level0, role: primary, weekday: &#34;0&#34;, hour: &#34;01&#34;, minute: &#34;10&#34;, day: &#34;*&#34;}
+    - {name: archivelog, role: primary, weekday: &#34;*&#34;, hour: &#34;*&#34;, minute: &#34;30&#34;, day: &#34;*&#34;}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. RMAN jobs</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Job</th>
+<th class="tableblock halign-left valign-top">Schedule</th>
+<th class="tableblock halign-left valign-top">Executed on</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>parameter</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">during the playbook</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">current primary: <code>CONFIGURE …​</code> in the controlfile</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>parameter_standby</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">during the playbook</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">current standby: <code>CONFIGURE …​</code> without the retention policy (not configurable on a standby)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>online_level0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sunday 01:10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">current primary, <code>delete obsolete</code> with the retention policy of the inventory</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>archivelog</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hourly at minute 30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">current primary</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Both members get the same crontab entries.
+<code>rman_backup.sh --role primary</code> skips the backup on the physical standby (exit code 0).
+After a switchover the backups run on the new primary, the inventory is not changed.</p>
+</div>
+<div class="paragraph">
+<p><code>%F</code> contains the DBID, which is identical on all members.
+Therefore the format of the controlfile autobackup contains the <code>db_unique_name</code>.</p>
+</div>
+<div class="paragraph">
+<p><code>control_file_record_keep_time</code> (<code>30</code>) is greater than the recovery window (<code>7</code> days),
+see <a href="/docs/guides/rman/">RMAN Guide</a>.</p>
+</div>
+<div class="listingblock">
+<div class="title">Logfiles of the backups</div>
+<div class="content">
+<pre>ls -l /u01/app/oracle/rman/log</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>oradb_standby</code> configures <code>ARCHIVELOG DELETION POLICY TO APPLIED ON ALL STANDBY</code> on both members
+(<code>archivelog_deletion_policy</code> in <code>group_vars/dbfs/standby.yml</code>):
+<code>archivelog</code> deletes only archive logs, which are applied on the standby database.
+<code>BACKED UP …​</code> is not used: without catalog the standby database does not know the backups of the primary
+and its archive logs would never be eligible for deletion.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The example uses no RMAN catalog.
+The backups of a member are only known in its own controlfile.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+The share is mounted with <code>hard</code>: RMAN hangs on <code>dataguard-dbfs2</code>, while <code>dataguard-dbfs1</code> is not available.
+Use a separate NFS server for production systems.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -884,7 +1063,7 @@ The execution takes approx. 60 minutes plus the download of the gold image.
 to create the standby database on <code>dataguard-dbfs2</code>.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. Configuration of the databases</caption>
+<caption class="title">Table 7. Configuration of the databases</caption>
 <colgroup>
 <col style="width: 33.3333%;"/>
 <col style="width: 33.3333%;"/>
@@ -944,6 +1123,10 @@ to create the standby database on <code>dataguard-dbfs2</code>.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Data Guard Broker</p></td>
 <td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">configuration <code>DG1</code>, <code>MaxPerformance</code>, <code>LogXptMode</code> <code>ASYNC</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Archivelog deletion policy</p></td>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock"><code>APPLIED ON ALL STANDBY</code></p></td>
 </tr>
 </tbody>
 </table>
@@ -1043,7 +1226,7 @@ See <a href="/docs/guides/standby_databases/#_role_transitions_outside_of_ansibl
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 7, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/4d5a8c2bac0a61594d243cdec9f638c56b338d90">example: Data Guard Guide with NFS for installation media (4d5a8c2b)</a>
+  Last modified November 8, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/37ce2bf51362e39dd5fa6605f49d16b5e2d4a282">oradb_standby: archivelog deletion policy in db_standby_config (37ce2bf5)</a>
 </div>
 
 </div>
