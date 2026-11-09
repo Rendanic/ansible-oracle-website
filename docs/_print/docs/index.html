@@ -21618,7 +21618,8 @@ task renovate:pip       # pip modules and pre-commit hooks
 task renovate:docker    # container images only
 task renovate:galaxy    # collections in galaxy.yml and requirements.yml
 task renovate:report    # show the result of the last run again
-task renovate:validate  # validate renovate.json</pre>
+task renovate:validate  # validate renovate.json
+task renovate:ocenv     # check roles/oradb_manage_db/files/ocenv for local changes</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -21675,6 +21676,45 @@ The versions of github actions (e.g. <code>ansible/ansible-lint</code>) and of <
 <p>The pre-commit hooks are looked up with GitHub tags, which needs a token.
 The local checks use the token from <code>gh auth token</code>, if <code>gh</code> is logged in.</p>
 </div>
+<div class="sect3">
+<h4 id="renovate-ocenv">4.1.1. ocenv from oracle-scripts</h4>
+<div class="paragraph">
+<p><code>roles/oradb_manage_db/files/ocenv</code> is a copy of <code>ocenv</code> from <a href="https://github.com/opitzconsulting/oracle-scripts/blob/main/ocenv">opitzconsulting/oracle-scripts</a>.
+The file is part of the collection, so no online access is needed during the installation.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Do not change <code>roles/oradb_manage_db/files/ocenv</code> in <code>ansible-oracle</code>.
+Changes are made in <code>oracle-scripts</code>, the file is replaced only by renovate.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The upstream repository has no releases. The version is the committer date of the last commit of <code>ocenv</code> in UTC (<code>YYYY.MMDD.HHMMSS</code>, custom datasource <code>ocenv</code> in <code>renovate.json</code>).</p>
+</li>
+<li>
+<p><code>tools/renovate/ocenv.version</code> holds the version, the upstream commit and the git blob sha of the file.</p>
+</li>
+<li>
+<p>For an update renovate runs <code>tools/renovate/ocenv_update.sh</code> as <code>postUpgradeTasks</code>.
+The script downloads <code>ocenv</code> of the matching upstream commit, compares <code>git hash-object</code> with the blob sha from GitHub and replaces the file.
+<code>ocenv</code>, <code>tools/renovate/ocenv.version</code> and the changelog fragment are committed by renovate into the update branch.</p>
+</li>
+<li>
+<p>The git blob sha is the same in <code>oracle-scripts</code> and <code>ansible-oracle</code>.
+<code>task renovate:ocenv</code> compares the local file with the blob in <code>tools/renovate/ocenv.version</code> and fails after a local change, which would be overwritten by the next update.</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="setup-gh">4.2. Setup gh for renovate</h3>
@@ -21715,7 +21755,7 @@ A token in <code>RENOVATE_TOKEN</code> is used instead, if it is set.</p>
 <div class="paragraph">
 <p>renovate clones your fork from GitHub, creates a branch for each update and pushes it together with a Pull-Request into your fork.
 The configuration is taken from <code>renovate.json</code> in <code>FORK_BASE</code> of the fork, not from your working tree.
-<code>renovate.json</code> and <code>tools/renovate/changelog_fragment.sh</code> must be pushed into <code>FORK_BASE</code> before the first run.
+<code>renovate.json</code>, <code>tools/renovate/changelog_fragment.sh</code> and <code>tools/renovate/ocenv_update.sh</code> must be pushed into <code>FORK_BASE</code> before the first run.
 Without <code>renovate.json</code> renovate skips the fork (<code>disabled-no-config</code>).</p>
 </div>
 <div class="paragraph">
@@ -21750,11 +21790,16 @@ task renovate:fork FORK_REPO=&lt;github user&gt;/ansible-oracle M=&lt;milestone&
 <p>Milestone and labels are set, when renovate creates a Pull-Request.</p>
 </div>
 <div class="paragraph">
+<p>The tasks have no hourly limit for new Pull-Requests (<code>prHourlyLimit</code> is 2 in <code>config:recommended</code>), each run creates all Pull-Requests.
+The limit of 10 open Pull-Requests (<code>prConcurrentLimit</code>) is still active.</p>
+</div>
+<div class="paragraph">
 <p>The branches can be tested locally after <code>git fetch origin</code>.</p>
 </div>
 <div class="paragraph">
 <p>The branches are named <code>pr/renovate/&lt;update&gt;</code>, so the <code>github-Actions</code> are started for each push.
 Each update adds a changelog fragment <code>changelogs/fragments/renovate-&lt;dependency&gt;.yml</code> in section <code>minor_changes</code>, created by <code>tools/renovate/changelog_fragment.sh</code>.
+Grouped updates (e.g. <code>ansible-lint</code> in requirements, pre-commit and workflow) add one fragment <code>renovate-&lt;group&gt;.yml</code> for the whole group.
 The PR reference is added later with <code>tools/release/fix_fragments.py</code>.</p>
 </div>
 <div class="admonitionblock note">

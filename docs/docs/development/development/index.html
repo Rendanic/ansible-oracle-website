@@ -128,8 +128,8 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-08T22:17:29+01:00">
-		<meta property="article:modified_time" content="2026-11-08T22:17:29+01:00">
+		<meta property="article:published_time" content="2026-11-09T07:07:06+01:00">
+		<meta property="article:modified_time" content="2026-11-09T07:07:06+01:00">
 
 	<meta itemprop="name" content="How to develop">
 	<meta itemprop="description" content="1. How to develop in ansible-oracle? Important This is an example how most of the development in ansible-oracle is done.
@@ -184,9 +184,9 @@ Each commit is locally checked against multiple rules, to prevent failures in gi
 This tool is recommended but not mandatory for contributing to ansible-oracle. Install the git hook once (cd into repository before) pre-commit install Important Do not forget to place change files in stage area of git before starting pre-commit.
 pre-commit works only on the data of the stage area! run outside git pre-commit run 1.3.2. ansible-doctor Start ansible-doctor with pre-commit pre-commit run ansible-doctor Start ansible-doctor to create new README.md file cd ansible-oracle # nix-shell .venv/ansible-doctor/bin/ansible-doctor -f -r roles # local Ansible-Controller ~/venv/ansible-doctor/bin/ansible-doctor -f -r roles 1.3.3. Start Playbook Important Don’t forget to set the working branch in requirements.yml.
 Remove/Disable devsec.hardening for faster installation of Ansible collection, when devsec should not be tested. Edit requirements.yml --- collections: # - name: devsec.hardening # version: 8.2.0 - name: https://github.com/Rendanic/ansible-oracle.git type: git version: devbranch Execute ansible-playbook ansible-galaxy collection install --force -r requirements.yml &amp;&amp; ansible-playbook -i inventory/hasfd -e hostgroup=&#39;all&#39; playbooks/single-instance-asm.yml --limit &#39;*19c*&#39;">
-	<meta itemprop="datePublished" content="2026-11-08T22:17:29+01:00">
-	<meta itemprop="dateModified" content="2026-11-08T22:17:29+01:00">
-	<meta itemprop="wordCount" content="6814">
+	<meta itemprop="datePublished" content="2026-11-09T07:07:06+01:00">
+	<meta itemprop="dateModified" content="2026-11-09T07:07:06+01:00">
+	<meta itemprop="wordCount" content="7037">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="How to develop">
 	<meta name="twitter:description" content="1. How to develop in ansible-oracle? Important This is an example how most of the development in ansible-oracle is done.
@@ -537,7 +537,11 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
     </li>
     <li><a href="#_check_dependencies_with_renovate">4. Check dependencies with renovate</a>
       <ul>
-        <li><a href="#_local_checks">4.1. Local checks</a></li>
+        <li><a href="#_local_checks">4.1. Local checks</a>
+          <ul>
+            <li><a href="#renovate-ocenv">4.1.1. ocenv from oracle-scripts</a></li>
+          </ul>
+        </li>
         <li><a href="#setup-gh">4.2. Setup gh for renovate</a></li>
         <li><a href="#_run_renovate_against_your_fork">4.3. Run renovate against your fork</a></li>
         <li><a href="#_run_renovate_against_upstream">4.4. Run renovate against upstream</a></li>
@@ -1775,7 +1779,8 @@ task renovate:pip       # pip modules and pre-commit hooks
 task renovate:docker    # container images only
 task renovate:galaxy    # collections in galaxy.yml and requirements.yml
 task renovate:report    # show the result of the last run again
-task renovate:validate  # validate renovate.json</pre>
+task renovate:validate  # validate renovate.json
+task renovate:ocenv     # check roles/oradb_manage_db/files/ocenv for local changes</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1832,6 +1837,45 @@ The versions of github actions (e.g. <code>ansible/ansible-lint</code>) and of <
 <p>The pre-commit hooks are looked up with GitHub tags, which needs a token.
 The local checks use the token from <code>gh auth token</code>, if <code>gh</code> is logged in.</p>
 </div>
+<div class="sect3">
+<h4 id="renovate-ocenv">4.1.1. ocenv from oracle-scripts</h4>
+<div class="paragraph">
+<p><code>roles/oradb_manage_db/files/ocenv</code> is a copy of <code>ocenv</code> from <a href="https://github.com/opitzconsulting/oracle-scripts/blob/main/ocenv">opitzconsulting/oracle-scripts</a>.
+The file is part of the collection, so no online access is needed during the installation.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Do not change <code>roles/oradb_manage_db/files/ocenv</code> in <code>ansible-oracle</code>.
+Changes are made in <code>oracle-scripts</code>, the file is replaced only by renovate.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The upstream repository has no releases. The version is the committer date of the last commit of <code>ocenv</code> in UTC (<code>YYYY.MMDD.HHMMSS</code>, custom datasource <code>ocenv</code> in <code>renovate.json</code>).</p>
+</li>
+<li>
+<p><code>tools/renovate/ocenv.version</code> holds the version, the upstream commit and the git blob sha of the file.</p>
+</li>
+<li>
+<p>For an update renovate runs <code>tools/renovate/ocenv_update.sh</code> as <code>postUpgradeTasks</code>.
+The script downloads <code>ocenv</code> of the matching upstream commit, compares <code>git hash-object</code> with the blob sha from GitHub and replaces the file.
+<code>ocenv</code>, <code>tools/renovate/ocenv.version</code> and the changelog fragment are committed by renovate into the update branch.</p>
+</li>
+<li>
+<p>The git blob sha is the same in <code>oracle-scripts</code> and <code>ansible-oracle</code>.
+<code>task renovate:ocenv</code> compares the local file with the blob in <code>tools/renovate/ocenv.version</code> and fails after a local change, which would be overwritten by the next update.</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="setup-gh">4.2. Setup gh for renovate</h3>
@@ -1872,7 +1916,7 @@ A token in <code>RENOVATE_TOKEN</code> is used instead, if it is set.</p>
 <div class="paragraph">
 <p>renovate clones your fork from GitHub, creates a branch for each update and pushes it together with a Pull-Request into your fork.
 The configuration is taken from <code>renovate.json</code> in <code>FORK_BASE</code> of the fork, not from your working tree.
-<code>renovate.json</code> and <code>tools/renovate/changelog_fragment.sh</code> must be pushed into <code>FORK_BASE</code> before the first run.
+<code>renovate.json</code>, <code>tools/renovate/changelog_fragment.sh</code> and <code>tools/renovate/ocenv_update.sh</code> must be pushed into <code>FORK_BASE</code> before the first run.
 Without <code>renovate.json</code> renovate skips the fork (<code>disabled-no-config</code>).</p>
 </div>
 <div class="paragraph">
@@ -1907,11 +1951,16 @@ task renovate:fork FORK_REPO=&lt;github user&gt;/ansible-oracle M=&lt;milestone&
 <p>Milestone and labels are set, when renovate creates a Pull-Request.</p>
 </div>
 <div class="paragraph">
+<p>The tasks have no hourly limit for new Pull-Requests (<code>prHourlyLimit</code> is 2 in <code>config:recommended</code>), each run creates all Pull-Requests.
+The limit of 10 open Pull-Requests (<code>prConcurrentLimit</code>) is still active.</p>
+</div>
+<div class="paragraph">
 <p>The branches can be tested locally after <code>git fetch origin</code>.</p>
 </div>
 <div class="paragraph">
 <p>The branches are named <code>pr/renovate/&lt;update&gt;</code>, so the <code>github-Actions</code> are started for each push.
 Each update adds a changelog fragment <code>changelogs/fragments/renovate-&lt;dependency&gt;.yml</code> in section <code>minor_changes</code>, created by <code>tools/renovate/changelog_fragment.sh</code>.
+Grouped updates (e.g. <code>ansible-lint</code> in requirements, pre-commit and workflow) add one fragment <code>renovate-&lt;group&gt;.yml</code> for the whole group.
 The PR reference is added later with <code>tools/release/fix_fragments.py</code>.</p>
 </div>
 <div class="admonitionblock note">
@@ -2747,7 +2796,7 @@ docker pull container-registry.oracle.com/database/express:21.3.0-xe</pre>
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 8, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/e9acb33a7c50f74c26b732a2bbd13d99ea82a09a">renovate: token from gh, milestone and labels for PRs, new task renovate:upstream (e9acb33a)</a>
+  Last modified November 9, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/f389948e4211026765947858f85a9440f6bc6ca4">renovate: no hourly PR limit for renovate:fork and renovate:upstream (f389948e)</a>
 </div>
 
 </div>
