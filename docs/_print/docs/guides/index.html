@@ -224,7 +224,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>12: <a href="#pg-df389f0fd67da23712005b22d5d20abf">Data Guard Guide</a></li>
+<li>12: <a href="#pg-df389f0fd67da23712005b22d5d20abf">RMAN Backups with oradb_rman</a></li>
 
 
     
@@ -232,7 +232,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>13: <a href="#pg-df389f0fd67da23712005b22d5d20abf">RMAN Backups with oradb_rman</a></li>
+<li>13: <a href="#pg-df389f0fd67da23712005b22d5d20abf">Data Guard Guide</a></li>
 
 
     
@@ -6537,7 +6537,8 @@ Upgrade of a whole CDB, non-CDB to PDB conversion, RAC, Oracle Restart and Data 
 <div class="title">Important</div>
 </td>
 <td class="content">
-Out-of-Place Patching is supported for Single Instance primary databases without Grid Infrastructure/Oracle Restart only.<br/>
+Out-of-Place Patching is supported for Single Instance primary databases without Grid Infrastructure and with Oracle Restart.<br/>
+RAC and RAC One Node are not supported.<br/>
 The guide describes the concept, all dependencies and the gaps in the current implementation.
 </td>
 </tr>
@@ -6881,14 +6882,15 @@ The only requirement for the switch is an installed and fully patched <code>ORAC
 <td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Restart</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Clusterware (OCR/OLR)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>srvctl modify database -db &lt;db_unique_name&gt; -oraclehome &lt;new ORACLE_HOME&gt;</code><br/>
-<code>/etc/oratab</code> is maintained by Oracle Clusterware.</p></td>
+<code>/etc/oratab</code> is not maintained correctly by Oracle Clusterware.
+<code>ansible-oracle</code> writes the new <code>ORACLE_HOME</code> into <code>/etc/oratab</code> (flag <code>N</code>), but never reads it for the state of the database.</p></td>
 </tr>
 </tbody>
 <tfoot>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Oracle RAC</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Clusterware (OCR)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Rolling switch node by node. Not covered in this guide yet.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rolling switch node by node. Not supported.</p></td>
 </tr>
 </tfoot>
 </table>
@@ -6898,13 +6900,13 @@ The only requirement for the switch is an installed and fully patched <code>ORAC
 <div class="ulist">
 <ul>
 <li>
-<p>systemd service / <code>manage_oracle_rdbms_procs.sh</code> (start/stop of databases)</p>
+<p>systemd service / <code>manage_oracle_rdbms_procs.sh</code> (start/stop of databases, without Grid Infrastructure only)</p>
 </li>
 <li>
 <p><code>ocenv</code> / <code>.profile_&lt;ORACLE_SID&gt;</code></p>
 </li>
 <li>
-<p><code>rman_backup.sh</code> from role <code>oradb_rman</code></p>
+<p><code>rman_backup.sh</code> from role <code>oradb_rman</code> (with Grid Infrastructure / Oracle Restart from the database resource, <code>crsctl</code>)</p>
 </li>
 </ul>
 </div>
@@ -6968,6 +6970,14 @@ Alternative: a central <code>TNS_ADMIN</code>.</p>
 </li>
 <li>
 <p>TDE with the init parameter <code>WALLET_ROOT</code> is independent from the <code>ORACLE_HOME</code>.</p>
+</li>
+<li>
+<p><code>local_listener</code> must not be an alias from <code>tnsnames.ora</code> of the old <code>ORACLE_HOME</code>.
+DBCA sets <code>local_listener</code> to <code>LISTENER_&lt;DB_NAME&gt;</code> and writes this alias into <code>tnsnames.ora</code> of the <code>ORACLE_HOME</code>.
+The alias is missing in the new <code>ORACLE_HOME</code>, the instance does not register at the listener (<code>ORA-12514</code>).
+<code>orasw_meta</code> requires <code>local_listener</code> with EZConnect in <code>init_parameters</code> of Single Instance databases,
+e.g. <code>//localhost:1521</code> (see <a href="/docs/guides/breaking_changes/">breaking_changes.adoc</a>).
+Other entries from DBCA in <code>tnsnames.ora</code> of the old <code>ORACLE_HOME</code> are not copied.</p>
 </li>
 </ul>
 </div>
@@ -7230,9 +7240,11 @@ No <code>stop_processes</code> needed, because no database is running from the n
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Switch <code>ORACLE_HOME</code> of database</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_manage_db</code> (<code>switch_home.yml</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Change of <code>oracle_databases[].home</code>. Single Instance without GI only.
+<td class="tableblock halign-left valign-top"><p class="tableblock">Change of <code>oracle_databases[].home</code>. Single Instance without GI and with Oracle Restart, not RAC.
 Stop from old <code>ORACLE_HOME</code>, copy of SPFile/PFile/password file (when the location differs), change of <code>/etc/oratab</code>,
 start from new <code>ORACLE_HOME</code>, <code>datapatch</code>.
+Oracle Restart: stop/start with <code>srvctl</code>, <code>srvctl modify database -oraclehome</code> (and <code>-spfile</code>/<code>-pwfile</code>, when copied),
+start with the start option of the resource, <code>datapatch</code> for the role <code>PRIMARY</code> only.
 Flag file <code>$ORACLE_BASE/switch_home_&lt;SID&gt;.pending</code> for an incomplete switch.</p></td>
 </tr>
 <tr>
@@ -7243,7 +7255,8 @@ Flag file <code>$ORACLE_BASE/switch_home_&lt;SID&gt;.pending</code> for an incom
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>/etc/oratab</code> without duplicate entries</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_manage_db</code> (<code>manage-db.yml</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lineinfile</code> with <code>regexp</code> replaces the entry for the SID.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lineinfile</code> with <code>regexp</code> replaces the entry for the SID.
+With Grid Infrastructure / Oracle Restart the entry <code>&lt;db_unique_name&gt;:&lt;ORACLE_HOME&gt;:N</code> is written as well.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORACLE_HOME</code> without database</p></td>
@@ -7251,13 +7264,18 @@ Flag file <code>$ORACLE_BASE/switch_home_&lt;SID&gt;.pending</code> for an incom
 <td class="tableblock halign-left valign-top"><p class="tableblock">An <code>ORACLE_HOME</code> in <code>db_homes_installed</code> without a database in <code>oracle_databases</code> is valid
 (e.g. new <code>ORACLE_HOME</code> before the switch, dedicated listener home).</p></td>
 </tr>
-</tbody>
-<tfoot>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORACLE_HOME</code> of listener, tnsnames and sqlnet must be installed</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>orasw_meta</code> (<code>assert_sqlnet.yml</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>home</code> in <code>listener_installed</code>, <code>sqlnet_installed</code> and <code>tnsnames_installed</code> must be in <code>db_homes_installed</code> without <code>state: absent</code>
 (unless <code>state: absent</code> or <code>use_gi_home: true</code> for the entry).</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>local_listener</code> with EZConnect</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>orasw_meta</code> (<code>assert_oracle_databases.yml</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>local_listener</code> is mandatory in <code>init_parameters</code> of Single Instance databases with <code>state: present</code>.</p></td>
 </tr>
 </tfoot>
 </table>
@@ -7394,9 +7412,6 @@ oracle_databases:
 <div class="sectionbody">
 <div class="ulist">
 <ul>
-<li>
-<p>Support for Oracle Restart and RAC in the 1st implementation?</p>
-</li>
 <li>
 <p><code>oraswdb_install</code> derives the type of an <code>ORACLE_HOME</code> (SI or cluster installation) from the databases in <code>oracle_databases</code>.
 An <code>ORACLE_HOME</code> without database is installed as <code>SI</code>.
@@ -7576,6 +7591,26 @@ This guide only covers the changes from the section <em>Breaking Changes / Porti
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_listener_installed_with_grid_infrastructure_oracle_restart_listener_in_its_home">listener_installed with Grid Infrastructure / Oracle Restart: listener in its home</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Grid Infrastructure / Oracle Restart <strong>and</strong> an entry in <code>listener_installed</code> with <code>home</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Use <code>use_gi_home: true</code> for a listener, which must stay in the GI / Oracle Restart home. Check the ORACLE_HOME of the listener resources (<code>srvctl config listener</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_local_listener_in_init_parameters_of_single_instance_databases">local_listener in init_parameters of Single Instance databases</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A Single Instance database (also with Oracle Restart) in <code>oracle_databases</code> with <code>state: present</code> has no <code>local_listener</code> in <code>init_parameters</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add <code>local_listener</code> with EZConnect to <code>init_parameters</code>, e.g. <code>{name: local_listener, value: &#39;//localhost:1521&#39;, scope: both, state: present}</code>. Emergency switch: <code>orasw_meta_assert_oracle_databases: false</code> (disables all asserts of <code>oracle_databases</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_oracle_databases_is_container_and_omf_are_true_by_default">oracle_databases: is_container and omf are true by default</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A 19c database in <code>oracle_databases</code> without <code>is_container</code> (non-CDB) <strong>or</strong> without <code>omf</code> (created without OMF)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set <code>is_container: false</code> for a new non-CDB. OMF is strongly recommended, <code>omf: false</code> needs an own DBCA template without OMF (<code>dbca_templatename</code>) and is not tested</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_oracle_databases_db_create_file_dest_and_db_recovery_file_dest_in_init_parameters">oracle_databases: db_create_file_dest and db_recovery_file_dest in init_parameters</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A database in <code>oracle_databases</code> with <code>state: present</code> <strong>and</strong> without <code>omf: false</code> <strong>and</strong> <code>db_create_file_dest</code> or <code>db_recovery_file_dest</code> is missing in <code>init_parameters</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add <code>db_create_file_dest</code> and <code>db_recovery_file_dest</code> to <code>init_parameters</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_oracle_databases_datafile_dest_and_recoveryfile_dest_are_deprecated">oracle_databases: datafile_dest and recoveryfile_dest are deprecated</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A database in <code>oracle_databases</code> with <code>datafile_dest</code> or <code>recoveryfile_dest</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Move the values to <code>db_create_file_dest</code> and <code>db_recovery_file_dest</code> in <code>init_parameters</code> and remove <code>datafile_dest</code> and <code>recoveryfile_dest</code>. Different values fail in the assert</p></td>
 </tr>
 </tbody>
 </table>
@@ -9233,7 +9268,7 @@ As of 5.0.0 the listener resource uses the ORACLE_HOME of the entry:</p>
 <li>
 <p>A listener with <code>home</code> is registered with the ORACLE_HOME of <code>home</code>.
 An existing listener resource in the GI home is modified with <code>srvctl modify listener -oraclehome &lt;ORACLE_HOME of home&gt;</code>.
-The running listener keeps its ORACLE_HOME until the next restart of the listener.</p>
+A running listener is stopped before and started after the change, i.e. it runs from the new ORACLE_HOME.</p>
 </li>
 <li>
 <p>A listener with <code>use_gi_home: true</code> stays in the GI / Oracle Restart home.</p>
@@ -9260,12 +9295,11 @@ where the listener runs from the GI home, e.g. <code>LISTENER</code> with <code>
 <p>Use <code>use_gi_home: true</code> without <code>home</code> for a listener, which must stay in the GI / Oracle Restart home.</p>
 </li>
 <li>
-<p>Check the ORACLE_HOME of the listener resources after the upgrade and restart a moved listener in a maintenance window:</p>
+<p>Check the ORACLE_HOME of the listener resources before the upgrade.
+<code>oradb_manage_db</code> restarts a moved listener, run it in a maintenance window:</p>
 <div class="listingblock">
 <div class="content">
-<pre>srvctl config listener -listener &lt;listener_name&gt;
-srvctl stop listener -listener &lt;listener_name&gt;
-srvctl start listener -listener &lt;listener_name&gt;</pre>
+<pre>srvctl config listener -listener &lt;listener_name&gt;</pre>
 </div>
 </div>
 </li>
@@ -9287,6 +9321,279 @@ srvctl start listener -listener &lt;listener_name&gt;</pre>
 </div>
 <div class="paragraph">
 <p>See <a href="https://github.com/oravirt/ansible-oracle/blob/master/roles/oradb_manage_db/LISTENER.md">LISTENER.md</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_local_listener_in_init_parameters_of_single_instance_databases">1.21. local_listener in init_parameters of Single Instance databases</h3>
+<div class="paragraph">
+<p>As of 5.0.0 the assert of <code>oracle_databases</code> in <code>orasw_meta</code> requires <code>local_listener</code> in <code>init_parameters</code>
+for every Single Instance database (with and without Oracle Restart) with <code>state: present</code>.
+RAC and RAC One Node databases are not checked, Clusterware sets <code>local_listener</code>.</p>
+</div>
+<div class="paragraph">
+<p>Why:</p>
+</div>
+<div class="paragraph">
+<p>DBCA sets <code>local_listener</code> to an alias, e.g. <code>LISTENER_&lt;DB_NAME&gt;</code>, and writes the alias into <code>tnsnames.ora</code>
+of the ORACLE_HOME (with Read-Only Oracle Homes in <code>$ORACLE_BASE/homes/&lt;oracle_home_name&gt;/network/admin</code>).
+After a switch of the ORACLE_HOME (Out-of-Place Patching, see <a href="/docs/guides/out_of_place_patching/">out_of_place_patching.adoc</a>)
+the alias is missing in <code>tnsnames.ora</code> of the new ORACLE_HOME.
+The instance cannot resolve <code>local_listener</code> and does not register its services at the listener (<code>ORA-12514</code> for clients).
+An EZConnect address in <code>local_listener</code> needs no entry in <code>tnsnames.ora</code>.</p>
+</div>
+<div class="paragraph">
+<p>Who is affected:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Inventories with a Single Instance database in <code>oracle_databases</code> without <code>local_listener</code> in <code>init_parameters</code>.
+The playbooks fail in the assert of <code>orasw_meta</code>:</p>
+<div class="listingblock">
+<div class="content">
+<pre>local_listener is missing in init_parameters of &lt;oracle_db_name&gt;, ...</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Required actions:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add <code>local_listener</code> with EZConnect (<code>//&lt;host&gt;:&lt;port&gt;</code>) to <code>init_parameters</code> of the database.
+<code>localhost</code> and the port of the listener avoid an extra entry in <code>tnsnames.ora</code>.</p>
+</li>
+<li>
+<p>Add one address per listener, if the instance must register at more than one listener, e.g.
+<code>&#39;(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1523)))&#39;</code>.</p>
+</li>
+<li>
+<p>Existing databases: <code>oradb_manage_parameters</code> changes <code>local_listener</code> with <code>scope: both</code>,
+the instance registers at the listener without restart.
+The entries of DBCA in <code>tnsnames.ora</code> are not removed by <code>ansible-oracle</code>.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<code>localhost</code> requires a listener on the loopback address.
+A listener with the hostname in <code>HOST</code> listens on all addresses of the host, unless <code>IP=FIRST</code> is set in <code>listener.ora</code>.
+Use the hostname or the address of the listener otherwise, e.g. <code>//{{ ansible_hostname }}:1521</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_databases:
+  - oracle_db_name: DB1
+    oracle_db_type: SI
+    listener_port: 1521
+    init_parameters:
+      - {name: local_listener, value: &#39;//localhost:1521&#39;, scope: both, state: present}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_oracle_databases_is_container_and_omf_are_true_by_default">1.22. oracle_databases: is_container and omf are true by default</h3>
+<div class="paragraph">
+<p>As of 5.0.0 the attributes <code>is_container</code> and <code>omf</code> of <code>oracle_databases</code> are <code>true</code> by default.
+They need not to be defined in <code>oracle_databases</code> anymore.</p>
+</div>
+<div class="paragraph">
+<p>Why:</p>
+</div>
+<div class="paragraph">
+<p>26ai supports only Container Databases and <code>ansible-oracle</code> uses Oracle Managed Files for tablespaces by default.
+The defaults simplify the inventory.</p>
+</div>
+<div class="paragraph">
+<p>Who is affected:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Inventories with a 19c database in <code>oracle_databases</code> without <code>is_container</code>.
+Before 5.0.0 a non-CDB was created, now a CDB is created.
+The tasks for PDBs (<code>oradb_manage_pdb</code>), the timezone upgrade (<code>oradb_tzupgrade</code>) and the switch of the ORACLE_HOME
+treat the database as CDB.</p>
+</li>
+<li>
+<p>Inventories with a database in <code>oracle_databases</code> without <code>omf</code>.
+Before 5.0.0 dbca was called with <code>-useOMF false</code>, now with <code>-useOMF true</code>.
+<code>omf</code> is used during the creation of a database with dbca only.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Required actions:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Set <code>is_container: false</code> for a 19c non-CDB.</p>
+</li>
+<li>
+<p>Use OMF for new databases. OMF is strongly recommended in <code>ansible-oracle</code>.</p>
+</li>
+<li>
+<p>Without OMF: set <code>omf: false</code> <strong>and</strong> use an own DBCA template without OMF (<code>dbca_templatename</code>).
+The DBCA templates of <code>ansible-oracle</code> are made for OMF. Databases without OMF are not tested anymore.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_databases:
+  - oracle_db_name: DB1
+    home: db19-si-ee
+    is_container: false   # non-CDB, 19c only
+    # not recommended and not tested:
+    # omf: false          # dbca -useOMF false
+    # dbca_templatename: &lt;own DBCA template without OMF&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_oracle_databases_db_create_file_dest_and_db_recovery_file_dest_in_init_parameters">1.23. oracle_databases: db_create_file_dest and db_recovery_file_dest in init_parameters</h3>
+<div class="paragraph">
+<p>As of 5.0.0 the assert of <code>oracle_databases</code> in <code>orasw_meta</code> requires <code>db_create_file_dest</code> and <code>db_recovery_file_dest</code>
+in <code>init_parameters</code> for every database with <code>state: present</code> and <code>omf: true</code> (default).</p>
+</div>
+<div class="paragraph">
+<p>Why:</p>
+</div>
+<div class="paragraph">
+<p>The parameters are needed in different situations, e.g. for dbca, standby databases (RMAN duplicate)
+and the directories of a new database.
+They are defined directly in <code>init_parameters</code> instead of deriving them from other variables.
+dbca uses the values for the datafile and recovery area destination.
+The global defaults <code>oracle_dbf_dir_fs</code>, <code>oracle_reco_dir_fs</code>, <code>oracle_dbf_dir_asm</code> and <code>oracle_reco_dir_asm</code>
+are only used without these <code>init_parameters</code> (only allowed with <code>omf: false</code> and an own DBCA template, not tested).</p>
+</div>
+<div class="paragraph">
+<p>Who is affected:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Inventories with a database in <code>oracle_databases</code> without <code>db_create_file_dest</code> or <code>db_recovery_file_dest</code>
+in <code>init_parameters</code>. The playbooks fail in the assert of <code>orasw_meta</code>:</p>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;oracle_db_name&gt;: omf: true (default) needs db_create_file_dest and db_recovery_file_dest in init_parameters, ...</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Required actions:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add <code>db_create_file_dest</code> and <code>db_recovery_file_dest</code> to <code>init_parameters</code>.
+Use the values of <code>datafile_dest</code> and <code>recoveryfile_dest</code>, if they are defined.</p>
+</li>
+<li>
+<p>Existing databases: use the current values of the database (<code>show parameter db_create_file_dest</code>,
+<code>show parameter db_recovery_file_dest</code>), otherwise <code>oradb_manage_parameters</code> changes them.</p>
+</li>
+<li>
+<p>Define <code>db_recovery_file_dest_size</code> before <code>db_recovery_file_dest</code> in <code>init_parameters</code>
+for existing databases without a recovery area (<code>ORA-19802</code>).</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_databases:
+  - oracle_db_name: DB1
+    init_parameters:
+      - {name: db_create_file_dest, value: &#39;/u02/oradata&#39;, scope: both, state: present}
+      - {name: db_recovery_file_dest_size, value: &#39;10G&#39;, scope: both, state: present, dbca: false}
+      - {name: db_recovery_file_dest, value: &#39;/u02/fra&#39;, scope: both, state: present}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_oracle_databases_datafile_dest_and_recoveryfile_dest_are_deprecated">1.24. oracle_databases: datafile_dest and recoveryfile_dest are deprecated</h3>
+<div class="paragraph">
+<p>As of 5.0.0 the attributes <code>datafile_dest</code> and <code>recoveryfile_dest</code> of <code>oracle_databases</code> are deprecated
+and will be removed in a future release. Use <code>db_create_file_dest</code> and <code>db_recovery_file_dest</code> in <code>init_parameters</code> instead.
+<code>datafile_dest</code> in <code>oracle_pdbs</code> is not affected.</p>
+</div>
+<div class="paragraph">
+<p>Who is affected:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Inventories with <code>datafile_dest</code> or <code>recoveryfile_dest</code> in <code>oracle_databases</code>.
+The assert of <code>orasw_meta</code> shows a warning (ignored failed task):</p>
+<div class="listingblock">
+<div class="content">
+<pre>WARNING: datafile_dest and recoveryfile_dest in oracle_databases are deprecated and will be removed in a future release ...</pre>
+</div>
+</div>
+</li>
+<li>
+<p>The playbooks fail in the assert of <code>orasw_meta</code>, if the values are different to <code>db_create_file_dest</code>
+or <code>db_recovery_file_dest</code> in <code>init_parameters</code>:</p>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;oracle_db_name&gt;: datafile_dest (...) must be identical to db_create_file_dest (...) ...</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Required actions:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Move the values to <code>db_create_file_dest</code> and <code>db_recovery_file_dest</code> in <code>init_parameters</code>.</p>
+</li>
+<li>
+<p>Remove <code>datafile_dest</code> and <code>recoveryfile_dest</code> from <code>oracle_databases</code>.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="title">Before</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_databases:
+  - oracle_db_name: DB1
+    is_container: true
+    datafile_dest: /u02/oradata
+    recoveryfile_dest: /u02/fra
+    init_parameters:
+      - {name: db_create_file_dest, value: &#39;/u02/oradata&#39;, scope: both, state: present}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">After</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_databases:
+  - oracle_db_name: DB1
+    init_parameters:
+      - {name: db_create_file_dest, value: &#39;/u02/oradata&#39;, scope: both, state: present}
+      - {name: db_recovery_file_dest, value: &#39;/u02/fra&#39;, scope: both, state: present}</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -9327,7 +9634,852 @@ srvctl start listener -listener &lt;listener_name&gt;</pre>
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">12 - Data Guard Guide</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">12 - RMAN Backups with oradb_rman</h1>
+    
+	
+<div class="paragraph">
+<p>This guide describes the configuration of RMAN backups with the role <code>oradb_rman</code>
+and the backup script <code>rman_backup.sh</code>.</p>
+</div>
+<div class="sect1">
+<h2 id="_overview">1. Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>oradb_rman</code> is executed by the playbook <code>opitzconsulting.ansible_oracle.manage_db</code> (last role).
+It configures for every database in <code>oracle_databases</code> with <code>rman_jobs</code>:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Files created by oradb_rman</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">File</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>$ORACLE_BASE/bin/rman_backup.sh</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Backup script, executes an RMAN script</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;RMAN_SCRIPTDIR&gt;/&lt;job&gt;.rman</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN script of a job, from the template <code>&lt;job&gt;.rman.j2</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>$ORACLE_BASE/admin/&lt;db_unique_name&gt;/rman/rman_backup.cfg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configuration of <code>rman_backup.sh</code> for the database (mode <code>0600</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/etc/cron.d/oracle_rman_ansible</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Crontab with one entry per job (<code>oradb_rman_cronfile</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;oradb_rman_tns_admin&gt;/tnsnames.ora</code>, <code>sqlnet.ora</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Connection to the RMAN catalog (<code>rman_tnsalias</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;oradb_rman_wallet_loc&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Wallet with the credential of the RMAN catalog (<code>rman_wallet: true</code>)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The crontab contains no passwords and no directories:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>10 01 * * 0 oracle /u01/app/oracle/bin/rman_backup.sh -a online_level0 -s DB1 &gt; /dev/null 2&gt;&amp;1</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>All other settings are read by <code>rman_backup.sh</code> from <code>rman_backup.cfg</code>.
+The output is written by <code>rman_backup.sh</code> to a logfile per execution, see <a href="#Logfiles">Logfiles</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_inventory">2. Inventory</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_rman_jobs">2.1. rman_jobs</h3>
+<div class="paragraph">
+<p><code>rman_jobs</code> is a list in an entry of <code>oracle_databases</code>.
+Every job executes the RMAN script <code>&lt;name&gt;.rman</code>.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Attributes of rman_jobs</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Mandatory</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the job = name of the template <code>&lt;name&gt;.rman.j2</code> and of the RMAN script <code>&lt;name&gt;.rman</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>state</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>present</code> (default) or <code>absent</code> (removes the crontab entry)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>minute</code>, <code>hour</code>, <code>day</code>, <code>weekday</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">for cron</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Schedule of the crontab entry. A job without schedule gets no crontab entry (e.g. <code>parameter</code>).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>disabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code>: the crontab entry is commented out</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>immediate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code>: the job is executed during the playbook (without catalog), e.g. for <code>parameter</code>. <code>service</code> and <code>role</code> are used as in the crontab.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>service</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Backup only on the node where the service is running (Grid Infrastructure / Oracle Restart), <code>rman_backup.sh --service</code>. Not together with <code>role</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>role</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>primary</code> or <code>standby</code>: backup only when the database has this role (Data Guard), <code>rman_backup.sh --role</code>. Not together with <code>service</code>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<code>service</code> and <code>role</code> are mutually exclusive in a job, an assert stops the role when both are defined.
+Both select the member or node which executes the backup, a combination makes no sense.
+For Data Guard use <code>role</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_attributes_of_oracle_databases">2.2. Attributes of oracle_databases</h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. RMAN attributes of an entry in oracle_databases</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_jobs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of jobs, see above</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_retention_policy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CONFIGURE RETENTION POLICY</code> in the template <code>parameter</code>, default: <code>oradb_rman_retention_policy_default</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_channel_disk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CONFIGURE CHANNEL DEVICE TYPE DISK</code>, default: <code>oradb_rman_channel_disk_default</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_controlfile_autobackup_disk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CONFIGURE CONTROLFILE AUTOBACKUP FORMAT</code>, default: <code>oradb_rman_controlfile_autobackup_disk_default</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_script_dir</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directory of the RMAN scripts of the database, default: <code>oradb_rman_script_dir</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_log_dir</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directory of the RMAN logfiles of the database, default: <code>oradb_rman_log_dir</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_tnsalias</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TNS alias of the RMAN catalog (entry in <code>oracle_tnsnames_config</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_user</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Owner of the RMAN catalog, password from <code>dbpasswords[&lt;rman_tnsalias&gt;][&lt;rman_user&gt;]</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_wallet</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code>: the password is stored in a wallet (<code>oradb_rman_wallet_loc</code>), the connect is <code>/@&lt;rman_tnsalias&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_db_unique_name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directory of <code>rman_backup.cfg</code>: <code>$ORACLE_BASE/admin/&lt;db_unique_name&gt;/rman</code>, default: <code>oracle_db_name</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><code>rman_password</code> in <code>oracle_databases</code> is deprecated. Use <code>dbpasswords</code> instead.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_control_file_record_keep_time">2.3. control_file_record_keep_time</h3>
+<div class="paragraph">
+<p>Best practice: <code>control_file_record_keep_time</code> is defined in <code>init_parameters</code> of every database with <code>rman_jobs</code>.
+The controlfile keeps the records of the backups for this number of days.
+Without catalog, RMAN knows only the backups in the controlfile.</p>
+</div>
+<div class="paragraph">
+<p><code>oradb_rman</code> asserts:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>control_file_record_keep_time</code> is defined in <code>init_parameters</code> (<code>state: present</code>, <code>sid: &#39;*&#39;</code>), and</p>
+</li>
+<li>
+<p>the value is &gt;= <code>&lt;n&gt;</code> for the retention policy <code>RECOVERY WINDOW OF &lt;n&gt; DAYS</code>.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>init_parameters:
+  - {name: control_file_record_keep_time, value: &#39;30&#39;, scope: both, state: present}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The assert can be disabled with <code>oradb_rman_assert_control_file_record_keep_time: false</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_global_variables">2.4. Global variables</h3>
+<div class="paragraph">
+<p>The variables of the role are described in the <a href="/docs/roles/oradb_rman/">README of oradb_rman</a>.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. Important variables</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_rman_script_dir</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>$ORACLE_BASE/rman</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN scripts (<code>RMAN_SCRIPTDIR</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_rman_log_dir</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>$ORACLE_BASE/rman/log</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Logfiles of <code>rman_backup.sh</code> (<code>RMAN_LOGDIR</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_rman_log_retention</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>30</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Days to keep the logfiles (<code>RMAN_LOG_RETENTION</code>), <code>0</code>: keep all</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_rman_cronfile</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_rman_ansible</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">File in <code>/etc/cron.d</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_rman_tns_admin</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>$ORACLE_BASE/rman/network/admin</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TNS_ADMIN</code> for the catalog (<code>RMAN_TNS_ADMIN</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_rman_cron_mkjob</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Prefix <code>mk-job</code> for checkmk</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The template <code>parameter</code> uses <code>rman_device_type_disk</code>
+(e.g. <code>&#39;PARALLELISM 1 BACKUP TYPE TO COMPRESSED BACKUPSET&#39;</code>),
+the templates <code>*_fra_disk</code> use <code>rman_fra_backupdir</code>.
+The role has no default for these variables, define them in the inventory when the templates are used.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rman_templates">2.5. RMAN templates</h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. Templates of oradb_rman</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>parameter</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN configuration: retention policy, controlfile autobackup, channel</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>parameter_standby</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Like <code>parameter</code> without <code>CONFIGURE RETENTION POLICY</code> (not configurable on a standby database), use it with <code>role: standby</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>online_level0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Online incremental level 0 backup, archive logs, <code>delete obsolete &lt;rman_retention_policy&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>online_level1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Online incremental level 1 backup, archive logs, <code>delete obsolete</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>offline_level0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Offline level 0 backup: the database is restarted in <code>MOUNT</code>, opened afterwards</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>archivelog</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Backup of the archive logs, deletes the archive logs backed up 1 time</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>*_fra_disk</code>, <code>parameter_rac</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Variants for backups of the FRA to disk and for RAC</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Own templates <code>&lt;name&gt;.rman.j2</code> are found by Ansible in the <code>templates</code> directory of the playbook
+(Ansible search path), the job uses the same <code>name</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_example">2.6. Example</h3>
+<div class="listingblock">
+<div class="title">Database with RMAN catalog and Data Guard</div>
+<div class="content">
+<pre>oracle_databases:
+  - oracle_db_name: DB1
+    oracle_db_unique_name: DB1_SITE1
+    ...
+    rman_retention_policy: &#39;RECOVERY WINDOW OF 14 DAYS&#39;
+    rman_tnsalias: RMANCAT
+    rman_user: rman_db1
+    rman_jobs:
+      - {name: parameter, role: primary, immediate: true}
+      - {name: parameter_standby, role: standby, immediate: true}
+      - {name: online_level0, role: standby, weekday: &#34;0&#34;, hour: &#34;01&#34;, minute: &#34;10&#34;, day: &#34;*&#34;}
+      - {name: online_level1, role: standby, weekday: &#34;1-6&#34;, hour: &#34;01&#34;, minute: &#34;10&#34;, day: &#34;*&#34;}
+      - {name: archivelog, weekday: &#34;*&#34;, hour: &#34;*&#34;, minute: &#34;30&#34;, day: &#34;*&#34;}
+
+rman_device_type_disk: &#39;PARALLELISM 1 BACKUP TYPE TO COMPRESSED BACKUPSET&#39;
+
+dbpasswords:
+  RMANCAT:
+    rman_db1: &lt;password&gt;</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_rman_backup_sh">3. rman_backup.sh</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_usage">3.1. Usage</h3>
+<div class="listingblock">
+<div class="content">
+<pre>rman_backup.sh -a &lt;action&gt; [-s &lt;ORACLE_SID|DB_NAME&gt;] [--admin &lt;Directory&gt;]
+               [-r &lt;Directory&gt;] [-l &lt;Directory&gt;] [-c &lt;CATALOGCONNECT&gt;] [-t &lt;TARGETCONNECT&gt;]
+               [--service &lt;Service&gt;] [--role &lt;PRIMARY|STANDBY&gt;] [--nocatalog]
+rman_backup.sh -h</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>-a</code> is the only mandatory parameter.
+All other settings are read from the command line, the environment or the configuration file.</p>
+</div>
+<div class="listingblock">
+<div class="title">Interactive usage as oracle</div>
+<div class="content">
+<pre>export ORACLE_SID=DB1
+$ORACLE_BASE/bin/rman_backup.sh -a archivelog
+$ORACLE_BASE/bin/rman_backup.sh -a online_level0 --nocatalog</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_order_of_the_settings">3.2. Order of the settings</h3>
+<div class="paragraph">
+<p>The first value wins:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>parameter on the command line</p>
+</li>
+<li>
+<p>environment variable</p>
+</li>
+<li>
+<p>configuration file <code>&lt;ORACLE_ADMIN&gt;/rman/rman_backup.cfg</code></p>
+</li>
+<li>
+<p>default of <code>rman_backup.sh</code></p>
+</li>
+</ol>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. Parameters, environment variables and defaults</caption>
+<colgroup>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Environment / rman_backup.cfg</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-a/--action</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN script <code>&lt;RMAN_SCRIPTDIR&gt;/&lt;action&gt;.rman</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-s/--ORACLE_SID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORACLE_SID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ORACLE_SID, DB_NAME in RAC environments (the instance is determined with <code>srvctl</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--admin</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORACLE_ADMIN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">see below</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directory of <code>rman/rman_backup.cfg</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-r/--rmanscriptdir</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_SCRIPTDIR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;ORACLE_ADMIN&gt;/rman</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN scripts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-l/--logdir</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_LOGDIR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;RMAN_SCRIPTDIR&gt;/log</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Directory of the logfiles, see <a href="#Logfiles">Logfiles</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_LOG_RETENTION</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>30</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Remove logfiles older than <code>&lt;n&gt;</code> days, <code>0</code>: keep all</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-c/--catalogconnect</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_CATALOGCONNECT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no catalog</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>connect catalog &lt;value&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--nocatalog</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No catalog, even when <code>RMAN_CATALOGCONNECT</code> is set</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-t/--targetconnect</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_TARGETCONNECT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>connect target &lt;value&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--service</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_SERVICE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Backup only when the service runs on the current node (GI / Oracle Restart)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--role</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_ROLE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PRIMARY</code> or <code>STANDBY</code> (= <code>PHYSICAL STANDBY</code>). Use either <code>--service</code> or <code>--role</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_TNS_ADMIN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TNS_ADMIN</code> for RMAN</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The old environment variables <code>RMANSCRIPTDIR</code>, <code>RMANLOGDIR</code>, <code>CATALOGCONNECT</code>, <code>TARGETCONNECT</code>
+and <code>RMANTNS_ADMIN</code> are still supported.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+Parameters are visible in the process list. Use <code>rman_backup.cfg</code> for the password of the catalog,
+not <code>-c</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_oracle_admin">3.3. ORACLE_ADMIN</h3>
+<div class="paragraph">
+<p><code>rman_backup.sh</code> determines <code>ORACLE_ADMIN</code> in the following order:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>--admin</code> or the environment variable <code>ORACLE_ADMIN</code></p>
+</li>
+<li>
+<p><code>$ORACLE_BASE/admin/&lt;db_unique_name&gt;</code>: <code>db_unique_name</code> is read from the running instance
+(<code>v$parameter</code>, <code>sqlplus / as sysdba</code>, works in <code>NOMOUNT</code>)</p>
+</li>
+<li>
+<p><code>$ORACLE_BASE/admin/&lt;ORACLE_SID&gt;</code>, when the instance is not running</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The <code>db_unique_name</code> makes the configuration unique on every member of a Data Guard configuration:
+the ORACLE_SID is identical on all members, the <code>db_unique_name</code> is different.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rman_backup_cfg">3.4. rman_backup.cfg</h3>
+<div class="paragraph">
+<p>The configuration file contains lines with <code>KEY=VALUE</code>.
+It is read line by line and <strong>not</strong> sourced: shell code is not executed.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># Managed by Ansible
+RMAN_SCRIPTDIR=/u01/app/oracle/rman
+RMAN_LOGDIR=/u01/app/oracle/rman/log
+RMAN_LOG_RETENTION=30
+RMAN_TNS_ADMIN=/u01/app/oracle/rman/network/admin
+RMAN_CATALOGCONNECT=rman_db1/&lt;password&gt;@RMANCAT</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Allowed keys: <code>RMAN_SCRIPTDIR</code>, <code>RMAN_LOGDIR</code>, <code>RMAN_LOG_RETENTION</code>, <code>RMAN_TARGETCONNECT</code>, <code>RMAN_CATALOGCONNECT</code>,
+<code>RMAN_SERVICE</code>, <code>RMAN_ROLE</code>, <code>RMAN_TNS_ADMIN</code>. Unknown keys and invalid lines are ignored with a warning.</p>
+</li>
+<li>
+<p>One pair of quotes around the value is removed.</p>
+</li>
+<li>
+<p>Empty lines and lines starting with <code>#</code> are ignored.</p>
+</li>
+<li>
+<p>The file could contain the password of the catalog: mode <code>0600</code>.
+<code>rman_backup.sh</code> warns, when the file is readable by other users.</p>
+</li>
+<li>
+<p><code>oradb_rman</code> creates the file. Manual changes are overwritten by the next execution of the role.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>RMAN_SERVICE</code> and <code>RMAN_ROLE</code> are set per job in the crontab (<code>--service</code>, <code>--role</code>) and not in the file,
+because the jobs of a database could use different values.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_catalog">3.5. Catalog</h3>
+<div class="paragraph">
+<p><code>rman_backup.sh</code> checks the connection to the catalog before the backup.
+The backup runs without catalog, when the catalog is not reachable.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="Logfiles">3.6. Logfiles</h3>
+<div class="paragraph">
+<p><code>rman_backup.sh</code> writes all output of the script, <code>sqlplus</code> and RMAN to stdout and to a logfile per execution.
+Manual executions are logged the same way as the cron jobs, the crontab redirects the output to <code>/dev/null</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;RMAN_LOGDIR&gt;/&lt;db_unique_name&gt;_&lt;action&gt;_&lt;YYYYmmdd&gt;_&lt;HHMMSS&gt;_&lt;pid&gt;.log
+&lt;RMAN_LOGDIR&gt;/&lt;db_unique_name&gt;_&lt;action&gt;.log -&gt; logfile of the last execution</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Every execution has its own logfile: parallel executions do not mix their output.</p>
+</li>
+<li>
+<p>The symlink points to the logfile of the last execution of the action (for monitoring and <code>tail</code>).</p>
+</li>
+<li>
+<p>Messages before the logfile is opened (e.g. reading <code>rman_backup.cfg</code>) are written to the logfile afterwards.</p>
+</li>
+<li>
+<p>Logfiles of the database and action older than <code>RMAN_LOG_RETENTION</code> days are removed.</p>
+</li>
+<li>
+<p>Errors before the logfile is opened (e.g. ORACLE_HOME of the ORACLE_SID not found) and the major actions
+are logged in syslog (tag <code>rman_backup.sh</code>).</p>
+</li>
+<li>
+<p><code>&lt;db_unique_name&gt;</code> is the name of the directory <code>ORACLE_ADMIN</code>, when the instance is not running.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_parallel_executions">3.7. Parallel executions</h3>
+<div class="paragraph">
+<p>Only one execution of an action is allowed for a database (lock file <code>&lt;RMAN_LOGDIR&gt;/.&lt;db_unique_name&gt;_&lt;action&gt;.lock</code>, <code>flock</code>).
+A 2nd execution of the same action stops immediately with exit code 30, e.g. an hourly <code>archivelog</code>
+while the last execution is still running.
+Different actions of a database run in parallel, e.g. <code>archivelog</code> during <code>online_level0</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_exit_codes">3.8. Exit codes</h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 7. Exit codes of rman_backup.sh</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Code</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN successful, or backup skipped (<code>--service</code> not running on this node, <code>--role</code> does not match)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Wrong parameters, service not existing</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10, 11, 12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ORACLE_HOME of the ORACLE_SID not found (<code>/etc/oratab</code>, with Grid Infrastructure / Oracle Restart the database resource <code>ora.&lt;ORACLE_SID&gt;.db</code> from <code>crsctl</code>), ORACLE_HOME or ORACLE_BASE not existing</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">13</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database role could not be determined (<code>--role</code>, instance not mounted)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">14</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_backup.cfg</code> not readable</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">21, 22, 23</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Log directory, RMAN script or logfile not existing</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The action is running already for the database</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">99</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN failed</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_data_guard">4. Data Guard</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>All members of a Data Guard configuration get the same <code>rman_jobs</code>.
+<code>role</code> decides, on which member a job executes the backup:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>role: standby</code>: backups of the database on the physical standby, the primary is not loaded</p>
+</li>
+<li>
+<p><code>role: primary</code>: backups on the primary only</p>
+</li>
+<li>
+<p>without <code>role</code>: the job runs on every member</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <code>CONFIGURE</code> commands are stored in the controlfile of each member and must be executed on all members:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>parameter</code> with <code>role: primary</code></p>
+</li>
+<li>
+<p><code>parameter_standby</code> with <code>role: standby</code>: without <code>CONFIGURE RETENTION POLICY</code>,
+the retention policy is not configurable on a standby database</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>online_level0</code> uses <code>rman_retention_policy</code> in <code>delete obsolete</code>.
+Therefore it works on a standby database, whose controlfile (e.g. from RMAN <code>DUPLICATE</code>)
+does not contain the retention policy, and on a new primary after a switchover.</p>
+</div>
+<div class="paragraph">
+<p>After a switchover the backups follow the role automatically, the inventory is not changed.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example: CONFIGURE on all members, backups on the primary only</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_databases:
+  - oracle_db_name: DB1
+    rman_jobs:
+      # executed during the playbook: parameter on the primary, parameter_standby on the standby
+      - {name: parameter, role: primary, immediate: true}
+      - {name: parameter_standby, role: standby, immediate: true}
+      # role primary: crontab entry on every member, rman_backup.sh --role primary skips it on the standby
+      - {name: online_level0, role: primary, weekday: &#34;0&#34;, hour: &#34;01&#34;, minute: &#34;10&#34;, day: &#34;*&#34;}
+      - {name: archivelog, role: primary, weekday: &#34;*&#34;, hour: &#34;*&#34;, minute: &#34;30&#34;, day: &#34;*&#34;}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>All members get the same crontab entries.
+<code>rman_backup.sh</code> checks <code>database_role</code> in <code>v$database</code> at every execution
+and skips the backup with exit code 0, when the role does not match.
+Valid values of <code>role</code> are <code>primary</code> and <code>standby</code> (checked by an assert).</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Use an RMAN catalog for Data Guard.
+Backups of a physical standby database can be used for the primary database (and vice versa),
+the catalog makes the backups known to all members.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<code>archivelog</code> deletes all archive logs that were backed up once.
+The <code>ARCHIVELOG DELETION POLICY</code> (e.g. <code>APPLIED ON ALL STANDBY</code>) is configured by <code>oradb_standby</code>
+with the mandatory attribute <code>archivelog_deletion_policy</code> in <code>db_standby_config</code>,
+see <a href="/docs/guides/standby_databases/#_archivelog_deletion_policy">Standby Databases - Archivelog deletion policy</a>,
+to prevent the deletion of archive logs which are not yet applied on the standby database.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_migration_from_older_versions">5. Migration from older versions</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>The crontab entries contained the directories and the catalog connect (<code>-r</code>, <code>-l</code>, <code>-c</code>)
+or the environment variables <code>RMANLOGDIR</code>, <code>RMANSCRIPTDIR</code> and <code>RMANTNS_ADMIN</code> in <code>/etc/cron.d</code>.
+<code>oradb_rman</code> removes the environment variables and recreates the crontab entries.
+The values are in <code>rman_backup.cfg</code> now.</p>
+</li>
+<li>
+<p>Existing calls of <code>rman_backup.sh</code> with all parameters still work.</p>
+</li>
+<li>
+<p>The logfiles are written to <code>RMAN_LOGDIR</code> per execution.
+An existing logfile <code>&lt;RMAN_LOGDIR&gt;/&lt;name&gt;_&lt;action&gt;.log</code> of older versions is renamed to <code>*.log.old</code> by the first execution.
+The cron output in <code>/var/log/oracle/rman/log</code> (<code>oradb_rman_cron_logdir</code>) is no longer written, the directory can be removed.</p>
+</li>
+<li>
+<p>Before this change, the attributes <code>service</code>, <code>rman_retention_policy</code>, <code>rman_channel_disk</code>,
+<code>rman_controlfile_autobackup_disk</code>, <code>rman_log_dir</code>, <code>rman_script_dir</code> and the catalog connect
+of a database were ignored by <code>oradb_rman</code> (bug).
+They are used now: check the values in the inventory before the update.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">13 - Data Guard Guide</h1>
     
 	
 <div class="paragraph">
@@ -10209,851 +11361,6 @@ See <a href="/docs/guides/standby_databases/#_role_transitions_outside_of_ansibl
 </li>
 <li>
 <p><a href="/docs/roles/overview/">List of roles in <code>ansible-oracle</code></a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-
-</div>
-
-
-
-    
-	
-  
-    
-    
-	
-    
-
-<div class="td-content" style="page-break-before: always">
-    
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">13 - RMAN Backups with oradb_rman</h1>
-    
-	
-<div class="paragraph">
-<p>This guide describes the configuration of RMAN backups with the role <code>oradb_rman</code>
-and the backup script <code>rman_backup.sh</code>.</p>
-</div>
-<div class="sect1">
-<h2 id="_overview">1. Overview</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><code>oradb_rman</code> is executed by the playbook <code>opitzconsulting.ansible_oracle.manage_db</code> (last role).
-It configures for every database in <code>oracle_databases</code> with <code>rman_jobs</code>:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Files created by oradb_rman</caption>
-<colgroup>
-<col style="width: 50%;"/>
-<col style="width: 50%;"/>
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">File</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>$ORACLE_BASE/bin/rman_backup.sh</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Backup script, executes an RMAN script</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;RMAN_SCRIPTDIR&gt;/&lt;job&gt;.rman</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN script of a job, from the template <code>&lt;job&gt;.rman.j2</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>$ORACLE_BASE/admin/&lt;db_unique_name&gt;/rman/rman_backup.cfg</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Configuration of <code>rman_backup.sh</code> for the database (mode <code>0600</code>)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/etc/cron.d/oracle_rman_ansible</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Crontab with one entry per job (<code>oradb_rman_cronfile</code>)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;oradb_rman_tns_admin&gt;/tnsnames.ora</code>, <code>sqlnet.ora</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Connection to the RMAN catalog (<code>rman_tnsalias</code>)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;oradb_rman_wallet_loc&gt;</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Wallet with the credential of the RMAN catalog (<code>rman_wallet: true</code>)</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>The crontab contains no passwords and no directories:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>10 01 * * 0 oracle /u01/app/oracle/bin/rman_backup.sh -a online_level0 -s DB1 &gt; /dev/null 2&gt;&amp;1</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>All other settings are read by <code>rman_backup.sh</code> from <code>rman_backup.cfg</code>.
-The output is written by <code>rman_backup.sh</code> to a logfile per execution, see <a href="#Logfiles">Logfiles</a>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_inventory">2. Inventory</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_rman_jobs">2.1. rman_jobs</h3>
-<div class="paragraph">
-<p><code>rman_jobs</code> is a list in an entry of <code>oracle_databases</code>.
-Every job executes the RMAN script <code>&lt;name&gt;.rman</code>.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. Attributes of rman_jobs</caption>
-<colgroup>
-<col style="width: 33.3333%;"/>
-<col style="width: 33.3333%;"/>
-<col style="width: 33.3334%;"/>
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Attribute</th>
-<th class="tableblock halign-left valign-top">Mandatory</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the job = name of the template <code>&lt;name&gt;.rman.j2</code> and of the RMAN script <code>&lt;name&gt;.rman</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>state</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>present</code> (default) or <code>absent</code> (removes the crontab entry)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>minute</code>, <code>hour</code>, <code>day</code>, <code>weekday</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">for cron</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Schedule of the crontab entry. A job without schedule gets no crontab entry (e.g. <code>parameter</code>).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>disabled</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code>: the crontab entry is commented out</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>immediate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code>: the job is executed during the playbook (without catalog), e.g. for <code>parameter</code>. <code>service</code> and <code>role</code> are used as in the crontab.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>service</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Backup only on the node where the service is running (Grid Infrastructure / Oracle Restart), <code>rman_backup.sh --service</code>. Not together with <code>role</code>.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>role</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>primary</code> or <code>standby</code>: backup only when the database has this role (Data Guard), <code>rman_backup.sh --role</code>. Not together with <code>service</code>.</p></td>
-</tr>
-</tbody>
-</table>
-<div class="admonitionblock important">
-<table>
-<tbody><tr>
-<td class="icon">
-<div class="title">Important</div>
-</td>
-<td class="content">
-<code>service</code> and <code>role</code> are mutually exclusive in a job, an assert stops the role when both are defined.
-Both select the member or node which executes the backup, a combination makes no sense.
-For Data Guard use <code>role</code>.
-</td>
-</tr>
-</tbody></table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_attributes_of_oracle_databases">2.2. Attributes of oracle_databases</h3>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. RMAN attributes of an entry in oracle_databases</caption>
-<colgroup>
-<col style="width: 50%;"/>
-<col style="width: 50%;"/>
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Attribute</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_jobs</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of jobs, see above</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_retention_policy</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CONFIGURE RETENTION POLICY</code> in the template <code>parameter</code>, default: <code>oradb_rman_retention_policy_default</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_channel_disk</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CONFIGURE CHANNEL DEVICE TYPE DISK</code>, default: <code>oradb_rman_channel_disk_default</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_controlfile_autobackup_disk</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CONFIGURE CONTROLFILE AUTOBACKUP FORMAT</code>, default: <code>oradb_rman_controlfile_autobackup_disk_default</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_script_dir</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Directory of the RMAN scripts of the database, default: <code>oradb_rman_script_dir</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_log_dir</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Directory of the RMAN logfiles of the database, default: <code>oradb_rman_log_dir</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_tnsalias</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TNS alias of the RMAN catalog (entry in <code>oracle_tnsnames_config</code>)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_user</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Owner of the RMAN catalog, password from <code>dbpasswords[&lt;rman_tnsalias&gt;][&lt;rman_user&gt;]</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_wallet</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code>: the password is stored in a wallet (<code>oradb_rman_wallet_loc</code>), the connect is <code>/@&lt;rman_tnsalias&gt;</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_db_unique_name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Directory of <code>rman_backup.cfg</code>: <code>$ORACLE_BASE/admin/&lt;db_unique_name&gt;/rman</code>, default: <code>oracle_db_name</code></p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p><code>rman_password</code> in <code>oracle_databases</code> is deprecated. Use <code>dbpasswords</code> instead.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_control_file_record_keep_time">2.3. control_file_record_keep_time</h3>
-<div class="paragraph">
-<p>Best practice: <code>control_file_record_keep_time</code> is defined in <code>init_parameters</code> of every database with <code>rman_jobs</code>.
-The controlfile keeps the records of the backups for this number of days.
-Without catalog, RMAN knows only the backups in the controlfile.</p>
-</div>
-<div class="paragraph">
-<p><code>oradb_rman</code> asserts:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>control_file_record_keep_time</code> is defined in <code>init_parameters</code> (<code>state: present</code>, <code>sid: &#39;*&#39;</code>), and</p>
-</li>
-<li>
-<p>the value is &gt;= <code>&lt;n&gt;</code> for the retention policy <code>RECOVERY WINDOW OF &lt;n&gt; DAYS</code>.</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>init_parameters:
-  - {name: control_file_record_keep_time, value: &#39;30&#39;, scope: both, state: present}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The assert can be disabled with <code>oradb_rman_assert_control_file_record_keep_time: false</code>.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_global_variables">2.4. Global variables</h3>
-<div class="paragraph">
-<p>The variables of the role are described in the <a href="/docs/roles/oradb_rman/">README of oradb_rman</a>.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. Important variables</caption>
-<colgroup>
-<col style="width: 33.3333%;"/>
-<col style="width: 33.3333%;"/>
-<col style="width: 33.3334%;"/>
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Variable</th>
-<th class="tableblock halign-left valign-top">Default</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_rman_script_dir</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>$ORACLE_BASE/rman</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN scripts (<code>RMAN_SCRIPTDIR</code>)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_rman_log_dir</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>$ORACLE_BASE/rman/log</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Logfiles of <code>rman_backup.sh</code> (<code>RMAN_LOGDIR</code>)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_rman_log_retention</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>30</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Days to keep the logfiles (<code>RMAN_LOG_RETENTION</code>), <code>0</code>: keep all</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_rman_cronfile</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_rman_ansible</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">File in <code>/etc/cron.d</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_rman_tns_admin</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>$ORACLE_BASE/rman/network/admin</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TNS_ADMIN</code> for the catalog (<code>RMAN_TNS_ADMIN</code>)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_rman_cron_mkjob</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Prefix <code>mk-job</code> for checkmk</p></td>
-</tr>
-</tbody>
-</table>
-<div class="admonitionblock important">
-<table>
-<tbody><tr>
-<td class="icon">
-<div class="title">Important</div>
-</td>
-<td class="content">
-The template <code>parameter</code> uses <code>rman_device_type_disk</code>
-(e.g. <code>&#39;PARALLELISM 1 BACKUP TYPE TO COMPRESSED BACKUPSET&#39;</code>),
-the templates <code>*_fra_disk</code> use <code>rman_fra_backupdir</code>.
-The role has no default for these variables, define them in the inventory when the templates are used.
-</td>
-</tr>
-</tbody></table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_rman_templates">2.5. RMAN templates</h3>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. Templates of oradb_rman</caption>
-<colgroup>
-<col style="width: 50%;"/>
-<col style="width: 50%;"/>
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>parameter</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN configuration: retention policy, controlfile autobackup, channel</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>parameter_standby</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Like <code>parameter</code> without <code>CONFIGURE RETENTION POLICY</code> (not configurable on a standby database), use it with <code>role: standby</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>online_level0</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Online incremental level 0 backup, archive logs, <code>delete obsolete &lt;rman_retention_policy&gt;</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>online_level1</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Online incremental level 1 backup, archive logs, <code>delete obsolete</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>offline_level0</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Offline level 0 backup: the database is restarted in <code>MOUNT</code>, opened afterwards</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>archivelog</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Backup of the archive logs, deletes the archive logs backed up 1 time</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>*_fra_disk</code>, <code>parameter_rac</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Variants for backups of the FRA to disk and for RAC</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Own templates <code>&lt;name&gt;.rman.j2</code> are found by Ansible in the <code>templates</code> directory of the playbook
-(Ansible search path), the job uses the same <code>name</code>.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_example">2.6. Example</h3>
-<div class="listingblock">
-<div class="title">Database with RMAN catalog and Data Guard</div>
-<div class="content">
-<pre>oracle_databases:
-  - oracle_db_name: DB1
-    oracle_db_unique_name: DB1_SITE1
-    ...
-    rman_retention_policy: &#39;RECOVERY WINDOW OF 14 DAYS&#39;
-    rman_tnsalias: RMANCAT
-    rman_user: rman_db1
-    rman_jobs:
-      - {name: parameter, role: primary, immediate: true}
-      - {name: parameter_standby, role: standby, immediate: true}
-      - {name: online_level0, role: standby, weekday: &#34;0&#34;, hour: &#34;01&#34;, minute: &#34;10&#34;, day: &#34;*&#34;}
-      - {name: online_level1, role: standby, weekday: &#34;1-6&#34;, hour: &#34;01&#34;, minute: &#34;10&#34;, day: &#34;*&#34;}
-      - {name: archivelog, weekday: &#34;*&#34;, hour: &#34;*&#34;, minute: &#34;30&#34;, day: &#34;*&#34;}
-
-rman_device_type_disk: &#39;PARALLELISM 1 BACKUP TYPE TO COMPRESSED BACKUPSET&#39;
-
-dbpasswords:
-  RMANCAT:
-    rman_db1: &lt;password&gt;</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_rman_backup_sh">3. rman_backup.sh</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_usage">3.1. Usage</h3>
-<div class="listingblock">
-<div class="content">
-<pre>rman_backup.sh -a &lt;action&gt; [-s &lt;ORACLE_SID|DB_NAME&gt;] [--admin &lt;Directory&gt;]
-               [-r &lt;Directory&gt;] [-l &lt;Directory&gt;] [-c &lt;CATALOGCONNECT&gt;] [-t &lt;TARGETCONNECT&gt;]
-               [--service &lt;Service&gt;] [--role &lt;PRIMARY|STANDBY&gt;] [--nocatalog]
-rman_backup.sh -h</pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>-a</code> is the only mandatory parameter.
-All other settings are read from the command line, the environment or the configuration file.</p>
-</div>
-<div class="listingblock">
-<div class="title">Interactive usage as oracle</div>
-<div class="content">
-<pre>export ORACLE_SID=DB1
-$ORACLE_BASE/bin/rman_backup.sh -a archivelog
-$ORACLE_BASE/bin/rman_backup.sh -a online_level0 --nocatalog</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_order_of_the_settings">3.2. Order of the settings</h3>
-<div class="paragraph">
-<p>The first value wins:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>parameter on the command line</p>
-</li>
-<li>
-<p>environment variable</p>
-</li>
-<li>
-<p>configuration file <code>&lt;ORACLE_ADMIN&gt;/rman/rman_backup.cfg</code></p>
-</li>
-<li>
-<p>default of <code>rman_backup.sh</code></p>
-</li>
-</ol>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. Parameters, environment variables and defaults</caption>
-<colgroup>
-<col style="width: 25%;"/>
-<col style="width: 25%;"/>
-<col style="width: 25%;"/>
-<col style="width: 25%;"/>
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Environment / rman_backup.cfg</th>
-<th class="tableblock halign-left valign-top">Default</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-a/--action</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN script <code>&lt;RMAN_SCRIPTDIR&gt;/&lt;action&gt;.rman</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-s/--ORACLE_SID</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORACLE_SID</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ORACLE_SID, DB_NAME in RAC environments (the instance is determined with <code>srvctl</code>)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--admin</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORACLE_ADMIN</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">see below</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Directory of <code>rman/rman_backup.cfg</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-r/--rmanscriptdir</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_SCRIPTDIR</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;ORACLE_ADMIN&gt;/rman</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN scripts</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-l/--logdir</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_LOGDIR</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;RMAN_SCRIPTDIR&gt;/log</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Directory of the logfiles, see <a href="#Logfiles">Logfiles</a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_LOG_RETENTION</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>30</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Remove logfiles older than <code>&lt;n&gt;</code> days, <code>0</code>: keep all</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-c/--catalogconnect</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_CATALOGCONNECT</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">no catalog</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>connect catalog &lt;value&gt;</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--nocatalog</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">No catalog, even when <code>RMAN_CATALOGCONNECT</code> is set</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-t/--targetconnect</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_TARGETCONNECT</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>connect target &lt;value&gt;</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--service</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_SERVICE</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Backup only when the service runs on the current node (GI / Oracle Restart)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--role</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_ROLE</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PRIMARY</code> or <code>STANDBY</code> (= <code>PHYSICAL STANDBY</code>). Use either <code>--service</code> or <code>--role</code>.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RMAN_TNS_ADMIN</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TNS_ADMIN</code> for RMAN</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>The old environment variables <code>RMANSCRIPTDIR</code>, <code>RMANLOGDIR</code>, <code>CATALOGCONNECT</code>, <code>TARGETCONNECT</code>
-and <code>RMANTNS_ADMIN</code> are still supported.</p>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tbody><tr>
-<td class="icon">
-<div class="title">Warning</div>
-</td>
-<td class="content">
-Parameters are visible in the process list. Use <code>rman_backup.cfg</code> for the password of the catalog,
-not <code>-c</code>.
-</td>
-</tr>
-</tbody></table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_oracle_admin">3.3. ORACLE_ADMIN</h3>
-<div class="paragraph">
-<p><code>rman_backup.sh</code> determines <code>ORACLE_ADMIN</code> in the following order:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><code>--admin</code> or the environment variable <code>ORACLE_ADMIN</code></p>
-</li>
-<li>
-<p><code>$ORACLE_BASE/admin/&lt;db_unique_name&gt;</code>: <code>db_unique_name</code> is read from the running instance
-(<code>v$parameter</code>, <code>sqlplus / as sysdba</code>, works in <code>NOMOUNT</code>)</p>
-</li>
-<li>
-<p><code>$ORACLE_BASE/admin/&lt;ORACLE_SID&gt;</code>, when the instance is not running</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>The <code>db_unique_name</code> makes the configuration unique on every member of a Data Guard configuration:
-the ORACLE_SID is identical on all members, the <code>db_unique_name</code> is different.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_rman_backup_cfg">3.4. rman_backup.cfg</h3>
-<div class="paragraph">
-<p>The configuration file contains lines with <code>KEY=VALUE</code>.
-It is read line by line and <strong>not</strong> sourced: shell code is not executed.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre># Managed by Ansible
-RMAN_SCRIPTDIR=/u01/app/oracle/rman
-RMAN_LOGDIR=/u01/app/oracle/rman/log
-RMAN_LOG_RETENTION=30
-RMAN_TNS_ADMIN=/u01/app/oracle/rman/network/admin
-RMAN_CATALOGCONNECT=rman_db1/&lt;password&gt;@RMANCAT</pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Allowed keys: <code>RMAN_SCRIPTDIR</code>, <code>RMAN_LOGDIR</code>, <code>RMAN_LOG_RETENTION</code>, <code>RMAN_TARGETCONNECT</code>, <code>RMAN_CATALOGCONNECT</code>,
-<code>RMAN_SERVICE</code>, <code>RMAN_ROLE</code>, <code>RMAN_TNS_ADMIN</code>. Unknown keys and invalid lines are ignored with a warning.</p>
-</li>
-<li>
-<p>One pair of quotes around the value is removed.</p>
-</li>
-<li>
-<p>Empty lines and lines starting with <code>#</code> are ignored.</p>
-</li>
-<li>
-<p>The file could contain the password of the catalog: mode <code>0600</code>.
-<code>rman_backup.sh</code> warns, when the file is readable by other users.</p>
-</li>
-<li>
-<p><code>oradb_rman</code> creates the file. Manual changes are overwritten by the next execution of the role.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><code>RMAN_SERVICE</code> and <code>RMAN_ROLE</code> are set per job in the crontab (<code>--service</code>, <code>--role</code>) and not in the file,
-because the jobs of a database could use different values.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_catalog">3.5. Catalog</h3>
-<div class="paragraph">
-<p><code>rman_backup.sh</code> checks the connection to the catalog before the backup.
-The backup runs without catalog, when the catalog is not reachable.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="Logfiles">3.6. Logfiles</h3>
-<div class="paragraph">
-<p><code>rman_backup.sh</code> writes all output of the script, <code>sqlplus</code> and RMAN to stdout and to a logfile per execution.
-Manual executions are logged the same way as the cron jobs, the crontab redirects the output to <code>/dev/null</code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>&lt;RMAN_LOGDIR&gt;/&lt;db_unique_name&gt;_&lt;action&gt;_&lt;YYYYmmdd&gt;_&lt;HHMMSS&gt;_&lt;pid&gt;.log
-&lt;RMAN_LOGDIR&gt;/&lt;db_unique_name&gt;_&lt;action&gt;.log -&gt; logfile of the last execution</pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Every execution has its own logfile: parallel executions do not mix their output.</p>
-</li>
-<li>
-<p>The symlink points to the logfile of the last execution of the action (for monitoring and <code>tail</code>).</p>
-</li>
-<li>
-<p>Messages before the logfile is opened (e.g. reading <code>rman_backup.cfg</code>) are written to the logfile afterwards.</p>
-</li>
-<li>
-<p>Logfiles of the database and action older than <code>RMAN_LOG_RETENTION</code> days are removed.</p>
-</li>
-<li>
-<p>Errors before the logfile is opened (e.g. ORACLE_SID not in <code>/etc/oratab</code>) and the major actions
-are logged in syslog (tag <code>rman_backup.sh</code>).</p>
-</li>
-<li>
-<p><code>&lt;db_unique_name&gt;</code> is the name of the directory <code>ORACLE_ADMIN</code>, when the instance is not running.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_parallel_executions">3.7. Parallel executions</h3>
-<div class="paragraph">
-<p>Only one execution of an action is allowed for a database (lock file <code>&lt;RMAN_LOGDIR&gt;/.&lt;db_unique_name&gt;_&lt;action&gt;.lock</code>, <code>flock</code>).
-A 2nd execution of the same action stops immediately with exit code 30, e.g. an hourly <code>archivelog</code>
-while the last execution is still running.
-Different actions of a database run in parallel, e.g. <code>archivelog</code> during <code>online_level0</code>.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_exit_codes">3.8. Exit codes</h3>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. Exit codes of rman_backup.sh</caption>
-<colgroup>
-<col style="width: 50%;"/>
-<col style="width: 50%;"/>
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Code</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN successful, or backup skipped (<code>--service</code> not running on this node, <code>--role</code> does not match)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Wrong parameters, service not existing</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10, 11, 12</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ORACLE_SID not in <code>/etc/oratab</code>, ORACLE_HOME or ORACLE_BASE not found</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">13</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Database role could not be determined (<code>--role</code>, instance not mounted)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">14</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rman_backup.cfg</code> not readable</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">21, 22, 23</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Log directory, RMAN script or logfile not existing</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The action is running already for the database</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">99</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">RMAN failed</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_data_guard">4. Data Guard</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>All members of a Data Guard configuration get the same <code>rman_jobs</code>.
-<code>role</code> decides, on which member a job executes the backup:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>role: standby</code>: backups of the database on the physical standby, the primary is not loaded</p>
-</li>
-<li>
-<p><code>role: primary</code>: backups on the primary only</p>
-</li>
-<li>
-<p>without <code>role</code>: the job runs on every member</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>The <code>CONFIGURE</code> commands are stored in the controlfile of each member and must be executed on all members:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>parameter</code> with <code>role: primary</code></p>
-</li>
-<li>
-<p><code>parameter_standby</code> with <code>role: standby</code>: without <code>CONFIGURE RETENTION POLICY</code>,
-the retention policy is not configurable on a standby database</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><code>online_level0</code> uses <code>rman_retention_policy</code> in <code>delete obsolete</code>.
-Therefore it works on a standby database, whose controlfile (e.g. from RMAN <code>DUPLICATE</code>)
-does not contain the retention policy, and on a new primary after a switchover.</p>
-</div>
-<div class="paragraph">
-<p>After a switchover the backups follow the role automatically, the inventory is not changed.</p>
-</div>
-<div class="listingblock">
-<div class="title">Example: CONFIGURE on all members, backups on the primary only</div>
-<div class="content">
-<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_databases:
-  - oracle_db_name: DB1
-    rman_jobs:
-      # executed during the playbook: parameter on the primary, parameter_standby on the standby
-      - {name: parameter, role: primary, immediate: true}
-      - {name: parameter_standby, role: standby, immediate: true}
-      # role primary: crontab entry on every member, rman_backup.sh --role primary skips it on the standby
-      - {name: online_level0, role: primary, weekday: &#34;0&#34;, hour: &#34;01&#34;, minute: &#34;10&#34;, day: &#34;*&#34;}
-      - {name: archivelog, role: primary, weekday: &#34;*&#34;, hour: &#34;*&#34;, minute: &#34;30&#34;, day: &#34;*&#34;}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>All members get the same crontab entries.
-<code>rman_backup.sh</code> checks <code>database_role</code> in <code>v$database</code> at every execution
-and skips the backup with exit code 0, when the role does not match.
-Valid values of <code>role</code> are <code>primary</code> and <code>standby</code> (checked by an assert).</p>
-</div>
-<div class="admonitionblock important">
-<table>
-<tbody><tr>
-<td class="icon">
-<div class="title">Important</div>
-</td>
-<td class="content">
-Use an RMAN catalog for Data Guard.
-Backups of a physical standby database can be used for the primary database (and vice versa),
-the catalog makes the backups known to all members.
-</td>
-</tr>
-</tbody></table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tbody><tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<code>archivelog</code> deletes all archive logs that were backed up once.
-The <code>ARCHIVELOG DELETION POLICY</code> (e.g. <code>APPLIED ON ALL STANDBY</code>) is configured by <code>oradb_standby</code>
-with the mandatory attribute <code>archivelog_deletion_policy</code> in <code>db_standby_config</code>,
-see <a href="/docs/guides/standby_databases/#_archivelog_deletion_policy">Standby Databases - Archivelog deletion policy</a>,
-to prevent the deletion of archive logs which are not yet applied on the standby database.
-</td>
-</tr>
-</tbody></table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_migration_from_older_versions">5. Migration from older versions</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p>The crontab entries contained the directories and the catalog connect (<code>-r</code>, <code>-l</code>, <code>-c</code>)
-or the environment variables <code>RMANLOGDIR</code>, <code>RMANSCRIPTDIR</code> and <code>RMANTNS_ADMIN</code> in <code>/etc/cron.d</code>.
-<code>oradb_rman</code> removes the environment variables and recreates the crontab entries.
-The values are in <code>rman_backup.cfg</code> now.</p>
-</li>
-<li>
-<p>Existing calls of <code>rman_backup.sh</code> with all parameters still work.</p>
-</li>
-<li>
-<p>The logfiles are written to <code>RMAN_LOGDIR</code> per execution.
-An existing logfile <code>&lt;RMAN_LOGDIR&gt;/&lt;name&gt;_&lt;action&gt;.log</code> of older versions is renamed to <code>*.log.old</code> by the first execution.
-The cron output in <code>/var/log/oracle/rman/log</code> (<code>oradb_rman_cron_logdir</code>) is no longer written, the directory can be removed.</p>
-</li>
-<li>
-<p>Before this change, the attributes <code>service</code>, <code>rman_retention_policy</code>, <code>rman_channel_disk</code>,
-<code>rman_controlfile_autobackup_disk</code>, <code>rman_log_dir</code>, <code>rman_script_dir</code> and the catalog connect
-of a database were ignored by <code>oradb_rman</code> (bug).
-They are used now: check the values in the inventory before the update.</p>
 </li>
 </ul>
 </div>

@@ -10,11 +10,11 @@
     <lastmod>2026-10-28T21:52:27+01:00</lastmod>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/development/development/</loc>
-    <lastmod>2026-11-09T07:07:06+01:00</lastmod>
+    <lastmod>2026-11-10T12:26:04+01:00</lastmod>
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/features/featurelist/</loc>
-    <lastmod>2026-11-04T10:05:13+01:00</lastmod>
+    <lastmod>2026-11-10T12:26:04+01:00</lastmod>
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/guides/beginner/</loc>
@@ -74,11 +74,19 @@
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/guides/out_of_place_patching/</loc>
-    <lastmod>2026-10-24T10:36:34+02:00</lastmod>
+    <lastmod>2026-11-10T12:26:04+01:00</lastmod>
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/guides/breaking_changes/</loc>
-    <lastmod>2026-11-08T18:41:12+01:00</lastmod>
+    <lastmod>2026-11-10T12:43:51+01:00</lastmod>
+    <priority>0</priority>
+  </url><url>
+    <loc>https://www.ansible-oracle.eu/docs/roles/orasw_meta/</loc>
+    <lastmod>2026-11-10T12:43:51+01:00</lastmod>
+    <priority>0</priority>
+  </url><url>
+    <loc>https://www.ansible-oracle.eu/docs/guides/rman/</loc>
+    <lastmod>2026-11-10T12:26:04+01:00</lastmod>
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/guides/dataguard/</loc>
@@ -89,15 +97,7 @@
     <lastmod>2026-11-08T14:38:19+01:00</lastmod>
     <priority>0</priority>
   </url><url>
-    <loc>https://www.ansible-oracle.eu/docs/roles/orasw_meta/</loc>
-    <lastmod>2026-11-08T14:38:19+01:00</lastmod>
-    <priority>0</priority>
-  </url><url>
     <loc>https://www.ansible-oracle.eu/docs/roles/orasw_meta_internal/</loc>
-    <lastmod>2026-11-08T14:38:19+01:00</lastmod>
-    <priority>0</priority>
-  </url><url>
-    <loc>https://www.ansible-oracle.eu/docs/guides/rman/</loc>
     <lastmod>2026-11-08T14:38:19+01:00</lastmod>
     <priority>0</priority>
   </url><url>

@@ -37,8 +37,8 @@ Note The complete list of changes is in CHANGELOG.rst. This guide only covers th
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-08T18:41:12+01:00">
-		<meta property="article:modified_time" content="2026-11-08T18:41:12+01:00">
+		<meta property="article:published_time" content="2026-11-10T12:43:51+01:00">
+		<meta property="article:modified_time" content="2026-11-10T12:43:51+01:00">
 
 	<meta itemprop="name" content="Breaking Changes - Upgrade Guide">
 	<meta itemprop="description" content="This guide lists all changes in ansible-oracle which require an action in your inventory, playbooks or environment when upgrading to a new major version.
@@ -47,9 +47,9 @@ Find your current version and the target version.
 Read the overview table of every major version in between.
 Check the column Affected if against your inventory. Only the rows that match need an action.
 Note The complete list of changes is in CHANGELOG.rst. This guide only covers the changes from the section Breaking Changes / Porting Guide and explains the required actions.">
-	<meta itemprop="datePublished" content="2026-11-08T18:41:12+01:00">
-	<meta itemprop="dateModified" content="2026-11-08T18:41:12+01:00">
-	<meta itemprop="wordCount" content="6429">
+	<meta itemprop="datePublished" content="2026-11-10T12:43:51+01:00">
+	<meta itemprop="dateModified" content="2026-11-10T12:43:51+01:00">
+	<meta itemprop="wordCount" content="7470">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Breaking Changes - Upgrade Guide">
 	<meta name="twitter:description" content="This guide lists all changes in ansible-oracle which require an action in your inventory, playbooks or environment when upgrading to a new major version.
@@ -151,10 +151,10 @@ Note The complete list of changes is in CHANGELOG.rst. This guide only covers th
     <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguidesbreaking_changes-li">
     <a href="/docs/guides/breaking_changes/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="td-sidebar-nav-active-item">Breaking Changes - Upgrade Guide</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
-    <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
     <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
+    <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_databases-li">
     <a href="/docs/guides/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="">Standby Databases</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
@@ -166,10 +166,10 @@ Note The complete list of changes is in CHANGELOG.rst. This guide only covers th
     <ul class="ul-2 foldable">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
     <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
-    <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
     <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
+    <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
     <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
@@ -317,6 +317,10 @@ Note The complete list of changes is in CHANGELOG.rst. This guide only covers th
         <li><a href="#_oradb_rman_control_file_record_keep_time_in_init_parameters">1.18. oradb_rman: control_file_record_keep_time in init_parameters</a></li>
         <li><a href="#_oradb_rman_logfiles_of_rman_backup_sh">1.19. oradb_rman: logfiles of rman_backup.sh</a></li>
         <li><a href="#_listener_installed_with_grid_infrastructure_oracle_restart_listener_in_its_home">1.20. listener_installed with Grid Infrastructure / Oracle Restart: listener in its home</a></li>
+        <li><a href="#_local_listener_in_init_parameters_of_single_instance_databases">1.21. local_listener in init_parameters of Single Instance databases</a></li>
+        <li><a href="#_oracle_databases_is_container_and_omf_are_true_by_default">1.22. oracle_databases: is_container and omf are true by default</a></li>
+        <li><a href="#_oracle_databases_db_create_file_dest_and_db_recovery_file_dest_in_init_parameters">1.23. oracle_databases: db_create_file_dest and db_recovery_file_dest in init_parameters</a></li>
+        <li><a href="#_oracle_databases_datafile_dest_and_recoveryfile_dest_are_deprecated">1.24. oracle_databases: datafile_dest and recoveryfile_dest are deprecated</a></li>
       </ul>
     </li>
     <li><a href="#_adding_new_breaking_changes">2. Adding new breaking changes</a></li>
@@ -491,6 +495,26 @@ This guide only covers the changes from the section <em>Breaking Changes / Porti
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_listener_installed_with_grid_infrastructure_oracle_restart_listener_in_its_home">listener_installed with Grid Infrastructure / Oracle Restart: listener in its home</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Grid Infrastructure / Oracle Restart <strong>and</strong> an entry in <code>listener_installed</code> with <code>home</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Use <code>use_gi_home: true</code> for a listener, which must stay in the GI / Oracle Restart home. Check the ORACLE_HOME of the listener resources (<code>srvctl config listener</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_local_listener_in_init_parameters_of_single_instance_databases">local_listener in init_parameters of Single Instance databases</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A Single Instance database (also with Oracle Restart) in <code>oracle_databases</code> with <code>state: present</code> has no <code>local_listener</code> in <code>init_parameters</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add <code>local_listener</code> with EZConnect to <code>init_parameters</code>, e.g. <code>{name: local_listener, value: &#39;//localhost:1521&#39;, scope: both, state: present}</code>. Emergency switch: <code>orasw_meta_assert_oracle_databases: false</code> (disables all asserts of <code>oracle_databases</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_oracle_databases_is_container_and_omf_are_true_by_default">oracle_databases: is_container and omf are true by default</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A 19c database in <code>oracle_databases</code> without <code>is_container</code> (non-CDB) <strong>or</strong> without <code>omf</code> (created without OMF)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set <code>is_container: false</code> for a new non-CDB. OMF is strongly recommended, <code>omf: false</code> needs an own DBCA template without OMF (<code>dbca_templatename</code>) and is not tested</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_oracle_databases_db_create_file_dest_and_db_recovery_file_dest_in_init_parameters">oracle_databases: db_create_file_dest and db_recovery_file_dest in init_parameters</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A database in <code>oracle_databases</code> with <code>state: present</code> <strong>and</strong> without <code>omf: false</code> <strong>and</strong> <code>db_create_file_dest</code> or <code>db_recovery_file_dest</code> is missing in <code>init_parameters</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add <code>db_create_file_dest</code> and <code>db_recovery_file_dest</code> to <code>init_parameters</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_oracle_databases_datafile_dest_and_recoveryfile_dest_are_deprecated">oracle_databases: datafile_dest and recoveryfile_dest are deprecated</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A database in <code>oracle_databases</code> with <code>datafile_dest</code> or <code>recoveryfile_dest</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Move the values to <code>db_create_file_dest</code> and <code>db_recovery_file_dest</code> in <code>init_parameters</code> and remove <code>datafile_dest</code> and <code>recoveryfile_dest</code>. Different values fail in the assert</p></td>
 </tr>
 </tbody>
 </table>
@@ -2148,7 +2172,7 @@ As of 5.0.0 the listener resource uses the ORACLE_HOME of the entry:</p>
 <li>
 <p>A listener with <code>home</code> is registered with the ORACLE_HOME of <code>home</code>.
 An existing listener resource in the GI home is modified with <code>srvctl modify listener -oraclehome &lt;ORACLE_HOME of home&gt;</code>.
-The running listener keeps its ORACLE_HOME until the next restart of the listener.</p>
+A running listener is stopped before and started after the change, i.e. it runs from the new ORACLE_HOME.</p>
 </li>
 <li>
 <p>A listener with <code>use_gi_home: true</code> stays in the GI / Oracle Restart home.</p>
@@ -2175,12 +2199,11 @@ where the listener runs from the GI home, e.g. <code>LISTENER</code> with <code>
 <p>Use <code>use_gi_home: true</code> without <code>home</code> for a listener, which must stay in the GI / Oracle Restart home.</p>
 </li>
 <li>
-<p>Check the ORACLE_HOME of the listener resources after the upgrade and restart a moved listener in a maintenance window:</p>
+<p>Check the ORACLE_HOME of the listener resources before the upgrade.
+<code>oradb_manage_db</code> restarts a moved listener, run it in a maintenance window:</p>
 <div class="listingblock">
 <div class="content">
-<pre>srvctl config listener -listener &lt;listener_name&gt;
-srvctl stop listener -listener &lt;listener_name&gt;
-srvctl start listener -listener &lt;listener_name&gt;</pre>
+<pre>srvctl config listener -listener &lt;listener_name&gt;</pre>
 </div>
 </div>
 </li>
@@ -2202,6 +2225,279 @@ srvctl start listener -listener &lt;listener_name&gt;</pre>
 </div>
 <div class="paragraph">
 <p>See <a href="https://github.com/oravirt/ansible-oracle/blob/master/roles/oradb_manage_db/LISTENER.md">LISTENER.md</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_local_listener_in_init_parameters_of_single_instance_databases">1.21. local_listener in init_parameters of Single Instance databases</h3>
+<div class="paragraph">
+<p>As of 5.0.0 the assert of <code>oracle_databases</code> in <code>orasw_meta</code> requires <code>local_listener</code> in <code>init_parameters</code>
+for every Single Instance database (with and without Oracle Restart) with <code>state: present</code>.
+RAC and RAC One Node databases are not checked, Clusterware sets <code>local_listener</code>.</p>
+</div>
+<div class="paragraph">
+<p>Why:</p>
+</div>
+<div class="paragraph">
+<p>DBCA sets <code>local_listener</code> to an alias, e.g. <code>LISTENER_&lt;DB_NAME&gt;</code>, and writes the alias into <code>tnsnames.ora</code>
+of the ORACLE_HOME (with Read-Only Oracle Homes in <code>$ORACLE_BASE/homes/&lt;oracle_home_name&gt;/network/admin</code>).
+After a switch of the ORACLE_HOME (Out-of-Place Patching, see <a href="/docs/guides/out_of_place_patching/">out_of_place_patching.adoc</a>)
+the alias is missing in <code>tnsnames.ora</code> of the new ORACLE_HOME.
+The instance cannot resolve <code>local_listener</code> and does not register its services at the listener (<code>ORA-12514</code> for clients).
+An EZConnect address in <code>local_listener</code> needs no entry in <code>tnsnames.ora</code>.</p>
+</div>
+<div class="paragraph">
+<p>Who is affected:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Inventories with a Single Instance database in <code>oracle_databases</code> without <code>local_listener</code> in <code>init_parameters</code>.
+The playbooks fail in the assert of <code>orasw_meta</code>:</p>
+<div class="listingblock">
+<div class="content">
+<pre>local_listener is missing in init_parameters of &lt;oracle_db_name&gt;, ...</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Required actions:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add <code>local_listener</code> with EZConnect (<code>//&lt;host&gt;:&lt;port&gt;</code>) to <code>init_parameters</code> of the database.
+<code>localhost</code> and the port of the listener avoid an extra entry in <code>tnsnames.ora</code>.</p>
+</li>
+<li>
+<p>Add one address per listener, if the instance must register at more than one listener, e.g.
+<code>&#39;(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1523)))&#39;</code>.</p>
+</li>
+<li>
+<p>Existing databases: <code>oradb_manage_parameters</code> changes <code>local_listener</code> with <code>scope: both</code>,
+the instance registers at the listener without restart.
+The entries of DBCA in <code>tnsnames.ora</code> are not removed by <code>ansible-oracle</code>.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<code>localhost</code> requires a listener on the loopback address.
+A listener with the hostname in <code>HOST</code> listens on all addresses of the host, unless <code>IP=FIRST</code> is set in <code>listener.ora</code>.
+Use the hostname or the address of the listener otherwise, e.g. <code>//{{ ansible_hostname }}:1521</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_databases:
+  - oracle_db_name: DB1
+    oracle_db_type: SI
+    listener_port: 1521
+    init_parameters:
+      - {name: local_listener, value: &#39;//localhost:1521&#39;, scope: both, state: present}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_oracle_databases_is_container_and_omf_are_true_by_default">1.22. oracle_databases: is_container and omf are true by default</h3>
+<div class="paragraph">
+<p>As of 5.0.0 the attributes <code>is_container</code> and <code>omf</code> of <code>oracle_databases</code> are <code>true</code> by default.
+They need not to be defined in <code>oracle_databases</code> anymore.</p>
+</div>
+<div class="paragraph">
+<p>Why:</p>
+</div>
+<div class="paragraph">
+<p>26ai supports only Container Databases and <code>ansible-oracle</code> uses Oracle Managed Files for tablespaces by default.
+The defaults simplify the inventory.</p>
+</div>
+<div class="paragraph">
+<p>Who is affected:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Inventories with a 19c database in <code>oracle_databases</code> without <code>is_container</code>.
+Before 5.0.0 a non-CDB was created, now a CDB is created.
+The tasks for PDBs (<code>oradb_manage_pdb</code>), the timezone upgrade (<code>oradb_tzupgrade</code>) and the switch of the ORACLE_HOME
+treat the database as CDB.</p>
+</li>
+<li>
+<p>Inventories with a database in <code>oracle_databases</code> without <code>omf</code>.
+Before 5.0.0 dbca was called with <code>-useOMF false</code>, now with <code>-useOMF true</code>.
+<code>omf</code> is used during the creation of a database with dbca only.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Required actions:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Set <code>is_container: false</code> for a 19c non-CDB.</p>
+</li>
+<li>
+<p>Use OMF for new databases. OMF is strongly recommended in <code>ansible-oracle</code>.</p>
+</li>
+<li>
+<p>Without OMF: set <code>omf: false</code> <strong>and</strong> use an own DBCA template without OMF (<code>dbca_templatename</code>).
+The DBCA templates of <code>ansible-oracle</code> are made for OMF. Databases without OMF are not tested anymore.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_databases:
+  - oracle_db_name: DB1
+    home: db19-si-ee
+    is_container: false   # non-CDB, 19c only
+    # not recommended and not tested:
+    # omf: false          # dbca -useOMF false
+    # dbca_templatename: &lt;own DBCA template without OMF&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_oracle_databases_db_create_file_dest_and_db_recovery_file_dest_in_init_parameters">1.23. oracle_databases: db_create_file_dest and db_recovery_file_dest in init_parameters</h3>
+<div class="paragraph">
+<p>As of 5.0.0 the assert of <code>oracle_databases</code> in <code>orasw_meta</code> requires <code>db_create_file_dest</code> and <code>db_recovery_file_dest</code>
+in <code>init_parameters</code> for every database with <code>state: present</code> and <code>omf: true</code> (default).</p>
+</div>
+<div class="paragraph">
+<p>Why:</p>
+</div>
+<div class="paragraph">
+<p>The parameters are needed in different situations, e.g. for dbca, standby databases (RMAN duplicate)
+and the directories of a new database.
+They are defined directly in <code>init_parameters</code> instead of deriving them from other variables.
+dbca uses the values for the datafile and recovery area destination.
+The global defaults <code>oracle_dbf_dir_fs</code>, <code>oracle_reco_dir_fs</code>, <code>oracle_dbf_dir_asm</code> and <code>oracle_reco_dir_asm</code>
+are only used without these <code>init_parameters</code> (only allowed with <code>omf: false</code> and an own DBCA template, not tested).</p>
+</div>
+<div class="paragraph">
+<p>Who is affected:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Inventories with a database in <code>oracle_databases</code> without <code>db_create_file_dest</code> or <code>db_recovery_file_dest</code>
+in <code>init_parameters</code>. The playbooks fail in the assert of <code>orasw_meta</code>:</p>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;oracle_db_name&gt;: omf: true (default) needs db_create_file_dest and db_recovery_file_dest in init_parameters, ...</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Required actions:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add <code>db_create_file_dest</code> and <code>db_recovery_file_dest</code> to <code>init_parameters</code>.
+Use the values of <code>datafile_dest</code> and <code>recoveryfile_dest</code>, if they are defined.</p>
+</li>
+<li>
+<p>Existing databases: use the current values of the database (<code>show parameter db_create_file_dest</code>,
+<code>show parameter db_recovery_file_dest</code>), otherwise <code>oradb_manage_parameters</code> changes them.</p>
+</li>
+<li>
+<p>Define <code>db_recovery_file_dest_size</code> before <code>db_recovery_file_dest</code> in <code>init_parameters</code>
+for existing databases without a recovery area (<code>ORA-19802</code>).</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_databases:
+  - oracle_db_name: DB1
+    init_parameters:
+      - {name: db_create_file_dest, value: &#39;/u02/oradata&#39;, scope: both, state: present}
+      - {name: db_recovery_file_dest_size, value: &#39;10G&#39;, scope: both, state: present, dbca: false}
+      - {name: db_recovery_file_dest, value: &#39;/u02/fra&#39;, scope: both, state: present}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_oracle_databases_datafile_dest_and_recoveryfile_dest_are_deprecated">1.24. oracle_databases: datafile_dest and recoveryfile_dest are deprecated</h3>
+<div class="paragraph">
+<p>As of 5.0.0 the attributes <code>datafile_dest</code> and <code>recoveryfile_dest</code> of <code>oracle_databases</code> are deprecated
+and will be removed in a future release. Use <code>db_create_file_dest</code> and <code>db_recovery_file_dest</code> in <code>init_parameters</code> instead.
+<code>datafile_dest</code> in <code>oracle_pdbs</code> is not affected.</p>
+</div>
+<div class="paragraph">
+<p>Who is affected:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Inventories with <code>datafile_dest</code> or <code>recoveryfile_dest</code> in <code>oracle_databases</code>.
+The assert of <code>orasw_meta</code> shows a warning (ignored failed task):</p>
+<div class="listingblock">
+<div class="content">
+<pre>WARNING: datafile_dest and recoveryfile_dest in oracle_databases are deprecated and will be removed in a future release ...</pre>
+</div>
+</div>
+</li>
+<li>
+<p>The playbooks fail in the assert of <code>orasw_meta</code>, if the values are different to <code>db_create_file_dest</code>
+or <code>db_recovery_file_dest</code> in <code>init_parameters</code>:</p>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;oracle_db_name&gt;: datafile_dest (...) must be identical to db_create_file_dest (...) ...</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Required actions:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Move the values to <code>db_create_file_dest</code> and <code>db_recovery_file_dest</code> in <code>init_parameters</code>.</p>
+</li>
+<li>
+<p>Remove <code>datafile_dest</code> and <code>recoveryfile_dest</code> from <code>oracle_databases</code>.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="title">Before</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_databases:
+  - oracle_db_name: DB1
+    is_container: true
+    datafile_dest: /u02/oradata
+    recoveryfile_dest: /u02/fra
+    init_parameters:
+      - {name: db_create_file_dest, value: &#39;/u02/oradata&#39;, scope: both, state: present}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">After</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_databases:
+  - oracle_db_name: DB1
+    init_parameters:
+      - {name: db_create_file_dest, value: &#39;/u02/oradata&#39;, scope: both, state: present}
+      - {name: db_recovery_file_dest, value: &#39;/u02/fra&#39;, scope: both, state: present}</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -2229,7 +2525,7 @@ srvctl start listener -listener &lt;listener_name&gt;</pre>
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 8, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/1b11c5ca9b19b8168d830c7404bd82269891105c">oradb_manage_db: listener_installed with GI / Oracle Restart in its home (1b11c5ca)</a>
+  Last modified November 10, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/6b676319630fd410c53bdcd92ab24c83a6016f52">oracle_databases: is_container and omf true by default, datafile_dest/recoveryfile_dest deprecated (6b676319)</a>
 </div>
 
 </div>

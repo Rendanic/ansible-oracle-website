@@ -129,8 +129,8 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-09T07:07:06+01:00">
-		<meta property="article:modified_time" content="2026-11-09T07:07:06+01:00">
+		<meta property="article:published_time" content="2026-11-10T12:26:04+01:00">
+		<meta property="article:modified_time" content="2026-11-10T12:26:04+01:00">
 
 	<meta itemprop="name" content="How to develop">
 	<meta itemprop="description" content="1. How to develop in ansible-oracle? Important This is an example how most of the development in ansible-oracle is done.
@@ -185,9 +185,9 @@ Each commit is locally checked against multiple rules, to prevent failures in gi
 This tool is recommended but not mandatory for contributing to ansible-oracle. Install the git hook once (cd into repository before) pre-commit install Important Do not forget to place change files in stage area of git before starting pre-commit.
 pre-commit works only on the data of the stage area! run outside git pre-commit run 1.3.2. ansible-doctor Start ansible-doctor with pre-commit pre-commit run ansible-doctor Start ansible-doctor to create new README.md file cd ansible-oracle # nix-shell .venv/ansible-doctor/bin/ansible-doctor -f -r roles # local Ansible-Controller ~/venv/ansible-doctor/bin/ansible-doctor -f -r roles 1.3.3. Start Playbook Important Don’t forget to set the working branch in requirements.yml.
 Remove/Disable devsec.hardening for faster installation of Ansible collection, when devsec should not be tested. Edit requirements.yml --- collections: # - name: devsec.hardening # version: 8.2.0 - name: https://github.com/Rendanic/ansible-oracle.git type: git version: devbranch Execute ansible-playbook ansible-galaxy collection install --force -r requirements.yml &amp;&amp; ansible-playbook -i inventory/hasfd -e hostgroup=&#39;all&#39; playbooks/single-instance-asm.yml --limit &#39;*19c*&#39;">
-	<meta itemprop="datePublished" content="2026-11-09T07:07:06+01:00">
-	<meta itemprop="dateModified" content="2026-11-09T07:07:06+01:00">
-	<meta itemprop="wordCount" content="7037">
+	<meta itemprop="datePublished" content="2026-11-10T12:26:04+01:00">
+	<meta itemprop="dateModified" content="2026-11-10T12:26:04+01:00">
+	<meta itemprop="wordCount" content="7263">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="How to develop">
 	<meta name="twitter:description" content="1. How to develop in ansible-oracle? Important This is an example how most of the development in ansible-oracle is done.
@@ -335,10 +335,10 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
     <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
     <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
-    <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
     <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
+    <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_databases-li">
     <a href="/docs/guides/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="">Standby Databases</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
@@ -350,10 +350,10 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
     <ul class="ul-2 foldable">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
     <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
-    <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
     <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
+    <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
     <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
@@ -569,8 +569,9 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
             <li><a href="#_conventions_for_a_module_test">6.8.5. Conventions for a module test</a></li>
           </ul>
         </li>
-        <li><a href="#claude-aotest">6.9. Run molecule tests with Claude Code</a></li>
-        <li><a href="#_oracle_xe_not_used_at_the_moment">6.10. Oracle XE (not used at the moment!)</a></li>
+        <li><a href="#claude-aotest">6.9. Regression tests</a></li>
+        <li><a href="#_run_molecule_tests_with_claude_code">6.10. Run molecule tests with Claude Code</a></li>
+        <li><a href="#_oracle_xe_not_used_at_the_moment">6.11. Oracle XE (not used at the moment!)</a></li>
       </ul>
     </li>
   </ul>
@@ -2662,7 +2663,121 @@ Every module test uses the wallet and sysdba at least once.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="claude-aotest">6.9. Run molecule tests with Claude Code</h3>
+<h3 id="claude-aotest">6.9. Regression tests</h3>
+<div class="paragraph">
+<p><code>task molecule:regression:&lt;preset&gt;</code> runs several scenarios with a report per run
+(<code>extensions/Taskfile.regression.yml</code>, <code>extensions/tools/regression.sh</code>).</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The collection is installed once before all scenarios.</p>
+</li>
+<li>
+<p>The scenarios run in parallel (<code>J</code>, default 6), the steps of a scenario one after the other.</p>
+</li>
+<li>
+<p>A failed <code>create</code> or <code>converge</code> skips the remaining steps of the scenario.</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. Presets</caption>
+<colgroup>
+<col style="width: 40%;"/>
+<col style="width: 60%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Task</th>
+<th class="tableblock halign-left valign-top">Steps</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>molecule:regression:final</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">destroy, converge, module-test</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>molecule:regression:full</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">destroy, converge, idempotence, module-test</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>molecule:regression:retest</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">module-test in the existing containers</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>molecule:regression:idempotence</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">idempotence, module-test in the existing containers</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>molecule:regression:run T=&lt;steps&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">free combination of destroy, create, converge, idempotence, module-test, verify</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>molecule:regression:report RUN=&lt;run-id&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">create and show <code>summary.md</code> (default: last run)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>molecule:regression:list</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">last runs with the number of failed steps</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Variables: <code>S</code> scenarios (comma separated, default <code>dbfs,dbfs-sh,has-ol9,dataguard</code>),
+<code>J</code> scenarios in parallel, <code>M</code> module tests (<code>MODULE_TESTS</code>).</p>
+</div>
+<div class="paragraph">
+<p>Every run creates <code>extensions/test-runs/&lt;date&gt;-&lt;time&gt;_&lt;commit&gt;[-dirty]/</code> (not in git),
+<code>extensions/test-runs/latest</code> points to the last run:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;"/>
+<col style="width: 75%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">File</th>
+<th class="tableblock halign-left valign-top">Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>run.env</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">commit, branch, parameters, start and end</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>git-status.txt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">uncommitted changes of the tested code</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>steps.jsonl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">one JSON line per finished step: scenario, step, rc, duration, logfile</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;scenario&gt;-&lt;step&gt;.log</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">output of molecule without colors</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>module_tests/&lt;scenario&gt;.json</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">result of the module tests (<code>MODULE_TESTS_LABEL=&lt;run-id&gt;</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>summary.md</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">report: scenario x step, module tests, changed tasks of idempotence, errors of failed steps</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><code>summary.md</code> is updated after every step and can be read while the run is in progress.
+Failures with <code>fatal:</code> are shown first, failures of loop items (<code>failed: [host] (item=…​)</code>)
+are often rescued negative tests.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_run_molecule_tests_with_claude_code">6.10. Run molecule tests with Claude Code</h3>
 <div class="paragraph">
 <p><code>tools/claude/skills/aotest</code> contains the skill <code>/aotest</code> for <a href="https://claude.com/claude-code">Claude Code</a>.
 It runs the molecule actions of <code>extensions/Taskfile.yml</code> inside <code>nix-shell</code> and reports the result.</p>
@@ -2753,7 +2868,7 @@ Invoking <code>/aotest</code> allows Claude to run the requested actions, includ
 </div>
 </div>
 <div class="sect2">
-<h3 id="_oracle_xe_not_used_at_the_moment">6.10. Oracle XE (not used at the moment!)</h3>
+<h3 id="_oracle_xe_not_used_at_the_moment">6.11. Oracle XE (not used at the moment!)</h3>
 <div class="admonitionblock important">
 <table>
 <tbody><tr>
@@ -2791,7 +2906,7 @@ docker pull container-registry.oracle.com/database/express:21.3.0-xe</pre>
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 9, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/f389948e4211026765947858f85a9440f6bc6ca4">renovate: no hourly PR limit for renovate:fork and renovate:upstream (f389948e)</a>
+  Last modified November 10, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/390d12b63fda72cc8c07f0b7a0d0c7ad20537ce5">extensions: regression tests of molecule scenarios (390d12b6)</a>
 </div>
 
 </div>

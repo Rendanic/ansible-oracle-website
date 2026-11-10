@@ -57,8 +57,8 @@ The crontab contains no passwords and no directories:
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-08T14:38:19+01:00">
-		<meta property="article:modified_time" content="2026-11-08T14:38:19+01:00">
+		<meta property="article:published_time" content="2026-11-10T12:26:04+01:00">
+		<meta property="article:modified_time" content="2026-11-10T12:26:04+01:00">
 
 	<meta itemprop="name" content="RMAN Backups with oradb_rman">
 	<meta itemprop="description" content="This guide describes the configuration of RMAN backups with the role oradb_rman and the backup script rman_backup.sh.
@@ -77,9 +77,9 @@ Connection to the RMAN catalog (rman_tnsalias)
 Wallet with the credential of the RMAN catalog (rman_wallet: true)
 The crontab contains no passwords and no directories:
 10 01 * * 0 oracle /u01/app/oracle/bin/rman_backup.sh -a online_level0 -s DB1 &gt; /dev/null 2&gt;&amp;1 All other settings are read by rman_backup.sh from rman_backup.cfg. The output is written by rman_backup.sh to a logfile per execution, see Logfiles.">
-	<meta itemprop="datePublished" content="2026-11-08T14:38:19+01:00">
-	<meta itemprop="dateModified" content="2026-11-08T14:38:19+01:00">
-	<meta itemprop="wordCount" content="2054">
+	<meta itemprop="datePublished" content="2026-11-10T12:26:04+01:00">
+	<meta itemprop="dateModified" content="2026-11-10T12:26:04+01:00">
+	<meta itemprop="wordCount" content="2071">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="RMAN Backups with oradb_rman">
 	<meta name="twitter:description" content="This guide describes the configuration of RMAN backups with the role oradb_rman and the backup script rman_backup.sh.
@@ -191,10 +191,10 @@ The crontab contains no passwords and no directories:
     <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
     <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
-    <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguidesrman-li">
     <a href="/docs/guides/rman/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="td-sidebar-nav-active-item">RMAN Backups with oradb_rman</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
+    <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_databases-li">
     <a href="/docs/guides/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="">Standby Databases</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
@@ -206,10 +206,10 @@ The crontab contains no passwords and no directories:
     <ul class="ul-2 foldable">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
     <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
-    <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
     <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
+    <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
     <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
@@ -1011,7 +1011,7 @@ Manual executions are logged the same way as the cron jobs, the crontab redirect
 <p>Logfiles of the database and action older than <code>RMAN_LOG_RETENTION</code> days are removed.</p>
 </li>
 <li>
-<p>Errors before the logfile is opened (e.g. ORACLE_SID not in <code>/etc/oratab</code>) and the major actions
+<p>Errors before the logfile is opened (e.g. ORACLE_HOME of the ORACLE_SID not found) and the major actions
 are logged in syslog (tag <code>rman_backup.sh</code>).</p>
 </li>
 <li>
@@ -1054,7 +1054,7 @@ Different actions of a database run in parallel, e.g. <code>archivelog</code> du
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">10, 11, 12</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ORACLE_SID not in <code>/etc/oratab</code>, ORACLE_HOME or ORACLE_BASE not found</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ORACLE_HOME of the ORACLE_SID not found (<code>/etc/oratab</code>, with Grid Infrastructure / Oracle Restart the database resource <code>ora.&lt;ORACLE_SID&gt;.db</code> from <code>crsctl</code>), ORACLE_HOME or ORACLE_BASE not existing</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">13</p></td>
@@ -1206,7 +1206,7 @@ They are used now: check the values in the inventory before the update.</p>
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 8, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/37ce2bf51362e39dd5fa6605f49d16b5e2d4a282">oradb_standby: archivelog deletion policy in db_standby_config (37ce2bf5)</a>
+  Last modified November 10, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/0af1d8446e886a4ec5f3152a38d440937f4afb11">oradb_rman: ORACLE_HOME from Clusterware resource with GI/Oracle Restart (0af1d844)</a>
 </div>
 
 </div>

@@ -2215,7 +2215,121 @@ Every module test uses the wallet and sysdba at least once.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="claude-aotest">6.9. Run molecule tests with Claude Code</h3>
+<h3 id="claude-aotest">6.9. Regression tests</h3>
+<div class="paragraph">
+<p><code>task molecule:regression:&lt;preset&gt;</code> runs several scenarios with a report per run
+(<code>extensions/Taskfile.regression.yml</code>, <code>extensions/tools/regression.sh</code>).</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The collection is installed once before all scenarios.</p>
+</li>
+<li>
+<p>The scenarios run in parallel (<code>J</code>, default 6), the steps of a scenario one after the other.</p>
+</li>
+<li>
+<p>A failed <code>create</code> or <code>converge</code> skips the remaining steps of the scenario.</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. Presets</caption>
+<colgroup>
+<col style="width: 40%;"/>
+<col style="width: 60%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Task</th>
+<th class="tableblock halign-left valign-top">Steps</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>molecule:regression:final</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">destroy, converge, module-test</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>molecule:regression:full</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">destroy, converge, idempotence, module-test</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>molecule:regression:retest</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">module-test in the existing containers</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>molecule:regression:idempotence</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">idempotence, module-test in the existing containers</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>molecule:regression:run T=&lt;steps&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">free combination of destroy, create, converge, idempotence, module-test, verify</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>molecule:regression:report RUN=&lt;run-id&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">create and show <code>summary.md</code> (default: last run)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>molecule:regression:list</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">last runs with the number of failed steps</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Variables: <code>S</code> scenarios (comma separated, default <code>dbfs,dbfs-sh,has-ol9,dataguard</code>),
+<code>J</code> scenarios in parallel, <code>M</code> module tests (<code>MODULE_TESTS</code>).</p>
+</div>
+<div class="paragraph">
+<p>Every run creates <code>extensions/test-runs/&lt;date&gt;-&lt;time&gt;_&lt;commit&gt;[-dirty]/</code> (not in git),
+<code>extensions/test-runs/latest</code> points to the last run:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;"/>
+<col style="width: 75%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">File</th>
+<th class="tableblock halign-left valign-top">Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>run.env</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">commit, branch, parameters, start and end</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>git-status.txt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">uncommitted changes of the tested code</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>steps.jsonl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">one JSON line per finished step: scenario, step, rc, duration, logfile</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;scenario&gt;-&lt;step&gt;.log</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">output of molecule without colors</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>module_tests/&lt;scenario&gt;.json</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">result of the module tests (<code>MODULE_TESTS_LABEL=&lt;run-id&gt;</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>summary.md</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">report: scenario x step, module tests, changed tasks of idempotence, errors of failed steps</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><code>summary.md</code> is updated after every step and can be read while the run is in progress.
+Failures with <code>fatal:</code> are shown first, failures of loop items (<code>failed: [host] (item=…​)</code>)
+are often rescued negative tests.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_run_molecule_tests_with_claude_code">6.10. Run molecule tests with Claude Code</h3>
 <div class="paragraph">
 <p><code>tools/claude/skills/aotest</code> contains the skill <code>/aotest</code> for <a href="https://claude.com/claude-code">Claude Code</a>.
 It runs the molecule actions of <code>extensions/Taskfile.yml</code> inside <code>nix-shell</code> and reports the result.</p>
@@ -2306,7 +2420,7 @@ Invoking <code>/aotest</code> allows Claude to run the requested actions, includ
 </div>
 </div>
 <div class="sect2">
-<h3 id="_oracle_xe_not_used_at_the_moment">6.10. Oracle XE (not used at the moment!)</h3>
+<h3 id="_oracle_xe_not_used_at_the_moment">6.11. Oracle XE (not used at the moment!)</h3>
 <div class="admonitionblock important">
 <table>
 <tbody><tr>

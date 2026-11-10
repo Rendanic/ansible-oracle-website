@@ -31,16 +31,16 @@ Older releases (11.2, 12.1, 12.2, 18c, 21c) are rejected by the assert of db_hom
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-04T10:05:13+01:00">
-		<meta property="article:modified_time" content="2026-11-04T10:05:13+01:00">
+		<meta property="article:published_time" content="2026-11-10T12:26:04+01:00">
+		<meta property="article:modified_time" content="2026-11-10T12:26:04+01:00">
 
 	<meta itemprop="name" content="Supported features in ansible-oracle">
 	<meta itemprop="description" content="Warning Please check the official Compatibility List from Oracle for RDBMS and Restart/Grid-Infrastructure.
 ansible-oracle only supports combinations from Oracle with exceptions from the following table. Important As of ansible-oracle 5.0 only Oracle 19c and 26ai are supported for RDBMS. Restart and Grid-Infrastructure are supported for 19c only.
 Older releases (11.2, 12.1, 12.2, 18c, 21c) are rejected by the assert of db_homes_config, see Breaking Changes - Upgrade Guide.">
-	<meta itemprop="datePublished" content="2026-11-04T10:05:13+01:00">
-	<meta itemprop="dateModified" content="2026-11-04T10:05:13+01:00">
-	<meta itemprop="wordCount" content="554">
+	<meta itemprop="datePublished" content="2026-11-10T12:26:04+01:00">
+	<meta itemprop="dateModified" content="2026-11-10T12:26:04+01:00">
+	<meta itemprop="wordCount" content="616">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Supported features in ansible-oracle">
 	<meta name="twitter:description" content="Warning Please check the official Compatibility List from Oracle for RDBMS and Restart/Grid-Infrastructure.
@@ -139,10 +139,10 @@ Older releases (11.2, 12.1, 12.2, 18c, 21c) are rejected by the assert of db_hom
     <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
     <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
-    <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
     <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
+    <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_databases-li">
     <a href="/docs/guides/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="">Standby Databases</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
@@ -154,10 +154,10 @@ Older releases (11.2, 12.1, 12.2, 18c, 21c) are rejected by the assert of db_hom
     <ul class="ul-2 foldable">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
     <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
-    <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
     <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
+    <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
     <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
@@ -464,9 +464,10 @@ Redhat Enterprise Linux</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">readonly Homes for RDBMS</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Oracle Data-Guard</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">19c (planned! <a href="#table1footnote"><sup>[5]</sup></a>)<br/>
-26ai (planned! <a href="#table1footnote"><sup>[5]</sup></a>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Data Guard: physical standby databases with Data Guard Broker
+(<a href="/docs/guides/standby_databases/">Standby Databases</a>, experimental! <a href="#table1footnote"><sup>[2]</sup></a>) <a href="#table1footnote"><sup>[13]</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c<br/>
+26ai</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Database Migrations: Upgrade of PDBs with AutoUpgrade (Unplug/Plug, experimental! <a href="#table1footnote"><sup>[2]</sup></a>) <a href="#table1footnote"><sup>[12]</sup></a></p></td>
@@ -533,7 +534,7 @@ Redhat Enterprise Linux</p></td>
 26ai</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">Database Patching</p></td>
+<td class="tableblock halign-left valign-top" rowspan="5"><p class="tableblock">Database Patching</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Release Updates<a href="#table1footnote"><sup>[11]</sup></a></p></td>
 <td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">19c<br/>
 26ai</p></td>
@@ -558,6 +559,11 @@ Redhat Enterprise Linux</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Patch Download from Oracle</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/docs/guides/out_of_place_patching/">Out-of-Place Patching</a>: switch of a database into another <code>ORACLE_HOME</code> <a href="#table1footnote"><sup>[14]</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c<br/>
+26ai</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Oracle APEX (experimental!)</p></td>
@@ -709,11 +715,29 @@ Please do not use this feature in production environments.</p>
 See <a href="/docs/guides/autoupgrade_upgrade/">Upgrade of PDBs with AutoUpgrade</a>.</p>
 </td>
 </tr>
+<tr>
+<td class="hdlist1">
+<a id="table1footnote"></a><sup>13</sup>
+</td>
+<td class="hdlist2">
+<p>Single Instance databases without Grid Infrastructure / Oracle Restart only.
+Not supported for Oracle Restart, RAC and RAC One Node.</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<a id="table1footnote"></a><sup>14</sup>
+</td>
+<td class="hdlist2">
+<p>Single Instance primary databases without Grid Infrastructure and with Oracle Restart.
+Not supported for RAC and RAC One Node.</p>
+</td>
+</tr>
 </tbody></table>
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 4, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/914ae2c40d072ccb6bbf2aab42d26702b51b6f14">cxoracle: the role is removed, all modules use python-oracledb instead of cx_Oracle. Use the role pyoracledb (see doc/guides/breaking_changes.adoc) (914ae2c4)</a>
+  Last modified November 10, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/2389c3f690ce8a2abfc1246d21c8863f00fa4fdd">oradb_manage_db: Out-of-Place Patching with Oracle Restart (2389c3f6)</a>
 </div>
 
 </div>

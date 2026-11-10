@@ -19,28 +19,32 @@
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
 <title>Out-of-Place Patching - Switch ORACLE_HOME | ansible-oracle Project</title>
-<meta name="description" content="Important Out-of-Place Patching is supported for Single Instance primary databases without Grid Infrastructure/Oracle Restart only.
+<meta name="description" content="Important Out-of-Place Patching is supported for Single Instance primary databases without Grid Infrastructure and with Oracle Restart.
+RAC and RAC One Node are not supported.
 The guide describes the concept, all dependencies and the gaps in the current implementation. Out-of-Place Patching switches a database from its current ORACLE_HOME to another, already installed and patched ORACLE_HOME. The installation and patching of the new ORACLE_HOME is not part of Out-of-Place Patching. It is done before with other roles (oraswdb_install, oraswdb_manage_patches or from a Golden Image).">
 <meta property="og:url" content="https://www.ansible-oracle.eu/docs/guides/out_of_place_patching/">
 	<meta property="og:site_name" content="ansible-oracle Project">
 	<meta property="og:title" content="Out-of-Place Patching - Switch ORACLE_HOME">
-	<meta property="og:description" content="Important Out-of-Place Patching is supported for Single Instance primary databases without Grid Infrastructure/Oracle Restart only.
+	<meta property="og:description" content="Important Out-of-Place Patching is supported for Single Instance primary databases without Grid Infrastructure and with Oracle Restart.
+RAC and RAC One Node are not supported.
 The guide describes the concept, all dependencies and the gaps in the current implementation. Out-of-Place Patching switches a database from its current ORACLE_HOME to another, already installed and patched ORACLE_HOME. The installation and patching of the new ORACLE_HOME is not part of Out-of-Place Patching. It is done before with other roles (oraswdb_install, oraswdb_manage_patches or from a Golden Image).">
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-10-24T10:36:34+02:00">
-		<meta property="article:modified_time" content="2026-10-24T10:36:34+02:00">
+		<meta property="article:published_time" content="2026-11-10T12:26:04+01:00">
+		<meta property="article:modified_time" content="2026-11-10T12:26:04+01:00">
 
 	<meta itemprop="name" content="Out-of-Place Patching - Switch ORACLE_HOME">
-	<meta itemprop="description" content="Important Out-of-Place Patching is supported for Single Instance primary databases without Grid Infrastructure/Oracle Restart only.
+	<meta itemprop="description" content="Important Out-of-Place Patching is supported for Single Instance primary databases without Grid Infrastructure and with Oracle Restart.
+RAC and RAC One Node are not supported.
 The guide describes the concept, all dependencies and the gaps in the current implementation. Out-of-Place Patching switches a database from its current ORACLE_HOME to another, already installed and patched ORACLE_HOME. The installation and patching of the new ORACLE_HOME is not part of Out-of-Place Patching. It is done before with other roles (oraswdb_install, oraswdb_manage_patches or from a Golden Image).">
-	<meta itemprop="datePublished" content="2026-10-24T10:36:34+02:00">
-	<meta itemprop="dateModified" content="2026-10-24T10:36:34+02:00">
-	<meta itemprop="wordCount" content="2047">
+	<meta itemprop="datePublished" content="2026-11-10T12:26:04+01:00">
+	<meta itemprop="dateModified" content="2026-11-10T12:26:04+01:00">
+	<meta itemprop="wordCount" content="2212">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Out-of-Place Patching - Switch ORACLE_HOME">
-	<meta name="twitter:description" content="Important Out-of-Place Patching is supported for Single Instance primary databases without Grid Infrastructure/Oracle Restart only.
+	<meta name="twitter:description" content="Important Out-of-Place Patching is supported for Single Instance primary databases without Grid Infrastructure and with Oracle Restart.
+RAC and RAC One Node are not supported.
 The guide describes the concept, all dependencies and the gaps in the current implementation. Out-of-Place Patching switches a database from its current ORACLE_HOME to another, already installed and patched ORACLE_HOME. The installation and patching of the new ORACLE_HOME is not part of Out-of-Place Patching. It is done before with other roles (oraswdb_install, oraswdb_manage_patches or from a Golden Image).">
 <link href="/scss/main.css" rel="stylesheet">
 <script
@@ -135,10 +139,10 @@ The guide describes the concept, all dependencies and the gaps in the current im
     <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="td-sidebar-nav-active-item">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
     <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
-    <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
     <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
+    <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_databases-li">
     <a href="/docs/guides/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="">Standby Databases</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
@@ -150,10 +154,10 @@ The guide describes the concept, all dependencies and the gaps in the current im
     <ul class="ul-2 foldable">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
     <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
-    <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
     <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
+    <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
     <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
@@ -333,7 +337,8 @@ The guide describes the concept, all dependencies and the gaps in the current im
 <div class="title">Important</div>
 </td>
 <td class="content">
-Out-of-Place Patching is supported for Single Instance primary databases without Grid Infrastructure/Oracle Restart only.<br/>
+Out-of-Place Patching is supported for Single Instance primary databases without Grid Infrastructure and with Oracle Restart.<br/>
+RAC and RAC One Node are not supported.<br/>
 The guide describes the concept, all dependencies and the gaps in the current implementation.
 </td>
 </tr>
@@ -677,14 +682,15 @@ The only requirement for the switch is an installed and fully patched <code>ORAC
 <td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Restart</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Clusterware (OCR/OLR)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>srvctl modify database -db &lt;db_unique_name&gt; -oraclehome &lt;new ORACLE_HOME&gt;</code><br/>
-<code>/etc/oratab</code> is maintained by Oracle Clusterware.</p></td>
+<code>/etc/oratab</code> is not maintained correctly by Oracle Clusterware.
+<code>ansible-oracle</code> writes the new <code>ORACLE_HOME</code> into <code>/etc/oratab</code> (flag <code>N</code>), but never reads it for the state of the database.</p></td>
 </tr>
 </tbody>
 <tfoot>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Oracle RAC</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Clusterware (OCR)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Rolling switch node by node. Not covered in this guide yet.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rolling switch node by node. Not supported.</p></td>
 </tr>
 </tfoot>
 </table>
@@ -694,13 +700,13 @@ The only requirement for the switch is an installed and fully patched <code>ORAC
 <div class="ulist">
 <ul>
 <li>
-<p>systemd service / <code>manage_oracle_rdbms_procs.sh</code> (start/stop of databases)</p>
+<p>systemd service / <code>manage_oracle_rdbms_procs.sh</code> (start/stop of databases, without Grid Infrastructure only)</p>
 </li>
 <li>
 <p><code>ocenv</code> / <code>.profile_&lt;ORACLE_SID&gt;</code></p>
 </li>
 <li>
-<p><code>rman_backup.sh</code> from role <code>oradb_rman</code></p>
+<p><code>rman_backup.sh</code> from role <code>oradb_rman</code> (with Grid Infrastructure / Oracle Restart from the database resource, <code>crsctl</code>)</p>
 </li>
 </ul>
 </div>
@@ -764,6 +770,14 @@ Alternative: a central <code>TNS_ADMIN</code>.</p>
 </li>
 <li>
 <p>TDE with the init parameter <code>WALLET_ROOT</code> is independent from the <code>ORACLE_HOME</code>.</p>
+</li>
+<li>
+<p><code>local_listener</code> must not be an alias from <code>tnsnames.ora</code> of the old <code>ORACLE_HOME</code>.
+DBCA sets <code>local_listener</code> to <code>LISTENER_&lt;DB_NAME&gt;</code> and writes this alias into <code>tnsnames.ora</code> of the <code>ORACLE_HOME</code>.
+The alias is missing in the new <code>ORACLE_HOME</code>, the instance does not register at the listener (<code>ORA-12514</code>).
+<code>orasw_meta</code> requires <code>local_listener</code> with EZConnect in <code>init_parameters</code> of Single Instance databases,
+e.g. <code>//localhost:1521</code> (see <a href="/docs/guides/breaking_changes/">breaking_changes.adoc</a>).
+Other entries from DBCA in <code>tnsnames.ora</code> of the old <code>ORACLE_HOME</code> are not copied.</p>
 </li>
 </ul>
 </div>
@@ -1026,9 +1040,11 @@ No <code>stop_processes</code> needed, because no database is running from the n
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Switch <code>ORACLE_HOME</code> of database</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_manage_db</code> (<code>switch_home.yml</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Change of <code>oracle_databases[].home</code>. Single Instance without GI only.
+<td class="tableblock halign-left valign-top"><p class="tableblock">Change of <code>oracle_databases[].home</code>. Single Instance without GI and with Oracle Restart, not RAC.
 Stop from old <code>ORACLE_HOME</code>, copy of SPFile/PFile/password file (when the location differs), change of <code>/etc/oratab</code>,
 start from new <code>ORACLE_HOME</code>, <code>datapatch</code>.
+Oracle Restart: stop/start with <code>srvctl</code>, <code>srvctl modify database -oraclehome</code> (and <code>-spfile</code>/<code>-pwfile</code>, when copied),
+start with the start option of the resource, <code>datapatch</code> for the role <code>PRIMARY</code> only.
 Flag file <code>$ORACLE_BASE/switch_home_&lt;SID&gt;.pending</code> for an incomplete switch.</p></td>
 </tr>
 <tr>
@@ -1039,7 +1055,8 @@ Flag file <code>$ORACLE_BASE/switch_home_&lt;SID&gt;.pending</code> for an incom
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>/etc/oratab</code> without duplicate entries</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_manage_db</code> (<code>manage-db.yml</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lineinfile</code> with <code>regexp</code> replaces the entry for the SID.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lineinfile</code> with <code>regexp</code> replaces the entry for the SID.
+With Grid Infrastructure / Oracle Restart the entry <code>&lt;db_unique_name&gt;:&lt;ORACLE_HOME&gt;:N</code> is written as well.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORACLE_HOME</code> without database</p></td>
@@ -1047,13 +1064,18 @@ Flag file <code>$ORACLE_BASE/switch_home_&lt;SID&gt;.pending</code> for an incom
 <td class="tableblock halign-left valign-top"><p class="tableblock">An <code>ORACLE_HOME</code> in <code>db_homes_installed</code> without a database in <code>oracle_databases</code> is valid
 (e.g. new <code>ORACLE_HOME</code> before the switch, dedicated listener home).</p></td>
 </tr>
-</tbody>
-<tfoot>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORACLE_HOME</code> of listener, tnsnames and sqlnet must be installed</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>orasw_meta</code> (<code>assert_sqlnet.yml</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>home</code> in <code>listener_installed</code>, <code>sqlnet_installed</code> and <code>tnsnames_installed</code> must be in <code>db_homes_installed</code> without <code>state: absent</code>
 (unless <code>state: absent</code> or <code>use_gi_home: true</code> for the entry).</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>local_listener</code> with EZConnect</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>orasw_meta</code> (<code>assert_oracle_databases.yml</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>local_listener</code> is mandatory in <code>init_parameters</code> of Single Instance databases with <code>state: present</code>.</p></td>
 </tr>
 </tfoot>
 </table>
@@ -1191,9 +1213,6 @@ oracle_databases:
 <div class="ulist">
 <ul>
 <li>
-<p>Support for Oracle Restart and RAC in the 1st implementation?</p>
-</li>
-<li>
 <p><code>oraswdb_install</code> derives the type of an <code>ORACLE_HOME</code> (SI or cluster installation) from the databases in <code>oracle_databases</code>.
 An <code>ORACLE_HOME</code> without database is installed as <code>SI</code>.
 A new RAC <code>ORACLE_HOME</code> needs the cluster installation before the switch
@@ -1211,7 +1230,7 @@ A new RAC <code>ORACLE_HOME</code> needs the cluster installation before the swi
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified October 24, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/63a008fff05da19d1724fc7225edd538197f9068">oradb_manage_db: Out-of-Place Patching (63a008ff)</a>
+  Last modified November 10, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/2389c3f690ce8a2abfc1246d21c8863f00fa4fdd">oradb_manage_db: Out-of-Place Patching with Oracle Restart (2389c3f6)</a>
 </div>
 
 </div>

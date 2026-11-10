@@ -311,9 +311,10 @@ Redhat Enterprise Linux</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">readonly Homes for RDBMS</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Oracle Data-Guard</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">19c (planned! <a href="#table1footnote"><sup>[5]</sup></a>)<br/>
-26ai (planned! <a href="#table1footnote"><sup>[5]</sup></a>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Data Guard: physical standby databases with Data Guard Broker
+(<a href="/docs/guides/standby_databases/">Standby Databases</a>, experimental! <a href="#table1footnote"><sup>[2]</sup></a>) <a href="#table1footnote"><sup>[13]</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c<br/>
+26ai</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Database Migrations: Upgrade of PDBs with AutoUpgrade (Unplug/Plug, experimental! <a href="#table1footnote"><sup>[2]</sup></a>) <a href="#table1footnote"><sup>[12]</sup></a></p></td>
@@ -380,7 +381,7 @@ Redhat Enterprise Linux</p></td>
 26ai</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">Database Patching</p></td>
+<td class="tableblock halign-left valign-top" rowspan="5"><p class="tableblock">Database Patching</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Release Updates<a href="#table1footnote"><sup>[11]</sup></a></p></td>
 <td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">19c<br/>
 26ai</p></td>
@@ -405,6 +406,11 @@ Redhat Enterprise Linux</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Patch Download from Oracle</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/docs/guides/out_of_place_patching/">Out-of-Place Patching</a>: switch of a database into another <code>ORACLE_HOME</code> <a href="#table1footnote"><sup>[14]</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c<br/>
+26ai</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Oracle APEX (experimental!)</p></td>
@@ -554,6 +560,24 @@ Please do not use this feature in production environments.</p>
 <td class="hdlist2">
 <p>Source CDB (old release) and target CDB (new release) must run on the same host.
 See <a href="/docs/guides/autoupgrade_upgrade/">Upgrade of PDBs with AutoUpgrade</a>.</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<a id="table1footnote"></a><sup>13</sup>
+</td>
+<td class="hdlist2">
+<p>Single Instance databases without Grid Infrastructure / Oracle Restart only.
+Not supported for Oracle Restart, RAC and RAC One Node.</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<a id="table1footnote"></a><sup>14</sup>
+</td>
+<td class="hdlist2">
+<p>Single Instance primary databases without Grid Infrastructure and with Oracle Restart.
+Not supported for RAC and RAC One Node.</p>
 </td>
 </tr>
 </tbody></table>

@@ -121,7 +121,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>2: <a href="#pg-df389f0fd67da23712005b22d5d20abf">oradb_rman</a></li>
+<li>2: <a href="#pg-df389f0fd67da23712005b22d5d20abf">orasw_meta</a></li>
 
 
     
@@ -129,7 +129,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>3: <a href="#pg-df389f0fd67da23712005b22d5d20abf">orasw_meta</a></li>
+<li>3: <a href="#pg-df389f0fd67da23712005b22d5d20abf">oradb_rman</a></li>
 
 
     
@@ -779,168 +779,7 @@ See <a class="bare" href="https://python-oracledb.readthedocs.io/">https://pytho
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">2 - oradb_rman</h1>
-    
-	<p>Oracle RMAN Backup for ansible-oracle</p>
-<p>Please use only <code>oradb_rman_</code> variables from role <code>oradb_rman</code>.</p>
-<p>All other role variables from <code>oradb_rman</code> are deprecated and will be removed in a future release.</p>
-<h2 id="table-of-contents">Table of contents</h2>
-<ul>
-<li><a href="#requirements">Requirements</a></li>
-<li><a href="#default-variables">Default Variables</a>
-<ul>
-<li><a href="#oradb_rman_assert_control_file_record_keep_time">oradb_rman_assert_control_file_record_keep_time</a></li>
-<li><a href="#oradb_rman_autofs">oradb_rman_autofs</a></li>
-<li><a href="#oradb_rman_channel_disk_default">oradb_rman_channel_disk_default</a></li>
-<li><a href="#oradb_rman_controlfile_autobackup_disk_default">oradb_rman_controlfile_autobackup_disk_default</a></li>
-<li><a href="#oradb_rman_cron_mkjob">oradb_rman_cron_mkjob</a></li>
-<li><a href="#oradb_rman_cronfile">oradb_rman_cronfile</a></li>
-<li><a href="#oradb_rman_log_dir">oradb_rman_log_dir</a></li>
-<li><a href="#oradb_rman_log_retention">oradb_rman_log_retention</a></li>
-<li><a href="#oradb_rman_retention_policy_default">oradb_rman_retention_policy_default</a></li>
-<li><a href="#oradb_rman_script_dir">oradb_rman_script_dir</a></li>
-<li><a href="#oradb_rman_tns_admin">oradb_rman_tns_admin</a></li>
-<li><a href="#oradb_rman_tnsnames_installed">oradb_rman_tnsnames_installed</a></li>
-<li><a href="#oradb_rman_wallet_loc">oradb_rman_wallet_loc</a></li>
-<li><a href="#oradb_rman_wallet_password">oradb_rman_wallet_password</a></li>
-</ul>
-</li>
-<li><a href="#discovered-tags">Discovered Tags</a></li>
-<li><a href="#dependencies">Dependencies</a></li>
-<li><a href="#license">License</a></li>
-<li><a href="#author">Author</a></li>
-</ul>
-<hr>
-<h2 id="requirements">Requirements</h2>
-<ul>
-<li>Minimum Ansible version: <code>2.16.0</code></li>
-</ul>
-<h2 id="default-variables">Default Variables</h2>
-<h3 id="oradb_rman_assert_control_file_record_keep_time">oradb_rman_assert_control_file_record_keep_time</h3>
-<p>Assert <code>control_file_record_keep_time</code> in <code>init_parameters</code> of databases with <code>rman_jobs</code>
-(<code>state: present</code>, <code>sid: '*'</code>).</p>
-<p>With the retention policy <code>RECOVERY WINDOW OF &lt;n&gt; DAYS</code> the value must be &gt;= <code>&lt;n&gt;</code>.
-Otherwise the controlfile reuses the records of backups, which are needed by RMAN without catalog.</p>
-<h4 id="default-value">Default value</h4>
-<pre><code class="language-YAML">oradb_rman_assert_control_file_record_keep_time: true
-</code></pre>
-<h3 id="oradb_rman_autofs">oradb_rman_autofs</h3>
-<p>Configure autofs for RMAN Backups?</p>
-<h4 id="default-value-1">Default value</h4>
-<pre><code class="language-YAML">oradb_rman_autofs: '{{ rmanautofs | default(false) }}'
-</code></pre>
-<h3 id="oradb_rman_channel_disk_default">oradb_rman_channel_disk_default</h3>
-<p>Defines the format for disk target in RMAN-Templates from role.</p>
-<p>Used for <code>CONFIGURE CHANNEL DEVICE TYPE DISK &lt;value&gt;</code> =&gt; the value starts with <code>format</code>.</p>
-<h4 id="default-value-2">Default value</h4>
-<pre><code class="language-YAML">oradb_rman_channel_disk_default: &gt;-
-  {% set __channel_disk_default = &quot;format '/u10/rmanbackup/%d/%d_%T_%U'&quot; -%}
-  {{ rman_channel_disk_default | default(__channel_disk_default) -}}
-</code></pre>
-<h3 id="oradb_rman_controlfile_autobackup_disk_default">oradb_rman_controlfile_autobackup_disk_default</h3>
-<p>Defines the contolfile autobackup target directory for the RMAN-Templates from role.</p>
-<h4 id="default-value-3">Default value</h4>
-<pre><code class="language-YAML">oradb_rman_controlfile_autobackup_disk_default: &gt;-
-  {% set __autobackup_disk_default = &quot;'/u10/rmanbackup/%d/%d_%F'&quot; -%}
-  {{ rman_controlfile_autobackup_disk_default | default(__autobackup_disk_default) -}}
-</code></pre>
-<h3 id="oradb_rman_cron_mkjob">oradb_rman_cron_mkjob</h3>
-<p>Add mk-job to all cronjobs in <code>/etc/cron.d</code> for RMAN backups.</p>
-<p>This is only needed when RMAN backups are monitored by checkmk.</p>
-<h4 id="default-value-4">Default value</h4>
-<pre><code class="language-YAML">oradb_rman_cron_mkjob: '{{ rman_cron_mkjob | default(false) }}'
-</code></pre>
-<h3 id="oradb_rman_cronfile">oradb_rman_cronfile</h3>
-<p>Name for file for crontab in /etc/cron.d</p>
-<h4 id="default-value-5">Default value</h4>
-<pre><code class="language-YAML">oradb_rman_cronfile: oracle_rman_ansible
-</code></pre>
-<h3 id="oradb_rman_log_dir">oradb_rman_log_dir</h3>
-<p>Lgofiledirectory for <code>rman_wrapper.sh</code>.</p>
-<h4 id="default-value-6">Default value</h4>
-<pre><code class="language-YAML">oradb_rman_log_dir: &quot;{{ rman_log_dir | default((odb.0 | default(odb)).rman_log_dir | default(oracle_base + '/rman/log')) }}&quot;
-</code></pre>
-<h3 id="oradb_rman_log_retention">oradb_rman_log_retention</h3>
-<p>Days to keep the logfiles of <code>rman_backup.sh</code> in <code>oradb_rman_log_dir</code> (<code>RMAN_LOG_RETENTION</code>).</p>
-<p><code>rman_backup.sh</code> writes one logfile per execution and removes the logfiles
-of the database and action, which are older than this number of days.
-<code>0</code> keeps all logfiles.</p>
-<h4 id="default-value-7">Default value</h4>
-<pre><code class="language-YAML">oradb_rman_log_retention: 30
-</code></pre>
-<h3 id="oradb_rman_retention_policy_default">oradb_rman_retention_policy_default</h3>
-<p>Defines the policy for the RMAN-Templates from role.</p>
-<h4 id="default-value-8">Default value</h4>
-<pre><code class="language-YAML">oradb_rman_retention_policy_default: &quot;{{ rman_retention_policy_default | default('RECOVERY WINDOW OF 14 DAYS') }}&quot;
-</code></pre>
-<h3 id="oradb_rman_script_dir">oradb_rman_script_dir</h3>
-<p>Directory for <code>*.rman</code>-Files.</p>
-<h4 id="default-value-9">Default value</h4>
-<pre><code class="language-YAML">oradb_rman_script_dir: &quot;{{ rman_script_dir | default((odb.0 | default(odb)).rman_script_dir | default(oracle_base + '/rman')) }}&quot;
-</code></pre>
-<h3 id="oradb_rman_tns_admin">oradb_rman_tns_admin</h3>
-<p>TNS_ADMIN for <code>rman_wrapper.sh</code>.
-This is needed for RMAN-Catalogconnections.</p>
-<h4 id="default-value-10">Default value</h4>
-<pre><code class="language-YAML">oradb_rman_tns_admin: &quot;{{ rman_tns_admin | default(oracle_base + '/rman/network/admin') }}&quot;
-</code></pre>
-<h3 id="oradb_rman_tnsnames_installed">oradb_rman_tnsnames_installed</h3>
-<p>Defines custom entries in tnsnames.ora in <code>oradb_rman_tns_admin</code>.</p>
-<p>Format is same as <code>tnsnames_installed</code>.</p>
-<h4 id="example-usage">Example usage</h4>
-<pre><code class="language-YAML">oradb_rman_tnsnames_installed:
-  - home: db19-si-ee
-    tnsname: orclpdb
-    state: present
-</code></pre>
-<h3 id="oradb_rman_wallet_loc">oradb_rman_wallet_loc</h3>
-<p>Directory for Oracle wallet.</p>
-<h4 id="default-value-11">Default value</h4>
-<pre><code class="language-YAML">oradb_rman_wallet_loc: &quot;{{ rman_wallet_loc | default(oracle_base + '/rman/network/wallet') }}&quot;
-</code></pre>
-<h3 id="oradb_rman_wallet_password">oradb_rman_wallet_password</h3>
-<p>Password for Orale wallet.</p>
-<h4 id="default-value-12">Default value</h4>
-<pre><code class="language-YAML">oradb_rman_wallet_password: &quot;{{ rman_wallet_password | default('oracleWallet1') }}&quot;
-</code></pre>
-<h2 id="discovered-tags">Discovered Tags</h2>
-<p><strong><em>always</em></strong></p>
-<p><strong><em>assert</em></strong></p>
-<p><strong><em>assert_rman_tns_admin</em></strong></p>
-<p><strong><em>autofs</em></strong></p>
-<p><strong><em>notest</em></strong></p>
-<p><strong><em>rmancfg</em></strong></p>
-<p><strong><em>rmancopy</em></strong></p>
-<p><strong><em>rmancron</em></strong></p>
-<p><strong><em>rmanexecute</em></strong></p>
-<p><strong><em>rmanregister</em></strong></p>
-<p><strong><em>tns</em></strong></p>
-<p><strong><em>wallet</em></strong></p>
-<p><strong><em>wallet_contents</em></strong></p>
-<h2 id="dependencies">Dependencies</h2>
-<ul>
-<li>orasw_meta</li>
-</ul>
-<h2 id="license">License</h2>
-<p>license (MIT)</p>
-<h2 id="author">Author</h2>
-<p>[Thorsten Bruhns]</p>
-
-</div>
-
-
-
-    
-	
-  
-    
-    
-	
-    
-
-<div class="td-content" style="page-break-before: always">
-    
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3 - orasw_meta</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">2 - orasw_meta</h1>
     
 	<p><em>Important</em></p>
 <p>The description for variables is work in progress.!</p>
@@ -1443,6 +1282,64 @@ Will be overridden by opatch_db_conflict_check and opatch_gi_conflict_check.</p>
 <h3 id="oracle_databases">oracle_databases</h3>
 <p>Defines the list of databases on a host.</p>
 <p>There are diffent sub list to define Profiles, Services, Tablespaces, Users &hellip;</p>
+<p><em>Attributes (selection)</em></p>
+<table>
+	<thead>
+			<tr>
+					<th>Attribute</th>
+					<th>Default</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>home</td>
+					<td></td>
+					<td>key in <code>db_homes_config</code> (mandatory)</td>
+			</tr>
+			<tr>
+					<td>oracle_db_name</td>
+					<td></td>
+					<td>DB_NAME (mandatory)</td>
+			</tr>
+			<tr>
+					<td>state</td>
+					<td></td>
+					<td><code>present</code> or <code>absent</code> (mandatory)</td>
+			</tr>
+			<tr>
+					<td>is_container</td>
+					<td><code>true</code></td>
+					<td>create a Container Database. Only <code>true</code> is allowed for 26ai. Set <code>is_container: false</code> for a non-CDB with 19c.</td>
+			</tr>
+			<tr>
+					<td>omf</td>
+					<td><code>true</code></td>
+					<td>Oracle Managed Files (dbca <code>-useOMF</code>). <code>omf: true</code> needs <code>db_create_file_dest</code> and <code>db_recovery_file_dest</code> in <code>init_parameters</code>. OMF is strongly recommended. <code>omf: false</code> needs an own DBCA template without OMF (<code>dbca_templatename</code>) and is not tested.</td>
+			</tr>
+			<tr>
+					<td>storage_type</td>
+					<td><code>FS</code></td>
+					<td><code>FS</code> or <code>ASM</code></td>
+			</tr>
+			<tr>
+					<td>datafile_dest</td>
+					<td></td>
+					<td><em>deprecated</em>, will be removed. Use <code>db_create_file_dest</code> in <code>init_parameters</code>. Must be identical to <code>db_create_file_dest</code>, if both are defined.</td>
+			</tr>
+			<tr>
+					<td>recoveryfile_dest</td>
+					<td></td>
+					<td><em>deprecated</em>, will be removed. Use <code>db_recovery_file_dest</code> in <code>init_parameters</code>. Must be identical to <code>db_recovery_file_dest</code>, if both are defined.</td>
+			</tr>
+	</tbody>
+</table>
+<p><code>db_create_file_dest</code> and <code>db_recovery_file_dest</code> in <code>init_parameters</code> are used by dbca
+for the datafile and recovery area destination and for standby databases.
+The global defaults <code>oracle_dbf_dir_fs</code>, <code>oracle_reco_dir_fs</code>, <code>oracle_dbf_dir_asm</code>
+and <code>oracle_reco_dir_asm</code> are only used without these <code>init_parameters</code> (only allowed with <code>omf: false</code>).</p>
+<p>IMPORTANT! OMF is strongly recommended in ansible-oracle. Databases without OMF are not tested.
+Use an own DBCA template without OMF (<code>dbca_templatename</code>) for <code>omf: false</code>.</p>
 <p><em>Sub-Sections</em></p>
 <p><em>statspack</em></p>
 <table>
@@ -1562,6 +1459,7 @@ Will be overridden by opatch_db_conflict_check and opatch_gi_conflict_check.</p>
 			</tr>
 	</tbody>
 </table>
+<p>Single Instance databases (also with Oracle Restart) need <code>local_listener</code> in <code>init_parameters</code>, e.g. <code>{name: local_listener, value: '//localhost:1521', scope: both, state: present}</code>. The alias from DBCA in <code>tnsnames.ora</code> is missing after a switch of the ORACLE_HOME.</p>
 <h4 id="example-usage-11">Example usage</h4>
 <pre><code class="language-YAML">
 # IMPORTANT! This following example shows the general structure of oracle_databases.
@@ -1591,7 +1489,6 @@ oracle_databases:
   - home: 19300-base
     oracle_db_name: orcl
     oracle_db_type: SI
-    is_container: true
     storage_type: FS
     oracle_database_type: MULTIPURPOSE
     redolog_size: 100M
@@ -1633,6 +1530,7 @@ oracle_databases:
       - {name: db_create_file_dest, value: '/u02/oradata', scope: both, state: present}
       - {name: db_create_online_log_dest_1, value: '/u02/oradata', scope: both, state: present}
       - {name: db_recovery_file_dest_size, value: '10G', scope: both, state: present, dbca: false}
+      - {name: db_recovery_file_dest, value: '/u02/fra', scope: both, state: present}
     profiles:
       - name: DEFAULT
         state: present
@@ -1648,7 +1546,8 @@ oracle_databases:
 <pre><code class="language-YAML">oracle_dbf_dir_asm: +DATA
 </code></pre>
 <h3 id="oracle_dbf_dir_fs">oracle_dbf_dir_fs</h3>
-<p>Global default for <code>db_create_file_dest</code>in DBCA.</p>
+<p>Global default for the datafile destination in DBCA with <code>storage_type: FS</code>.</p>
+<p>Only used without <code>db_create_file_dest</code> in <code>init_parameters</code> of <code>oracle_databases</code>.</p>
 <h4 id="default-value-32">Default value</h4>
 <pre><code class="language-YAML">oracle_dbf_dir_fs: /u02/oradata/
 </code></pre>
@@ -2011,6 +1910,167 @@ Usually no need to change it.</p>
 <ul>
 <li>orahost_meta</li>
 <li>orasw_meta_internal</li>
+</ul>
+<h2 id="license">License</h2>
+<p>license (MIT)</p>
+<h2 id="author">Author</h2>
+<p>[Thorsten Bruhns]</p>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3 - oradb_rman</h1>
+    
+	<p>Oracle RMAN Backup for ansible-oracle</p>
+<p>Please use only <code>oradb_rman_</code> variables from role <code>oradb_rman</code>.</p>
+<p>All other role variables from <code>oradb_rman</code> are deprecated and will be removed in a future release.</p>
+<h2 id="table-of-contents">Table of contents</h2>
+<ul>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#default-variables">Default Variables</a>
+<ul>
+<li><a href="#oradb_rman_assert_control_file_record_keep_time">oradb_rman_assert_control_file_record_keep_time</a></li>
+<li><a href="#oradb_rman_autofs">oradb_rman_autofs</a></li>
+<li><a href="#oradb_rman_channel_disk_default">oradb_rman_channel_disk_default</a></li>
+<li><a href="#oradb_rman_controlfile_autobackup_disk_default">oradb_rman_controlfile_autobackup_disk_default</a></li>
+<li><a href="#oradb_rman_cron_mkjob">oradb_rman_cron_mkjob</a></li>
+<li><a href="#oradb_rman_cronfile">oradb_rman_cronfile</a></li>
+<li><a href="#oradb_rman_log_dir">oradb_rman_log_dir</a></li>
+<li><a href="#oradb_rman_log_retention">oradb_rman_log_retention</a></li>
+<li><a href="#oradb_rman_retention_policy_default">oradb_rman_retention_policy_default</a></li>
+<li><a href="#oradb_rman_script_dir">oradb_rman_script_dir</a></li>
+<li><a href="#oradb_rman_tns_admin">oradb_rman_tns_admin</a></li>
+<li><a href="#oradb_rman_tnsnames_installed">oradb_rman_tnsnames_installed</a></li>
+<li><a href="#oradb_rman_wallet_loc">oradb_rman_wallet_loc</a></li>
+<li><a href="#oradb_rman_wallet_password">oradb_rman_wallet_password</a></li>
+</ul>
+</li>
+<li><a href="#discovered-tags">Discovered Tags</a></li>
+<li><a href="#dependencies">Dependencies</a></li>
+<li><a href="#license">License</a></li>
+<li><a href="#author">Author</a></li>
+</ul>
+<hr>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>Minimum Ansible version: <code>2.16.0</code></li>
+</ul>
+<h2 id="default-variables">Default Variables</h2>
+<h3 id="oradb_rman_assert_control_file_record_keep_time">oradb_rman_assert_control_file_record_keep_time</h3>
+<p>Assert <code>control_file_record_keep_time</code> in <code>init_parameters</code> of databases with <code>rman_jobs</code>
+(<code>state: present</code>, <code>sid: '*'</code>).</p>
+<p>With the retention policy <code>RECOVERY WINDOW OF &lt;n&gt; DAYS</code> the value must be &gt;= <code>&lt;n&gt;</code>.
+Otherwise the controlfile reuses the records of backups, which are needed by RMAN without catalog.</p>
+<h4 id="default-value">Default value</h4>
+<pre><code class="language-YAML">oradb_rman_assert_control_file_record_keep_time: true
+</code></pre>
+<h3 id="oradb_rman_autofs">oradb_rman_autofs</h3>
+<p>Configure autofs for RMAN Backups?</p>
+<h4 id="default-value-1">Default value</h4>
+<pre><code class="language-YAML">oradb_rman_autofs: '{{ rmanautofs | default(false) }}'
+</code></pre>
+<h3 id="oradb_rman_channel_disk_default">oradb_rman_channel_disk_default</h3>
+<p>Defines the format for disk target in RMAN-Templates from role.</p>
+<p>Used for <code>CONFIGURE CHANNEL DEVICE TYPE DISK &lt;value&gt;</code> =&gt; the value starts with <code>format</code>.</p>
+<h4 id="default-value-2">Default value</h4>
+<pre><code class="language-YAML">oradb_rman_channel_disk_default: &gt;-
+  {% set __channel_disk_default = &quot;format '/u10/rmanbackup/%d/%d_%T_%U'&quot; -%}
+  {{ rman_channel_disk_default | default(__channel_disk_default) -}}
+</code></pre>
+<h3 id="oradb_rman_controlfile_autobackup_disk_default">oradb_rman_controlfile_autobackup_disk_default</h3>
+<p>Defines the contolfile autobackup target directory for the RMAN-Templates from role.</p>
+<h4 id="default-value-3">Default value</h4>
+<pre><code class="language-YAML">oradb_rman_controlfile_autobackup_disk_default: &gt;-
+  {% set __autobackup_disk_default = &quot;'/u10/rmanbackup/%d/%d_%F'&quot; -%}
+  {{ rman_controlfile_autobackup_disk_default | default(__autobackup_disk_default) -}}
+</code></pre>
+<h3 id="oradb_rman_cron_mkjob">oradb_rman_cron_mkjob</h3>
+<p>Add mk-job to all cronjobs in <code>/etc/cron.d</code> for RMAN backups.</p>
+<p>This is only needed when RMAN backups are monitored by checkmk.</p>
+<h4 id="default-value-4">Default value</h4>
+<pre><code class="language-YAML">oradb_rman_cron_mkjob: '{{ rman_cron_mkjob | default(false) }}'
+</code></pre>
+<h3 id="oradb_rman_cronfile">oradb_rman_cronfile</h3>
+<p>Name for file for crontab in /etc/cron.d</p>
+<h4 id="default-value-5">Default value</h4>
+<pre><code class="language-YAML">oradb_rman_cronfile: oracle_rman_ansible
+</code></pre>
+<h3 id="oradb_rman_log_dir">oradb_rman_log_dir</h3>
+<p>Lgofiledirectory for <code>rman_wrapper.sh</code>.</p>
+<h4 id="default-value-6">Default value</h4>
+<pre><code class="language-YAML">oradb_rman_log_dir: &quot;{{ rman_log_dir | default((odb.0 | default(odb)).rman_log_dir | default(oracle_base + '/rman/log')) }}&quot;
+</code></pre>
+<h3 id="oradb_rman_log_retention">oradb_rman_log_retention</h3>
+<p>Days to keep the logfiles of <code>rman_backup.sh</code> in <code>oradb_rman_log_dir</code> (<code>RMAN_LOG_RETENTION</code>).</p>
+<p><code>rman_backup.sh</code> writes one logfile per execution and removes the logfiles
+of the database and action, which are older than this number of days.
+<code>0</code> keeps all logfiles.</p>
+<h4 id="default-value-7">Default value</h4>
+<pre><code class="language-YAML">oradb_rman_log_retention: 30
+</code></pre>
+<h3 id="oradb_rman_retention_policy_default">oradb_rman_retention_policy_default</h3>
+<p>Defines the policy for the RMAN-Templates from role.</p>
+<h4 id="default-value-8">Default value</h4>
+<pre><code class="language-YAML">oradb_rman_retention_policy_default: &quot;{{ rman_retention_policy_default | default('RECOVERY WINDOW OF 14 DAYS') }}&quot;
+</code></pre>
+<h3 id="oradb_rman_script_dir">oradb_rman_script_dir</h3>
+<p>Directory for <code>*.rman</code>-Files.</p>
+<h4 id="default-value-9">Default value</h4>
+<pre><code class="language-YAML">oradb_rman_script_dir: &quot;{{ rman_script_dir | default((odb.0 | default(odb)).rman_script_dir | default(oracle_base + '/rman')) }}&quot;
+</code></pre>
+<h3 id="oradb_rman_tns_admin">oradb_rman_tns_admin</h3>
+<p>TNS_ADMIN for <code>rman_wrapper.sh</code>.
+This is needed for RMAN-Catalogconnections.</p>
+<h4 id="default-value-10">Default value</h4>
+<pre><code class="language-YAML">oradb_rman_tns_admin: &quot;{{ rman_tns_admin | default(oracle_base + '/rman/network/admin') }}&quot;
+</code></pre>
+<h3 id="oradb_rman_tnsnames_installed">oradb_rman_tnsnames_installed</h3>
+<p>Defines custom entries in tnsnames.ora in <code>oradb_rman_tns_admin</code>.</p>
+<p>Format is same as <code>tnsnames_installed</code>.</p>
+<h4 id="example-usage">Example usage</h4>
+<pre><code class="language-YAML">oradb_rman_tnsnames_installed:
+  - home: db19-si-ee
+    tnsname: orclpdb
+    state: present
+</code></pre>
+<h3 id="oradb_rman_wallet_loc">oradb_rman_wallet_loc</h3>
+<p>Directory for Oracle wallet.</p>
+<h4 id="default-value-11">Default value</h4>
+<pre><code class="language-YAML">oradb_rman_wallet_loc: &quot;{{ rman_wallet_loc | default(oracle_base + '/rman/network/wallet') }}&quot;
+</code></pre>
+<h3 id="oradb_rman_wallet_password">oradb_rman_wallet_password</h3>
+<p>Password for Orale wallet.</p>
+<h4 id="default-value-12">Default value</h4>
+<pre><code class="language-YAML">oradb_rman_wallet_password: &quot;{{ rman_wallet_password | default('oracleWallet1') }}&quot;
+</code></pre>
+<h2 id="discovered-tags">Discovered Tags</h2>
+<p><strong><em>always</em></strong></p>
+<p><strong><em>assert</em></strong></p>
+<p><strong><em>assert_rman_tns_admin</em></strong></p>
+<p><strong><em>autofs</em></strong></p>
+<p><strong><em>notest</em></strong></p>
+<p><strong><em>rmancfg</em></strong></p>
+<p><strong><em>rmancopy</em></strong></p>
+<p><strong><em>rmancron</em></strong></p>
+<p><strong><em>rmanexecute</em></strong></p>
+<p><strong><em>rmanregister</em></strong></p>
+<p><strong><em>tns</em></strong></p>
+<p><strong><em>wallet</em></strong></p>
+<p><strong><em>wallet_contents</em></strong></p>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li>orasw_meta</li>
 </ul>
 <h2 id="license">License</h2>
 <p>license (MIT)</p>
