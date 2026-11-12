@@ -33,17 +33,17 @@ Dbvisit StandbyMP (type: dbvisit) - reserved, not planned for the first implemen
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-08T14:38:19+01:00">
-		<meta property="article:modified_time" content="2026-11-08T14:38:19+01:00">
+		<meta property="article:published_time" content="2026-11-11T07:09:32+01:00">
+		<meta property="article:modified_time" content="2026-11-11T07:09:32+01:00">
 
 	<meta itemprop="name" content="Standby Databases">
 	<meta itemprop="description" content="Important Standby databases are experimental in ansible-oracle (Issue #65).
 Implemented: inventory structure with asserts, creation of a physical standby database and of the Data Guard Broker configuration (role oradb_standby). See Open Points and TODOs for missing features. Variable names and attributes may change. The inventory structure is shared by different standby technologies:
 Oracle Data Guard (type: dataguard)
 Dbvisit StandbyMP (type: dbvisit) - reserved, not planned for the first implementation">
-	<meta itemprop="datePublished" content="2026-11-08T14:38:19+01:00">
-	<meta itemprop="dateModified" content="2026-11-08T14:38:19+01:00">
-	<meta itemprop="wordCount" content="4303">
+	<meta itemprop="datePublished" content="2026-11-11T07:09:32+01:00">
+	<meta itemprop="dateModified" content="2026-11-11T07:09:32+01:00">
+	<meta itemprop="wordCount" content="4300">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Standby Databases">
 	<meta name="twitter:description" content="Important Standby databases are experimental in ansible-oracle (Issue #65).
@@ -139,16 +139,18 @@ Dbvisit StandbyMP (type: dbvisit) - reserved, not planned for the first implemen
     <a href="/docs/guides/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade"><span class="">Oracle AutoUpgrade</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesautoupgrade_upgrade-li">
     <a href="/docs/guides/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesahf-li">
+    <a href="/docs/guides/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesahf"><span class="">Oracle Autonomous Health Framework (AHF)</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
     <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
     <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
     <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
-    <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguidesstandby_databases-li">
     <a href="/docs/guides/standby_databases/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="td-sidebar-nav-active-item">Standby Databases</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
+    <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
     <a href="/docs/guides/restart_rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="">Setup ASM for Oracle Grid Infrastructure / Restart</span></a>
   </li>
@@ -158,20 +160,24 @@ Dbvisit StandbyMP (type: dbvisit) - reserved, not planned for the first implemen
     <ul class="ul-2 foldable">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
     <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf-li">
+    <a href="/docs/roles/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf"><span class="">ahf</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf_fleet_insights-li">
+    <a href="/docs/roles/ahf_fleet_insights/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf_fleet_insights"><span class="">ahf_fleet_insights</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
+    <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
+    <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
     <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
     <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
-    <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
     <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
     <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
     <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
-    <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
     <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
@@ -230,8 +236,6 @@ Dbvisit StandbyMP (type: dbvisit) - reserved, not planned for the first implemen
     <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
     <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswahf_install-li">
-    <a href="/docs/roles/oraswahf_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswahf_install"><span class="">oraswahf_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_golden_image-li">
     <a href="/docs/roles/oraswdb_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_golden_image"><span class="">oraswdb_golden_image</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
@@ -903,7 +907,7 @@ An empty <code>local_listener</code> registers the instance at the default liste
 </div>
 </li>
 <li>
-<p>Missing directories of <code>datafile_dest</code>, <code>recoveryfile_dest</code> and <code>db_create_file_dest</code>, <code>db_create_online_log_dest_n</code>,
+<p>Missing directories of <code>db_create_file_dest</code>, <code>db_create_online_log_dest_n</code>,
 <code>db_recovery_file_dest</code>, <code>audit_file_dest</code>, <code>diagnostic_dest</code>, <code>dg_broker_config_file1/2</code> from <code>init_parameters</code>
 are created before <code>NOMOUNT</code>. Existing directories are not changed (owner, group and mode are kept).
 Parameters of the cloned SPFile that are not defined in <code>init_parameters</code> keep the value of the primary
@@ -1695,7 +1699,7 @@ Members with more than 1 host (<code>hosts</code>) are allowed by the inventory 
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 8, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/c06a8dc2e132a2cf4b3944a2945cbec09e18c66e">orasw_meta: assert archivelog for Data Guard, molecule dataguard asserts (c06a8dc2)</a>
+  Last modified November 11, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/cf75f5c843baea155b5b9c895fcafae66529f792">oracle_databases: remove datafile_dest/recoveryfile_dest, ASM only with OMF (cf75f5c8)</a>
 </div>
 
 </div>

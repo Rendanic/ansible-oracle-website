@@ -18,34 +18,38 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>oraswahf_install | ansible-oracle Project</title>
-<meta name="description" content="Install Oracle Autonomous Health Framework
-Table of contents Requirements Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Dependencies orasw_meta License license (MIT)
-Author [Thorsten Bruhns]">
-<meta property="og:url" content="https://www.ansible-oracle.eu/docs/roles/oraswahf_install/">
+<title>ahf_fleet_insights | ansible-oracle Project</title>
+<meta name="description" content="Experimental: the role is under development. Breaking changes can happen at any time and are not always documented.
+Install Oracle AHF Fleet Insights as central web interface for the evaluation of AHF data (Compliance results, TFA collections, Insights) from many database servers.
+The AHF clients (role ahf with ahf_fleet_insights_client: true) upload their data to Fleet Insights. The database servers are not contacted for the evaluation.
+Fleet Insights requires a repository database (19c or newer) with the schema user from create_db_user.sql of the installation media.">
+<meta property="og:url" content="https://www.ansible-oracle.eu/docs/roles/ahf_fleet_insights/">
 	<meta property="og:site_name" content="ansible-oracle Project">
-	<meta property="og:title" content="oraswahf_install">
-	<meta property="og:description" content="Install Oracle Autonomous Health Framework
-Table of contents Requirements Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Dependencies orasw_meta License license (MIT)
-Author [Thorsten Bruhns]">
+	<meta property="og:title" content="ahf_fleet_insights">
+	<meta property="og:description" content="Experimental: the role is under development. Breaking changes can happen at any time and are not always documented.
+Install Oracle AHF Fleet Insights as central web interface for the evaluation of AHF data (Compliance results, TFA collections, Insights) from many database servers.
+The AHF clients (role ahf with ahf_fleet_insights_client: true) upload their data to Fleet Insights. The database servers are not contacted for the evaluation.
+Fleet Insights requires a repository database (19c or newer) with the schema user from create_db_user.sql of the installation media.">
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-10-30T22:59:56+01:00">
-		<meta property="article:modified_time" content="2026-10-30T22:59:56+01:00">
+		<meta property="article:published_time" content="2026-11-12T06:50:01+01:00">
+		<meta property="article:modified_time" content="2026-11-12T06:50:01+01:00">
 
-	<meta itemprop="name" content="oraswahf_install">
-	<meta itemprop="description" content="Install Oracle Autonomous Health Framework
-Table of contents Requirements Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Dependencies orasw_meta License license (MIT)
-Author [Thorsten Bruhns]">
-	<meta itemprop="datePublished" content="2026-10-30T22:59:56+01:00">
-	<meta itemprop="dateModified" content="2026-10-30T22:59:56+01:00">
-	<meta itemprop="wordCount" content="25">
+	<meta itemprop="name" content="ahf_fleet_insights">
+	<meta itemprop="description" content="Experimental: the role is under development. Breaking changes can happen at any time and are not always documented.
+Install Oracle AHF Fleet Insights as central web interface for the evaluation of AHF data (Compliance results, TFA collections, Insights) from many database servers.
+The AHF clients (role ahf with ahf_fleet_insights_client: true) upload their data to Fleet Insights. The database servers are not contacted for the evaluation.
+Fleet Insights requires a repository database (19c or newer) with the schema user from create_db_user.sql of the installation media.">
+	<meta itemprop="datePublished" content="2026-11-12T06:50:01+01:00">
+	<meta itemprop="dateModified" content="2026-11-12T06:50:01+01:00">
+	<meta itemprop="wordCount" content="897">
 	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="oraswahf_install">
-	<meta name="twitter:description" content="Install Oracle Autonomous Health Framework
-Table of contents Requirements Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Dependencies orasw_meta License license (MIT)
-Author [Thorsten Bruhns]">
+	<meta name="twitter:title" content="ahf_fleet_insights">
+	<meta name="twitter:description" content="Experimental: the role is under development. Breaking changes can happen at any time and are not always documented.
+Install Oracle AHF Fleet Insights as central web interface for the evaluation of AHF data (Compliance results, TFA collections, Insights) from many database servers.
+The AHF clients (role ahf with ahf_fleet_insights_client: true) upload their data to Fleet Insights. The database servers are not contacted for the evaluation.
+Fleet Insights requires a repository database (19c or newer) with the schema user from create_db_user.sql of the installation media.">
 <link href="/scss/main.css" rel="stylesheet">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -135,16 +139,18 @@ Author [Thorsten Bruhns]">
     <a href="/docs/guides/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade"><span class="">Oracle AutoUpgrade</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesautoupgrade_upgrade-li">
     <a href="/docs/guides/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesahf-li">
+    <a href="/docs/guides/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesahf"><span class="">Oracle Autonomous Health Framework (AHF)</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
     <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
     <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
     <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
-    <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_databases-li">
     <a href="/docs/guides/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="">Standby Databases</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
+    <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
     <a href="/docs/guides/restart_rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="">Setup ASM for Oracle Grid Infrastructure / Restart</span></a>
   </li>
@@ -154,20 +160,24 @@ Author [Thorsten Bruhns]">
     <ul class="ul-2 foldable">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
     <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf-li">
+    <a href="/docs/roles/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf"><span class="">ahf</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesahf_fleet_insights-li">
+    <a href="/docs/roles/ahf_fleet_insights/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf_fleet_insights"><span class="td-sidebar-nav-active-item">ahf_fleet_insights</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
+    <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
+    <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
     <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
     <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
-    <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
     <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
     <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
     <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
-    <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
     <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
@@ -226,8 +236,6 @@ Author [Thorsten Bruhns]">
     <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
     <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesoraswahf_install-li">
-    <a href="/docs/roles/oraswahf_install/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswahf_install"><span class="td-sidebar-nav-active-item">oraswahf_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_golden_image-li">
     <a href="/docs/roles/oraswdb_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_golden_image"><span class="">oraswdb_golden_image</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
@@ -258,10 +266,10 @@ Author [Thorsten Bruhns]">
           </aside>
           <aside class="td-sidebar-toc">
             <div class="td-page-meta ms-2 pb-1 pt-2 mb-0">
-<a href="https://github.com/oravirt/ansible-oracle/tree/master/roles/oraswahf_install/README.md" class="td-page-meta--view td-page-meta__view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines fa-fw"></i> View page source</a>
-  <a href="https://github.com/oravirt/ansible-oracle/edit/master/roles/oraswahf_install/README.md" class="td-page-meta--edit td-page-meta__edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Edit this page</a>
-  <a href="https://github.com/oravirt/ansible-oracle/new/master/roles/oraswahf_install?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60get-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" class="td-page-meta--child td-page-meta__child" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Create child page</a>
-  <a href="https://github.com/oravirt/ansible-oracle/issues/new?title=oraswahf_install" class="td-page-meta--issue td-page-meta__issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create documentation issue</a>
+<a href="https://github.com/oravirt/ansible-oracle/tree/master/roles/ahf_fleet_insights/README.md" class="td-page-meta--view td-page-meta__view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines fa-fw"></i> View page source</a>
+  <a href="https://github.com/oravirt/ansible-oracle/edit/master/roles/ahf_fleet_insights/README.md" class="td-page-meta--edit td-page-meta__edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Edit this page</a>
+  <a href="https://github.com/oravirt/ansible-oracle/new/master/roles/ahf_fleet_insights?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60get-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" class="td-page-meta--child td-page-meta__child" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Create child page</a>
+  <a href="https://github.com/oravirt/ansible-oracle/issues/new?title=ahf_fleet_insights" class="td-page-meta--issue td-page-meta__issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create documentation issue</a>
   <a href="https://github.com/oravirt/ansible-oracle/issues/new" class="td-page-meta--project td-page-meta__project-issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create project issue</a>
   <a id="print" href="/_print/docs/roles/"><i class="fa-solid fa-print fa-fw"></i> Print entire section</a>
 
@@ -276,6 +284,157 @@ Author [Thorsten Bruhns]">
   <ul>
     <li><a href="#table-of-contents">Table of contents</a></li>
     <li><a href="#requirements">Requirements</a></li>
+    <li><a href="#default-variables">Default Variables</a>
+      <ul>
+        <li><a href="#ahf_fi_cert_days">ahf_fi_cert_days</a>
+          <ul>
+            <li><a href="#default-value">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_cert_file">ahf_fi_cert_file</a>
+          <ul>
+            <li><a href="#default-value-1">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_cert_generate">ahf_fi_cert_generate</a>
+          <ul>
+            <li><a href="#default-value-2">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_cert_key_file">ahf_fi_cert_key_file</a>
+          <ul>
+            <li><a href="#default-value-3">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_cert_names">ahf_fi_cert_names</a>
+          <ul>
+            <li><a href="#default-value-4">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_clamscan">ahf_fi_clamscan</a>
+          <ul>
+            <li><a href="#default-value-5">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_db_host">ahf_fi_db_host</a>
+          <ul>
+            <li><a href="#default-value-6">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_db_password">ahf_fi_db_password</a>
+          <ul>
+            <li><a href="#default-value-7">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_db_port">ahf_fi_db_port</a>
+          <ul>
+            <li><a href="#default-value-8">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_db_service">ahf_fi_db_service</a>
+          <ul>
+            <li><a href="#default-value-9">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_db_user">ahf_fi_db_user</a>
+          <ul>
+            <li><a href="#default-value-10">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_db_wallet">ahf_fi_db_wallet</a>
+          <ul>
+            <li><a href="#default-value-11">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_firewall">ahf_fi_firewall</a>
+          <ul>
+            <li><a href="#default-value-12">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_install_dir">ahf_fi_install_dir</a>
+          <ul>
+            <li><a href="#default-value-13">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_install_user">ahf_fi_install_user</a>
+          <ul>
+            <li><a href="#default-value-14">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_installer_archive">ahf_fi_installer_archive</a>
+          <ul>
+            <li><a href="#default-value-15">Default value</a></li>
+            <li><a href="#example-usage">Example usage</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_instant_client">ahf_fi_instant_client</a>
+          <ul>
+            <li><a href="#default-value-16">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_instantclient_repo">ahf_fi_instantclient_repo</a>
+          <ul>
+            <li><a href="#default-value-17">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_java_home">ahf_fi_java_home</a>
+          <ul>
+            <li><a href="#default-value-18">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_manage_packages">ahf_fi_manage_packages</a>
+          <ul>
+            <li><a href="#default-value-19">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_packages">ahf_fi_packages</a>
+          <ul>
+            <li><a href="#default-value-20">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_port">ahf_fi_port</a>
+          <ul>
+            <li><a href="#default-value-21">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_public_cert_fetch">ahf_fi_public_cert_fetch</a>
+          <ul>
+            <li><a href="#default-value-22">Default value</a></li>
+            <li><a href="#example-usage-1">Example usage</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_registration_password">ahf_fi_registration_password</a>
+          <ul>
+            <li><a href="#default-value-23">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_registration_user">ahf_fi_registration_user</a>
+          <ul>
+            <li><a href="#default-value-24">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_stage_dir">ahf_fi_stage_dir</a>
+          <ul>
+            <li><a href="#default-value-25">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_start_timeout">ahf_fi_start_timeout</a>
+          <ul>
+            <li><a href="#default-value-26">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_upgrade">ahf_fi_upgrade</a>
+          <ul>
+            <li><a href="#default-value-27">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fi_verify_signature">ahf_fi_verify_signature</a>
+          <ul>
+            <li><a href="#default-value-28">Default value</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
     <li><a href="#dependencies">Dependencies</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#author">Author</a></li>
@@ -295,19 +454,65 @@ Author [Thorsten Bruhns]">
   <li class="breadcrumb-item">
     <a href="/docs/roles/">Ansible Roles</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    oraswahf_install</li>
+    ahf_fleet_insights</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>oraswahf_install</h1>
+	<h1>ahf_fleet_insights</h1>
 	
 	<header class="article-meta">
 		
   </header>
-	<p>Install Oracle Autonomous Health Framework</p>
+	<p><em>Experimental</em>: the role is under development. Breaking changes can happen at any time
+and are not always documented.</p>
+<p>Install Oracle AHF Fleet Insights as central web interface for the
+evaluation of AHF data (Compliance results, TFA collections, Insights)
+from many database servers.</p>
+<p>The AHF clients (role <code>ahf</code> with <code>ahf_fleet_insights_client: true</code>) upload
+their data to Fleet Insights. The database servers are not contacted
+for the evaluation.</p>
+<p>Fleet Insights requires a repository database (19c or newer) with the
+schema user from <code>create_db_user.sql</code> of the installation media.</p>
+<p>Fleet Insights has no systemd unit, its processes are started by cron entries of
+<code>ahf_fi_install_user</code>. The role starts Fleet Insights (<code>ahffi start</code>), when it is not running,
+and waits for the web application on <code>ahf_fi_port</code>.</p>
+<p>See <code>doc/guides/ahf.adoc</code>.</p>
 <h2 id="table-of-contents">Table of contents</h2>
 <ul>
 <li><a href="#requirements">Requirements</a></li>
+<li><a href="#default-variables">Default Variables</a>
+<ul>
+<li><a href="#ahf_fi_cert_days">ahf_fi_cert_days</a></li>
+<li><a href="#ahf_fi_cert_file">ahf_fi_cert_file</a></li>
+<li><a href="#ahf_fi_cert_generate">ahf_fi_cert_generate</a></li>
+<li><a href="#ahf_fi_cert_key_file">ahf_fi_cert_key_file</a></li>
+<li><a href="#ahf_fi_cert_names">ahf_fi_cert_names</a></li>
+<li><a href="#ahf_fi_clamscan">ahf_fi_clamscan</a></li>
+<li><a href="#ahf_fi_db_host">ahf_fi_db_host</a></li>
+<li><a href="#ahf_fi_db_password">ahf_fi_db_password</a></li>
+<li><a href="#ahf_fi_db_port">ahf_fi_db_port</a></li>
+<li><a href="#ahf_fi_db_service">ahf_fi_db_service</a></li>
+<li><a href="#ahf_fi_db_user">ahf_fi_db_user</a></li>
+<li><a href="#ahf_fi_db_wallet">ahf_fi_db_wallet</a></li>
+<li><a href="#ahf_fi_firewall">ahf_fi_firewall</a></li>
+<li><a href="#ahf_fi_install_dir">ahf_fi_install_dir</a></li>
+<li><a href="#ahf_fi_install_user">ahf_fi_install_user</a></li>
+<li><a href="#ahf_fi_installer_archive">ahf_fi_installer_archive</a></li>
+<li><a href="#ahf_fi_instant_client">ahf_fi_instant_client</a></li>
+<li><a href="#ahf_fi_instantclient_repo">ahf_fi_instantclient_repo</a></li>
+<li><a href="#ahf_fi_java_home">ahf_fi_java_home</a></li>
+<li><a href="#ahf_fi_manage_packages">ahf_fi_manage_packages</a></li>
+<li><a href="#ahf_fi_packages">ahf_fi_packages</a></li>
+<li><a href="#ahf_fi_port">ahf_fi_port</a></li>
+<li><a href="#ahf_fi_public_cert_fetch">ahf_fi_public_cert_fetch</a></li>
+<li><a href="#ahf_fi_registration_password">ahf_fi_registration_password</a></li>
+<li><a href="#ahf_fi_registration_user">ahf_fi_registration_user</a></li>
+<li><a href="#ahf_fi_stage_dir">ahf_fi_stage_dir</a></li>
+<li><a href="#ahf_fi_start_timeout">ahf_fi_start_timeout</a></li>
+<li><a href="#ahf_fi_upgrade">ahf_fi_upgrade</a></li>
+<li><a href="#ahf_fi_verify_signature">ahf_fi_verify_signature</a></li>
+</ul>
+</li>
 <li><a href="#dependencies">Dependencies</a></li>
 <li><a href="#license">License</a></li>
 <li><a href="#author">Author</a></li>
@@ -317,8 +522,203 @@ Author [Thorsten Bruhns]">
 <ul>
 <li>Minimum Ansible version: <code>2.16.0</code></li>
 </ul>
+<h2 id="default-variables">Default Variables</h2>
+<h3 id="ahf_fi_cert_days">ahf_fi_cert_days</h3>
+<p>Validity of the generated certificate in days.</p>
+<h4 id="default-value">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_cert_days: 730
+</code></pre>
+<h3 id="ahf_fi_cert_file">ahf_fi_cert_file</h3>
+<p>Own certificate (PEM) for Fleet Insights on the Ansible controller, e.g. from an internal CA.
+Imported with <code>ahffi importcert</code> together with <code>ahf_fi_cert_key_file</code>.
+Empty: <code>ahf_fi_cert_generate</code> is used.</p>
+<h4 id="default-value-1">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_cert_file: ''
+</code></pre>
+<h3 id="ahf_fi_cert_generate">ahf_fi_cert_generate</h3>
+<p>Create a self-signed certificate with Subject Alternative Names (<code>ahf_fi_cert_names</code>)
+and import it with <code>ahffi importcert</code>.</p>
+<p>The certificate of the installer has no Subject Alternative Name. The AHF clients
+(AHF 26.x) check only the SAN and reject it with
+<code>CERTIFICATE_VERIFY_FAILED ... Hostname mismatch</code>.
+Ignored, when <code>ahf_fi_cert_file</code> is set.</p>
+<h4 id="default-value-2">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_cert_generate: true
+</code></pre>
+<h3 id="ahf_fi_cert_key_file">ahf_fi_cert_key_file</h3>
+<p>Private key (PEM) of <code>ahf_fi_cert_file</code> on the Ansible controller.</p>
+<h4 id="default-value-3">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_cert_key_file: ''
+</code></pre>
+<h3 id="ahf_fi_cert_names">ahf_fi_cert_names</h3>
+<p>DNS names for the Subject Alternative Name of the generated certificate.
+The clients must use one of them in <code>ahf_fleet_insights_url</code>.
+The first name is the CN.</p>
+<h4 id="default-value-4">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_cert_names: '{{ [ansible_hostname, ansible_fqdn] | unique }}'
+</code></pre>
+<h3 id="ahf_fi_clamscan">ahf_fi_clamscan</h3>
+<p>Path to <code>clamscan</code> for a virus scan of the uploaded collections (<code>CLAMSCAN</code>).
+Increases the processing time.</p>
+<h4 id="default-value-5">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_clamscan: ''
+</code></pre>
+<h3 id="ahf_fi_db_host">ahf_fi_db_host</h3>
+<p>Hostname of the repository database (<code>DB_HOST</code>). Oracle Database 19c or newer.</p>
+<h4 id="default-value-6">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_db_host: '{{ inventory_hostname }}'
+</code></pre>
+<h3 id="ahf_fi_db_password">ahf_fi_db_password</h3>
+<p>Password of <code>ahf_fi_db_user</code> (<code>DB_PASSWORD</code>). Use Ansible Vault.</p>
+<h4 id="default-value-7">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_db_password: ''
+</code></pre>
+<h3 id="ahf_fi_db_port">ahf_fi_db_port</h3>
+<p>Listener port of the repository database (<code>DB_PORT</code>).</p>
+<h4 id="default-value-8">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_db_port: 1521
+</code></pre>
+<h3 id="ahf_fi_db_service">ahf_fi_db_service</h3>
+<p>Service name of the repository database (<code>DB_SERVICE</code>).</p>
+<h4 id="default-value-9">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_db_service: ''
+</code></pre>
+<h3 id="ahf_fi_db_user">ahf_fi_db_user</h3>
+<p>Schema user in the repository database (<code>DB_USER</code>).
+Create it with <code>create_db_user.sql</code> from the installation media.</p>
+<h4 id="default-value-10">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_db_user: AHFFI
+</code></pre>
+<h3 id="ahf_fi_db_wallet">ahf_fi_db_wallet</h3>
+<p>Wallet for the connection to the repository database (<code>DB_WALLET</code>).</p>
+<h4 id="default-value-11">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_db_wallet: ''
+</code></pre>
+<h3 id="ahf_fi_firewall">ahf_fi_firewall</h3>
+<p>Open <code>ahf_fi_port</code> in firewalld, when firewalld is running.</p>
+<h4 id="default-value-12">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_firewall: true
+</code></pre>
+<h3 id="ahf_fi_install_dir">ahf_fi_install_dir</h3>
+<p>Installation directory of Fleet Insights (<code>INSTALL_DIR</code>).
+Plan 4 GB per registered cluster.</p>
+<h4 id="default-value-13">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_install_dir: '{{ oracle_base }}/ahffi'
+</code></pre>
+<h3 id="ahf_fi_install_user">ahf_fi_install_user</h3>
+<p>OS user for the installation and the processes of Fleet Insights.
+The installer fails with <code>root</code>.</p>
+<h4 id="default-value-14">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_install_user: '{{ oracle_user }}'
+</code></pre>
+<h3 id="ahf_fi_installer_archive">ahf_fi_installer_archive</h3>
+<p>Filename of the installation media in the software repository
+(My Oracle Support Doc ID 3043060.1).</p>
+<p>Empty (default): the newest file matching <code>AHFFI-LINUX_v*.zip</code> is used from
+<code>oracle_sw_source_local</code> on the Ansible controller or from <code>oracle_stage_remote</code>
+(<code>oracle_sw_copy: false</code>). Must be set for <code>oracle_sw_source_www</code>.</p>
+<h4 id="default-value-15">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_installer_archive: ''
+</code></pre>
+<h4 id="example-usage">Example usage</h4>
+<pre><code class="language-YAML">ahf_fi_installer_archive: AHFFI-LINUX_v25.2.0.zip
+</code></pre>
+<h3 id="ahf_fi_instant_client">ahf_fi_instant_client</h3>
+<p>Directory of Oracle Instant Client (<code>INSTANT_CLIENT</code>).</p>
+<h4 id="default-value-16">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_instant_client: /usr/lib/oracle/23/client64
+</code></pre>
+<h3 id="ahf_fi_instantclient_repo">ahf_fi_instantclient_repo</h3>
+<p>Yum repository for Oracle Instant Client on Oracle Linux.
+Empty: no repository is configured.</p>
+<h4 id="default-value-17">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_instantclient_repo: &gt;-
+  https://yum.oracle.com/repo/OracleLinux/OL{{ ansible_distribution_major_version }}/oracle/instantclient23/x86_64/
+</code></pre>
+<h3 id="ahf_fi_java_home">ahf_fi_java_home</h3>
+<p>Java home (Java 22 or newer) for Fleet Insights (<code>JAVA_HOME</code>).</p>
+<p>Empty (default): the newest Oracle JDK in <code>/usr/lib/jvm/jdk-*-oracle-x64</code> is used.
+The Oracle JDK RPM installs into a directory with the full version,
+e.g. <code>/usr/lib/jvm/jdk-25.0.5.0.3-oracle-x64</code>, which changes with every update.</p>
+<h4 id="default-value-18">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_java_home: ''
+</code></pre>
+<h3 id="ahf_fi_manage_packages">ahf_fi_manage_packages</h3>
+<p>Install the required packages (<code>ahf_fi_packages</code>) and the yum repository
+for Oracle Instant Client (<code>ahf_fi_instantclient_repo</code>).</p>
+<h4 id="default-value-19">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_manage_packages: true
+</code></pre>
+<h3 id="ahf_fi_packages">ahf_fi_packages</h3>
+<p>Packages for Fleet Insights: cronie, iproute, hostname, Java 22 or newer and
+Oracle Instant Client Basic + SQL*Plus.</p>
+<p>The Oracle JDK is used under the Oracle No-Fee Terms and Conditions (NFTC).</p>
+<h4 id="default-value-20">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_packages:
+  - cronie
+  - iproute
+  - hostname
+  - https://download.oracle.com/java/25/latest/jdk-25_linux-x64_bin.rpm
+  - oracle-instantclient-basic
+  - oracle-instantclient-sqlplus
+</code></pre>
+<h3 id="ahf_fi_port">ahf_fi_port</h3>
+<p>Port of the web application (<code>WEBAPP_PORT</code>, 1024 - 49151).
+Must be reachable from all AHF clients and the browsers.</p>
+<h4 id="default-value-21">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_port: 5005
+</code></pre>
+<h3 id="ahf_fi_public_cert_fetch">ahf_fi_public_cert_fetch</h3>
+<p>Path on the Ansible controller for the public certificate of Fleet Insights
+(<code>&lt;ahf_fi_install_dir&gt;/ahf_service/certs/cert.pem</code>, self-signed by the installer).
+The AHF clients need it for the registration (role <code>ahf</code>: <code>ahf_fleet_insights_public_cert</code>).
+The certificate is also available as fact <code>ahf_fi_public_cert</code>.
+Empty: the certificate is not fetched.</p>
+<h4 id="default-value-22">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_public_cert_fetch: ''
+</code></pre>
+<h4 id="example-usage-1">Example usage</h4>
+<pre><code class="language-YAML">ahf_fi_public_cert_fetch: &quot;{{ inventory_dir }}/files/ahffi_cert.pem&quot;
+</code></pre>
+<h3 id="ahf_fi_registration_password">ahf_fi_registration_password</h3>
+<p>Password of <code>ahf_fi_registration_user</code> (<code>GENERIC_REGISTRATION_PASSWORD</code>).
+At least 8 characters with a digit, a special character and an uppercase letter.
+Use Ansible Vault.</p>
+<h4 id="default-value-23">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_registration_password: ''
+</code></pre>
+<h3 id="ahf_fi_registration_user">ahf_fi_registration_user</h3>
+<p>Generic registration user for the AHF clients (<code>GENERIC_REGISTRATION_USER</code>).
+Created by the installer, when user and password are set.</p>
+<h4 id="default-value-24">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_registration_user: ''
+</code></pre>
+<h3 id="ahf_fi_stage_dir">ahf_fi_stage_dir</h3>
+<p>Directory on the target host for the installation media.
+The directory is removed after the installation, because the
+properties file contains passwords.</p>
+<h4 id="default-value-25">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_stage_dir: '{{ oracle_stage }}/ahffi'
+</code></pre>
+<h3 id="ahf_fi_start_timeout">ahf_fi_start_timeout</h3>
+<p>Seconds to wait for the web application on <code>ahf_fi_port</code> after the installation or start.
+The role starts Fleet Insights (<code>ahffi start</code>), when <code>ahffi status</code> does not report it as running.</p>
+<h4 id="default-value-26">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_start_timeout: 300
+</code></pre>
+<h3 id="ahf_fi_upgrade">ahf_fi_upgrade</h3>
+<p>Patch an existing installation, when the installation media has a newer version.</p>
+<h4 id="default-value-27">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_upgrade: true
+</code></pre>
+<h3 id="ahf_fi_verify_signature">ahf_fi_verify_signature</h3>
+<p>Verify the signature of the installation media with <code>openssl</code>.</p>
+<h4 id="default-value-28">Default value</h4>
+<pre><code class="language-YAML">ahf_fi_verify_signature: true
+</code></pre>
 <h2 id="dependencies">Dependencies</h2>
 <ul>
+<li>orahost_meta</li>
 <li>orasw_meta</li>
 </ul>
 <h2 id="license">License</h2>
@@ -327,7 +727,7 @@ Author [Thorsten Bruhns]">
 <p>[Thorsten Bruhns]</p>
 
 	<div class="td-page-meta__lastmod">
-  Last modified October 30, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/2bffd9a3b3f3ab736a0fbfd4b040838e4e026136">ansible-core 2.16 is the new minimal version of ansible-oracle (requires_ansible in meta/runtime.yml, min_ansible_version of all roles) (2bffd9a3)</a>
+  Last modified November 12, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/94b5fc61578e303b23b65b434d491673b153c0ac">ahf, ahf_fleet_insights: new roles for Oracle Autonomous Health Framework (experimental) (94b5fc61)</a>
 </div>
 
 </div>

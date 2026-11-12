@@ -1,0 +1,2296 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="robots" content="noindex, nofollow">
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+<title>Oracle Autonomous Health Framework (AHF) | ansible-oracle Project</title>
+<meta name="description" content="Important The roles ahf and ahf_fleet_insights are under development and experimental.
+Breaking changes can happen at any time and are not always documented (e.g. in Breaking Changes - Upgrade Guide). Oracle Autonomous Health Framework (AHF) bundles the diagnostic and health check tools of Oracle:
+Trace File Analyzer (TFA): collection of diagnostic data for Service Requests, automatic collections after incidents
+Compliance checks with orachk (exachk on Engineered Systems)
+AHF Insights: offline HTML reports about the state of the server and the databases
+OS Watcher, Cluster Health Monitor and Cluster Health Advisor (Grid Infrastructure)">
+<meta property="og:url" content="https://www.ansible-oracle.eu/docs/guides/ahf/">
+	<meta property="og:site_name" content="ansible-oracle Project">
+	<meta property="og:title" content="Oracle Autonomous Health Framework (AHF)">
+	<meta property="og:description" content="Important The roles ahf and ahf_fleet_insights are under development and experimental.
+Breaking changes can happen at any time and are not always documented (e.g. in Breaking Changes - Upgrade Guide). Oracle Autonomous Health Framework (AHF) bundles the diagnostic and health check tools of Oracle:
+Trace File Analyzer (TFA): collection of diagnostic data for Service Requests, automatic collections after incidents
+Compliance checks with orachk (exachk on Engineered Systems)
+AHF Insights: offline HTML reports about the state of the server and the databases
+OS Watcher, Cluster Health Monitor and Cluster Health Advisor (Grid Infrastructure)">
+	<meta property="og:locale" content="en_us">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="docs">
+		<meta property="article:published_time" content="2026-11-12T06:50:01+01:00">
+		<meta property="article:modified_time" content="2026-11-12T06:50:01+01:00">
+
+	<meta itemprop="name" content="Oracle Autonomous Health Framework (AHF)">
+	<meta itemprop="description" content="Important The roles ahf and ahf_fleet_insights are under development and experimental.
+Breaking changes can happen at any time and are not always documented (e.g. in Breaking Changes - Upgrade Guide). Oracle Autonomous Health Framework (AHF) bundles the diagnostic and health check tools of Oracle:
+Trace File Analyzer (TFA): collection of diagnostic data for Service Requests, automatic collections after incidents
+Compliance checks with orachk (exachk on Engineered Systems)
+AHF Insights: offline HTML reports about the state of the server and the databases
+OS Watcher, Cluster Health Monitor and Cluster Health Advisor (Grid Infrastructure)">
+	<meta itemprop="datePublished" content="2026-11-12T06:50:01+01:00">
+	<meta itemprop="dateModified" content="2026-11-12T06:50:01+01:00">
+	<meta itemprop="wordCount" content="5369">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Oracle Autonomous Health Framework (AHF)">
+	<meta name="twitter:description" content="Important The roles ahf and ahf_fleet_insights are under development and experimental.
+Breaking changes can happen at any time and are not always documented (e.g. in Breaking Changes - Upgrade Guide). Oracle Autonomous Health Framework (AHF) bundles the diagnostic and health check tools of Oracle:
+Trace File Analyzer (TFA): collection of diagnostic data for Service Requests, automatic collections after incidents
+Compliance checks with orachk (exachk on Engineered Systems)
+AHF Insights: offline HTML reports about the state of the server and the databases
+OS Watcher, Cluster Health Monitor and Cluster Health Advisor (Grid Infrastructure)">
+<link href="/scss/main.css" rel="stylesheet">
+<script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+  crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/css/prism.css"/>
+
+  </head>
+  <body class="td-page">
+    <header>
+      <nav class="td-navbar js-navbar-scroll" data-bs-theme="light">
+<div class="container-fluid flex-column flex-md-row">
+  <a class="navbar-brand" href="/"><span class="navbar-brand__logo navbar-logo"><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500"><g><path style="fill:#fff" d="M116.8525 421.9722c-5.7041.0-10.3442-4.3127-10.3442-9.6129V88.183c0-5.3002 4.6401-9.6117 10.3442-9.6117H320.858c3.0347.0 9.3959.5498 11.7506 2.6302l.3545.3442 58.905 63.2912c2.3101 2.491 2.9202 8.4928 2.9202 11.3184v256.2039c0 5.3002-4.6407 9.6129-10.3436 9.6129H116.8525z"/><g><g><g><path style="fill:#767676" d="M384.4445 423.2066H116.852c-6.3839.0-11.5786-4.8658-11.5786-10.8474V88.1831c0-5.9804 5.1947-10.8461 11.5786-10.8461h204.0062c.377.0 9.2786.0329 12.568 2.9389l.3947.3833 58.9508 63.337c3.2135 3.4652 3.2514 11.7924 3.2514 12.1593v256.2036C396.0231 418.3408 390.8284 423.2066 384.4445 423.2066zM116.5079 411.9189c.0848.0278.1999.0531.3441.0531h267.5925c.1442.0.2581-.0253.3441-.0531V156.1556c-.0076-.9033-.3593-3.7347-.7034-5.0037l-57.6527-61.9416c-1.4651-.3176-4.4533-.6389-5.5742-.6389H116.852c-.143.0-.2594.024-.3441.0531V411.9189zm267.4533-261.149zM327.0321 89.371v.0013V89.371z"/></g></g></g><g><g><path style="fill:#5b7fc0" d="M189.0874 210.1754l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4473C177.5953 212.627 183.0601 210.1742 189.0874 210.1754zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 234.1722 197.0804 232.033z"/><path style="opacity:.3;fill:#fff" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/><g><defs><path id="SVGID_1_" d="M194.7376 237.6875c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 234.2399 196.1861 236.239 194.7376 237.6875z"/></defs><clipPath id="SVGID_2_"><use xlink:href="#SVGID_1_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_2_);fill:#fff" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/><path style="opacity:.13;clip-path:url(#SVGID_2_);fill:#020202" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/></g><g><defs><path id="SVGID_3_" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/></defs><clipPath id="SVGID_4_"><use xlink:href="#SVGID_3_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_4_);fill:#5b7fc0" d="M172.6595 215.6045c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8475-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 209.1953 176.6171 211.647 172.6595 215.6045z"/></g></g><rect x="198.8952" y="225.1043" style="fill:#5b7fc0" width="122.6266" height="13.8671"/></g><g><path style="fill:#d95140" d="M189.0874 155.7611l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.0249 2.454-11.4897 6.4116-15.4473C177.5953 158.2128 183.0601 155.7599 189.0874 155.7611zm7.993 21.8577c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.2508 181.7667 197.0816 179.758 197.0804 177.6188z"/><path style="opacity:.3;fill:#fff" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/><g><defs><path id="SVGID_5_" d="M194.7376 183.2733c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 179.8256 196.1861 181.8248 194.7376 183.2733z"/></defs><clipPath id="SVGID_6_"><use xlink:href="#SVGID_5_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_6_);fill:#fff" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/><path style="opacity:.13;clip-path:url(#SVGID_6_);fill:#020202" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/></g><g><defs><path id="SVGID_7_" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/></defs><clipPath id="SVGID_8_"><use xlink:href="#SVGID_7_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_8_);fill:#d95140" d="M172.6595 161.1903c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 154.7811 176.6171 157.2327 172.6595 161.1903z"/></g><rect x="198.8952" y="170.69" style="fill:#d95140" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#56a55c" d="M189.5379 264.6147l.0012-.0012c7.7751.0012 15.0294 4.1862 18.932 10.9235 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032-5.8394.0-11.3281-2.2733-15.458-6.4032-4.13-4.13-6.4032-9.6186-6.4056-15.4628.0012-6.0249 2.454-11.4897 6.4116-15.4472C178.0458 267.0663 183.5105 264.6135 189.5379 264.6147zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6538 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.7013 290.6202 197.5321 288.6115 197.5309 286.4723z"/><path style="opacity:.3;fill:#fff" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/><g><defs><path id="SVGID_9_" d="M195.1881 292.1268c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9941 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.5344 288.6792 196.6366 290.6783 195.1881 292.1268z"/></defs><clipPath id="SVGID_10_"><use xlink:href="#SVGID_9_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_10_);fill:#fff" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/><path style="opacity:.13;clip-path:url(#SVGID_10_);fill:#020202" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/></g><g><defs><path id="SVGID_11_" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/></defs><clipPath id="SVGID_12_"><use xlink:href="#SVGID_11_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_12_);fill:#56a55c" d="M173.11 270.0439c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7325-11.1497-10.9151-18.926-10.9151C182.5311 263.6346 177.0676 266.0863 173.11 270.0439z"/></g></g><rect x="199.3456" y="279.5436" style="fill:#56a55c" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#f1bc42" d="M189.0874 318.7208l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3305-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4472C177.5953 321.1724 183.0601 318.7196 189.0874 318.7208zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 342.7176 197.0804 340.5784z"/><path style="opacity:.3;fill:#fff" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/><g><defs><path id="SVGID_13_" d="M194.7376 346.2329c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 342.7853 196.1861 344.7844 194.7376 346.2329z"/></defs><clipPath id="SVGID_14_"><use xlink:href="#SVGID_13_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_14_);fill:#fff" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/><path style="opacity:.13;clip-path:url(#SVGID_14_);fill:#020202" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/></g><g><defs><path id="SVGID_15_" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/></defs><clipPath id="SVGID_16_"><use xlink:href="#SVGID_15_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_16_);fill:#f1bc42" d="M172.6595 324.15c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8474-1.0151-7.6327-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 317.7407 176.6171 320.1924 172.6595 324.15z"/></g></g><rect x="198.8952" y="333.6497" style="fill:#f1bc42" width="122.6266" height="13.8671"/></g></g></svg></span><span class="navbar-brand__name">ansible-oracle Project</span></a>
+  <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/about/"><span>About</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/docs/"><span>Documentation</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/oravirt/ansible-oracle/releases" target="_blank" rel="noopener"><span>Releases</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/oravirt/ansible-oracle" target="_blank" rel="noopener"><span>Github</span></a>
+      </li>
+      </ul>
+  </div>
+  <div class="d-none d-lg-block">
+    
+  </div>
+</div>
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main" data-bs-spy="scroll" data-bs-target=".td-toc" data-bs-root-margin="0px 0px -10%">
+        <div class="row flex-xl-nowrap">
+          <aside class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            <div id="td-sidebar-menu" class="td-sidebar__inner">
+  <div id="content-mobile">
+  <form class="td-sidebar__search d-flex align-items-center">
+    
+    <button class="btn btn-link td-sidebar__toggle" type="button" data-bs-toggle="collapse" data-bs-target="#td-section-nav" aria-controls="td-section-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  </div>
+  <div id="content-desktop"></div>
+  <nav class="td-sidebar-nav collapse td-sidebar-nav--search-disabled" id="td-section-nav">
+    <ul class="td-sidebar-nav__section pe-md-3 ul-0">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docs-li">
+    <a href="/docs/" title="Documentation" class="align-left ps-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-docs"><span class="">Docs</span></a>
+    <ul class="ul-1">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsfeatures-li">
+    <a href="/docs/features/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsfeatures"><span class="">Features</span></a>
+    <ul class="ul-2 foldable">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsfeaturesfeaturelist-li">
+    <a href="/docs/features/featurelist/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsfeaturesfeaturelist"><span class="">Supported features in ansible-oracle</span></a>
+  </li>
+    </ul>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docsguides-li">
+    <a href="/docs/guides/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsguides"><span class="">Guides</span></a>
+    <ul class="ul-2 foldable">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguidesvagrant-li">
+    <a href="/docs/guides/vagrant/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsguidesvagrant"><span class="">Vagrant</span></a>
+    <ul class="ul-3 foldable">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesvagrantwindows-li">
+    <a href="/docs/guides/vagrant/windows/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesvagrantwindows"><span class="">Vagrant on Windows</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesvagrantvagrant_basics-li">
+    <a href="/docs/guides/vagrant/vagrant_basics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesvagrantvagrant_basics"><span class="">Vagrant Basics</span></a>
+  </li>
+    </ul>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbeginner-li">
+    <a href="/docs/guides/beginner/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbeginner"><span class="">Beginners Guide</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesadvanced-li">
+    <a href="/docs/guides/advanced/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesadvanced"><span class="">Advanced Guide</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesansible-container-li">
+    <a href="/docs/guides/ansible-container/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesansible-container"><span class="">Ansible as a Docker Container</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguideslocal-install-howto-li">
+    <a href="/docs/guides/local-install-howto/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguideslocal-install-howto"><span class="">HOWTO: Local Installation of Ansible-Oracle</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesinstall-and-patch-settings-li">
+    <a href="/docs/guides/install-and-patch-settings/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesinstall-and-patch-settings"><span class="">Installation &amp; Patching Settings for the Inventory</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesapex_ords-li">
+    <a href="/docs/guides/apex_ords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesapex_ords"><span class="">Setup APEX and ORDS</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesautoupgrade-li">
+    <a href="/docs/guides/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade"><span class="">Oracle AutoUpgrade</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesautoupgrade_upgrade-li">
+    <a href="/docs/guides/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguidesahf-li">
+    <a href="/docs/guides/ahf/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguidesahf"><span class="td-sidebar-nav-active-item">Oracle Autonomous Health Framework (AHF)</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
+    <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
+    <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
+    <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_databases-li">
+    <a href="/docs/guides/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="">Standby Databases</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
+    <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
+    <a href="/docs/guides/restart_rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="">Setup ASM for Oracle Grid Infrastructure / Restart</span></a>
+  </li>
+    </ul>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsroles-li">
+    <a href="/docs/roles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsroles"><span class="">Ansible Roles</span></a>
+    <ul class="ul-2 foldable">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
+    <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf-li">
+    <a href="/docs/roles/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf"><span class="">ahf</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf_fleet_insights-li">
+    <a href="/docs/roles/ahf_fleet_insights/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf_fleet_insights"><span class="">ahf_fleet_insights</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
+    <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
+    <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
+    <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
+    <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
+    <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
+    <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+    <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+    <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+    <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolespyoracledb-li">
+    <a href="/docs/roles/pyoracledb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolespyoracledb"><span class="">pyoracledb</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
+    <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesautoupgrade-li">
+    <a href="/docs/roles/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesautoupgrade"><span class="">autoupgrade</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesglobal_handlers-li">
+    <a href="/docs/roles/global_handlers/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesglobal_handlers"><span class="">global_handlers</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraapex-li">
+    <a href="/docs/roles/oraapex/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraapex"><span class="">oraapex</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraasm_manage_diskgroups-li">
+    <a href="/docs/roles/oraasm_manage_diskgroups/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraasm_manage_diskgroups"><span class="">oraasm_manage_diskgroups</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoracluvfy-li">
+    <a href="/docs/roles/oracluvfy/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoracluvfy"><span class="">oracluvfy</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_datapatch-li">
+    <a href="/docs/roles/oradb_datapatch/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_datapatch"><span class="">oradb_datapatch</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_facts-li">
+    <a href="/docs/roles/oradb_facts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_facts"><span class="">oradb_facts</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_grants-li">
+    <a href="/docs/roles/oradb_manage_grants/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_grants"><span class="">oradb_manage_grants</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_parameters-li">
+    <a href="/docs/roles/oradb_manage_parameters/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_parameters"><span class="">oradb_manage_parameters</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_pdb-li">
+    <a href="/docs/roles/oradb_manage_pdb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_pdb"><span class="">oradb_manage_pdb</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_profiles-li">
+    <a href="/docs/roles/oradb_manage_profiles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_profiles"><span class="">oradb_manage_profiles</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_redo-li">
+    <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="">oradb_manage_redo</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_roles-li">
+    <a href="/docs/roles/oradb_manage_roles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_roles"><span class="">oradb_manage_roles</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_services-li">
+    <a href="/docs/roles/oradb_manage_services/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_services"><span class="">oradb_manage_services</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_statspack-li">
+    <a href="/docs/roles/oradb_manage_statspack/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_statspack"><span class="">oradb_manage_statspack</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_tablespace-li">
+    <a href="/docs/roles/oradb_manage_tablespace/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_tablespace"><span class="">oradb_manage_tablespace</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_users-li">
+    <a href="/docs/roles/oradb_manage_users/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_users"><span class="">oradb_manage_users</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_wallet-li">
+    <a href="/docs/roles/oradb_manage_wallet/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_wallet"><span class="">oradb_manage_wallet</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_tzupgrade-li">
+    <a href="/docs/roles/oradb_tzupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_tzupgrade"><span class="">oradb_tzupgrade</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_cron-li">
+    <a href="/docs/roles/orahost_cron/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_cron"><span class="">orahost_cron</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_logrotate-li">
+    <a href="/docs/roles/orahost_logrotate/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_logrotate"><span class="">orahost_logrotate</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_ssh-li">
+    <a href="/docs/roles/orahost_ssh/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_ssh"><span class="">orahost_ssh</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_storage-li">
+    <a href="/docs/roles/orahost_storage/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_storage"><span class="">orahost_storage</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraords-li">
+    <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
+    <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_golden_image-li">
+    <a href="/docs/roles/oraswdb_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_golden_image"><span class="">oraswdb_golden_image</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
+    <a href="/docs/roles/oraswdb_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_manage_patches"><span class="">oraswdb_manage_patches</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_golden_image-li">
+    <a href="/docs/roles/oraswgi_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_golden_image"><span class="">oraswgi_golden_image</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_manage_patches-li">
+    <a href="/docs/roles/oraswgi_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_manage_patches"><span class="">oraswgi_manage_patches</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_meta-li">
+    <a href="/docs/roles/oraswgi_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_meta"><span class="">oraswgi_meta</span></a>
+  </li>
+    </ul>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsdevelopment-li">
+    <a href="/docs/development/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsdevelopment"><span class="">Development</span></a>
+    <ul class="ul-2 foldable">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsdevelopmentdevelopment-li">
+    <a href="/docs/development/development/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsdevelopmentdevelopment"><span class="">How to develop</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsdevelopmentwebsite-li">
+    <a href="/docs/development/website/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsdevelopmentwebsite"><span class="">Website</span></a>
+  </li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+    </ul>
+  </nav>
+</div>
+          </aside>
+          <aside class="td-sidebar-toc">
+            <div class="td-page-meta ms-2 pb-1 pt-2 mb-0">
+<a href="https://github.com/oravirt/ansible-oracle/tree/master/doc/guides/ahf.adoc" class="td-page-meta--view td-page-meta__view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines fa-fw"></i> View page source</a>
+  <a href="https://github.com/oravirt/ansible-oracle/edit/master/doc/guides/ahf.adoc" class="td-page-meta--edit td-page-meta__edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Edit this page</a>
+  <a href="https://github.com/oravirt/ansible-oracle/new/master/doc/guides?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60get-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" class="td-page-meta--child td-page-meta__child" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Create child page</a>
+  <a href="https://github.com/oravirt/ansible-oracle/issues/new?title=Oracle%20Autonomous%20Health%20Framework%20%28AHF%29" class="td-page-meta--issue td-page-meta__issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create documentation issue</a>
+  <a href="https://github.com/oravirt/ansible-oracle/issues/new" class="td-page-meta--project td-page-meta__project-issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create project issue</a>
+  <a id="print" href="/_print/docs/guides/"><i class="fa-solid fa-print fa-fw"></i> Print entire section</a>
+
+</div>
+
+            <div class="td-toc" data-proofer-ignore>
+<div class="td-toc-title">
+      <span class="td-toc-title__text">On this page</span>
+      <a class="td-toc-title__link" title="Top of page" href="#"></a>
+    </div>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#_architecture_overview">1. Architecture overview</a></li>
+    <li><a href="#_when_is_ahf_useful">2. When is AHF useful?</a></li>
+    <li><a href="#_decisions_before_the_installation">3. Decisions before the installation</a>
+      <ul>
+        <li><a href="#_root_or_non_root_installation">3.1. root or non-root installation</a></li>
+        <li><a href="#_installation_directory_and_data_directory">3.2. Installation directory and data directory</a></li>
+        <li><a href="#_resource_requirements">3.3. Resource requirements</a></li>
+        <li><a href="#_which_components_should_be_active">3.4. Which components should be active?</a></li>
+        <li><a href="#_systemd_cron_or_nothing">3.5. systemd, cron or nothing?</a></li>
+      </ul>
+    </li>
+    <li><a href="#_installation_media">4. Installation media</a></li>
+    <li><a href="#_installation_and_configuration_with_role_ahf">5. Installation and configuration with role <code>ahf</code></a>
+      <ul>
+        <li><a href="#_settings">5.1. Settings</a></li>
+        <li><a href="#_cluster">5.2. Cluster</a></li>
+        <li><a href="#_uninstall">5.3. Uninstall</a></li>
+      </ul>
+    </li>
+    <li><a href="#_central_evaluation_of_many_servers">6. Central evaluation of many servers</a>
+      <ul>
+        <li><a href="#_architecture">6.1. Architecture</a></li>
+        <li><a href="#_ahf_fleet_insights">6.2. AHF Fleet Insights</a>
+          <ul>
+            <li><a href="#_repository_database">6.2.1. Repository database</a></li>
+            <li><a href="#_installation">6.2.2. Installation</a></li>
+            <li><a href="#_login_to_the_web_interface">6.2.3. Login to the web interface</a>
+              <ul>
+                <li><a href="#_reset_the_password_of_fleet_admin">Reset the password of fleet_admin</a></li>
+              </ul>
+            </li>
+            <li><a href="#_registration_of_the_clients">6.2.4. Registration of the clients</a></li>
+            <li><a href="#_data_in_ahf_fleet_insights">6.2.5. Data in AHF Fleet Insights</a>
+              <ul>
+                <li><a href="#_log_files_and_diag_dest_of_the_databases">Log files and diag_dest of the databases</a></li>
+              </ul>
+            </li>
+            <li><a href="#_check_the_upload_on_the_client">6.2.6. Check the upload on the client</a></li>
+          </ul>
+        </li>
+        <li><a href="#_alternative_static_web_server_with_ahf_insights">6.3. Alternative: static web server with AHF Insights</a></li>
+      </ul>
+    </li>
+    <li><a href="#_troubleshooting">7. Troubleshooting</a>
+      <ul>
+        <li><a href="#_database_server_ahf_client">7.1. Database server (AHF client)</a>
+          <ul>
+            <li><a href="#_status">7.1.1. Status</a></li>
+            <li><a href="#_connection_to_fleet_insights">7.1.2. Connection to Fleet Insights</a></li>
+            <li><a href="#_collect_data_and_upload_it_immediately">7.1.3. Collect data and upload it immediately</a></li>
+            <li><a href="#_logs_and_directories">7.1.4. Logs and directories</a></li>
+            <li><a href="#_known_errors">7.1.5. Known errors</a></li>
+          </ul>
+        </li>
+        <li><a href="#_ahf_fleet_insights_server">7.2. AHF Fleet Insights server</a>
+          <ul>
+            <li><a href="#_status_2">7.2.1. Status</a></li>
+            <li><a href="#_uploads_of_the_clients">7.2.2. Uploads of the clients</a></li>
+            <li><a href="#_logs_and_directories_2">7.2.3. Logs and directories</a></li>
+            <li><a href="#_known_errors_2">7.2.4. Known errors</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+
+            
+	
+          </aside>
+          <main class="col-12 col-md-9 col-xl-8 ps-md-5" role="main">
+            
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
+  <ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="/docs/">Docs</a></li>
+  <li class="breadcrumb-item">
+    <a href="/docs/guides/">Guides</a></li>
+  <li class="breadcrumb-item active" aria-current="page">
+    Oracle Autonomous Health Framework (AHF)</li>
+  </ol>
+</nav>
+<div class="td-content">
+	<h1>Oracle Autonomous Health Framework (AHF)</h1>
+	
+	<header class="article-meta">
+		
+  </header>
+	
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The roles <code>ahf</code> and <code>ahf_fleet_insights</code> are under development and <em>experimental</em>.<br/>
+Breaking changes can happen at any time and are not always documented
+(e.g. in <a href="/docs/guides/breaking_changes/">Breaking Changes - Upgrade Guide</a>).
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>Oracle Autonomous Health Framework (AHF) bundles the diagnostic and health check tools of Oracle:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Trace File Analyzer (TFA): collection of diagnostic data for Service Requests, automatic collections after incidents</p>
+</li>
+<li>
+<p>Compliance checks with <code>orachk</code> (<code>exachk</code> on Engineered Systems)</p>
+</li>
+<li>
+<p>AHF Insights: offline HTML reports about the state of the server and the databases</p>
+</li>
+<li>
+<p>OS Watcher, Cluster Health Monitor and Cluster Health Advisor (Grid Infrastructure)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>AHF is not needed in every environment. This guide helps with the decisions for an installation
+and describes the usage in <code>ansible-oracle</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Role <code>ahf</code>: installation, upgrade and configuration of AHF on the database servers</p>
+</li>
+<li>
+<p>Role <code>ahf_fleet_insights</code>: AHF Fleet Insights as central web interface for many database servers</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The variables are described in <a href="/docs/roles/ahf/">roles/ahf/README.md</a>
+and <a href="/docs/roles/ahf_fleet_insights/">roles/ahf_fleet_insights/README.md</a>.</p>
+</div>
+<div class="sect1">
+<h2 id="_architecture_overview">1. Architecture overview</h2>
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/oravirt/ansible-oracle/master/doc/guides/ahf.puml" alt="Architecture"/>
+</div>
+</div>
+<div class="paragraph">
+<p>The role <code>ahf</code> installs AHF on every database server.
+The role <code>ahf_fleet_insights</code> is optional and installs the central web interface AHF Fleet Insights on a separate server.
+AHF works without Fleet Insights - the data is then evaluated locally on each database server.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Data storage</caption>
+<colgroup>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Location</th>
+<th class="tableblock halign-left valign-top">Content</th>
+<th class="tableblock halign-left valign-top">Owner</th>
+<th class="tableblock halign-left valign-top">Remark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_loc</code> (<code>/opt/oracle.ahf</code>) on the database server</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AHF software: TFA, <code>orachk</code>, <code>ahfctl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>root</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Replaced by an upgrade. No data.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_data_dir</code> (<code>/opt/oracle.ahf/data</code>) on the database server</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AHF repository: TFA collections, Compliance results, Insights reports, logs of AHF</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>root</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Primary storage of the data. Local filesystem (no NFS), size limit with <code>reposizeMB</code>, purge with <code>minfileagetopurge</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_ansible_state_file</code> (<code>/opt/oracle.ahf.ansible.json</code>) on the database server</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Settings applied by the role <code>ahf</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>root</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Detection of changed settings, see <a href="#_settings">Settings</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_fi_install_dir</code> (<code>{{ oracle_base }}/ahffi</code>) on the Fleet Insights server</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fleet Insights software, embedded Nginx, logs, processing of uploads</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_fi_install_user</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Plan 4 GB per registered cluster.</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Repository database (19c or newer)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Uploaded data of all clients: Compliance results and TFA collections</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">schema <code>AHFFI</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Central copy for the evaluation. Available when a database server is down.</p></td>
+</tr>
+</tfoot>
+</table>
+<div class="paragraph">
+<p>The data flows in one direction only: from the database servers to Fleet Insights (push over HTTPS).
+The local AHF repository stays the primary storage - a database server keeps working when Fleet Insights is not reachable.
+Fleet Insights needs no access to the database servers, neither for the collection nor for the evaluation in the browser.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The diagram is rendered by plantuml.com from the <code>master</code> branch on GitHub.
+Changes of <code>doc/guides/ahf.puml</code> are visible after the merge.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_when_is_ahf_useful">2. When is AHF useful?</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Use cases for AHF</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Situation</th>
+<th class="tableblock halign-left valign-top">Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Grid Infrastructure (RAC, Oracle Restart)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AHF is recommended. Oracle Support requests TFA collections for most Service Requests. GI contains an older TFA - a current AHF replaces it.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Single instance on filesystem with Oracle Support contract</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Useful for faster Service Requests (<code>tfactl diagcollect</code>) and regular Compliance checks.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Many database servers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AHF with AHF Fleet Insights gives a central view of the Compliance results and the collections.</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Test/development VMs, short-lived environments</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Normally not needed. The TFA daemon and the Compliance scheduler need CPU, memory and disk space.</p></td>
+</tr>
+</tfoot>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_decisions_before_the_installation">3. Decisions before the installation</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_root_or_non_root_installation">3.1. root or non-root installation</h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. Installation modes (<code>ahf_install_mode</code>)</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Feature</th>
+<th class="tableblock halign-left valign-top"><code>root</code> (default)</th>
+<th class="tableblock halign-left valign-top"><code>extract</code> (non-root)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User for the installation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>root</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_user</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TFA daemon (systemd), automatic collections</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Compliance scheduler (<code>ahfctl startahf -compliance</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Access to OS logs (<code>/var/log/messages</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AHF Fleet Insights client</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default <code>ahf_loc</code> / <code>ahf_data_dir</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/opt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_base</code></p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Recommended by Oracle</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">only when <code>root</code> is not possible</p></td>
+</tr>
+</tfoot>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_installation_directory_and_data_directory">3.2. Installation directory and data directory</h3>
+<div class="paragraph">
+<p><code>ahf_setup</code> creates <code>oracle.ahf</code> below <code>ahf_loc</code> (software) and <code>oracle.ahf/data</code> below <code>ahf_data_dir</code>
+(repository with collections, Compliance results and Insights reports).</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. Default directories</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_loc</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/opt</code> ⇒ <code>/opt/oracle.ahf</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default of Oracle. The binaries are executed by <code>root</code>.</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_data_dir</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_loc</code> ⇒ <code>/opt/oracle.ahf/data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default of Oracle. At least 5 GB, 10 GB recommended.</p></td>
+</tr>
+</tfoot>
+</table>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+With <code>ahf_install_mode: root</code> every directory in the path of <code>ahf_loc</code> <strong>and</strong> <code>ahf_data_dir</code>
+must be owned by <code>root</code>. <code>ahf_setup</code> rejects a data directory in a path of another owner
+(<code>AHF-00014: AHF Data Location …​ is not owned by root in directory hierarchy</code>).<br/>
+A directory below <code>oracle_base</code> or below a mount point of <code>host_fs_layout</code> (e.g. <code>/u01</code>, owned by <code>oracle_user</code> by default)
+is not possible: <code>oracle_user</code> could rename or replace a directory in the path and get the binaries executed by <code>root</code>.
+The role checks the owner of all directories of <code>ahf_loc</code> and <code>ahf_data_dir</code> before the installation.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>The software and the data need about 10 GB in <code>/opt/oracle.ahf</code>.
+Use a logical volume of its own for <code>/opt/oracle.ahf</code>, owned by <code>root</code>, when the root filesystem has not enough space.
+A full AHF repository does not fill the root filesystem then.</p>
+</div>
+<div class="listingblock">
+<div class="title">Logical volume of its own for AHF (role <code>orahost</code>)</div>
+<div class="content">
+<pre>host_fs_layout:
+  - vgname: vgora
+    state: present
+    filesystem:
+      - { mntp: /u01, lvname: lvorabase, lvsize: 25G, fstype: xfs }
+      - { mntp: /opt/oracle.ahf, lvname: lvahf, lvsize: 10G, fstype: xfs, owner: root, group: root, mode: &#34;0755&#34; }
+    disk:
+      - { device: /dev/sdb, pvname: /dev/sdb1 }</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The installer appends <code>oracle.ahf</code> to <code>ahf_loc</code> and <code>oracle.ahf/data</code> to <code>ahf_data_dir</code>.
+With the defaults, software and data are both in <code>/opt/oracle.ahf</code> and therefore on this logical volume.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_resource_requirements">3.3. Resource requirements</h3>
+<div class="paragraph">
+<p>The values are from the documentation of Oracle and measured in the molecule scenario <code>ahf</code>
+(AHF 26.10.2, AHF Fleet Insights 25.2.1, freshly installed, idle, 8 CPUs).</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. Database server (role <code>ahf</code>)</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Resource</th>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Disk: software <code>/opt/oracle.ahf</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.2 GB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">measured</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Disk: data <code>/opt/oracle.ahf/data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">at least 5 GB, 10 GB recommended. Grows with collections and Compliance results, limit with <code>reposizeMB</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Memory: TFA daemon</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">about 170 MB RSS (Java with <code>-Xmx256m</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">measured</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CPU: TFA daemon</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">limit by default: the lower of 4 CPUs or 75% of the CPUs (<code>ahfctl getresourcelimit</code>: <code>cpu 4.0</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle, measured</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Compliance checks (<code>orachk</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">only during the scheduled runs (default: daily 02:03, Sunday 03:03)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">not measured</p></td>
+</tr>
+</tfoot>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. AHF Fleet Insights server (role <code>ahf_fleet_insights</code>)</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Resource</th>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CPU / memory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4 cores, 16 GB RAM (minimum recommendation)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Memory idle</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">about 2.5 GB RSS (34 processes)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">measured</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Disk: software <code>ahf_fi_install_dir</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.8 GB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">measured</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Disk: data</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4 GB per registered cluster</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Repository database</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">separate database (19c or newer), e.g. Oracle Database Free: about 2.2 GB memory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">measured</p></td>
+</tr>
+</tfoot>
+</table>
+<div class="paragraph">
+<p>The CPU and memory of TFA can be limited with <code>ahfctl setresourcelimit</code>
+(only on Linux with a root installation):</p>
+</div>
+<div class="listingblock">
+<div class="title">Limit TFA to 2 CPUs and 1 GB memory</div>
+<div class="content">
+<pre>ahfctl setresourcelimit -value 2
+ahfctl setresourcelimit -resource kmem -value 1024
+ahfctl getresourcelimit</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The documentation of Oracle has different ranges for the memory limit in different releases.
+Check the allowed values with the installed release. The role <code>ahf</code> does not manage the limits.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_which_components_should_be_active">3.4. Which components should be active?</h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 7. Components and variables</caption>
+<colgroup>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Component</th>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TFA daemon</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_tfa_enabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Active for GI and production. Disable on small test systems - <code>tfactl</code> stays usable on-demand.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Automatic diagnostic collections</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_tfa_settings.autodiagcollect</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle: <code>OFF</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ON</code> for production with Service Requests. Needs space in the repository.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Compliance scheduler (<code>orachk</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_compliance_autostart</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Active, when the results are evaluated (mail or AHF Fleet Insights).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AHF Insights</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_tfa_settings.autoinsights</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle: <code>ON</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Insights are created with collections. Usable for the static web server (see below).</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AHF Fleet Insights client</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_fleet_insights_client</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Active, when an AHF Fleet Insights server exists.</p></td>
+</tr>
+</tfoot>
+</table>
+<div class="listingblock">
+<div class="title">Minimal installation: TFA on-demand only</div>
+<div class="content">
+<pre>ahf_tfa_enabled: false
+ahf_compliance_autostart: false</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Full installation for production</div>
+<div class="content">
+<pre>ahf_tfa_enabled: true
+ahf_tfa_settings:
+  autodiagcollect: &#34;ON&#34;
+  reposizeMB: 10240
+  ahfnotificationaddress: dba@example.com
+ahf_compliance_autostart: true
+ahf_compliance_settings:
+  autostart_client:
+    COLLECTION_RETENTION: 30
+ahf_fleet_insights_client: true
+ahf_fleet_insights_url: https://ahffi.example.com:5005
+ahf_fleet_insights_user: ahfclient
+ahf_fleet_insights_password: &#34;{{ vault_ahf_fleet_insights_password }}&#34;</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_systemd_cron_or_nothing">3.5. systemd, cron or nothing?</h3>
+<div class="paragraph">
+<p>The role creates no cron jobs or systemd units for AHF:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The TFA daemon is started by AHF itself (<code>oracle-tfa.service</code> / <code>init.tfa</code>).</p>
+</li>
+<li>
+<p>The Compliance checks have their own scheduler (<code>ahfctl startahf -compliance</code>).
+Oracle recommends the scheduler instead of cron. The schedule is changed with <code>AUTORUN_SCHEDULE</code>
+of an autorun ID in <code>ahf_compliance_settings</code>.</p>
+</li>
+<li>
+<p>AHF Fleet Insights clients upload their data automatically.</p>
+</li>
+<li>
+<p>The AHF Fleet Insights server starts and monitors its processes with cron entries of <code>ahf_fi_install_user</code> -
+created by the installer.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>A systemd timer is only needed for the static web server without AHF Fleet Insights (see below).</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_installation_media">4. Installation media</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>AHF should be up to date. Oracle releases a new version every quarter.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 8. Sources of the installation media</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Source</th>
+<th class="tableblock halign-left valign-top">Filename</th>
+<th class="tableblock halign-left valign-top">Remark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AutoUpgrade (role <code>autoupgrade</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name from My Oracle Support</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AHF</code> in <code>autoupgrade_download_patches</code> - always the latest version</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">My Oracle Support Doc ID 2550798.1 / patch 30166242</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AHF-LINUX_v&lt;version&gt;.zip</code> or <code>p30166242_*.zip</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">manual download into the software repository</p></td>
+</tr>
+</tfoot>
+</table>
+<div class="listingblock">
+<div class="title">Download AHF with AutoUpgrade into the software repository</div>
+<div class="content">
+<pre>autoupgrade_download_patches:
+  - target_version: 26
+    patch: AHF
+    platform: LINUX.X64</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>ansible-playbook -i inventory/ opitzconsulting.ansible_oracle.autoupgrade_download_patches</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The role <code>ahf</code> uses the newest file (modification time) matching <code>ahf_installer_patterns</code>
+in <code>oracle_sw_source_local</code> (Ansible controller) or <code>oracle_stage_remote</code> (<code>oracle_sw_copy: false</code>, e.g. NFS).
+A fixed file is set with <code>ahf_installer_archive</code>.</p>
+</div>
+<div class="paragraph">
+<p>The version is taken from the filename <code>AHF-LINUX_v&lt;version&gt;.zip</code>.
+Patch 30166242 is extracted to find the version of the inner <code>AHF-LINUX_v&lt;version&gt;.zip</code>.
+Set <code>ahf_installer_version</code>, when the version is not part of the filename.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+AHF can upgrade itself (<code>ahfctl setupgrade -autoupgrade on -swstage &lt;dir&gt;</code>).
+This is not used by <code>ansible-oracle</code>. An upgrade with the role is reproducible, uses the software repository
+and the signature check, and is executed at a planned time.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_installation_and_configuration_with_role_ahf">5. Installation and configuration with role <code>ahf</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Requirements:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Perl 5.10 or newer with all core modules - the package <code>perl</code>, <code>perl-interpreter</code> alone is not enough
+(<code>AHF-00074: Required Perl Modules not found</code>).
+The role installs <code>perl</code>, <code>openssl</code> and <code>unzip</code> (<code>ahf_packages</code>, <code>ahf_manage_packages</code>).</p>
+</li>
+<li>
+<p>Python module <code>pexpect</code> on the database server for the registration in AHF Fleet Insights</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The role executes these steps:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Check of variables, Perl and the owner of <code>ahf_loc</code></p>
+</li>
+<li>
+<p>Installation with <code>ahf_setup -silent -local</code> when AHF is missing, or upgrade when the installation media is newer (<code>ahf_upgrade</code>)</p>
+</li>
+<li>
+<p>Check of the signature of <code>ahf_setup</code> (<code>ahf_verify_signature</code>)</p>
+</li>
+<li>
+<p>Start/stop of TFA and the Compliance scheduler, <code>tfactl set</code> and <code>orachk -set</code> for changed settings</p>
+</li>
+<li>
+<p>Registration or deregistration in AHF Fleet Insights</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="title">Install AHF on all database servers</div>
+<div class="content">
+<pre>ansible-playbook -i inventory/ opitzconsulting.ansible_oracle.ahf -e hostgroup=dbfs</pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_settings">5.1. Settings</h3>
+<div class="paragraph">
+<p><code>ahf_tfa_settings</code> is executed with <code>tfactl set &lt;key&gt;=&lt;value&gt;</code>,
+<code>ahf_compliance_settings</code> with <code>orachk -set &#34;&lt;key&gt;=&lt;value&gt;;…​&#34; -id &lt;autorun ID&gt;</code> - one call per autorun ID.
+<code>orachk -set</code> requires <code>AUTORUN_SCHEDULE</code> in every call: the role adds the current schedule, when it is not part of the settings.</p>
+</div>
+<div class="paragraph">
+<p>The Compliance settings are stored per autorun ID by AHF.
+The autoruns exist only with a running Compliance scheduler: <code>ahfctl stopahf -compliance</code> removes them,
+<code>ahfctl startahf -compliance</code> does not recreate them. The role creates the default autoruns of Oracle with
+<code>orachk -autostart</code>, when they are missing, and applies <code>ahf_compliance_settings</code> again.
+<code>ahf_compliance_settings</code> requires <code>ahf_compliance_autostart: true</code>.</p>
+</div>
+<div class="paragraph">
+<p>A new installation has two autorun IDs (<code>orachk -get all -id all</code> shows them with the prefix <code>orachk.</code>):</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 9. Autoruns of a new installation (AHF 26.10)</caption>
+<colgroup>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Autorun ID</th>
+<th class="tableblock halign-left valign-top"><code>AUTORUN_SCHEDULE</code></th>
+<th class="tableblock halign-left valign-top">Checks</th>
+<th class="tableblock halign-left valign-top"><code>COLLECTION_RETENTION</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autostart_client_oratier1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3 2 * * 1,2,3,4,5,6</code> (Monday - Saturday 02:03)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">profile <code>oratier1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7 days</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autostart_client</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3 3 * * 0</code> (Sunday 03:03)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">all checks</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">14 days</p></td>
+</tr>
+</tfoot>
+</table>
+<div class="listingblock">
+<div class="title">Daily checks at 01:30 and a longer retention of the weekly results</div>
+<div class="content">
+<pre>ahf_compliance_settings:
+  autostart_client_oratier1:
+    AUTORUN_SCHEDULE: &#34;30 1 * * 1-6&#34;
+  autostart_client:
+    COLLECTION_RETENTION: 30</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The role stores the applied settings in <code>ahf_ansible_state_file</code> (<code>/opt/oracle.ahf.ansible.json</code>).
+A setting is executed only, when it differs from the last run.
+Manual changes with <code>tfactl</code> are not detected. <code>-e ahf_settings_force=true</code> executes all settings again.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Removing a key from <code>ahf_tfa_settings</code> does not reset the setting in AHF.
+Set the default value of Oracle instead.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_cluster">5.2. Cluster</h3>
+<div class="paragraph">
+<p>The role installs AHF with <code>-local</code> on each host of the play.
+Execute <code>tfactl syncnodes</code> once after the installation on all nodes of a cluster.
+An existing TFA of Grid Infrastructure is upgraded by <code>ahf_setup</code>.</p>
+</div>
+<div class="paragraph">
+<p><code>ahf_setup</code> uses the Perl of the Grid Infrastructure home on hosts with Oracle Restart or RAC.
+This Perl is owned by the GI owner and is rejected for a root installation
+(<code>AHF-00026: Perl is not owned by root</code>).
+The role passes the Perl of the OS with <code>-perlhome /usr</code> (<code>ahf_perl_home</code>) and checks its owner.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_uninstall">5.3. Uninstall</h3>
+<div class="listingblock">
+<div class="title">Uninstall AHF</div>
+<div class="content">
+<pre>ansible-playbook -i inventory/ opitzconsulting.ansible_oracle.ahf -e hostgroup=dbfs -e ahf_state=absent</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The repository in <code>ahf_data_dir</code> is kept. <code>ahf_uninstall_delete_repo: true</code> removes it.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_central_evaluation_of_many_servers">6. Central evaluation of many servers</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_architecture">6.1. Architecture</h3>
+<div class="paragraph">
+<p>The data stays on the database servers and is pushed to a central server:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The AHF repository is a local directory on the database server.
+An NFS share for the repository is not needed - a hanging NFS server has no impact on the database server.</p>
+</li>
+<li>
+<p>The database servers send their data to the central server (push).
+The central server needs no access to the database servers - neither for the collection
+nor for the evaluation.</p>
+</li>
+<li>
+<p>The data is available on the central server, when the database server is down.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>A pull from the central server (e.g. <code>rsync</code> over SSH from each database server) is possible as well,
+but requires access of the central server to all database servers.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ahf_fleet_insights">6.2. AHF Fleet Insights</h3>
+<div class="paragraph">
+<p>AHF Fleet Insights is the web interface of Oracle for many AHF clients (My Oracle Support Doc ID 3043060.1).</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Registered clients upload Compliance results (<code>orachk</code>) and TFA collections automatically.</p>
+</li>
+<li>
+<p>The data is stored in a repository database (Oracle Database 19c or newer).
+Oracle AI Database 26ai needs no additional license for the repository.</p>
+</li>
+<li>
+<p>The web application (with an embedded Nginx) runs as non-root user on port <code>ahf_fi_port</code> (5005) with HTTPS.</p>
+</li>
+<li>
+<p>Requirements: Oracle Linux / RHEL 8 or newer (x86_64), Java 22 or newer, Oracle Instant Client (Basic, SQL*Plus),
+4 cores, 16 GB RAM and 4 GB disk space per registered cluster.</p>
+</li>
+<li>
+<p>Clients need AHF 24.9 or newer.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The Oracle documentation describes the registration for clusters (&#34;AHF Client must be running on a cluster&#34;),
+but describes the fleet as &#34;database clusters or single-instance systems&#34;.
+Check the registration of single instance servers before planning AHF Fleet Insights for them.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="sect3">
+<h4 id="_repository_database">6.2.1. Repository database</h4>
+<div class="paragraph">
+<p>Fleet Insights needs a schema user in the repository database, before the role <code>ahf_fleet_insights</code> is executed.
+The role does not create it.
+The installation media contains the script <code>create_db_user.sql</code> (in <code>ahf_fleet_setup_onprem.zip</code>)
+with placeholders for the password and the tablespace:</p>
+</div>
+<div class="listingblock">
+<div class="title">create_db_user.sql of AHFFI-LINUX_v25.2.1.zip</div>
+<div class="content">
+<pre>CREATE USER AHFFI IDENTIFIED BY &lt;password&gt; DEFAULT TABLESPACE &lt;tablespace&gt;;
+GRANT CREATE SESSION TO AHFFI;
+GRANT CONNECT, RESOURCE TO AHFFI;
+GRANT CREATE TABLE TO AHFFI;
+GRANT INSERT ANY TABLE TO AHFFI;
+alter user AHFFI quota unlimited on &lt;tablespace&gt;;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Optionally, the repository database and the user are managed with <code>ansible-oracle</code>, e.g. a PDB
+in <code>oracle_pdbs</code> with the user in <code>users</code> (role <code>oradb_manage_users</code>).
+The password is taken from <code>dbpasswords</code> like for every other user.</p>
+</div>
+<div class="listingblock">
+<div class="title">Schema user for Fleet Insights in a PDB of ansible-oracle</div>
+<div class="content">
+<pre>oracle_pdbs:
+  - cdb: DB1
+    home: db26-si-ee
+    pdb_name: AHFFI
+    pdbadmin_user: PDBADMIN
+    listener_port: 1521
+    state: present
+    users:
+      - schema: AHFFI
+        state: present
+        default_tablespace: USERS
+        grants:
+          - create session
+          - connect
+          - resource
+          - create table
+          - insert any table
+        quotas:
+          - tablespace: USERS
+            size: unlimited
+
+dbpasswords:
+  DB1:
+    AHFFI:
+      AHFFI: &#34;{{ vault_ahf_fi_db_password }}&#34;
+
+ahf_fi_db_service: AHFFI
+ahf_fi_db_user: AHFFI
+ahf_fi_db_password: &#34;{{ vault_ahf_fi_db_password }}&#34;</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Check the grants of <code>create_db_user.sql</code> of a new release of Fleet Insights.
+The molecule scenario <code>ahf</code> creates the user directly with SQL*Plus in an Oracle Database Free container.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_installation">6.2.2. Installation</h4>
+<div class="listingblock">
+<div class="title">Inventory for AHF Fleet Insights</div>
+<div class="content">
+<pre>ahf_fi_db_host: ahffi.example.com
+ahf_fi_db_port: 1521
+ahf_fi_db_service: ahffi.example.com
+ahf_fi_db_user: AHFFI
+ahf_fi_db_password: &#34;{{ vault_ahf_fi_db_password }}&#34;
+ahf_fi_registration_user: ahfclient
+ahf_fi_registration_password: &#34;{{ vault_ahf_fleet_insights_password }}&#34;</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Install AHF Fleet Insights</div>
+<div class="content">
+<pre>ansible-playbook -i inventory/ opitzconsulting.ansible_oracle.ahf_fleet_insights -e hostgroup=ahffi</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The role:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>installs <code>cronie</code>, <code>iproute</code>, <code>hostname</code>, the Oracle JDK and Oracle Instant Client (<code>ahf_fi_packages</code>)</p>
+</li>
+<li>
+<p>installs Fleet Insights with <code>ahf_fleet_setup -quiet &lt;properties&gt;</code> as <code>ahf_fi_install_user</code>
+and creates the registration user, or patches an existing installation when the installation media is newer</p>
+</li>
+<li>
+<p>opens <code>ahf_fi_port</code> in firewalld</p>
+</li>
+<li>
+<p>starts Fleet Insights (<code>ahffi start</code>), when <code>ahffi status</code> does not report it as running, and waits
+for the web application on <code>ahf_fi_port</code> (<code>ahf_fi_start_timeout</code>)</p>
+</li>
+<li>
+<p>provides the public certificate as fact <code>ahf_fi_public_cert</code> and optionally as file on the
+Ansible controller (<code>ahf_fi_public_cert_fetch</code>)</p>
+</li>
+<li>
+<p>shows <code>ahffi status</code> and the registration command from <code>ahffi info</code></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The properties file with the passwords is removed after the installation.</p>
+</div>
+<div class="paragraph">
+<p>Fleet Insights has no systemd unit. Its processes are started by cron entries of <code>ahf_fi_install_user</code>,
+created by the installer - <code>crond</code> must be running.</p>
+</div>
+<div class="paragraph">
+<p>The installer creates a self-signed certificate with the hostname as CN, but without Subject Alternative Name (SAN).
+AHF clients (AHF 26.x, Python 3.13) check only the SAN and reject it with
+<code>CERTIFICATE_VERIFY_FAILED …​ Hostname mismatch, certificate is not valid for &#39;&lt;host&gt;&#39;</code>.
+The role replaces it (<code>ahffi importcert</code>, Fleet Insights is restarted):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ahf_fi_cert_generate: true</code> (default): self-signed certificate with the SAN <code>ahf_fi_cert_names</code>
+(default: hostname and FQDN). The clients must use one of these names in <code>ahf_fleet_insights_url</code>.</p>
+</li>
+<li>
+<p><code>ahf_fi_cert_file</code> / <code>ahf_fi_cert_key_file</code>: own certificate, e.g. from an internal CA.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_login_to_the_web_interface">6.2.3. Login to the web interface</h4>
+<div class="paragraph">
+<p>The URL of the web interface is shown by <code>ahffi info</code> (<code>Application URL</code>), e.g. <code><a class="bare" href="https://ahffi.example.com:5005/ahfservice">https://ahffi.example.com:5005/ahfservice</a></code>.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 10. Default login of the installer</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">User</th>
+<th class="tableblock halign-left valign-top">Password</th>
+<th class="tableblock halign-left valign-top">Remark</th>
+</tr>
+</thead>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>fleet_admin</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>welcome1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">UI administrator with access to the data of the whole fleet. The password must be changed at the first login.</p></td>
+</tr>
+</tfoot>
+</table>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Change the password of <code>fleet_admin</code> immediately after the installation.
+The generic registration user (<code>ahf_fi_registration_user</code>) is only used by the AHF clients for the registration and the upload,
+not for the web interface.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+In the molecule scenario <code>ahf</code> the web interface is published on the host: <code><a class="bare" href="https://localhost:5005/ahfservice">https://localhost:5005/ahfservice</a></code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="sect4">
+<h5 id="_reset_the_password_of_fleet_admin">6.2.3.1. Reset the password of fleet_admin</h5>
+<div class="paragraph">
+<p>Oracle documents no reset of a forgotten password of <code>fleet_admin</code>.
+The UI users are stored in the table <code>AHFFI_USERS</code> of the repository schema (<code>ahf_fi_db_user</code>).
+The installer writes the hash of the default password <code>welcome1</code> into this table (<code>install_ahf_service.sh</code>, variable <code>ahffi_admin_default</code>).
+Setting this hash again resets the password to <code>welcome1</code>, the new password is set at the next login.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+This procedure is derived from the installer of AHF Fleet Insights 25.2.1 and is not documented by Oracle.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Reset the password of fleet_admin to welcome1 (as <code>ahf_fi_install_user</code> on the Fleet Insights server)</div>
+<div class="content">
+<pre>cd &lt;ahf_fi_install_dir&gt;
+HASH=$(sed -n &#39;s/^ahffi_admin_default=&#34;\(.*\)&#34;/\1/p&#39; install_ahf_service.sh)
+
+sqlplus &lt;ahf_fi_db_user&gt;@//&lt;ahf_fi_db_host&gt;:&lt;ahf_fi_db_port&gt;/&lt;ahf_fi_db_service&gt; &lt;&lt;EOF
+update ahffi_users
+   set user_password = &#39;${HASH}&#39;, status = &#39;ENABLED&#39;, update_date = sysdate
+ where user_id = &#39;fleet_admin&#39;;
+commit;
+EOF</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The installer sets the default password, when the hash in <code>AHFFI_USERS</code> differs from it (<code>register_admin_user</code>).
+Check the password of <code>fleet_admin</code> after a patch of Fleet Insights.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_registration_of_the_clients">6.2.4. Registration of the clients</h4>
+<div class="listingblock">
+<div class="title">Register the database servers</div>
+<div class="content">
+<pre>ahf_fleet_insights_client: true
+ahf_fleet_insights_url: https://ahffi.example.com:5005
+ahf_fleet_insights_user: ahfclient
+ahf_fleet_insights_password: &#34;{{ vault_ahf_fleet_insights_password }}&#34;
+# self-signed certificate of Fleet Insights (ahf_fi_public_cert_fetch of role ahf_fleet_insights)
+ahf_fleet_insights_public_cert: &#34;{{ lookup(&#39;ansible.builtin.file&#39;, inventory_dir + &#39;/files/ahffi_cert.pem&#39;) }}&#34;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The client checks the certificate of Fleet Insights.
+With the self-signed certificate of the installer the registration fails with <code>CERTIFICATE_VERIFY_FAILED</code>,
+unless the certificate is passed with <code>ahf_fleet_insights_public_cert</code> (<code>ahf configuration set --public-cert</code>).
+Fetch it with <code>ahf_fi_public_cert_fetch</code> while installing Fleet Insights:</p>
+</div>
+<div class="listingblock">
+<div class="title">Fetch the certificate to the Ansible controller</div>
+<div class="content">
+<pre>ahf_fi_public_cert_fetch: &#34;{{ inventory_dir }}/files/ahffi_cert.pem&#34;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The URL must use a name of the SAN of the certificate (<code>ahf_fi_cert_names</code>).
+The certificate file on the client must be readable by the owner only (<code>AHF-07275</code>), the role writes it with mode <code>0600</code>.</p>
+</div>
+<div class="paragraph">
+<p>The registration asks twice for the password of the registration user, the role answers it with <code>ansible.builtin.expect</code>
+(Python module <code>pexpect</code> on the database server).
+It is executed with <code>--os-user {{ oracle_user }}</code> (<code>ahf_fleet_insights_os_user</code>).
+Without an OS user for the REST access, the registration fails with
+<code>AHF-02119: Fleet Insights configuration succeeded, but the REST Agent was not started</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>ansible-playbook -i inventory/ opitzconsulting.ansible_oracle.ahf -e hostgroup=dbfs</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The URL is the URL of <code>ahffi info</code> without <code>/ahfservice</code>.
+<code>ahf_fleet_insights_force_register: true</code> registers again, e.g. after a password change.
+<code>ahf_fleet_insights_client: false</code> deregisters a client registered by the role.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_data_in_ahf_fleet_insights">6.2.5. Data in AHF Fleet Insights</h4>
+<div class="paragraph">
+<p>A registered client uploads its data automatically. The views of Fleet Insights are filled by different data:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 11. Data and views of Fleet Insights</caption>
+<colgroup>
+<col style="width: 16.6666%;"/>
+<col style="width: 16.6666%;"/>
+<col style="width: 16.6666%;"/>
+<col style="width: 25%;"/>
+<col style="width: 25.0002%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Data</th>
+<th class="tableblock halign-left valign-top">View in Fleet Insights</th>
+<th class="tableblock halign-left valign-top">Automatic on the client</th>
+<th class="tableblock halign-left valign-top">Manual start (as <code>root</code>)</th>
+<th class="tableblock halign-left valign-top">Inventory (role <code>ahf</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Topology: database servers, databases (CDB, PDB), ASM, clusters</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fleet Topology, Databases, Database Servers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AHF Insights collection at 05:00 and 17:00</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tfactl diagcollect -insights -last 1h -silent</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_fleet_insights_client: true</code> (no further setting)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Problems, events, OS issues, system changes, patches, RPMs, space</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Insights (Detected Problems, Events, …​), Space Analysis</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AHF Insights collection at 05:00 and 17:00</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tfactl diagcollect -insights -last 1h -silent</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_fleet_insights_client: true</code> (no further setting)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Compliance results (<code>orachk</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Insights &gt; Best Practice Issues</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Compliance scheduler</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>orachk -usediscovery -profile ahf -showpass -tag manual_check -readenvconfig</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_compliance_autostart: true</code>, schedule in <code>ahf_compliance_settings</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Diagnostic collections with log and trace files</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">collections of the clients</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">automatic collections after incidents</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tfactl diagcollect -database &lt;db&gt; -last 1h -silent</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_properties: {ahf.fleet-insights.upload-only-minimal-files: &#34;false&#34;}</code>, <code>ahf_tfa_settings: {autodiagcollect: &#34;ON&#34;}</code></p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Capacity</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fleetwide Capacity Analysis, Cluster-Wise Usage Trends</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">capacity plugin of Fleet Insights and <code>exachk</code> (Exadata)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">not supported</p></td>
+</tr>
+</tfoot>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 12. Collector options on the CLI and in the inventory of the role <code>ahf</code></caption>
+<colgroup>
+<col style="width: 27.2727%;"/>
+<col style="width: 36.3636%;"/>
+<col style="width: 36.3637%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Option</th>
+<th class="tableblock halign-left valign-top">CLI (as <code>root</code>)</th>
+<th class="tableblock halign-left valign-top">Inventory (role <code>ahf</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Automatic diagnostic collections after incidents</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tfactl set autodiagcollect=ON</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_tfa_settings: {autodiagcollect: &#34;ON&#34;}</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AHF Insights in automatic collections</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tfactl set autoinsights=ON</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_tfa_settings: {autoinsights: &#34;ON&#34;}</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Size of the TFA repository</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tfactl set reposizeMB=10240</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_tfa_settings: {reposizeMB: 10240}</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Upload of complete collections (log and trace files)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf configuration set --property ahf.fleet-insights.upload-only-minimal-files --value false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_properties: {ahf.fleet-insights.upload-only-minimal-files: &#34;false&#34;}</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Alert History: timeline of ASM events (only ASM: <code>dismount</code>, <code>dismount_force</code>, <code>offline</code>, <code>mount</code>, last 30 days), view with <code>ahf analysis create --type alert-history --component ASM</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf configuration set --property ahf.collectors.alert-history --value on</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_properties: {ahf.collectors.alert-history: &#34;on&#34;}</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Events of the alert logs of databases, ASM and Clusterware (base of the automatic collections), view with <code>tfactl events</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">always active with a running TFA daemon</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_tfa_enabled: true</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enhanced OS metrics</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf configuration set --property ahf.collectors.enhanced_os_metrics --value on</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_properties: {ahf.collectors.enhanced_os_metrics: &#34;on&#34;}</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Checks excluded from the Compliance checks</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf configuration set --property ahf.compliance.excluded-check-ids --value &lt;id&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_properties: {ahf.compliance.excluded-check-ids: &#34;&lt;id&gt;&#34;}</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Compliance scheduler</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahfctl startahf -compliance</code> / <code>ahfctl stopahf -compliance</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_compliance_autostart: true</code> / <code>false</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Schedule and retention of a Compliance autorun</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>orachk -set &#34;AUTORUN_SCHEDULE=30 1 * * 1-6;COLLECTION_RETENTION=30&#34; -id autostart_client_oratier1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_compliance_settings: {autostart_client_oratier1: {AUTORUN_SCHEDULE: &#34;30 1 * * 1-6&#34;, COLLECTION_RETENTION: 30}}</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Additional directory for collections</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tfactl directory add &lt;dir&gt; -public -noexclusions</code> (asks for component, database, instance)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_tfa_directories: [{path: &lt;dir&gt;, component: RDBMS, database: &lt;db&gt;, instance: &lt;sid&gt;, collection: noexclusions}]</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TFA daemon</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tfactl enable</code> + <code>ahfctl startahf -tfa</code> / <code>ahfctl stopahf -tfa</code> + <code>tfactl disable</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_tfa_enabled: true</code> / <code>false</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Registration in Fleet Insights</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf configuration set --type fleet-insights --user-name &lt;user&gt; --url &lt;url&gt; --public-cert &lt;file&gt; --os-user oracle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_fleet_insights_client: true</code>, <code>ahf_fleet_insights_url</code>, <code>ahf_fleet_insights_user</code>, <code>ahf_fleet_insights_password</code>, <code>ahf_fleet_insights_public_cert</code></p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CPU and memory limit of TFA</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahfctl setresourcelimit -value 2</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">not supported, see <a href="#_resource_requirements">Resource requirements</a></p></td>
+</tr>
+</tfoot>
+</table>
+<div class="paragraph">
+<p>The role executes a setting only, when it differs from the last run (state file <code>ahf_ansible_state_file</code>).
+Manual changes on the CLI are not detected - <code>-e ahf_settings_force=true</code> executes all settings again.</p>
+</div>
+<div class="paragraph">
+<p>The data is processed about 2 minutes after the upload. A new client shows its databases after the first Insights collection.
+The role <code>ahf</code> does not start a collection - start one manually, when the data is needed immediately.</p>
+</div>
+<div class="sect4">
+<h5 id="_log_files_and_diag_dest_of_the_databases">6.2.5.1. Log files and diag_dest of the databases</h5>
+<div class="paragraph">
+<p>TFA discovers the directories of Grid Infrastructure, ASM, listeners and the running databases automatically,
+including the ADR (<code>diag_dest</code>) of each database with the database and instance name:</p>
+</div>
+<div class="listingblock">
+<div class="title">Directories discovered by TFA (example from Oracle Restart, shortened)</div>
+<div class="content">
+<pre>tfactl print directories
+| /u01/app/oracle/diag/rdbms/dbhas/DBHAS/trace | [RDBMS]{RDBMS|database=dbhas, RDBMS|instance=DBHAS} | public | root |
+| /u01/app/oracle/diag/asm/+asm/+ASM/trace     | [ASM]{ASM|instance=+ASM}                            | public | root |</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Directories, which are not discovered (e.g. audit files or log files of an application), are added with <code>ahf_tfa_directories</code>.
+The role answers the questions of <code>tfactl directory add</code> (component, database, instance) and removes directories,
+which it has added and which are no longer in the list.</p>
+</div>
+<div class="paragraph">
+<p>By default the clients upload only minimal files into Fleet Insights: the Insights data and the Compliance results.
+Diagnostic collections with the log and trace files are uploaded only with <code>ahf.fleet-insights.upload-only-minimal-files: false</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The property <code>ahf.fleet-insights.upload-only-minimal-files</code> is not documented by Oracle.
+The behavior is observed with AHF 26.10: with <code>true</code> (default) a <code>tfactl diagcollect -database</code> is not uploaded, with <code>false</code> it is uploaded.
+Complete collections need more space in the repository database and on the Fleet Insights server.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Upload of log files and an additional directory</div>
+<div class="content">
+<pre>ahf_properties:
+  ahf.fleet-insights.upload-only-minimal-files: &#34;false&#34;
+
+ahf_tfa_directories:
+  - path: /u01/app/oracle/admin/DB1/adump
+    component: RDBMS
+    database: db1
+    instance: DB1
+    collection: noexclusions</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The properties of AHF are set with <code>ahf configuration set --property &lt;name&gt; --value &lt;value&gt;</code> (<code>ahf_properties</code>).
+<code>ahf configuration get --help</code> lists the supported properties, <code>ahf configuration get --property &lt;name&gt;</code> shows the value.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_check_the_upload_on_the_client">6.2.6. Check the upload on the client</h4>
+<div class="paragraph">
+<p><code>ahf configuration check --type fleet-insights</code> tests the upload of a client into Fleet Insights.
+The commands for the clients and the Fleet Insights server, the manual start of a collection with upload
+and the known errors are described in <a href="#_troubleshooting">Troubleshooting</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_alternative_static_web_server_with_ahf_insights">6.3. Alternative: static web server with AHF Insights</h3>
+<div class="paragraph">
+<p>This variant is not implemented in <code>ansible-oracle</code>. It is an option for environments without a repository database.</p>
+</div>
+<div class="paragraph">
+<p>AHF Insights reports are offline HTML reports (zip file with <code>index.html</code>) - they need no server component.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>A systemd timer on the database server creates a report and copies it to the web server:</p>
+<div class="listingblock">
+<div class="content">
+<pre># /etc/systemd/system/ahf-insights-push.service
+[Unit]
+Description=Create AHF Insights report and push it to the web server
+
+[Service]
+Type=oneshot
+ExecStart=/opt/oracle.ahf/bin/ahf analysis create --type insights --last 24h
+ExecStart=/usr/bin/rsync -a --include=&#39;*/&#39; --include=&#39;*insights*.zip&#39; --exclude=&#39;*&#39; \
+  /u01/app/oracle/ahf/oracle.ahf/data/repository/ ahfpush@web.example.com:</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># /etc/systemd/system/ahf-insights-push.timer
+[Timer]
+OnCalendar=daily
+RandomizedDelaySec=1h
+Persistent=true
+
+[Install]
+WantedBy=timers.target</pre>
+</div>
+</div>
+</li>
+<li>
+<p>The SSH key of the database server is restricted to a directory on the web server with <code>rrsync</code>
+(<code>command=&#34;rrsync -wo /srv/ahf/&lt;host&gt;&#34;</code> in <code>authorized_keys</code>).</p>
+</li>
+<li>
+<p>The web server (Nginx/httpd) extracts the reports (e.g. with a systemd path unit) and serves the directories as static files.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>A systemd timer is preferred to cron: random delay (<code>RandomizedDelaySec</code>), catch-up after downtime (<code>Persistent</code>)
+and the output in the journal.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 13. Comparison of the variants</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Criteria</th>
+<th class="tableblock halign-left valign-top">AHF Fleet Insights</th>
+<th class="tableblock halign-left valign-top">Static web server</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Product</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle, supported</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">own solution</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Compliance results and TFA collections, aggregated</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">single Insights reports per host and day</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Requirements</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">repository database, Java, Instant Client, 16 GB RAM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">web server, SSH/rsync</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Transport</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HTTPS by the AHF client</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rsync over SSH</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Overview of the fleet</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no - one report per host</p></td>
+</tr>
+</tfoot>
+</table>
+<div class="paragraph">
+<p>The Health Check Collection Manager (APEX application for <code>orachk -setdbupload</code>) is an older alternative
+for Compliance results only. It is not supported by <code>ansible-oracle</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_troubleshooting">7. Troubleshooting</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The commands are executed as <code>root</code> on the database server (<code>/opt/oracle.ahf/bin</code> with the default <code>ahf_loc</code>)
+and as <code>ahf_fi_install_user</code> in <code>ahf_fi_install_dir</code> on the Fleet Insights server.</p>
+</div>
+<div class="sect2">
+<h3 id="_database_server_ahf_client">7.1. Database server (AHF client)</h3>
+<div class="sect3">
+<h4 id="_status">7.1.1. Status</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 14. Status of AHF on the database server</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Command</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahfctl statusahf</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Status of TFA (PID, port, version) and the Compliance scheduler</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf software get-version --component all</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Installed versions of AHF, TFA and Compliance</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tfactl print config</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Settings of TFA (<code>ahf_tfa_settings</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tfactl print directories</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Trace directories discovered by TFA, e.g. <code>CRS</code>, <code>ASM</code>, <code>RDBMS</code> with Oracle Restart</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahfctl getresourcelimit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CPU and memory limits of TFA</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>orachk -get all -id all</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Compliance autoruns with <code>AUTORUN_SCHEDULE</code> and <code>COLLECTION_RETENTION</code> (<code>ahf_compliance_settings</code>)</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cat /opt/oracle.ahf.ansible.json</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Settings and registration applied by the role <code>ahf</code> (<code>ahf_ansible_state_file</code>)</p></td>
+</tr>
+</tfoot>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_connection_to_fleet_insights">7.1.2. Connection to Fleet Insights</h4>
+<div class="listingblock">
+<div class="title">Test the upload into Fleet Insights</div>
+<div class="content">
+<pre>ahf configuration check --type fleet-insights</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The command uploads a test file (<code>TestUploadFile.txt</code>) into Fleet Insights and checks the complete path including the certificate:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Parameters for &#39;odbda&#39; are configured correctly</code> (rc 0): the upload works.</p>
+</li>
+<li>
+<p><code>Parameters are not configured correctly to upload</code> (rc 1): the upload fails.
+The message has no details, check the known errors below.
+After a new installation or a new certificate of Fleet Insights, run the role <code>ahf</code> again - it registers the client again,
+when the certificate has changed. <code>ahf_fleet_insights_force_register: true</code> registers again in any case.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The client has no log of its uploads. Failed uploads of Compliance results are kept and can be uploaded again:</p>
+</div>
+<div class="listingblock">
+<div class="title">Failed uploads of Compliance results</div>
+<div class="content">
+<pre>orachk -checkservicefaileduploads    # list failed uploads
+orachk -uploadservicefailed          # upload them again</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_collect_data_and_upload_it_immediately">7.1.3. Collect data and upload it immediately</h4>
+<div class="paragraph">
+<p>The registered client uploads Compliance results and TFA collections automatically.
+For a check in the web interface, a collection can be started manually:</p>
+</div>
+<div class="listingblock">
+<div class="title">Compliance check with upload (profile <code>ahf</code>: about 1 minute)</div>
+<div class="content">
+<pre>orachk -usediscovery -profile ahf -showpass -tag manual_check -readenvconfig</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The output ends with <code>&lt;name&gt; successfully uploaded to Autonomous Health Framework Service</code>.
+Other profiles (<code>orachk -profile -h</code>), e.g. <code>dba</code> or <code>clusterware</code>, take longer. Without <code>-profile</code>, all checks are executed.</p>
+</div>
+<div class="listingblock">
+<div class="title">TFA collection of the last hour with AHF Insights and upload</div>
+<div class="content">
+<pre>tfactl diagcollect -insights -last 1h -silent</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The dashboard of Fleet Insights is built from AHF Insights data. The clients collect it at 05:00 and 17:00,
+<code>-insights</code> uploads it immediately (about 2 minutes until the data is processed).
+<code>-silent</code> starts the collection in the background without questions.
+Without it, <code>tfactl diagcollect</code> asks for an event or an event time (e.g. on hosts with Grid Infrastructure).
+The status is shown by <code>tfactl print actions</code> and <code>tfactl print collections</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_logs_and_directories">7.1.4. Logs and directories</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 15. Logs on the database server (default <code>ahf_loc</code> / <code>ahf_data_dir</code>)</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/opt/oracle.ahf/data/&lt;host&gt;/diag</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Logs of AHF (requested by Oracle Support for <code>AHF-00005</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/opt/oracle.ahf/data/&lt;host&gt;/orachk/user_root/output</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Compliance results (<code>orachk_&lt;host&gt;_&lt;date&gt;_&lt;tag&gt;.zip</code>, HTML report)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/opt/oracle.ahf/data/repository</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TFA collections and Insights reports</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/opt/oracle.ahf/data/ahf/diag/ahf</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Log of the installation (<code>ahf_install_*.log</code>)</p></td>
+</tr>
+</tfoot>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_known_errors">7.1.5. Known errors</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 16. Known errors on the database server</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Message</th>
+<th class="tableblock halign-left valign-top">Cause</th>
+<th class="tableblock halign-left valign-top">Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AHF-00014: AHF Data Location …​ is not owned by root in directory hierarchy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_data_dir</code> below a directory of <code>oracle_user</code>, e.g. <code>oracle_base</code> or <code>/u01</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_data_dir</code> in a path owned by <code>root</code> (default <code>/opt</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AHF-00026: Perl is not owned by root</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_setup</code> uses the Perl of the GI-Home (Oracle Restart, RAC)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_perl_home: /usr</code> (default)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AHF-00074: Required Perl Modules not found</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">only <code>perl-interpreter</code> is installed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">package <code>perl</code> (<code>ahf_packages</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>No scheduler for any ID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahfctl stopahf -compliance</code> removed the autoruns</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_compliance_autostart: true</code>, the role recreates them with <code>orachk -autostart</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AUTORUN_SCHEDULE is a mandatory field to setup autorun entries</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>orachk -set</code> without <code>AUTORUN_SCHEDULE</code> or with an unknown autorun ID</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the role adds the current schedule, the ID is used without <code>orachk.</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CERTIFICATE_VERIFY_FAILED …​ self-signed certificate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">certificate of Fleet Insights is unknown to the client</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_fleet_insights_public_cert</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CERTIFICATE_VERIFY_FAILED …​ Hostname mismatch</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">certificate of Fleet Insights without SAN or the URL uses another name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_fi_cert_generate</code> / <code>ahf_fi_cert_names</code> on the server, a name of the SAN in <code>ahf_fleet_insights_url</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AHF-07275: Restrict the certificate file to the owner only</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">certificate file readable by others</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mode <code>0600</code> (done by the role)</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AHF-02119: …​ the REST Agent was not started</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">registration without OS user for the REST access</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_fleet_insights_os_user</code> (default <code>oracle_user</code>)</p></td>
+</tr>
+</tfoot>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ahf_fleet_insights_server">7.2. AHF Fleet Insights server</h3>
+<div class="sect3">
+<h4 id="_status_2">7.2.1. Status</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 17. Status of Fleet Insights (as <code>ahf_fi_install_user</code> in <code>ahf_fi_install_dir</code>)</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Command</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>./ahffi status</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Status of the web application and the collection processing engine</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>./ahffi info</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">URL of the web interface and registration command for the clients</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>./ahffi version</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Installed version</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>./ahffi diagnose</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Diagnostics of Fleet Insights</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>./ahffi start</code> / <code>./ahffi stop</code> / <code>./ahffi restart</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Start and stop of all processes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>crontab -l</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cron entries, which start and monitor the processes (no systemd unit)</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ss -ltnp | grep 5005</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Nginx listens on <code>ahf_fi_port</code></p></td>
+</tr>
+</tfoot>
+</table>
+<div class="listingblock">
+<div class="title">Certificate of Fleet Insights (CN and SAN)</div>
+<div class="content">
+<pre>echo | openssl s_client -connect &lt;host&gt;:5005 2&gt;/dev/null | openssl x509 -noout -subject -ext subjectAltName -dates</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_uploads_of_the_clients">7.2.2. Uploads of the clients</h4>
+<div class="paragraph">
+<p>The access log of Nginx shows the registrations and uploads of all clients:</p>
+</div>
+<div class="listingblock">
+<div class="title">Registrations and uploads in the access log</div>
+<div class="content">
+<pre>LOG=&lt;ahf_fi_install_dir&gt;/ahf_service/third_party/nginx/logs/access.log
+grep &#39;&#34;POST /ahfservice/register&#39; $LOG                    # registrations
+grep &#39;&#34;PUT /ahfservice/v1/collectionstorage&#39; $LOG         # uploads</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The uploads contain the hostname of the client in the path, e.g.
+<code>…​/collections/tfa/&lt;host&gt;/orachk_&lt;host&gt;_&lt;date&gt;_&lt;tag&gt;.zip</code> (Compliance results),
+<code>…​/PERIODICPERFDATA_srdc_insights_collection_…​zip</code> (Insights data) and <code>checkserviceupload_*.txt</code> / <code>TestUploadFile.txt</code> (tests).</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_logs_and_directories_2">7.2.3. Logs and directories</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 18. Logs on the Fleet Insights server</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;ahf_fi_install_dir&gt;/ahf_service/log/manage_app.log</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Start, stop, status and <code>importcert</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;ahf_fi_install_dir&gt;/ahf_service/third_party/nginx/logs/access.log</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Requests of the browsers and the clients</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;ahf_fi_install_dir&gt;/ahf_service/third_party/nginx/logs/error.log</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Errors of Nginx</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;ahf_fi_install_dir&gt;/ahf_service/certs/cert.pem</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Certificate of the web interface</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&lt;ahf_fi_stage_dir&gt;/tmp/ahf_fleet_insights_log</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Log of the installation (removed with the stage directory after the installation)</p></td>
+</tr>
+</tfoot>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_known_errors_2">7.2.4. Known errors</h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 19. Known errors on the Fleet Insights server</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Message</th>
+<th class="tableblock halign-left valign-top">Cause</th>
+<th class="tableblock halign-left valign-top">Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Path to Java, &#39;JAVA_HOME&#39; must be a valid directory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_fi_java_home</code> does not exist. The Oracle JDK RPM installs into a directory with the full version</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_fi_java_home: &#34;&#34;</code> (default): the role uses the newest <code>/usr/lib/jvm/jdk-*-oracle-x64</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>The installer will fail if run with root privileges</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">installation as <code>root</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_fi_install_user</code> (default <code>oracle_user</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">web interface not reachable after a reboot</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">processes are started by cron, <code>crond</code> is not running</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>systemctl enable --now crond</code>, <code>./ahffi start</code> (the role starts Fleet Insights, when it is not running)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Collection Processing Engine | Not Running</code> after a reboot, uploads are not processed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the cron jobs of Fleet Insights restart the server and the collection processing engine at the same time.
+The restart of the engine removes its own cron entry and is interrupted (observed with Fleet Insights 25.2.1)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>./ahffi start</code> - starts all processes and adds the cron entries again. The role <code>ahf_fleet_insights</code> does it, when not all processes are running.
+Check with <code>./ahffi status</code> and <code>crontab -l</code> (4 entries) after a reboot</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">clients fail with <code>Hostname mismatch</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">certificate of the installer has no SAN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf_fi_cert_generate: true</code> (default), <code>ahf_fi_cert_names</code></p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">login with <code>fleet_admin</code> not possible</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">password forgotten</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">see <a href="#_reset_the_password_of_fleet_admin">Reset the password of fleet_admin</a></p></td>
+</tr>
+</tfoot>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+	<div class="td-page-meta__lastmod">
+  Last modified November 12, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/4bee8fe02cb61d1b660ca589bded2288f260aa08">ahf: ahf_properties, ahf_tfa_directories and data in AHF Fleet Insights (4bee8fe0)</a>
+</div>
+
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      <footer class="td-footer row d-print-none">
+  <div class="container-fluid">
+    <div class="row mx-md-2">
+      <div class="td-footer__left col-6 col-sm-4 order-sm-1">
+        
+      </div><div class="td-footer__right col-6 col-sm-4 order-sm-3">
+        <ul class="td-footer__links-list">
+  
+  <li class="td-footer__links-item" data-bs-toggle="tooltip" title="GitHub" aria-label="GitHub">
+    <a href="https://github.com/oravirt/ansible-oracle" aria-label="GitHub" target="_blank" rel="noopener">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+</ul>
+
+      </div><div class="td-footer__center col-12 col-sm-4 py-2 order-sm-2">
+        <span class="td-footer__copyright">&copy;
+    2016&ndash;2026
+    <span class="td-footer__authors">Thorsten Bruhns | [MIT](<a class="bare" href="https://github.com/oravirt/ansible-oracle/blob/master/LICENSE">https://github.com/oravirt/ansible-oracle/blob/master/LICENSE</a>)</span></span><nav aria-label="Legal" class="td-footer__legal mt-2">
+  <ul class="list-inline mb-0">
+    <li class="list-inline-item"><a href="/legal-notice/">Legal Notice</a></li>
+    <li class="list-inline-item"><a href="/privacy/">Privacy</a></li>
+    <li class="list-inline-item"><a href="/accessibility/">Accessibility</a></li>
+    </ul>
+</nav>
+
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <script src="/js/main.js"></script>
+<script src='/js/prism.js'></script>
+<script src='/js/tabpane-persist.js'></script>
+
+  </body>
+</html>

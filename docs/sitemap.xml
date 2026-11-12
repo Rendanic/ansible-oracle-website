@@ -10,11 +10,11 @@
     <lastmod>2026-10-28T21:52:27+01:00</lastmod>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/development/development/</loc>
-    <lastmod>2026-11-10T12:26:04+01:00</lastmod>
+    <lastmod>2026-11-12T06:50:01+01:00</lastmod>
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/features/featurelist/</loc>
-    <lastmod>2026-11-10T12:26:04+01:00</lastmod>
+    <lastmod>2026-11-12T06:50:01+01:00</lastmod>
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/guides/beginner/</loc>
@@ -73,20 +73,44 @@
     <lastmod>2026-10-25T11:52:53+01:00</lastmod>
     <priority>0</priority>
   </url><url>
+    <loc>https://www.ansible-oracle.eu/docs/guides/ahf/</loc>
+    <lastmod>2026-11-12T06:50:01+01:00</lastmod>
+    <priority>0</priority>
+  </url><url>
     <loc>https://www.ansible-oracle.eu/docs/guides/out_of_place_patching/</loc>
     <lastmod>2026-11-10T12:26:04+01:00</lastmod>
     <priority>0</priority>
   </url><url>
+    <loc>https://www.ansible-oracle.eu/docs/roles/ahf/</loc>
+    <lastmod>2026-11-12T06:50:01+01:00</lastmod>
+    <priority>0</priority>
+  </url><url>
+    <loc>https://www.ansible-oracle.eu/docs/roles/ahf_fleet_insights/</loc>
+    <lastmod>2026-11-12T06:50:01+01:00</lastmod>
+    <priority>0</priority>
+  </url><url>
     <loc>https://www.ansible-oracle.eu/docs/guides/breaking_changes/</loc>
-    <lastmod>2026-11-10T12:43:51+01:00</lastmod>
+    <lastmod>2026-11-12T06:50:01+01:00</lastmod>
+    <priority>0</priority>
+  </url><url>
+    <loc>https://www.ansible-oracle.eu/docs/roles/orasw_meta_internal/</loc>
+    <lastmod>2026-11-12T06:21:56+01:00</lastmod>
+    <priority>0</priority>
+  </url><url>
+    <loc>https://www.ansible-oracle.eu/docs/roles/oraswdb_install/</loc>
+    <lastmod>2026-11-12T06:21:56+01:00</lastmod>
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/roles/orasw_meta/</loc>
-    <lastmod>2026-11-10T12:43:51+01:00</lastmod>
+    <lastmod>2026-11-11T07:09:32+01:00</lastmod>
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/guides/rman/</loc>
-    <lastmod>2026-11-10T12:26:04+01:00</lastmod>
+    <lastmod>2026-11-11T07:09:32+01:00</lastmod>
+    <priority>0</priority>
+  </url><url>
+    <loc>https://www.ansible-oracle.eu/docs/guides/standby_databases/</loc>
+    <lastmod>2026-11-11T07:09:32+01:00</lastmod>
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/guides/dataguard/</loc>
@@ -94,14 +118,6 @@
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/roles/oradb_rman/</loc>
-    <lastmod>2026-11-08T14:38:19+01:00</lastmod>
-    <priority>0</priority>
-  </url><url>
-    <loc>https://www.ansible-oracle.eu/docs/roles/orasw_meta_internal/</loc>
-    <lastmod>2026-11-08T14:38:19+01:00</lastmod>
-    <priority>0</priority>
-  </url><url>
-    <loc>https://www.ansible-oracle.eu/docs/guides/standby_databases/</loc>
     <lastmod>2026-11-08T14:38:19+01:00</lastmod>
     <priority>0</priority>
   </url><url>
@@ -114,10 +130,6 @@
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/roles/oradb_manage_db/</loc>
-    <lastmod>2026-11-05T12:00:04+01:00</lastmod>
-    <priority>0</priority>
-  </url><url>
-    <loc>https://www.ansible-oracle.eu/docs/roles/oraswdb_install/</loc>
     <lastmod>2026-11-05T12:00:04+01:00</lastmod>
     <priority>0</priority>
   </url><url>
@@ -234,10 +246,6 @@
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/roles/orasw_download_patches/</loc>
-    <lastmod>2026-10-30T22:59:56+01:00</lastmod>
-    <priority>0</priority>
-  </url><url>
-    <loc>https://www.ansible-oracle.eu/docs/roles/oraswahf_install/</loc>
     <lastmod>2026-10-30T22:59:56+01:00</lastmod>
     <priority>0</priority>
   </url><url>

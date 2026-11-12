@@ -20,40 +20,32 @@
 
 <title>oraswdb_install | ansible-oracle Project</title>
 <meta name="description" content="Install Oracle Database Software
-Table of contents Requirements Default Variables autostartup_service configure_oracle_profile glogin_default_cdb glogin_default_nocdb hostgroup hostgroup_hub hostgroup_leaf hostinitdaemon oracle_ee_options oracle_sw_image_db oraswdb_install_forcechopt oraswdb_install_remove_install_images Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables autostartup_service Force a chopt operation in ORACLE_HOME.
-This is needed, when an existing ORACLE_HOME had multiple switches between on/off for an option.
-configure_oracle_profile Create .profile_-environment scripts for databases in oracle_databases.
-Mandatory when listener_installed is defined, autostartup_service: true and autostartup_service_mode: legacy. Otherwise the listener will not start!">
+Table of contents Requirements Default Variables autostartup_service configure_oracle_profile glogin_default_cdb glogin_default_nocdb hostgroup hostgroup_hub hostgroup_leaf hostinitdaemon oracle_ee_options oracle_sw_image_db oraswdb_install_forcechopt oraswdb_install_remove_install_images Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables autostartup_service Force linking of all options from oracle_ee_options and oracle_all_editions_options_state in ORACLE_HOME.
+The current state of an option is read from the libraries in ORACLE_HOME. Only options not in intended state are linked, all of them in one make call with a single relink of oracle (ioracle). true links all options, even when they are already in intended state.">
 <meta property="og:url" content="https://www.ansible-oracle.eu/docs/roles/oraswdb_install/">
 	<meta property="og:site_name" content="ansible-oracle Project">
 	<meta property="og:title" content="oraswdb_install">
 	<meta property="og:description" content="Install Oracle Database Software
-Table of contents Requirements Default Variables autostartup_service configure_oracle_profile glogin_default_cdb glogin_default_nocdb hostgroup hostgroup_hub hostgroup_leaf hostinitdaemon oracle_ee_options oracle_sw_image_db oraswdb_install_forcechopt oraswdb_install_remove_install_images Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables autostartup_service Force a chopt operation in ORACLE_HOME.
-This is needed, when an existing ORACLE_HOME had multiple switches between on/off for an option.
-configure_oracle_profile Create .profile_-environment scripts for databases in oracle_databases.
-Mandatory when listener_installed is defined, autostartup_service: true and autostartup_service_mode: legacy. Otherwise the listener will not start!">
+Table of contents Requirements Default Variables autostartup_service configure_oracle_profile glogin_default_cdb glogin_default_nocdb hostgroup hostgroup_hub hostgroup_leaf hostinitdaemon oracle_ee_options oracle_sw_image_db oraswdb_install_forcechopt oraswdb_install_remove_install_images Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables autostartup_service Force linking of all options from oracle_ee_options and oracle_all_editions_options_state in ORACLE_HOME.
+The current state of an option is read from the libraries in ORACLE_HOME. Only options not in intended state are linked, all of them in one make call with a single relink of oracle (ioracle). true links all options, even when they are already in intended state.">
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-05T12:00:04+01:00">
-		<meta property="article:modified_time" content="2026-11-05T12:00:04+01:00">
+		<meta property="article:published_time" content="2026-11-12T06:21:56+01:00">
+		<meta property="article:modified_time" content="2026-11-12T06:21:56+01:00">
 
 	<meta itemprop="name" content="oraswdb_install">
 	<meta itemprop="description" content="Install Oracle Database Software
-Table of contents Requirements Default Variables autostartup_service configure_oracle_profile glogin_default_cdb glogin_default_nocdb hostgroup hostgroup_hub hostgroup_leaf hostinitdaemon oracle_ee_options oracle_sw_image_db oraswdb_install_forcechopt oraswdb_install_remove_install_images Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables autostartup_service Force a chopt operation in ORACLE_HOME.
-This is needed, when an existing ORACLE_HOME had multiple switches between on/off for an option.
-configure_oracle_profile Create .profile_-environment scripts for databases in oracle_databases.
-Mandatory when listener_installed is defined, autostartup_service: true and autostartup_service_mode: legacy. Otherwise the listener will not start!">
-	<meta itemprop="datePublished" content="2026-11-05T12:00:04+01:00">
-	<meta itemprop="dateModified" content="2026-11-05T12:00:04+01:00">
-	<meta itemprop="wordCount" content="520">
+Table of contents Requirements Default Variables autostartup_service configure_oracle_profile glogin_default_cdb glogin_default_nocdb hostgroup hostgroup_hub hostgroup_leaf hostinitdaemon oracle_ee_options oracle_sw_image_db oraswdb_install_forcechopt oraswdb_install_remove_install_images Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables autostartup_service Force linking of all options from oracle_ee_options and oracle_all_editions_options_state in ORACLE_HOME.
+The current state of an option is read from the libraries in ORACLE_HOME. Only options not in intended state are linked, all of them in one make call with a single relink of oracle (ioracle). true links all options, even when they are already in intended state.">
+	<meta itemprop="datePublished" content="2026-11-12T06:21:56+01:00">
+	<meta itemprop="dateModified" content="2026-11-12T06:21:56+01:00">
+	<meta itemprop="wordCount" content="557">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="oraswdb_install">
 	<meta name="twitter:description" content="Install Oracle Database Software
-Table of contents Requirements Default Variables autostartup_service configure_oracle_profile glogin_default_cdb glogin_default_nocdb hostgroup hostgroup_hub hostgroup_leaf hostinitdaemon oracle_ee_options oracle_sw_image_db oraswdb_install_forcechopt oraswdb_install_remove_install_images Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables autostartup_service Force a chopt operation in ORACLE_HOME.
-This is needed, when an existing ORACLE_HOME had multiple switches between on/off for an option.
-configure_oracle_profile Create .profile_-environment scripts for databases in oracle_databases.
-Mandatory when listener_installed is defined, autostartup_service: true and autostartup_service_mode: legacy. Otherwise the listener will not start!">
+Table of contents Requirements Default Variables autostartup_service configure_oracle_profile glogin_default_cdb glogin_default_nocdb hostgroup hostgroup_hub hostgroup_leaf hostinitdaemon oracle_ee_options oracle_sw_image_db oraswdb_install_forcechopt oraswdb_install_remove_install_images Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables autostartup_service Force linking of all options from oracle_ee_options and oracle_all_editions_options_state in ORACLE_HOME.
+The current state of an option is read from the libraries in ORACLE_HOME. Only options not in intended state are linked, all of them in one make call with a single relink of oracle (ioracle). true links all options, even when they are already in intended state.">
 <link href="/scss/main.css" rel="stylesheet">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -143,16 +135,18 @@ Mandatory when listener_installed is defined, autostartup_service: true and auto
     <a href="/docs/guides/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade"><span class="">Oracle AutoUpgrade</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesautoupgrade_upgrade-li">
     <a href="/docs/guides/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesahf-li">
+    <a href="/docs/guides/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesahf"><span class="">Oracle Autonomous Health Framework (AHF)</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
     <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
     <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
     <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
-    <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_databases-li">
     <a href="/docs/guides/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="">Standby Databases</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
+    <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
     <a href="/docs/guides/restart_rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="">Setup ASM for Oracle Grid Infrastructure / Restart</span></a>
   </li>
@@ -162,20 +156,24 @@ Mandatory when listener_installed is defined, autostartup_service: true and auto
     <ul class="ul-2 foldable">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
     <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf-li">
+    <a href="/docs/roles/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf"><span class="">ahf</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf_fleet_insights-li">
+    <a href="/docs/roles/ahf_fleet_insights/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf_fleet_insights"><span class="">ahf_fleet_insights</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
+    <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesoraswdb_install-li">
+    <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="td-sidebar-nav-active-item">oraswdb_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
     <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
     <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
-    <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
     <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
     <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
     <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesoraswdb_install-li">
-    <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="td-sidebar-nav-active-item">oraswdb_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
     <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
@@ -234,8 +232,6 @@ Mandatory when listener_installed is defined, autostartup_service: true and auto
     <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
     <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswahf_install-li">
-    <a href="/docs/roles/oraswahf_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswahf_install"><span class="">oraswahf_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_golden_image-li">
     <a href="/docs/roles/oraswdb_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_golden_image"><span class="">oraswdb_golden_image</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
@@ -408,9 +404,12 @@ Mandatory when listener_installed is defined, autostartup_service: true and auto
 </ul>
 <h2 id="default-variables">Default Variables</h2>
 <h3 id="autostartup_service">autostartup_service</h3>
-<p>Force a chopt operation in ORACLE_HOME.</p>
-<p>This is needed, when an existing ORACLE_HOME had multiple
-switches between on/off for an option.</p>
+<p>Force linking of all options from <code>oracle_ee_options</code> and
+<code>oracle_all_editions_options_state</code> in ORACLE_HOME.</p>
+<p>The current state of an option is read from the libraries in
+ORACLE_HOME. Only options not in intended state are linked, all of them
+in one make call with a single relink of oracle (ioracle).
+<code>true</code> links all options, even when they are already in intended state.</p>
 <h3 id="configure_oracle_profile">configure_oracle_profile</h3>
 <p>Create .profile_-environment scripts for databases
 in <code>oracle_databases</code>.</p>
@@ -551,7 +550,7 @@ unless a <code>filesource</code> dict element provides a full path / complete UR
 <p>[Mikael Sandström]</p>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 5, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/e059911b9c499b3bd80d84c1effd70a1cfc08895">oradb_manage_db: autostart with one systemd unit per database and listener (e059911b)</a>
+  Last modified November 12, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/993950070db29a47841fee891ac17c80927d121d">oraswdb_install: link database options with one relink of oracle (99395007)</a>
 </div>
 
 </div>

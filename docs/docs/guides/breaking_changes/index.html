@@ -37,8 +37,8 @@ Note The complete list of changes is in CHANGELOG.rst. This guide only covers th
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-10T12:43:51+01:00">
-		<meta property="article:modified_time" content="2026-11-10T12:43:51+01:00">
+		<meta property="article:published_time" content="2026-11-12T06:50:01+01:00">
+		<meta property="article:modified_time" content="2026-11-12T06:50:01+01:00">
 
 	<meta itemprop="name" content="Breaking Changes - Upgrade Guide">
 	<meta itemprop="description" content="This guide lists all changes in ansible-oracle which require an action in your inventory, playbooks or environment when upgrading to a new major version.
@@ -47,9 +47,9 @@ Find your current version and the target version.
 Read the overview table of every major version in between.
 Check the column Affected if against your inventory. Only the rows that match need an action.
 Note The complete list of changes is in CHANGELOG.rst. This guide only covers the changes from the section Breaking Changes / Porting Guide and explains the required actions.">
-	<meta itemprop="datePublished" content="2026-11-10T12:43:51+01:00">
-	<meta itemprop="dateModified" content="2026-11-10T12:43:51+01:00">
-	<meta itemprop="wordCount" content="7470">
+	<meta itemprop="datePublished" content="2026-11-12T06:50:01+01:00">
+	<meta itemprop="dateModified" content="2026-11-12T06:50:01+01:00">
+	<meta itemprop="wordCount" content="8829">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Breaking Changes - Upgrade Guide">
 	<meta name="twitter:description" content="This guide lists all changes in ansible-oracle which require an action in your inventory, playbooks or environment when upgrading to a new major version.
@@ -147,16 +147,18 @@ Note The complete list of changes is in CHANGELOG.rst. This guide only covers th
     <a href="/docs/guides/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade"><span class="">Oracle AutoUpgrade</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesautoupgrade_upgrade-li">
     <a href="/docs/guides/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesahf-li">
+    <a href="/docs/guides/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesahf"><span class="">Oracle Autonomous Health Framework (AHF)</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
     <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguidesbreaking_changes-li">
     <a href="/docs/guides/breaking_changes/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="td-sidebar-nav-active-item">Breaking Changes - Upgrade Guide</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
     <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
-    <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_databases-li">
     <a href="/docs/guides/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="">Standby Databases</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
+    <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
     <a href="/docs/guides/restart_rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="">Setup ASM for Oracle Grid Infrastructure / Restart</span></a>
   </li>
@@ -166,20 +168,24 @@ Note The complete list of changes is in CHANGELOG.rst. This guide only covers th
     <ul class="ul-2 foldable">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
     <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf-li">
+    <a href="/docs/roles/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf"><span class="">ahf</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf_fleet_insights-li">
+    <a href="/docs/roles/ahf_fleet_insights/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf_fleet_insights"><span class="">ahf_fleet_insights</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
+    <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
+    <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
     <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
     <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
-    <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
     <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
     <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
     <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
-    <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
     <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
@@ -238,8 +244,6 @@ Note The complete list of changes is in CHANGELOG.rst. This guide only covers th
     <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
     <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswahf_install-li">
-    <a href="/docs/roles/oraswahf_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswahf_install"><span class="">oraswahf_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_golden_image-li">
     <a href="/docs/roles/oraswdb_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_golden_image"><span class="">oraswdb_golden_image</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
@@ -320,7 +324,13 @@ Note The complete list of changes is in CHANGELOG.rst. This guide only covers th
         <li><a href="#_local_listener_in_init_parameters_of_single_instance_databases">1.21. local_listener in init_parameters of Single Instance databases</a></li>
         <li><a href="#_oracle_databases_is_container_and_omf_are_true_by_default">1.22. oracle_databases: is_container and omf are true by default</a></li>
         <li><a href="#_oracle_databases_db_create_file_dest_and_db_recovery_file_dest_in_init_parameters">1.23. oracle_databases: db_create_file_dest and db_recovery_file_dest in init_parameters</a></li>
-        <li><a href="#_oracle_databases_datafile_dest_and_recoveryfile_dest_are_deprecated">1.24. oracle_databases: datafile_dest and recoveryfile_dest are deprecated</a></li>
+        <li><a href="#_oracle_databases_datafile_dest_and_recoveryfile_dest_are_removed">1.24. oracle_databases: datafile_dest and recoveryfile_dest are removed</a></li>
+        <li><a href="#_oracle_databases_omf_false_not_allowed_with_asm_oracle_dbf_dir_asm_and_oracle_reco_dir_asm_removed">1.25. oracle_databases: omf false not allowed with ASM, oracle_dbf_dir_asm and oracle_reco_dir_asm removed</a></li>
+        <li><a href="#_oracle_databases_max_pdbs_in_init_parameters_of_container_databases">1.26. oracle_databases: max_pdbs in init_parameters of Container Databases</a></li>
+        <li><a href="#_oracle_databases_control_management_pack_access_in_init_parameters_of_enterprise_edition_databases">1.27. oracle_databases: control_management_pack_access in init_parameters of Enterprise Edition databases</a></li>
+        <li><a href="#_oracle_databases_sga_target_and_pga_aggregate_target_in_init_parameters">1.28. oracle_databases: sga_target and pga_aggregate_target in init_parameters</a></li>
+        <li><a href="#_oracle_databases_no_memory_target_and_memory_max_target_with_hugepages">1.29. oracle_databases: no memory_target and memory_max_target with Hugepages</a></li>
+        <li><a href="#_role_oraswahf_install_replaced_by_ahf">1.30. Role oraswahf_install replaced by ahf</a></li>
       </ul>
     </li>
     <li><a href="#_adding_new_breaking_changes">2. Adding new breaking changes</a></li>
@@ -512,9 +522,39 @@ This guide only covers the changes from the section <em>Breaking Changes / Porti
 <td class="tableblock halign-left valign-top"><p class="tableblock">Add <code>db_create_file_dest</code> and <code>db_recovery_file_dest</code> to <code>init_parameters</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_oracle_databases_datafile_dest_and_recoveryfile_dest_are_deprecated">oracle_databases: datafile_dest and recoveryfile_dest are deprecated</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_oracle_databases_datafile_dest_and_recoveryfile_dest_are_removed">oracle_databases: datafile_dest and recoveryfile_dest are removed</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">A database in <code>oracle_databases</code> with <code>datafile_dest</code> or <code>recoveryfile_dest</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Move the values to <code>db_create_file_dest</code> and <code>db_recovery_file_dest</code> in <code>init_parameters</code> and remove <code>datafile_dest</code> and <code>recoveryfile_dest</code>. Different values fail in the assert</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Move the values to <code>db_create_file_dest</code> and <code>db_recovery_file_dest</code> in <code>init_parameters</code> and remove <code>datafile_dest</code> and <code>recoveryfile_dest</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#oracle_databases: omf false not allowed with ASM">oracle_dbf_dir_asm and oracle_reco_dir_asm removed</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A database in <code>oracle_databases</code> with <code>storage_type: ASM</code> and <code>omf: false</code>, <strong>or</strong> <code>oracle_dbf_dir_asm</code> / <code>oracle_reco_dir_asm</code> are set in the inventory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use OMF with ASM (<code>db_create_file_dest</code> and <code>db_recovery_file_dest</code> in <code>init_parameters</code>), remove <code>oracle_dbf_dir_asm</code> and <code>oracle_reco_dir_asm</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_oracle_databases_max_pdbs_in_init_parameters_of_container_databases">oracle_databases: max_pdbs in init_parameters of Container Databases</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A Container Database (<code>is_container: true</code>, default) in <code>oracle_databases</code> with <code>state: present</code> <strong>and</strong> <code>max_pdbs</code> is missing in <code>init_parameters</code> or greater than 3 (SE2) / 1024 (EE)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add <code>max_pdbs</code> with the number of PDBs allowed by your license to <code>init_parameters</code>, e.g. <code>{name: max_pdbs, value: &#39;3&#39;, scope: both, state: present}</code>. EE: more than 3 PDBs only with a license for the Multitenant Option</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_oracle_databases_control_management_pack_access_in_init_parameters_of_enterprise_edition_databases">oracle_databases: control_management_pack_access in init_parameters of Enterprise Edition databases</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A database of an Enterprise Edition home in <code>oracle_databases</code> with <code>state: present</code> <strong>and</strong> <code>control_management_pack_access</code> is missing in <code>init_parameters</code> or has a value other than <code>NONE</code>, <code>DIAGNOSTIC</code> or <code>DIAGNOSTIC+TUNING</code>, <strong>or</strong> a database of a Standard Edition 2 home with a value other than <code>NONE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add <code>control_management_pack_access</code> with the value allowed by your license to <code>init_parameters</code>, e.g. <code>{name: control_management_pack_access, value: &#39;NONE&#39;, scope: both, state: present}</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_oracle_databases_sga_target_and_pga_aggregate_target_in_init_parameters">oracle_databases: sga_target and pga_aggregate_target in init_parameters</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A database in <code>oracle_databases</code> with <code>state: present</code> <strong>and</strong> <code>sga_target</code> or <code>pga_aggregate_target</code> is missing in <code>init_parameters</code>, <strong>or</strong> <code>oracle_db_mem_totalmb</code> is set</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add <code>sga_target</code> and <code>pga_aggregate_target</code> to <code>init_parameters</code>, remove <code>oracle_db_mem_totalmb</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_oracle_databases_no_memory_target_and_memory_max_target_with_hugepages">oracle_databases: no memory_target and memory_max_target with Hugepages</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A database in <code>oracle_databases</code> with <code>state: present</code> <strong>and</strong> <code>memory_target</code> or <code>memory_max_target</code> in <code>init_parameters</code> <strong>and</strong> <code>configure_hugepages</code> is not <code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Replace <code>memory_target</code> / <code>memory_max_target</code> by <code>sga_target</code> and <code>pga_aggregate_target</code> (<code>state: absent</code> for the old parameters), or set <code>configure_hugepages: false</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#_role_oraswahf_install_replaced_by_ahf">Role oraswahf_install replaced by ahf</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Own playbooks use the role <code>oraswahf_install</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use the new role <code>ahf</code> (playbook <code>opitzconsulting.ansible_oracle.ahf</code>)</p></td>
 </tr>
 </tbody>
 </table>
@@ -2382,8 +2422,8 @@ in <code>init_parameters</code> for every database with <code>state: present</co
 and the directories of a new database.
 They are defined directly in <code>init_parameters</code> instead of deriving them from other variables.
 dbca uses the values for the datafile and recovery area destination.
-The global defaults <code>oracle_dbf_dir_fs</code>, <code>oracle_reco_dir_fs</code>, <code>oracle_dbf_dir_asm</code> and <code>oracle_reco_dir_asm</code>
-are only used without these <code>init_parameters</code> (only allowed with <code>omf: false</code> and an own DBCA template, not tested).</p>
+The global defaults <code>oracle_dbf_dir_fs</code> and <code>oracle_reco_dir_fs</code> are only used with <code>omf: false</code>
+(only <code>storage_type: FS</code>, own DBCA template, not tested).</p>
 </div>
 <div class="paragraph">
 <p>Who is affected:</p>
@@ -2408,7 +2448,7 @@ in <code>init_parameters</code>. The playbooks fail in the assert of <code>orasw
 <ol class="arabic">
 <li>
 <p>Add <code>db_create_file_dest</code> and <code>db_recovery_file_dest</code> to <code>init_parameters</code>.
-Use the values of <code>datafile_dest</code> and <code>recoveryfile_dest</code>, if they are defined.</p>
+Use the values of <code>datafile_dest</code> and <code>recoveryfile_dest</code>, if they were defined.</p>
 </li>
 <li>
 <p>Existing databases: use the current values of the database (<code>show parameter db_create_file_dest</code>,
@@ -2433,10 +2473,10 @@ for existing databases without a recovery area (<code>ORA-19802</code>).</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_oracle_databases_datafile_dest_and_recoveryfile_dest_are_deprecated">1.24. oracle_databases: datafile_dest and recoveryfile_dest are deprecated</h3>
+<h3 id="_oracle_databases_datafile_dest_and_recoveryfile_dest_are_removed">1.24. oracle_databases: datafile_dest and recoveryfile_dest are removed</h3>
 <div class="paragraph">
-<p>As of 5.0.0 the attributes <code>datafile_dest</code> and <code>recoveryfile_dest</code> of <code>oracle_databases</code> are deprecated
-and will be removed in a future release. Use <code>db_create_file_dest</code> and <code>db_recovery_file_dest</code> in <code>init_parameters</code> instead.
+<p>As of 5.0.0 the attributes <code>datafile_dest</code> and <code>recoveryfile_dest</code> of <code>oracle_databases</code> are removed.
+They are redundant to <code>db_create_file_dest</code> and <code>db_recovery_file_dest</code> in <code>init_parameters</code>.
 <code>datafile_dest</code> in <code>oracle_pdbs</code> is not affected.</p>
 </div>
 <div class="paragraph">
@@ -2446,19 +2486,10 @@ and will be removed in a future release. Use <code>db_create_file_dest</code> an
 <ul>
 <li>
 <p>Inventories with <code>datafile_dest</code> or <code>recoveryfile_dest</code> in <code>oracle_databases</code>.
-The assert of <code>orasw_meta</code> shows a warning (ignored failed task):</p>
+The playbooks fail in the assert of <code>orasw_meta</code>:</p>
 <div class="listingblock">
 <div class="content">
-<pre>WARNING: datafile_dest and recoveryfile_dest in oracle_databases are deprecated and will be removed in a future release ...</pre>
-</div>
-</div>
-</li>
-<li>
-<p>The playbooks fail in the assert of <code>orasw_meta</code>, if the values are different to <code>db_create_file_dest</code>
-or <code>db_recovery_file_dest</code> in <code>init_parameters</code>:</p>
-<div class="listingblock">
-<div class="content">
-<pre>&lt;oracle_db_name&gt;: datafile_dest (...) must be identical to db_create_file_dest (...) ...</pre>
+<pre>&lt;oracle_db_name&gt;: datafile_dest and recoveryfile_dest in oracle_databases are removed. ...</pre>
 </div>
 </div>
 </li>
@@ -2474,6 +2505,9 @@ or <code>db_recovery_file_dest</code> in <code>init_parameters</code>:</p>
 </li>
 <li>
 <p>Remove <code>datafile_dest</code> and <code>recoveryfile_dest</code> from <code>oracle_databases</code>.</p>
+</li>
+<li>
+<p>Databases with <code>omf: false</code>: the destinations are <code>oracle_dbf_dir_fs</code> and <code>oracle_reco_dir_fs</code> (global per host).</p>
 </li>
 </ol>
 </div>
@@ -2498,6 +2532,393 @@ or <code>db_recovery_file_dest</code> in <code>init_parameters</code>:</p>
       - {name: db_create_file_dest, value: &#39;/u02/oradata&#39;, scope: both, state: present}
       - {name: db_recovery_file_dest, value: &#39;/u02/fra&#39;, scope: both, state: present}</code></pre>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_oracle_databases_omf_false_not_allowed_with_asm_oracle_dbf_dir_asm_and_oracle_reco_dir_asm_removed">1.25. oracle_databases: omf false not allowed with ASM, oracle_dbf_dir_asm and oracle_reco_dir_asm removed</h3>
+<div class="paragraph">
+<p>As of 5.0.0 the assert of <code>oracle_databases</code> in <code>orasw_meta</code> fails for a database with <code>storage_type: ASM</code> and <code>omf: false</code>.
+ASM without OMF makes no sense in practice.
+The variables <code>oracle_dbf_dir_asm</code> and <code>oracle_reco_dir_asm</code> are removed,
+the disk groups are taken from <code>db_create_file_dest</code> and <code>db_recovery_file_dest</code> in <code>init_parameters</code>.</p>
+</div>
+<div class="paragraph">
+<p><code>oradb_rman</code>: the templates <code>parameter_rac</code> and <code>parameter_fra_disk</code> use <code>db_create_file_dest</code> from <code>init_parameters</code>
+for the snapshot controlfile instead of <code>oracle_dbf_dir_asm</code>.
+Before, <code>parameter_fra_disk</code> created a wrong name with two <code>` (`+DATA</code>).</p>
+</div>
+<div class="paragraph">
+<p>Who is affected:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Inventories with a database with <code>storage_type: ASM</code> and <code>omf: false</code>. The playbooks fail in the assert of <code>orasw_meta</code>:</p>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;oracle_db_name&gt;: omf: false is not allowed with storage_type: ASM. ...</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Inventories with <code>oracle_dbf_dir_asm</code> or <code>oracle_reco_dir_asm</code>. The variables have no effect anymore.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Required actions:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Remove <code>omf: false</code> from ASM databases and add <code>db_create_file_dest</code> and <code>db_recovery_file_dest</code> to <code>init_parameters</code>.</p>
+</li>
+<li>
+<p>Remove <code>oracle_dbf_dir_asm</code> and <code>oracle_reco_dir_asm</code> from the inventory.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_databases:
+  - oracle_db_name: DB1
+    storage_type: ASM
+    init_parameters:
+      - {name: db_create_file_dest, value: &#39;+DATA&#39;, scope: both, state: present}
+      - {name: db_recovery_file_dest_size, value: &#39;10G&#39;, scope: both, state: present, dbca: false}
+      - {name: db_recovery_file_dest, value: &#39;+FRA&#39;, scope: both, state: present}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_oracle_databases_max_pdbs_in_init_parameters_of_container_databases">1.26. oracle_databases: max_pdbs in init_parameters of Container Databases</h3>
+<div class="paragraph">
+<p>As of 5.0.0 the assert of <code>oracle_databases</code> in <code>orasw_meta</code> fails for a Container Database
+(<code>is_container: true</code>, default as of 5.0.0) with <code>state: present</code>
+without <code>max_pdbs</code> in <code>init_parameters</code> (without <code>sid</code> or <code>sid: &#39;*&#39;</code>).
+<code>max_pdbs</code> defines explicitly how many PDBs are allowed by the license.
+The value must be an integer:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;"/>
+<col style="width: 20%;"/>
+<col style="width: 60%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Edition (<code>db_homes_config</code>)</th>
+<th class="tableblock halign-left valign-top">Maximum <code>max_pdbs</code></th>
+<th class="tableblock halign-left valign-top">Remark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SE2</code> (<code>SE</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>EE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1024</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">More than 3 PDBs require a license for the Multitenant Option!</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Enterprise Edition without a license for the Multitenant Option allows only 3 PDBs, like Standard Edition 2.
+<code>ansible-oracle</code> has no switch for licensed options yet, so the assert allows up to 1024 PDBs for <code>EE</code>.
+Check your license before you set <code>max_pdbs</code> greater than 3.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>Who is affected:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Inventories with a Container Database without <code>max_pdbs</code> in <code>init_parameters</code>,
+<strong>or</strong> with a value greater than 3 (<code>SE2</code>) or 1024 (<code>EE</code>).
+This includes 19c databases without <code>is_container</code>, which are Container Databases as of 5.0.0.
+The playbooks fail in the assert of <code>orasw_meta</code>:</p>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;oracle_db_name&gt;: is_container: true (default) needs max_pdbs in init_parameters with an integer value &lt;= &lt;limit&gt; for edition &lt;edition&gt; ...</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Required actions:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add <code>max_pdbs</code> with the number of PDBs allowed by your license to <code>init_parameters</code>.
+<code>max_pdbs</code> is set by dbca for a new database and changed by <code>oradb_manage_parameters</code> for an existing database.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_databases:
+  - oracle_db_name: DB1
+    init_parameters:
+      - {name: max_pdbs, value: &#39;3&#39;, scope: both, state: present}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_oracle_databases_control_management_pack_access_in_init_parameters_of_enterprise_edition_databases">1.27. oracle_databases: control_management_pack_access in init_parameters of Enterprise Edition databases</h3>
+<div class="paragraph">
+<p>As of 5.0.0 the assert of <code>oracle_databases</code> in <code>orasw_meta</code> fails for a database
+of an Enterprise Edition home (<code>edition: EE</code> in <code>db_homes_config</code>) with <code>state: present</code>
+without <code>control_management_pack_access</code> in <code>init_parameters</code> (without <code>sid</code> or <code>sid: &#39;*&#39;</code>).
+<code>control_management_pack_access</code> defines explicitly which Management Packs are licensed.
+Without the parameter, the Oracle default for Enterprise Edition is <code>DIAGNOSTIC+TUNING</code>,
+which needs a license for the Diagnostics and Tuning Pack.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;"/>
+<col style="width: 75%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">License</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NONE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no Management Pack</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DIAGNOSTIC</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Diagnostics Pack</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DIAGNOSTIC+TUNING</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Diagnostics Pack and Tuning Pack</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The parameter is optional for Standard Edition 2. If it is defined, the value must be <code>NONE</code>,
+the Management Packs are not available for Standard Edition 2.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Set the value according to your license.
+The Management Packs are options of the Enterprise Edition.
+<code>ansible-oracle</code> has no switches for licensed options yet.
+Check if further settings are needed for your licensed options.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>Who is affected:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Inventories with a database of an Enterprise Edition home without <code>control_management_pack_access</code> in <code>init_parameters</code>,
+<strong>or</strong> with another value than <code>NONE</code>, <code>DIAGNOSTIC</code> or <code>DIAGNOSTIC+TUNING</code>.</p>
+</li>
+<li>
+<p>Inventories with a database of a Standard Edition 2 home with <code>control_management_pack_access</code> other than <code>NONE</code>.
+The playbooks fail in the assert of <code>orasw_meta</code>:</p>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;oracle_db_name&gt;: control_management_pack_access in init_parameters must be one of NONE, DIAGNOSTIC or DIAGNOSTIC+TUNING and is mandatory for Enterprise Edition ...</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Required actions:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add <code>control_management_pack_access</code> with the value allowed by your license to <code>init_parameters</code>.
+For an existing database, <code>oradb_manage_parameters</code> changes the parameter to the value from the inventory.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_databases:
+  - oracle_db_name: DB1
+    init_parameters:
+      - {name: control_management_pack_access, value: &#39;NONE&#39;, scope: both, state: present}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_oracle_databases_sga_target_and_pga_aggregate_target_in_init_parameters">1.28. oracle_databases: sga_target and pga_aggregate_target in init_parameters</h3>
+<div class="paragraph">
+<p>As of 5.0.0 the assert of <code>oracle_databases</code> in <code>orasw_meta</code> fails for a database with <code>state: present</code>
+without <code>sga_target</code> or <code>pga_aggregate_target</code> in <code>init_parameters</code>.
+These are the essential memory parameters of an Oracle database and must be defined explicitly.
+Entries with <code>sid</code> are accepted (instance specific values for RAC).</p>
+</div>
+<div class="paragraph">
+<p><code>oracle_db_mem_totalmb</code> (<code>totalMemory</code> in dbca) is not supported anymore, the assert fails if it is set.
+Before, the assert required either <code>oracle_db_mem_totalmb</code> or <code>sga_target</code> in <code>init_parameters</code>.</p>
+</div>
+<div class="paragraph">
+<p>Who is affected:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Inventories with a database without <code>sga_target</code> or <code>pga_aggregate_target</code> in <code>init_parameters</code>,
+<strong>or</strong> with <code>oracle_db_mem_totalmb</code>. The playbooks fail in the assert of <code>orasw_meta</code>:</p>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;oracle_db_name&gt;: sga_target and pga_aggregate_target are essential memory parameters and must be defined in init_parameters ...</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Required actions:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add <code>sga_target</code> and <code>pga_aggregate_target</code> to <code>init_parameters</code>.</p>
+</li>
+<li>
+<p>Remove <code>oracle_db_mem_totalmb</code>.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_databases:
+  - oracle_db_name: DB1
+    init_parameters:
+      - {name: sga_target, value: &#39;2G&#39;, scope: spfile, state: present}
+      - {name: pga_aggregate_target, value: &#39;512M&#39;, scope: both, state: present}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_oracle_databases_no_memory_target_and_memory_max_target_with_hugepages">1.29. oracle_databases: no memory_target and memory_max_target with Hugepages</h3>
+<div class="paragraph">
+<p>As of 5.0.0 the assert of <code>oracle_databases</code> in <code>orasw_meta</code> fails for a database with <code>state: present</code>
+with <code>memory_target</code> or <code>memory_max_target</code> in <code>init_parameters</code> (also with <code>sid</code>)
+if Hugepages are configured (<code>configure_hugepages: true</code>, default of <code>orahost</code>).
+Automatic Memory Management (AMM) prevents the usage of Hugepages.
+Entries with <code>state: absent</code> are allowed to remove the parameters from the spfile.</p>
+</div>
+<div class="paragraph">
+<p>Who is affected:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Inventories with a database with <code>memory_target</code> or <code>memory_max_target</code> in <code>init_parameters</code>
+and without <code>configure_hugepages: false</code>. The playbooks fail in the assert of <code>orasw_meta</code>:</p>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;oracle_db_name&gt;: memory_target and memory_max_target are not allowed in init_parameters with Hugepages ...</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Required actions:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use <code>sga_target</code> and <code>pga_aggregate_target</code> (Automatic Shared Memory Management) instead of AMM.</p>
+</li>
+<li>
+<p>Set <code>state: absent</code> for <code>memory_target</code> and <code>memory_max_target</code> to remove them from the spfile of existing databases,
+<strong>or</strong> set <code>configure_hugepages: false</code> if Hugepages are not used.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">oracle_databases:
+  - oracle_db_name: DB1
+    init_parameters:
+      - {name: memory_target, value: &#39;0&#39;, scope: spfile, state: absent}
+      - {name: memory_max_target, value: &#39;0&#39;, scope: spfile, state: absent}
+      - {name: sga_target, value: &#39;2G&#39;, scope: spfile, state: present}
+      - {name: pga_aggregate_target, value: &#39;512M&#39;, scope: both, state: present}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_role_oraswahf_install_replaced_by_ahf">1.30. Role oraswahf_install replaced by ahf</h3>
+<div class="paragraph">
+<p>The role <code>oraswahf_install</code> was an empty placeholder for the installation of Oracle Autonomous Health Framework (AHF) - it had no tasks and no variables.
+It is removed and replaced by the new role <code>ahf</code>, which installs, upgrades and configures AHF.
+The central web interface AHF Fleet Insights is installed with the new role <code>ahf_fleet_insights</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+AHF is not installed by <code>oraswahf_install</code>, existing installations are not affected.
+Only playbooks, which reference the role, fail with <code>the role &#39;oraswahf_install&#39; was not found</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Before: own playbook</div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">- hosts: dbfs
+  become: true
+  roles:
+    - opitzconsulting.ansible_oracle.oraswahf_install</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">After: own playbook or <code>playbooks/ahf.yml</code></div>
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">- hosts: dbfs
+  become: true
+  roles:
+    - opitzconsulting.ansible_oracle.ahf</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The variables and the decisions for an installation are described in <a href="/docs/guides/ahf/">Oracle Autonomous Health Framework (AHF)</a>.</p>
 </div>
 </div>
 </div>
@@ -2525,7 +2946,7 @@ or <code>db_recovery_file_dest</code> in <code>init_parameters</code>:</p>
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 10, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/6b676319630fd410c53bdcd92ab24c83a6016f52">oracle_databases: is_container and omf true by default, datafile_dest/recoveryfile_dest deprecated (6b676319)</a>
+  Last modified November 12, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/94b5fc61578e303b23b65b434d491673b153c0ac">ahf, ahf_fleet_insights: new roles for Oracle Autonomous Health Framework (experimental) (94b5fc61)</a>
 </div>
 
 </div>

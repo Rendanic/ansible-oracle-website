@@ -1650,7 +1650,7 @@ There is no parameter to increase the timeout. Pull container manually before st
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">dbfs</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Full stage for installation of RDBMS 19c + Patching and create database. Requires installation media in /vagrant on local host.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Full stage for installation of RDBMS 19c + Patching and create database, AHF registered as client in AHF Fleet Insights of the scenario <code>ahf</code> (see <a href="#ahf-tests">Oracle Autonomous Health Framework (AHF)</a>). Requires installation media in /vagrant on local host.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">dbfs-ol9</p></td>
@@ -1676,12 +1676,16 @@ There is no parameter to increase the timeout. Pull container manually before st
 <td class="tableblock halign-left valign-top"><p class="tableblock">golden</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Create Golden-Image for installation from dbfs.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ahf</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AHF Fleet Insights with repository in a container with Oracle Database Free and AHF registered as client: 2 containers <code>ahf</code> and <code>ahf-db</code>, network <code>molecule-ahf</code>. Requires a MOS login (downloads) and <code>AHFFI-LINUX_v*.zip</code>, see <a href="#ahf-tests">Oracle Autonomous Health Framework (AHF)</a>.</p></td>
+</tr>
 </tbody>
 </table>
 <div class="sect2">
 <h3 id="_directory_for_installation_media_and_patches">6.1. Directory for installation media and patches</h3>
 <div class="paragraph">
-<p>The scenarios <code>dbfs</code>, <code>dbfs-ol9</code>, <code>dbfs-ol10</code>, <code>dataguard</code>, <code>download</code> and <code>golden</code> mount a local directory as <code>/vagrant</code> into the container.
+<p>The scenarios <code>dbfs</code>, <code>dbfs-ol9</code>, <code>dbfs-ol10</code>, <code>dataguard</code>, <code>download</code>, <code>golden</code> and <code>ahf</code> mount a local directory as <code>/vagrant</code> into the container.
 The local directory must be defined by <code>MOLECULE_SW_DIR</code>, there is no default. The path inside the container is always <code>/vagrant</code>.</p>
 </div>
 <div class="listingblock">
@@ -1691,10 +1695,29 @@ The local directory must be defined by <code>MOLECULE_SW_DIR</code>, there is no
 </div>
 </div>
 <div class="listingblock">
-<div class="title">or permanently in <code>extensions/.env.yml</code> (ignored by git)</div>
+<div class="title">or permanently in <code>extensions/.env</code> (ignored by git)</div>
 <div class="content">
-<pre>MOLECULE_SW_DIR: /mnt/d/ORACLE/sw/linux64</pre>
+<pre>MOLECULE_SW_DIR=/mnt/d/ORACLE/sw/linux64</pre>
 </div>
+</div>
+<div class="paragraph">
+<p><code>extensions/.env</code> contains <code>KEY=VALUE</code> lines in shell syntax (no YAML).
+It is loaded by the Taskfile and <code>tools/regression.sh</code> with <code>tools/load_env.sh</code>.
+Variables already set in the environment have precedence over the file.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<code>molecule</code> itself does not read <code>extensions/.env</code>.
+Use <code>task</code>, the wrapper <code>tools/molecule.sh</code> (e.g. <code>tools/molecule.sh test -s dbfs</code>)
+or load the file into the shell with <code>set -a; . ./.env; set +a</code> before calling <code>molecule</code> directly.
+</td>
+</tr>
+</tbody></table>
 </div>
 </div>
 <div class="sect2">
@@ -1720,6 +1743,25 @@ task collection                # reinstall collection after role changes</pre>
 The dependency step of molecule installs the collection only when the version in <code>galaxy.yml</code> has changed.
 Without the installation, changes in <code>plugins/</code> or <code>roles/</code> are not used.
 <code>C=false</code> skips the installation.</p>
+</div>
+<div class="paragraph">
+<p>Several molecule runs may run in parallel, but the installation must not replace the collection
+while another run uses it (missing files in the running scenario).
+A lock file (<code>tools/lock.sh</code>, default <code>extensions/.molecule.lock</code> in the checkout, the same for all shells) prevents this:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>tools/molecule.sh</code> holds a shared lock during the molecule run (not for <code>login</code> and <code>list</code>).</p>
+</li>
+<li>
+<p><code>tools/collection_install.sh</code> needs an exclusive lock and fails immediately, when another run is active.
+Start the second run with <code>C=false</code>.</p>
+</li>
+<li>
+<p><code>tools/regression.sh</code> installs the collection with the exclusive lock and keeps a shared lock for its scenarios.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p>The tasks are also available from the repository root as <code>task molecule:&lt;task&gt;</code>.</p>
@@ -1771,27 +1813,27 @@ Make sure that /vagrant has enough free space for installation media and patches
 <div class="listingblock">
 <div class="title">set environment variables for support.oracle.com login</div>
 <div class="content">
-<pre>export MOS_LOGIN=Username
+<pre>export MOS_USERNAME=Username
 export MOS_PASSWORD=verySecret</pre>
 </div>
 </div>
 <div class="listingblock">
-<div class="title">or store them in <code>extensions/.env.yml</code> (ignored by git)</div>
+<div class="title">or store them in <code>extensions/.env</code> (ignored by git)</div>
 <div class="content">
-<pre>MOS_LOGIN: Username
-MOS_PASSWORD: &#39;verySecret&#39;</pre>
+<pre>MOS_USERNAME=Username
+MOS_PASSWORD=&#39;verySecret&#39;</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Environment variables have precedence over <code>extensions/.env.yml</code>.
-Quote the password with <code>&#39;</code> when it contains special characters like <code>:</code>, <code>#</code> or <code>&#34;</code>.
-Restrict the access to the file with <code>chmod 600 extensions/.env.yml</code>.</p>
+<p>Environment variables have precedence over <code>extensions/.env</code>.
+Quote the password with <code>&#39;</code> when it contains special characters of the shell like a blank, <code>$</code>, <code>#</code>, <code>&#34;</code> or <code>;</code>.
+Restrict the access to the file with <code>chmod 600 extensions/.env</code>.</p>
 </div>
 <div class="listingblock">
 <div class="title">Start download</div>
 <div class="content">
 <pre>cd extensions
-molecule test -s download</pre>
+tools/molecule.sh test -s download</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1848,7 +1890,120 @@ molecule test -s golden</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="dataguard-tests">6.7. Data Guard tests</h3>
+<h3 id="ahf-tests">6.7. Oracle Autonomous Health Framework (AHF)</h3>
+<div class="paragraph">
+<p>The roles of <a href="/docs/guides/ahf/">Oracle Autonomous Health Framework (AHF)</a> are tested in three scenarios.
+The scenario <code>ahf</code> is the AHF Fleet Insights server, <code>dbfs</code> and <code>has-ol9</code> are clients and upload their data into it.</p>
+</div>
+<div class="paragraph">
+<p>AHF is downloaded with AutoUpgrade in all of them (<code>extensions/molecule/shared_config/playbooks/ahf_download.yml</code>):
+latest <code>autoupgrade.jar</code> from Oracle, AHF with <code>target_version: 19</code>, <code>platform: LINUX.X64</code>, <code>patch: AHF</code> into <code>/u01/stage/download</code> in the container.
+The MOS login is taken from <code>MOS_USERNAME</code> / <code>MOS_PASSWORD</code> or <code>extensions/.env</code> like in the scenario <code>download</code>.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Scenarios for AHF</caption>
+<colgroup>
+<col style="width: 16.6666%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 50.0001%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Scenario</th>
+<th class="tableblock halign-left valign-top">Installation media</th>
+<th class="tableblock halign-left valign-top">Test</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ahf</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AHF: AutoUpgrade.<br/>
+AHF Fleet Insights: <code>AHFFI-LINUX_v*.zip</code> from <code>MOLECULE_SW_DIR</code> or download from My Oracle Support
+(<code>molecule_ahffi_file</code>, <code>molecule_ahffi_aru</code> in <code>host_vars/ahf.yml</code>, Doc ID 3043060.1)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Containers <code>ahf</code> (Fleet Insights, AHF client) and <code>ahf-db</code> (repository database, image <code>gvenzl/oracle-free:23-slim-faststart</code>, no Ansible),
+network <code>molecule-ahf</code>.<br/>
+prepare: downloads, Oracle Instant Client, schema user <code>AHFFI</code> in <code>FREEPDB1</code> of <code>ahf-db</code> with the grants of <code>create_db_user.sql</code><br/>
+converge: role <code>ahf_fleet_insights</code> (certificate with SAN), role <code>ahf</code> registered in Fleet Insights<br/>
+idempotence: second run without changes<br/>
+verify: <code>ahfctl statusahf</code>, TFA daemon, <code>ahffi status</code>, web application on port 5005, registration, tables of <code>AHFFI</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>has-ol9</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AHF: AutoUpgrade (Java: JDK of the GI-Home)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AHF with Oracle Restart 26ai, ASM and a 19c database, client of Fleet Insights.<br/>
+converge (after <code>manage_db</code>): role <code>ahf</code> with Compliance scheduler, registration in Fleet Insights<br/>
+verify: <code>ahfctl statusahf</code>, TFA daemon, CRS/ASM/RDBMS discovered by TFA (<code>tfactl print directories</code>), Compliance autoruns, registration</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dbfs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AHF: AutoUpgrade (Java: JDK of the DB-Home)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AHF with a 26ai Single Instance, client of Fleet Insights (<code>extensions/molecule/dbfs/ahf.yml</code>, after <code>manage_db</code>).<br/>
+verify: <code>ahfctl statusahf</code>, TFA daemon, registration</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The clients use the shared playbooks in <code>extensions/molecule/shared_config/playbooks</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ahf_fleet_connect.yml</code>: connects the container to the network <code>molecule-ahf</code> (<code>docker network connect</code> on the Ansible controller),
+checks <code><a class="bare" href="https://ahf:5005/ahfservice">https://ahf:5005/ahfservice</a></code> and reads the certificate of Fleet Insights from the container <code>ahf</code>.</p>
+</li>
+<li>
+<p><code>ahf_client.yml</code>: role <code>ahf</code> and one TFA collection (<code>tfactl diagcollect -last 1h</code>) for the upload.
+Without a reachable Fleet Insights, AHF is installed without the registration (warning).</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">Run the scenarios</div>
+<div class="content">
+<pre>cd extensions
+task converge S=ahf                # Fleet Insights server first
+task verify S=ahf
+task converge S=has-ol9 C=false    # clients, C=false while another run is active
+task verify S=has-ol9
+task converge S=dbfs C=false
+task verify S=dbfs</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The variables are in <code>extensions/molecule/shared_config/inventory/host_vars/ahf.yml</code> (server)
+and <code>group_vars/all/ahf.yml</code> (URL, network and registration user for all scenarios).</p>
+</li>
+<li>
+<p>The downloads are executed by <code>prepare</code> of <code>ahf</code> only once after <code>create</code>. They are repeated after <code>destroy</code>.</p>
+</li>
+<li>
+<p>Fleet Insights needs Internet access for the Oracle JDK and Oracle Instant Client (<code>yum.oracle.com</code>, <code>download.oracle.com</code>).</p>
+</li>
+<li>
+<p><code>molecule_ahf_collect: false</code> skips the TFA collection of the clients.</p>
+</li>
+<li>
+<p>Oracle recommends 16 GB RAM for Fleet Insights. The containers <code>ahf</code> and <code>ahf-db</code> need about 5 GB in idle state.</p>
+</li>
+<li>
+<p>The data in Fleet Insights is checked in the web interface, there is no automatic check of the uploaded data.</p>
+</li>
+<li>
+<p>The web interface is published on the host: <code><a class="bare" href="https://localhost:5005/ahfservice">https://localhost:5005/ahfservice</a></code>
+(another port with <code>MOLECULE_AHF_PORT</code>, the mapping is created with the container).
+For a container created without the mapping:
+<code>docker run -d --name ahf-proxy --network molecule-ahf -p 5005:5005 docker.io/alpine/socat tcp-listen:5005,fork,reuseaddr tcp-connect:ahf:5005</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="dataguard-tests">6.8. Data Guard tests</h3>
 <div class="paragraph">
 <p>The side-effect of the scenario <code>dataguard</code> tests the Data Guard configuration created by <code>converge</code>
 (<code>extensions/molecule/dataguard/side_effect.yml</code>, tasks in <code>extensions/molecule/dataguard/tasks</code>):</p>
@@ -1883,7 +2038,7 @@ After a failed test the configuration may stay switched over: the next run expec
 </div>
 </div>
 <div class="sect2">
-<h3 id="module-tests">6.8. Module tests</h3>
+<h3 id="module-tests">6.9. Module tests</h3>
 <div class="paragraph">
 <p>The side-effect of the scenarios <code>dbfs</code>, <code>dbfs-ol10</code> and <code>has-ol9</code> tests the modules of <code>opitzconsulting.ansible_oracle</code> against an existing database.
 The tests are shared by the scenarios in <code>extensions/molecule/shared_config/module_tests</code>, only the scenario specific variables are in <code>&lt;scenario&gt;/module_tests.yml</code>.</p>
@@ -1918,7 +2073,7 @@ The tests are shared by the scenarios in <code>extensions/molecule/shared_config
 <p>The database is created once with <code>converge</code>, the tests can be repeated as often as needed.</p>
 </div>
 <div class="sect3">
-<h4 id="_usage_2">6.8.1. Usage</h4>
+<h4 id="_usage_2">6.9.1. Usage</h4>
 <div class="listingblock">
 <div class="content">
 <pre>cd extensions
@@ -1954,13 +2109,13 @@ Changes in <code>plugins/</code> or <code>roles/</code> are not used until the c
 </div>
 </div>
 <div class="sect3">
-<h4 id="_structure">6.8.2. Structure</h4>
+<h4 id="_structure">6.9.2. Structure</h4>
 <div class="paragraph">
 <p><code>&lt;scenario&gt;/side_effect.yml</code> imports <code>shared_config/module_tests/module_tests.yml</code>.
 The playbook loads <code>vars.yml</code>, <code>known_bugs.yml</code> and <code>&lt;scenario&gt;/module_tests.yml</code> (found with <code>MOLECULE_SCENARIO_DIRECTORY</code>).</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Variables in <code>&lt;scenario&gt;/module_tests.yml</code></caption>
+<caption class="title">Table 2. Variables in <code>&lt;scenario&gt;/module_tests.yml</code></caption>
 <colgroup>
 <col style="width: 25%;"/>
 <col style="width: 75%;"/>
@@ -2003,7 +2158,7 @@ The playbook loads <code>vars.yml</code>, <code>known_bugs.yml</code> and <code>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. Files in <code>shared_config/module_tests</code></caption>
+<caption class="title">Table 3. Files in <code>shared_config/module_tests</code></caption>
 <colgroup>
 <col style="width: 25%;"/>
 <col style="width: 75%;"/>
@@ -2063,7 +2218,7 @@ The playbook loads <code>vars.yml</code>, <code>known_bugs.yml</code> and <code>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_result_of_a_test_run">6.8.3. Result of a test run</h4>
+<h4 id="_result_of_a_test_run">6.9.3. Result of a test run</h4>
 <div class="paragraph">
 <p>A failed check does not stop the test run, the play fails at the end (<code>Assert that all checks passed</code>).</p>
 </div>
@@ -2136,7 +2291,7 @@ diff molecule/dbfs/module_tests_results/before.json molecule/dbfs/module_tests_r
 </div>
 </div>
 <div class="sect3">
-<h4 id="_known_bugs">6.8.4. Known bugs</h4>
+<h4 id="_known_bugs">6.9.4. Known bugs</h4>
 <div class="paragraph">
 <p><code>known_bugs.yml</code> (<code>mt_known_bugs_common</code>) contains the ids of checks that fail because of a known bug in a module in all scenarios.
 Bugs that depend on the environment (database version, Grid Infrastructure) are in <code>mt_known_bugs_scenario</code> in <code>&lt;scenario&gt;/module_tests.yml</code>.</p>
@@ -2147,7 +2302,7 @@ A check from these lists that passes is reported as <code>KNOWN BUGS NOT REPRODU
 </div>
 </div>
 <div class="sect3">
-<h4 id="_conventions_for_a_module_test">6.8.5. Conventions for a module test</h4>
+<h4 id="_conventions_for_a_module_test">6.9.5. Conventions for a module test</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2215,7 +2370,40 @@ Every module test uses the wallet and sysdba at least once.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="claude-aotest">6.9. Regression tests</h3>
+<h3 id="claude-aotest">6.10. Controller-only tests of oracle_databases</h3>
+<div class="paragraph">
+<p><code>task test:oracle_databases</code> (in <code>extensions/</code>) tests combinations of attributes in <code>oracle_databases</code>
+on localhost without container, VM or database (about 20 seconds):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>asserts of <code>orasw_meta</code> (<code>assert_oracle_databases.yml</code>): <code>omf</code>, <code>is_container</code>, <code>storage_type</code>,
+<code>db_create_file_dest</code> / <code>db_recovery_file_dest</code> in <code>init_parameters</code>,
+removed <code>datafile_dest</code> / <code>recoveryfile_dest</code></p>
+</li>
+<li>
+<p>destinations for dbca from <code>oradb_manage_db/vars/main.yml</code></p>
+</li>
+<li>
+<p>values in the dbca response file (19.3.0.0, 26.1.0.0), e.g. <code>createAsContainerDatabase</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The test cases are in <code>extensions/tests/oracle_databases/cases.yml</code>
+(<code>expect: ok|failed</code>, optional <code>warn</code>, <code>dest</code> and <code>rsp</code>).
+The playbook fails at the end with a list of all failed checks.</p>
+</div>
+<div class="listingblock">
+<div class="title">Run without Taskfile</div>
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">ansible-playbook -i localhost, extensions/tests/oracle_databases/test_oracle_databases.yml</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_regression_tests">6.11. Regression tests</h3>
 <div class="paragraph">
 <p><code>task molecule:regression:&lt;preset&gt;</code> runs several scenarios with a report per run
 (<code>extensions/Taskfile.regression.yml</code>, <code>extensions/tools/regression.sh</code>).</p>
@@ -2234,7 +2422,7 @@ Every module test uses the wallet and sysdba at least once.</p>
 </ul>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. Presets</caption>
+<caption class="title">Table 4. Presets</caption>
 <colgroup>
 <col style="width: 40%;"/>
 <col style="width: 60%;"/>
@@ -2329,7 +2517,7 @@ are often rescued negative tests.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_run_molecule_tests_with_claude_code">6.10. Run molecule tests with Claude Code</h3>
+<h3 id="_run_molecule_tests_with_claude_code">6.12. Run molecule tests with Claude Code</h3>
 <div class="paragraph">
 <p><code>tools/claude/skills/aotest</code> contains the skill <code>/aotest</code> for <a href="https://claude.com/claude-code">Claude Code</a>.
 It runs the molecule actions of <code>extensions/Taskfile.yml</code> inside <code>nix-shell</code> and reports the result.</p>
@@ -2420,7 +2608,7 @@ Invoking <code>/aotest</code> allows Claude to run the requested actions, includ
 </div>
 </div>
 <div class="sect2">
-<h3 id="_oracle_xe_not_used_at_the_moment">6.11. Oracle XE (not used at the moment!)</h3>
+<h3 id="_oracle_xe_not_used_at_the_moment">6.13. Oracle XE (not used at the moment!)</h3>
 <div class="admonitionblock important">
 <table>
 <tbody><tr>
