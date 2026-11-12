@@ -1,0 +1,2218 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="canonical" type="text/html" href="https://www.ansible-oracle.eu/docs/examples/">
+<meta name="robots" content="noindex, nofollow">
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+<title>Examples | ansible-oracle Project</title>
+<meta name="description" content="The examples are part of the project and located in example. Each page shows the inventory, playbooks and configuration of one example.">
+<meta property="og:url" content="https://www.ansible-oracle.eu/docs/examples/">
+	<meta property="og:site_name" content="ansible-oracle Project">
+	<meta property="og:title" content="Examples">
+	<meta property="og:description" content="The examples are part of the project and located in example. Each page shows the inventory, playbooks and configuration of one example.">
+	<meta property="og:locale" content="en_us">
+	<meta property="og:type" content="website">
+
+	<meta itemprop="name" content="Examples">
+	<meta itemprop="description" content="The examples are part of the project and located in example. Each page shows the inventory, playbooks and configuration of one example.">
+	<meta itemprop="dateModified" content="2026-11-12T07:50:00+01:00">
+	<meta itemprop="wordCount" content="22">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Examples">
+	<meta name="twitter:description" content="The examples are part of the project and located in example. Each page shows the inventory, playbooks and configuration of one example.">
+<link href="/scss/main.css" rel="stylesheet">
+<script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+  crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/css/prism.css"/>
+
+  </head>
+  <body class="td-section">
+    <header>
+      <nav class="td-navbar js-navbar-scroll" data-bs-theme="light">
+<div class="container-fluid flex-column flex-md-row">
+  <a class="navbar-brand" href="/"><span class="navbar-brand__logo navbar-logo"><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500"><g><path style="fill:#fff" d="M116.8525 421.9722c-5.7041.0-10.3442-4.3127-10.3442-9.6129V88.183c0-5.3002 4.6401-9.6117 10.3442-9.6117H320.858c3.0347.0 9.3959.5498 11.7506 2.6302l.3545.3442 58.905 63.2912c2.3101 2.491 2.9202 8.4928 2.9202 11.3184v256.2039c0 5.3002-4.6407 9.6129-10.3436 9.6129H116.8525z"/><g><g><g><path style="fill:#767676" d="M384.4445 423.2066H116.852c-6.3839.0-11.5786-4.8658-11.5786-10.8474V88.1831c0-5.9804 5.1947-10.8461 11.5786-10.8461h204.0062c.377.0 9.2786.0329 12.568 2.9389l.3947.3833 58.9508 63.337c3.2135 3.4652 3.2514 11.7924 3.2514 12.1593v256.2036C396.0231 418.3408 390.8284 423.2066 384.4445 423.2066zM116.5079 411.9189c.0848.0278.1999.0531.3441.0531h267.5925c.1442.0.2581-.0253.3441-.0531V156.1556c-.0076-.9033-.3593-3.7347-.7034-5.0037l-57.6527-61.9416c-1.4651-.3176-4.4533-.6389-5.5742-.6389H116.852c-.143.0-.2594.024-.3441.0531V411.9189zm267.4533-261.149zM327.0321 89.371v.0013V89.371z"/></g></g></g><g><g><path style="fill:#5b7fc0" d="M189.0874 210.1754l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4473C177.5953 212.627 183.0601 210.1742 189.0874 210.1754zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 234.1722 197.0804 232.033z"/><path style="opacity:.3;fill:#fff" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/><g><defs><path id="SVGID_1_" d="M194.7376 237.6875c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 234.2399 196.1861 236.239 194.7376 237.6875z"/></defs><clipPath id="SVGID_2_"><use xlink:href="#SVGID_1_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_2_);fill:#fff" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/><path style="opacity:.13;clip-path:url(#SVGID_2_);fill:#020202" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/></g><g><defs><path id="SVGID_3_" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/></defs><clipPath id="SVGID_4_"><use xlink:href="#SVGID_3_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_4_);fill:#5b7fc0" d="M172.6595 215.6045c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8475-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 209.1953 176.6171 211.647 172.6595 215.6045z"/></g></g><rect x="198.8952" y="225.1043" style="fill:#5b7fc0" width="122.6266" height="13.8671"/></g><g><path style="fill:#d95140" d="M189.0874 155.7611l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.0249 2.454-11.4897 6.4116-15.4473C177.5953 158.2128 183.0601 155.7599 189.0874 155.7611zm7.993 21.8577c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.2508 181.7667 197.0816 179.758 197.0804 177.6188z"/><path style="opacity:.3;fill:#fff" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/><g><defs><path id="SVGID_5_" d="M194.7376 183.2733c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 179.8256 196.1861 181.8248 194.7376 183.2733z"/></defs><clipPath id="SVGID_6_"><use xlink:href="#SVGID_5_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_6_);fill:#fff" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/><path style="opacity:.13;clip-path:url(#SVGID_6_);fill:#020202" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/></g><g><defs><path id="SVGID_7_" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/></defs><clipPath id="SVGID_8_"><use xlink:href="#SVGID_7_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_8_);fill:#d95140" d="M172.6595 161.1903c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 154.7811 176.6171 157.2327 172.6595 161.1903z"/></g><rect x="198.8952" y="170.69" style="fill:#d95140" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#56a55c" d="M189.5379 264.6147l.0012-.0012c7.7751.0012 15.0294 4.1862 18.932 10.9235 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032-5.8394.0-11.3281-2.2733-15.458-6.4032-4.13-4.13-6.4032-9.6186-6.4056-15.4628.0012-6.0249 2.454-11.4897 6.4116-15.4472C178.0458 267.0663 183.5105 264.6135 189.5379 264.6147zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6538 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.7013 290.6202 197.5321 288.6115 197.5309 286.4723z"/><path style="opacity:.3;fill:#fff" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/><g><defs><path id="SVGID_9_" d="M195.1881 292.1268c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9941 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.5344 288.6792 196.6366 290.6783 195.1881 292.1268z"/></defs><clipPath id="SVGID_10_"><use xlink:href="#SVGID_9_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_10_);fill:#fff" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/><path style="opacity:.13;clip-path:url(#SVGID_10_);fill:#020202" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/></g><g><defs><path id="SVGID_11_" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/></defs><clipPath id="SVGID_12_"><use xlink:href="#SVGID_11_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_12_);fill:#56a55c" d="M173.11 270.0439c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7325-11.1497-10.9151-18.926-10.9151C182.5311 263.6346 177.0676 266.0863 173.11 270.0439z"/></g></g><rect x="199.3456" y="279.5436" style="fill:#56a55c" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#f1bc42" d="M189.0874 318.7208l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3305-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4472C177.5953 321.1724 183.0601 318.7196 189.0874 318.7208zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 342.7176 197.0804 340.5784z"/><path style="opacity:.3;fill:#fff" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/><g><defs><path id="SVGID_13_" d="M194.7376 346.2329c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 342.7853 196.1861 344.7844 194.7376 346.2329z"/></defs><clipPath id="SVGID_14_"><use xlink:href="#SVGID_13_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_14_);fill:#fff" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/><path style="opacity:.13;clip-path:url(#SVGID_14_);fill:#020202" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/></g><g><defs><path id="SVGID_15_" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/></defs><clipPath id="SVGID_16_"><use xlink:href="#SVGID_15_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_16_);fill:#f1bc42" d="M172.6595 324.15c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8474-1.0151-7.6327-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 317.7407 176.6171 320.1924 172.6595 324.15z"/></g></g><rect x="198.8952" y="333.6497" style="fill:#f1bc42" width="122.6266" height="13.8671"/></g></g></svg></span><span class="navbar-brand__name">ansible-oracle Project</span></a>
+  <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/about/"><span>About</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/docs/"><span>Documentation</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/oravirt/ansible-oracle/releases" target="_blank" rel="noopener"><span>Releases</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/oravirt/ansible-oracle" target="_blank" rel="noopener"><span>Github</span></a>
+      </li>
+      </ul>
+  </div>
+  <div class="d-none d-lg-block">
+    
+  </div>
+</div>
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <main class="col-12 col-md-9 col-xl-8 ps-md-5" role="main">
+            
+
+
+
+
+<div class="td-content">
+<div class="pageinfo pageinfo-primary d-print-none">
+<p>
+This is the multi-page printable view of this section.
+<a href="#" onclick="print();return false;">Click here to print</a>.
+</p><p>
+<a href="/docs/examples/">Return to the regular view of this page</a>.
+</p>
+</div>
+
+
+
+<h1 class="title">Examples</h1>
+
+
+
+
+
+    <ul>
+    
+  
+  
+  
+  
+
+  
+    
+    
+	
+<li>1: <a href="#pg-df389f0fd67da23712005b22d5d20abf">Beginners Guide</a></li>
+
+
+    
+  
+    
+    
+	
+<li>2: <a href="#pg-df389f0fd67da23712005b22d5d20abf">Beginner with Patching</a></li>
+
+
+    
+  
+    
+    
+	
+<li>3: <a href="#pg-df389f0fd67da23712005b22d5d20abf">Data Guard</a></li>
+
+
+    
+  
+
+    </ul>
+
+
+<div class="content">
+      <p>The examples are part of the project and located in
+<a href="https://github.com/oravirt/ansible-oracle/tree/master/example">example</a>.
+Each page shows the inventory, playbooks and configuration of one example.</p>
+
+</div>
+</div>
+
+
+  
+  
+  
+  
+
+  
+  
+
+  
+    
+    
+	
+    
+
+<div class="td-content" style="">
+    
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">1 - Beginners Guide</h1>
+    
+	
+<div class="paragraph">
+<p>This guide installs an Oracle AI Database 26ai with a container database <code>DB1</code> and the PDB <code>ORCLPDB</code>
+on an Oracle Linux 9 VM with <code>ansible-oracle</code>.</p>
+</div>
+<div class="sect1">
+<h2 id="_overview">1. Overview</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_architecture_overview">1.1. Architecture overview</h3>
+<div class="imageblock">
+<div class="content">
+<img src="http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/oravirt/ansible-oracle/master/doc/guides/beginner.puml" alt="Architecture"/>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_what_are_we_going_to_do">1.2. What are we going to do?</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Prepare the Ansible controller: Ansible in Ubuntu on WSL2 on Windows.</p>
+</li>
+<li>
+<p>Configure the inventory with the IP address and login user of the Oracle Linux 9 VM.</p>
+</li>
+<li>
+<p>Start the playbook <code>playbooks/do_all.yml</code>. It executes all needed playbooks:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><code>opitzconsulting.ansible_oracle.os</code>: prepare the VM for AutoUpgrade</p>
+</li>
+<li>
+<p><code>playbooks/autoupgrade.yml</code>: install AutoUpgrade on the VM and download a <em>gold image</em> from My Oracle Support.
+The gold image is a complete ORACLE_HOME including the Release Update.</p>
+</li>
+<li>
+<p><code>opitzconsulting.ansible_oracle.single_instance_fs</code>: configure the OS, install the ORACLE_HOME from the gold image
+and create the database.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_defaults">1.3. Defaults</h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Defaults used in this guide</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>~/git/ansible-oracle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">git repository on the Ansible controller</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>~/git/ansible-oracle/example/beginner/ansible</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Working directory for all Ansible commands</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>beginner-dbfs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the VM in the inventory</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>192.168.66.161</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IP address of the VM (<code>ansible_host</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ol</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Login user on the VM (<code>ansible_user</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u01/sw</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Installation media on the VM, target of the download (<code>oracle_sw_source_local</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u01/stage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Staging directory on the VM (<code>oracle_stage</code>)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_requirements">2. Requirements</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_oracle_linux_9_vm">2.1. Oracle Linux 9 VM</h3>
+<div class="paragraph">
+<p>Any Oracle Linux 9 VM matching the requirements below can be used.
+See <a href="#_create_the_vm_with_hyper_v_and_packer">Create the VM with Hyper-V and Packer</a> for an example with Hyper-V on Windows.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Requirements for the VM</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Item</th>
+<th class="tableblock halign-left valign-top">Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Operating system</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Linux 9 x86_64</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CPU</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2 vCPUs (recommended)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Memory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8 GB RAM (recommended)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Disk</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/dev/sda</code> with the volume group <code>ol</code> on <code>/dev/sda3</code>.
+The volume group needs min. 81 GB free space for swap (16 GB), <code>/u01</code> (40 GB) and <code>/u02</code> (25 GB).
+See <code>host_fs_layout</code> in <code>group_vars/all/host.yml</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Network</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fixed IP address, reachable from the Ansible controller with SSH</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Internet</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Access to the Oracle Linux yum repositories and to My Oracle Support for AutoUpgrade
+(<code>updates.oracle.com</code>, <code>login-ext.identity.oraclecloud.com</code>, <code>aru-akam.oracle.com</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Login user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User with SSH login and <code>sudo</code> privileges, e.g. <code>ol</code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_create_the_vm_with_hyper_v_and_packer">2.2. Create the VM with Hyper-V and Packer</h3>
+<div class="paragraph">
+<p>The repository <a href="https://github.com/Rendanic/packer-hyperv">packer-hyperv</a> builds an Oracle Linux 9 template with Packer
+and creates the VM for this guide on Hyper-V.
+See the README of the repository for the installation of <code>packer</code> and <code>task</code>.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+All steps in this chapter are executed in PowerShell on Windows, not in WSL.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>The template uses</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the login user <code>ol</code> with <code>sudo</code> privileges and SSH key login,</p>
+</li>
+<li>
+<p>the volume group <code>ol</code> on <code>/dev/sda3</code>, as expected by <code>host_fs_layout</code> in this guide, and</p>
+</li>
+<li>
+<p>the SSH public key <code>%USERPROFILE%\.ssh\id_ed25519.pub</code>.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">Clone the repository</div>
+<div class="content">
+<pre>git clone https://github.com/Rendanic/packer-hyperv.git
+cd packer-hyperv</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Allow Hyper-V for the current user (once, elevated PowerShell, log off and on afterwards)</div>
+<div class="content">
+<pre>task hyperv:hyperv-add-admin-user</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Build the Oracle Linux 9 template</div>
+<div class="content">
+<pre>task hyperv:packer-ol9</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Build the template with another SSH public key</div>
+<div class="content">
+<pre>task hyperv:packer-ol9 SSH_KEY_FILE=C:\path\to\key.pub</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Create the VM from the template</div>
+<div class="content">
+<pre>cd OL9
+.\create-vm.ps1 -NewVMName beginner-dbfs -Hostname beginner-dbfs -ExternalSwitch intern_66 -FixedIP 192.168.66.161 -CPUs 2 -MemoryGB 8</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>create-vm.ps1</code> creates the VM with two network adapters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Default Switch</code> with DHCP for the internet access</p>
+</li>
+<li>
+<p>the switch from <code>-ExternalSwitch</code> with the fixed IP address from <code>-FixedIP</code>.
+Use this address for <code>ansible_host</code> in <code>inventory/hosts.yml</code>.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The template has a disk with 80 GB.
+The volume group <code>ol</code> has approx. 60 GB free space then, but the guide needs 81 GB.<br/>
+Increase the disk of the VM, e.g. to 130 GB, before you start the installation.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The SSH public key of the template must belong to the private key of the Ansible controller.
+Copy the key pair from Windows into WSL or use the public key from WSL for <code>SSH_KEY_FILE</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ansible_controller">2.3. Ansible controller</h3>
+<div class="paragraph">
+<p>This guide uses Ubuntu on WSL2 on Windows as Ansible controller.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Optionally, the database VM can be used as Ansible controller as well.
+Install the packages with <code>dnf</code> instead of <code>apt</code> in this case,
+e.g. <code>sudo dnf install -y git python3</code>.
+<code>ansible_host</code> and <code>ansible_user</code> in the inventory are used the same way,
+the VM connects to itself with SSH.
+</td>
+</tr>
+</tbody></table>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. Requirements for the Ansible controller</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Item</th>
+<th class="tableblock halign-left valign-top">Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Python</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Python 3 with <code>venv</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ansible</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ansible-core</code> &gt;= 2.16</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Internet</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Access to GitHub and Ansible Galaxy</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>AutoUpgrade is executed on the VM, not on the Ansible controller.
+Java and the gold image are not needed on the Ansible controller.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_my_oracle_support">2.4. My Oracle Support</h3>
+<div class="paragraph">
+<p>A My Oracle Support account is needed for the download of the gold image.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_setup_ansible_controller">3. Setup Ansible controller</h2>
+<div class="sectionbody">
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+All steps are executed on the Ansible controller.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Install packages</div>
+<div class="content">
+<pre>sudo apt update
+sudo apt install -y git python3-venv</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Clone git repository</div>
+<div class="content">
+<pre>mkdir -p ~/git
+cd ~/git
+
+git clone https://github.com/oravirt/ansible-oracle.git</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Create a Python virtual environment with Ansible</div>
+<div class="content">
+<pre>python3 -m venv ~/venv/ansible-oracle
+source ~/venv/ansible-oracle/bin/activate
+
+cd ~/git/ansible-oracle
+pip install -r tools/dev/requirements_dev_2.16.txt</pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<code>tools/dev/requirements_dev_2.19.txt</code> installs ansible-core 2.19 instead of 2.16.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Activate the virtual environment in each new shell with <code>source ~/venv/ansible-oracle/bin/activate</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="listingblock">
+<div class="title">Install collections</div>
+<div class="content">
+<pre>cd ~/git/ansible-oracle/example/beginner/ansible
+ansible-galaxy collection install -r requirements.yml</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configure_inventory">4. Configure inventory</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_ip_address_and_login_user">4.1. IP address and login user</h3>
+<div class="paragraph">
+<p>The VM is configured in <code>inventory/hosts.yml</code>.
+Change <code>ansible_host</code> and <code>ansible_user</code> for your VM.</p>
+</div>
+<div class="listingblock">
+<div class="title">inventory/hosts.yml</div>
+<div class="content">
+<pre>---
+all:
+  children:
+    dbfs:
+      hosts:
+        beginner-dbfs:
+          # IP address or DNS name of the Oracle Linux 9 VM
+          ansible_host: 192.168.66.161
+          # Login user on the VM with sudo privileges (SSH key login)
+          ansible_user: ol</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<code>beginner-dbfs</code> is only the name of the host in the inventory.
+The host specific variables are in <code>inventory/host_vars/beginner-dbfs/</code>.
+Rename the directory as well, when you change the name.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ssh_key">4.2. SSH key</h3>
+<div class="paragraph">
+<p>Ansible connects with an SSH key to the VM.</p>
+</div>
+<div class="listingblock">
+<div class="title">Create SSH key (skip it, when a key exists already)</div>
+<div class="content">
+<pre>ssh-keygen -t ed25519</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Copy the public key to the VM</div>
+<div class="content">
+<pre>ssh-copy-id ol@192.168.66.161</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_check_the_connection">4.3. Check the connection</h3>
+<div class="listingblock">
+<div class="title">Connection test</div>
+<div class="content">
+<pre>cd ~/git/ansible-oracle/example/beginner/ansible
+ansible all -m ansible.builtin.ping</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Test of sudo</div>
+<div class="content">
+<pre>ansible all -b -m ansible.builtin.command -a id</pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+Add <code>--ask-become-pass</code> (<code>-K</code>) to all <code>ansible</code> and <code>ansible-playbook</code> commands,
+when <code>sudo</code> requires a password for the login user.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_my_oracle_support_credentials">4.4. My Oracle Support credentials</h3>
+<div class="paragraph">
+<p>The My Oracle Support credentials are read from the environment variables <code>MOS_USERNAME</code> and <code>MOS_PASSWORD</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">My Oracle Support credentials</div>
+<div class="content">
+<pre>export MOS_USERNAME=&lt;your My Oracle Support login&gt;
+read -s MOS_PASSWORD &amp;&amp; export MOS_PASSWORD</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Alternatively, store the credentials in the file <code>.env</code> in the working directory
+and load it into the shell before starting <code>ansible-playbook</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">~/git/ansible-oracle/example/beginner/ansible/.env</div>
+<div class="content">
+<pre>MOS_USERNAME=&lt;your My Oracle Support login&gt;
+MOS_PASSWORD=&lt;your My Oracle Support password&gt;</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Load .env into the shell</div>
+<div class="content">
+<pre>cd ~/git/ansible-oracle/example/beginner/ansible
+set -a; . ./.env; set +a</pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<code>.env</code> contains your password. Restrict the permissions with <code>chmod 600 .env</code>.<br/>
+The file is ignored by git (<code>.gitignore</code>).
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The lookups are defined in <code>inventory/group_vars/all/mos_login.yml</code>. Optionally, set <code>mos_username</code> and <code>mos_password</code> there statically
+instead of the environment variables. Encrypt the password with <code>ansible-vault</code> in this case.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_database_passwords">4.5. Database passwords</h3>
+<div class="paragraph">
+<p>The password for all database users is <code>default_dbpass</code> in <code>inventory/group_vars/all/password.yml</code>.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+The default <code>Oracle_123</code> is for test environments only. Change it and use <code>ansible-vault</code> for other environments.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_autoupgrade_on_the_vm">5. AutoUpgrade on the VM</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>AutoUpgrade is executed on the VM (<code>autoupgrade_run_local: false</code> in <code>inventory/group_vars/all/autoupgrade.yml</code>).
+It downloads the gold image directly into <code>/u01/sw</code> on the VM.
+No installation media are copied from the Ansible controller (<code>oracle_sw_copy: false</code>).</p>
+</div>
+<div class="paragraph">
+<p>The execution of AutoUpgrade on the VM requires:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the Python module <code>pexpect</code> for the keystore with the My Oracle Support credentials,</p>
+</li>
+<li>
+<p>a JDK for <code>autoupgrade.jar</code> and</p>
+</li>
+<li>
+<p>the download directory <code>/u01/sw</code> on the filesystem <code>/u01</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The playbook <code>os</code> creates the filesystem <code>/u01</code> (<code>host_fs_layout</code> in the inventory).
+<code>playbooks/autoupgrade.yml</code> installs the packages for the JDK and <code>pexpect</code> before the installation of AutoUpgrade.
+Therefore <code>do_all.yml</code> executes the playbook <code>os</code> before AutoUpgrade.
+The playbook <code>os</code> is executed a second time, because it is a fixed part of
+<code>opitzconsulting.ansible_oracle.single_instance_fs</code>.
+The second execution changes nothing.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. Download configuration in inventory/group_vars/all/autoupgrade.yml</caption>
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_download_latest</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Download the latest <code>autoupgrade.jar</code> from Oracle</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_download_patches</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>target_version: 26</code>, <code>patch: RECOMMENDED</code>, <code>gold_image: ALL</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gold image for 26ai with all recommended patches</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_download_gold_image_rename</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rename the gold image to <code>db_home_&lt;release&gt;.zip</code>, e.g. <code>db_home_26.04.zip</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoupgrade_download_gold_image_latest</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Symlink <code>db_home_26_latest.zip</code> to the latest gold image of 26ai</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>See <a href="/docs/guides/patching/autoupgrade/">Oracle AutoUpgrade</a> for details.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The gold image is built by Oracle on request.<br/>
+When no suitable image is cached, the download can take a few hours.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>The release update of the gold image is known only after the download.
+Therefore the inventory uses the symlink <code>db_home_26_latest.zip</code> as <code>imagename</code> instead of the real filename.
+The symlink points to the gold image with the highest release update in <code>/u01/sw</code>.
+It is changed only, when a newer gold image is downloaded - the download of an older release update keeps it unchanged.</p>
+</div>
+<div class="listingblock">
+<div class="title">Check the downloaded gold image on the VM</div>
+<div class="content">
+<pre>ls -l /u01/sw/db_home_*.zip</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Example</div>
+<div class="content">
+<pre>db_home_26.04.zip
+db_home_26_latest.zip -&gt; db_home_26.04.zip</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">inventory/group_vars/all/db-homes.yml</div>
+<div class="content">
+<pre>  db26_si_ee: &amp;db26_si_ee
+    version: 26.1.0.0
+    oracle_home: /u01/app/oracle/product/db26_si_ee
+    edition: EE
+    imagename: db_home_26_latest.zip</pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+Use the real filename, e.g. <code>imagename: db_home_26.04.zip</code>, when an ORACLE_HOME must be installed with a fixed release update.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_install_database_with_ansible">6. Install database with Ansible</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="title">Start installation</div>
+<div class="content">
+<pre>cd ~/git/ansible-oracle/example/beginner/ansible
+ansible-playbook playbooks/do_all.yml</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The execution takes approx. 60 minutes plus the download of the gold image.
+</td>
+</tr>
+</tbody></table>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. Configuration of the database</caption>
+<colgroup>
+<col style="width: 50%;"/>
+<col style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ORACLE_BASE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u01/app/oracle</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ORACLE_HOME</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u01/app/oracle/product/db26_si_ee</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ORACLE_SID</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DB1</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PDB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORCLPDB</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">db_create_file_dest</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u02/oradata</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">db_recovery_file_dest</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u02/fra</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Listener</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>LISTENER</code>, port 1521</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_how_to_work_with_the_installed_database">7. How to work with the installed database</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="title">Login into the VM</div>
+<div class="content">
+<pre>ssh ol@192.168.66.161</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Switch to user oracle</div>
+<div class="content">
+<pre>sudo -iu oracle</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Initialize ocenv to set the environment variables</div>
+<div class="content">
+<pre>ocenv</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>ocenv</code> shows the ORACLE_HOMEs, databases and listeners on the host.
+<code>envhelp</code> shows an overview of the commands.</p>
+</div>
+<div class="listingblock">
+<div class="title">Set ORACLE_SID</div>
+<div class="content">
+<pre>DB1</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Start SQL*Plus</div>
+<div class="content">
+<pre>sql</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_next_steps">8. Next Steps</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="/docs/guides/patching/autoupgrade/">Oracle AutoUpgrade in <code>ansible-oracle</code></a></p>
+</li>
+<li>
+<p><a href="/docs/guides/apex_ords/">APEX and ORDS in <code>ansible-oracle</code></a></p>
+</li>
+<li>
+<p><a href="/docs/roles/overview/">List of roles in <code>ansible-oracle</code></a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">2 - Beginner with Patching</h1>
+    
+	<p>Single instance database on file system with patches, APEX and ORDS on a Vagrant VM.</p>
+<p>Source: <a href="https://github.com/oravirt/ansible-oracle/tree/master/example/beginner_patching"><code>example/beginner_patching</code></a></p>
+<h2 id="files">Files</h2>
+<h3 id="ansibleansible-navigatoryml">ansible/ansible-navigator.yml</h3>
+<pre><code class="language-yaml">---
+ansible-navigator:
+  # ansible-runner:
+  #   artifact-dir: navigator
+  #   rotate-artifacts-count: 20
+  execution-environment:
+    enabled: false
+    environment-variables:
+      set:
+        ANSIBLE_CONFIG: ansible.cfg
+    volume-mounts:
+      - src: &quot;/vagrant&quot;
+        dest: &quot;/vagrant&quot;
+        options: &quot;Z&quot;
+  logging:
+    level: warning
+  mode: stdout
+  playbook-artifact:
+    enable: true
+    replay: &quot;{playbook_dir}/../navigator/replay/{playbook_name}-{time_stamp}.json&quot;
+    save-as: &quot;{playbook_dir}/../navigator/replay/{playbook_name}-{time_stamp}.json&quot;
+</code></pre>
+<h3 id="ansibleansiblecfg">ansible/ansible.cfg</h3>
+<pre><code class="language-ini">[defaults]
+inventory = inventory
+
+host_key_checking = False
+# display_skipped_hosts = false
+duplicate_dict_key = ignore
+
+nocolor = 1
+retry_files_enabled = False
+
+callbacks_enabled = timer
+stdout_callback=yaml
+
+[ssh_connection]
+pipelining = True
+
+# needed for devsec ssh-role
+scp_if_ssh = True
+
+ssh_args = -o ControlMaster=auto -o ControlPersist=60s
+</code></pre>
+<h3 id="ansibleinventorygroup_varsalldb-homesyml">ansible/inventory/group_vars/all/db-homes.yml</h3>
+<pre><code class="language-yaml">---
+apply_patches_db: true
+db_homes_config:
+
+  db1919_si_se2: &amp;db1919_si_se2
+    version: 19.3.0.0
+    oracle_home: /u01/app/oracle/product/19/db1919-si-se2
+    edition: SE2
+    opatch_minversion: 12.2.0.1.36
+    state: present
+    opatchauto: []
+    opatch:
+      - patchid: 36582781
+        # Database Release Update 19.24.0.0.240716
+        patchversion: 19.24.0.0.240716
+        stop_processes: true
+        state: present
+      - patchid: 36414915
+        # Oracle JavaVM Component Release Update (OJVM RU) 19.24.0.0.240716
+        stop_processes: true
+        state: present
+
+  db1918_si_se2: &amp;db1918_si_se2
+    version: 19.3.0.0
+    oracle_home: /u01/app/oracle/product/19/db1918-si-se2
+    edition: SE2
+    opatch_minversion: 12.2.0.1.36
+    opatch:
+      - patchid: 34765931
+        # Database Release Update 19.18.0.0.230117
+        patchversion: 19.18.0.0.230117
+        stop_processes: true
+        state: present
+        path: 19.18.0.0.230117/dbru/34765931/34765931/
+      - patchid: 34786990
+        # Oracle JavaVM Component Release Update (OJVM RU) 19.18.0.0.230117
+        stop_processes: true
+        state: present
+        path: 19.18.0.0.230117/ojvm/p34786990_190000_Linux-x86-64.zip
+
+  # golden is used for building the golden image only
+  # Current Mapping of ORACLE_HOMEs
+  # use this mapping for fast change between the Release Updates
+  # &lt;&lt;: * =&gt; merge values from alias and overwrite oracle_home + home
+  #
+  # =&gt; Base for imagename at later stage
+  db19_si_se2_golden:
+    &lt;&lt;: *db1919_si_se2
+    # imagename: db_home_19.18.zip
+    oracle_home: /u01/app/oracle/product/19/db1
+    oracle_home_name: db19_si_se2
+    readonly_home: true
+
+  db19_si_se2:
+    &lt;&lt;: *db1919_si_se2
+    # imagename: db_home_19.19.zip
+    oracle_home: /u01/app/oracle/product/19/db1
+    oracle_home_name: db19_si_se2
+    readonly_home: true
+
+oracle_sw_patches:
+  - filename: cvupack_linux_ol7_x86_64.zip
+    patchid: 30839369
+    version: 21.0.0.0
+    description: Latest cluvfy
+    opatch_needed: false
+  - filename: p36695709_2410_Generic.zip
+    patchid: 36695709
+    version: 24.1
+    description: PSE BUNDLE FOR APEX 24.1
+    opatch_needed: false
+  - filename: p35895964_2320_Generic.zip
+    patchid: 35895964
+    version: 23.2
+    description: PSE BUNDLE FOR APEX 23.2
+    opatch_needed: false
+  - filename: p36582781_190000_Linux-x86-64.zip
+    patchid: 36582781
+    version: 19.3.0.0
+    description: Database Release Update 19.24.0.0.240716
+  - filename: p36414915_190000_Linux-x86-64.zip
+    patchid: 36414915
+    version: 19.3.0.0
+    description: OJVM 19.24
+</code></pre>
+<h3 id="ansibleinventorygroup_varsalldb-profilesyml">ansible/inventory/group_vars/all/db-profiles.yml</h3>
+<pre><code class="language-yaml">---
+# global Defaults for Database-Profiles
+
+oracle_default_profiles:
+  - name: DEFAULT
+    state: present
+    attributes:
+      - {name: password_life_time, value: unlimited}
+  - name: PW_UNLIMIT
+    state: present
+    attributes:
+      - {name: password_life_time, value: &quot;UNLIMITED&quot;}
+      - {name: password_grace_time, value: 7}
+      - {name: password_lock_time, value: 1}
+      - {name: password_verify_function, value: &quot;null&quot;}
+</code></pre>
+<h3 id="ansibleinventorygroup_varsalldev-secyml">ansible/inventory/group_vars/all/dev-sec.yml</h3>
+<pre><code class="language-yaml">---
+# Oracle gets problems, when root processes are not visible
+hidepid_option: 0
+
+os_security_kernel_enable_module_loading: true
+
+sysctl_overwrite:
+  network_ipv6_enable: false
+  fs.protected_regular: 0  # needed for opatchauto ...
+  # Needed for Docker on Ansible-host
+  net.ipv4.ip_forward: 1
+
+# ssh settings
+ssh_print_last_log: true
+ssh_allow_agent_forwarding: true
+ssh_permit_tunnel: false
+# tcp_forwarding for VSCode
+ssh_allow_tcp_forwarding: 'yes'
+ssh_max_auth_retries: 3
+
+ssh_allow_users: vagrant
+</code></pre>
+<h3 id="ansibleinventorygroup_varsallhostyml">ansible/inventory/group_vars/all/host.yml</h3>
+<pre><code class="language-yaml">---
+configure_public_yum_repo: false
+configure_motd: false
+
+autostartup_service: true
+
+configure_hugepages_by: memory
+
+# disable hugepages on small systems
+# don't forget to enable use_large_pages in oracle parameter
+# size_in_gb_hugepages: 2
+size_in_gb_hugepages: 0
+
+
+configure_host_disks: true
+
+host_fs_layout:
+  - vgname: rootvg
+    state: present
+    filesystem:
+      - {mntp: /tmp, lvname: tmplv, lvsize: 2G, fstype: ext4}
+    disk:
+      - {device: /dev/sda, pvname: /dev/sda2}
+  - vgname: vgora
+    state: present
+    filesystem:
+      - {mntp: swap, lvname: lvswap, lvsize: 16G, fstype: swap}
+      - {mntp: /u01, lvname: lvorabase, lvsize: 25G, fstype: xfs}
+      - {mntp: /u02, lvname: lvoradata, lvsize: 25G, fstype: xfs, fsopts: &quot;-m reflink=1 -m crc=1&quot;}
+    disk:
+      - {device: /dev/sdb, pvname: /dev/sdb1}
+</code></pre>
+<h3 id="ansibleinventorygroup_varsallmos_loginyml">ansible/inventory/group_vars/all/mos_login.yml</h3>
+<pre><code class="language-yaml">---
+mos_login: &quot;{{ lookup('ansible.builtin.env', 'MOS_USERNAME', default=Undefined) }}&quot;
+mos_password: &quot;{{ lookup('ansible.builtin.env', 'MOS_PASSWORD', default=Undefined) }}&quot;
+</code></pre>
+<h3 id="ansibleinventorygroup_varsallpasswordyml">ansible/inventory/group_vars/all/password.yml</h3>
+<pre><code class="language-yaml">---
+# default_dbpass for all users not listed in dbpasswords
+default_dbpass: Oracle_123
+</code></pre>
+<h3 id="ansibleinventorygroup_varsallsoftware_srcyml">ansible/inventory/group_vars/all/software_src.yml</h3>
+<pre><code class="language-yaml">---
+is_sw_source_local: true
+oracle_sw_copy: true
+oracle_sw_unpack: true
+
+# directory for patch download
+oracle_sw_source_local: /vagrant
+
+# Directory for Installation-Media
+oracle_stage_remote: /vagrant
+
+# Directory for response files, extraceted patches etc.
+oracle_stage: /u01/stage
+
+# Example for Remote NFS
+# install_from_nfs: true          # Mount NFS-Share?
+# nfs_server_sw: 192.168.56.99    # NFS-Server
+# nfs_server_sw_path: /sw         # NFS-Share
+# oracle_stage_remote: /u01/se    # local mount point for NFS share
+</code></pre>
+<h3 id="ansibleinventoryhost_varsbeginner-dbfs-patching-151-192-168-56-162nipioansibleyml">ansible/inventory/host_vars/beginner-dbfs-patching-151-192-168-56-162.nip.io/ansible.yml</h3>
+<pre><code class="language-yaml">---
+# make sure that python3 is installed before playbook execution
+# =&gt; needed for selinux module of Ansible
+ansible_python_interpreter: /usr/bin/python3.6
+
+# Use /var/tmp instead of /tmp in Ansible for temporaray files on target host
+# =&gt; /var has more free space then /tmp for yum repositories
+ansible_remote_tmp: /var/tmp
+</code></pre>
+<h3 id="ansibleinventoryhost_varsbeginner-dbfs-patching-151-192-168-56-162nipiodatabasesyml">ansible/inventory/host_vars/beginner-dbfs-patching-151-192-168-56-162.nip.io/databases.yml</h3>
+<pre><code class="language-yaml">---
+#
+# db_name anpassen
+# pdb_name anpassen
+#
+# IMPORTANT!!!
+# db_config_home is only vlalid in this file
+#
+db_homes_installed:
+  - home: &amp;db_config_home db19_si_se2
+    apply_patches: true
+    state: present
+
+
+oracle_listeners_config:
+  LISTENER:
+    home: *db_config_home
+    address:
+      - host: &quot;{{ ansible_hostname }}&quot;
+        protocol: TCP
+        port: 1521
+
+listener_installed:
+  - home: *db_config_home
+    listener_name: LISTENER
+    state: present
+
+oracle_databases:
+  - home: *db_config_home
+    oracle_db_name: &amp;oracle_db_name DB1
+    oracle_db_type: SI                                   # Type of database (RAC,RACONENODE,SI)
+    # characterset:
+    # Example custom DBCA-Template, usable for CDB and nonCDB
+    # dbca_templatename: 19c_custom_dbca.dbt
+    storage_type: FS
+    oracle_database_type: MULTIPURPOSE
+    redolog_size: 50M
+    redolog_groups: 3
+    listener_name: LISTENER
+    listener_port: &amp;cdb_listener_port 1521
+    # *local_listener is used in initparam as an anchor
+    archivelog: false
+    force_logging: true
+    state: present
+    statspack:
+      purgedays: 14
+      snaplevel: 5
+      state: present
+    tablespaces:
+      - {name: system, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false}
+      - {name: sysaux, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false}
+      - {name: undotbs1, size: 10M, autoextend: true, next: 50M, maxsize: 8G, content: permanent, state: present, bigfile: false}
+      - {name: users, size: 10M, autoextend: true, next: 50M, maxsize: 2G, content: permanent, state: present, bigfile: false}
+      - {name: temp, size: 10M, autoextend: true, next: 50M, maxsize: 8G, content: permanent, state: present, bigfile: false}
+    init_parameters:
+      - {name: local_listener, value: '//localhost:1521', scope: both, state: present}
+      - {name: audit_trail, value: 'NONE', scope: spfile, state: present}
+      - {name: processes, value: '800', scope: spfile, state: present, dbca: false}
+      - {name: archive_lag_target, value: '900', scope: both, state: present}
+      - {name: control_management_pack_access, value: 'NONE', scope: both, state: present}
+      - {name: control_file_record_keep_time, value: '30', scope: both, state: present}
+      - {name: db_files, value: '200', scope: spfile, state: present}
+      # - {name: db_domain, value: 'local', scope: both, state: present}
+      - {name: deferred_segment_creation, value: 'false', scope: both, state: present}
+      - {name: filesystemio_options, value: 'setall', scope: spfile, state: present}
+      - {name: job_queue_processes, value: '10', scope: both, state: present}
+      # Disable forcing hugepages on really small systems
+      #  - {name: use_large_pages ,value: 'ONLY', scope: spfile, state: present}
+      - {name: log_archive_dest_1, value: 'location=USE_DB_RECOVERY_FILE_DEST', scope: both, state: present}
+      - {name: log_buffer, value: '64M', scope: spfile, state: present}
+      # - {name: pga_aggregate_target, value: '1024M', scope: both, state: present, dbca: false}
+      - {name: pga_aggregate_target, value: '1G', scope: both, state: present}
+      - {name: sga_target, value: '2048M', scope: spfile, state: present}
+      - {name: recyclebin, value: 'off', scope: spfile, state: present}
+      - {name: streams_pool_size, value: '152M', scope: spfile, state: present}
+      # &quot;_cursor_obsolete_threshold&quot; for 12.2+
+      - {name: &quot;_cursor_obsolete_threshold&quot;, value: '1024', scope: spfile, state: present}
+      - {name: max_pdbs, value: '3', scope: both, state: present}
+      - {name: db_create_file_dest, value: '/u02/oradata', scope: both, state: present}
+      - {name: db_create_online_log_dest_1, value: '/u02/oradata', scope: both, state: present}
+      # - {name: db_create_online_log_dest_2, value: '/u02/fra', scope: both, state: present}
+      # file_dest_size in bytes in 12.1.0.2 due to bug in DBCA
+      - {name: db_recovery_file_dest_size, value: '100G', scope: both, state: present, dbca: false}
+      - {name: db_recovery_file_dest, value: '/u02/fra', scope: both, state: present}
+      - {name: open_cursors, value: '20000', scope: both, state: present, dbca: false}
+      - {name: diagnostic_dest, value: '/u01/app/oracle', scope: both, state: present}
+
+    profiles:
+      - name: DEFAULT
+        state: present
+        attributes:
+          # - {name: password_life_time, value: &quot;UNLIMITED&quot;}
+          - {name: password_life_time, value: unlimited}
+
+    users:
+      - schema: dbsnmp
+        state: unlocked
+        update_password: always
+
+#    rman_jobs:
+#      - {name: parameter}
+#      - {name: offline_level0, disabled: false, weekday: &quot;0&quot;, hour: &quot;01&quot;, minute: &quot;10&quot;, day: &quot;*&quot;}
+
+oracle_pdbs:
+  - home: *db_config_home
+    listener_port: *cdb_listener_port
+    cdb: *oracle_db_name
+    pdb_name: PDB1
+    state: present
+    apex_state: present
+    apex_version: 24.1
+    apex_patchid: 36695709
+    # apex_version: 23.2
+    # apex_patchid: 35895964
+    profiles: &quot;{{ oracle_default_profiles }}&quot;
+    statspack:
+      purgedays: 14
+      snaplevel: 7
+      state: present
+
+    tablespaces:
+      - {name: system, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false}
+      - {name: sysaux, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false}
+      - {name: undotbs1, size: 10M, autoextend: true, next: 50M, maxsize: 8G, content: permanent, state: present, bigfile: false}
+      - {name: users, size: 10M, autoextend: true, next: 50M, maxsize: 2G, content: permanent, state: present, bigfile: false}
+      - {name: temp, size: 10M, autoextend: true, next: 50M, maxsize: 24G, content: permanent, state: present, bigfile: false}
+
+oracle_tnsnames_config: &quot;{{ _tnsnames_config_pdb_helper | items2dict }}&quot;
+
+# creating a temporary dict entry for _tnsnames_config
+# Do not modify this for new databases
+_tnsnames_config_pdb_helper:
+  - key: &quot;{{ oracle_pdbs[0]['pdb_name'] }}&quot;
+    value:
+      connect:
+        service_name: &quot;{{ oracle_pdbs[0]['pdb_name'] }}&quot;
+      address:
+        - host: &quot;{{ ansible_hostname }}&quot;
+
+tnsnames_installed:
+  - tnsname: &quot;{{ oracle_pdbs[0]['pdb_name'] }}&quot;
+    home: *db_config_home
+    state: present
+</code></pre>
+<h3 id="ansibleinventoryhost_varsbeginner-dbfs-patching-151-192-168-56-162nipioordsyml">ansible/inventory/host_vars/beginner-dbfs-patching-151-192-168-56-162.nip.io/ords.yml</h3>
+<pre><code class="language-yaml">---
+# Images are pulled from CDN at Oracle.
+# oraords_apex_image_path: /u01/app/oracle/product/apex_24.1/apex/images/
+# oraords_apex_image_context: /i
+
+oraords_db_pools:
+  - db_pool: default
+    pdb_name: PDB1
+    admin_user: sys
+    service: pdb1
+    port: 1521
+    host: &quot;{{ inventory_hostname }}&quot;
+    feature_db_api: true
+    feature_rest_enabled_sql: true
+    feature_sdw: true
+
+oraords_db_pools_password:
+  default:
+    admin_password: &quot;{{ dbpasswords['DB1']['sys'] }}&quot;
+    ords_password: &quot;{{ dbpasswords['DB1']['PDB1']['ords_public_user'] }}&quot;
+</code></pre>
+<h3 id="ansibleinventoryhost_varsbeginner-dbfs-patching-151-192-168-56-162nipiopasswordyml">ansible/inventory/host_vars/beginner-dbfs-patching-151-192-168-56-162.nip.io/password.yml</h3>
+<pre><code class="language-yaml">---
+default_dbpass: Oracle_123
+
+dbpasswords:
+  DB1:
+    sys: Oracle_123
+    system: Oracle_123
+    dbsnmp: Oracle_456
+
+    PDB1:
+      pdbadmin: Oracle_456
+      ords_public_user: ords123
+      apex_public_router: ords123
+      apex_public_user: ords123
+      apex_rest_public_user: ords123
+
+oraapex_default_admin_password: Oracle_Apex_1
+</code></pre>
+<h3 id="ansibleinventoryhostsyml">ansible/inventory/hosts.yml</h3>
+<pre><code class="language-yaml">---
+all:
+  children:
+    dbfs:
+      hosts:
+        beginner-dbfs-patching-151-192-168-56-162.nip.io:
+</code></pre>
+<h3 id="ansiblerequirementsyml">ansible/requirements.yml</h3>
+<pre><code class="language-yaml">---
+collections:
+  - name: opitzconsulting.ansible_oracle
+    version: 4.17.0
+
+  # following entry is for development only!
+  # - name: opitzconsulting.ansible_oracle
+  #   source: ./../../..
+  #   type: dir
+</code></pre>
+<h3 id="vagrantvagrantfile">vagrant/Vagrantfile</h3>
+<pre><code class="language-ruby"># -*- mode: ruby -*-
+# vi: set ft=ruby :
+#
+# PLEASE START 1st with following command to create additional disks!
+#
+# VAGRANT_EXPERIMENTAL=disks vagrant up
+
+Vagrant.configure(&quot;2&quot;) do |config|
+
+  lanip = &quot;192.168.56.162&quot;
+  vm_name = &quot;beginner-dbfs-patching-151-192-168-56-162&quot;
+
+  puts &quot; &quot;
+  puts &quot; Single Instance Database in Filesystem with Patching&quot;
+  puts &quot; &quot;
+  puts &quot; Hostname: #{vm_name}&quot;
+  puts &quot; IP:       #{lanip}&quot;
+  puts &quot; Logins:&quot;
+  puts &quot;           vagrant / vagrant&quot;
+  puts &quot;           root    / vagrant&quot;
+  puts &quot; &quot;
+  puts &quot; Please do the 1st start with following command to create the additional disks!&quot;
+  puts &quot; VAGRANT_EXPERIMENTAL=disks vagrant up&quot;
+  puts &quot; &quot;
+
+  # Please define the folder to the extracted archives from Oracle
+  #
+  config.vm.synced_folder ENV['VAGRANT_ANSIBLE_ORACLE_SW'], &quot;/sw/oracle&quot;, disabled: false, mount_options: [&quot;ro&quot;]
+
+  config.vm.disk :disk, size: &quot;150GB&quot;, name: &quot;#{vm_name}_oracle&quot;
+
+  config.vm.box =  &quot;Rendanic/oraclelinux-8.x&quot;
+  config.vm.box_check_update = false
+
+  config.vm.network :private_network, ip: lanip
+
+  # config.vm.network &quot;public_network&quot;
+  config.ssh.insert_key = true
+  config.ssh.username = &quot;vagrant&quot;
+  config.ssh.password = &quot;vagrant&quot;
+
+  config.vm.hostname = &quot;#{vm_name}.nio.io&quot;
+
+  config.vm.provider &quot;virtualbox&quot; do |vb|
+    vb.name = vm_name
+    vb.gui = false
+    vb.memory = &quot;6144&quot;
+    vb.cpus = 2
+    # vb.customize [&quot;modifyvm&quot;, :id, &quot;--groups&quot;, &quot;/ansible-oracle&quot;]
+
+  end
+
+  config.vm.provision &quot;shell&quot;, inline: &lt;&lt;-SHELL
+
+    if [ ! -b /dev/sdb ]; then
+      echo &quot;Please start the Box with following command once to create the addional disks!&quot;
+      echo &quot;VAGRANT_EXPERIMENTAL=disks vagrant up&quot;
+      exit 1
+    fi
+
+    # copy public key to vagrant user
+    ssh_public_key=$(find /vagrant/*.pub -printf &quot;%p&quot;)
+    if test -f &quot;$ssh_public_key&quot; ; then
+      echo &quot;Check if public key $ssh_public_key is valid.&quot;
+      if ssh-keygen -l -f &quot;$ssh_public_key&quot; ; then
+        echo &quot;Add public key to /home/vagrant/.ssh/authorized_keys&quot;
+        cat &quot;$ssh_public_key&quot; &gt;&gt; /home/vagrant/.ssh/authorized_keys
+      fi
+    fi
+
+    sed -i 's/^PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+    systemctl restart sshd.service
+
+    # we need more free space in /var/tmp for later copy tasks in ansible
+    lvextend -r -L 6g /dev/mapper/rootvg-varlv
+
+    # Install Python3 on target host due to parallel installation of python 3.9
+    yum install -y python3
+
+    # Clone ansible-oracle Repository
+    yum install -y git
+    mkdir /home/vagrant/git
+    cd /home/vagrant/git
+
+    git clone https://github.com/oravirt/ansible-oracle.git
+    chown -R vagrant /home/vagrant/git
+
+    # Update OS
+    yum install -y gcc make perl kernel-uek-devel bash-completion
+    yum update -y
+    /sbin/rcvboxadd quicksetup all
+
+  SHELL
+end
+</code></pre>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3 - Data Guard</h1>
+    
+	<p>Primary and standby database with Data Guard on 2 Oracle Linux VMs.</p>
+<p>The example is described step by step in the <a href="/docs/guides/rman-standby/dataguard/">guide</a>.</p>
+<p>Source: <a href="https://github.com/oravirt/ansible-oracle/tree/master/example/dataguard"><code>example/dataguard</code></a></p>
+<h2 id="files">Files</h2>
+<h3 id="ansibleansiblecfg">ansible/ansible.cfg</h3>
+<pre><code class="language-ini">[defaults]
+
+inventory = inventory
+host_key_checking = False
+display_skipped_hosts = false
+duplicate_dict_key = ignore
+
+nocolor = 1
+retry_files_enabled = False
+
+interpreter_python = auto_silent
+
+callbacks_enabled = timer
+stdout_callback = ansible.builtin.default
+result_format = yaml
+
+[ssh_connection]
+pipelining = True
+</code></pre>
+<h3 id="ansibleinventorygroup_varsallautoupgradeyml">ansible/inventory/group_vars/all/autoupgrade.yml</h3>
+<pre><code class="language-yaml">---
+autoupgrade_run_local: false
+autoupgrade_download_use_oracle_sw_patches: false
+autoupgrade_download_latest: true
+
+autoupgrade_download_gold_image_rename: true
+# db_home_26_latest.zip -&gt; latest downloaded Gold Image for 26ai (imagename in db-homes.yml)
+autoupgrade_download_gold_image_latest: true
+autoupgrade_jar_filesource: /u01/stage/autoupgrade.jar
+
+autoupgrade_download_patches:
+  # - target_version: 19
+  #   # renovate: datasource=custom.oracle-ru-19 depName=oracle-db-ru-19
+  #   patch: RU:19.33,OPATCH,OJVM,DPBP
+  #   gold_image: &quot;ALL&quot;
+  - target_version: 26
+    # renovate: datasource=custom.oracle-ru-26 depName=oracle-db-ru-26
+    patch: RU:23.26.4,AHF,CVU
+    # patch: RECOMMENDED
+    gold_image: &quot;ALL&quot;
+    platform: LINUX.X64
+</code></pre>
+<h3 id="ansibleinventorygroup_varsallbackupyml">ansible/inventory/group_vars/all/backup.yml</h3>
+<pre><code class="language-yaml">---
+# RMAN backups with NFS (playbooks/nfs_server.yml, role oradb_rman)
+#
+# dataguard-dbfs1 (group nfs_server) exports nfs_server_backup_path read write,
+# the hosts of the group nfs_client mount the share permanently on the same path.
+# =&gt; all members of the Data Guard configuration write their backups into the same directory
+#    and every member can read the backups of the other member.
+nfs_server_backup: &quot;{{ hostvars[groups['nfs_server'][0]]['ansible_host'] }}&quot;
+nfs_server_backup_path: /u01/app/oracle/backup
+# Mount options of the backup share on the NFS clients
+nfs_client_backup_opts: rw,bg,hard,tcp,timeo=600,rsize=1048576,wsize=1048576
+
+# CONFIGURE DEVICE TYPE DISK in the RMAN script parameter (role oradb_rman)
+rman_device_type_disk: 'PARALLELISM 1 BACKUP TYPE TO COMPRESSED BACKUPSET'
+</code></pre>
+<h3 id="ansibleinventorygroup_varsalldb-homesyml">ansible/inventory/group_vars/all/db-homes.yml</h3>
+<pre><code class="language-yaml">---
+apply_patches_db: false
+db_homes_config:
+
+  # read-only ORACLE_HOME: SPFile, password file and the Data Guard Broker configuration files
+  # are in ORACLE_BASE/dbs =&gt; they are kept with Out-of-Place Patching
+  db26_si_ee:
+    version: 26.1.0.0
+    oracle_home: /u01/app/oracle/product/db26_si_ee
+    edition: EE
+    imagename: db_home_26_latest.zip
+    readonly_home: true
+    # mandatory for readonly_home
+    oracle_home_name: db26_si_ee
+    opatch_minversion: 12.2.0.1.36
+    state: present
+</code></pre>
+<h3 id="ansibleinventorygroup_varsalldb-profilesyml">ansible/inventory/group_vars/all/db-profiles.yml</h3>
+<pre><code class="language-yaml">---
+# global Defaults for Database-Profiles
+
+oracle_default_profiles:
+  - name: DEFAULT
+    state: present
+    attributes:
+      - {name: password_life_time, value: unlimited}
+  - name: PW_UNLIMIT
+    state: present
+    attributes:
+      - {name: password_life_time, value: &quot;UNLIMITED&quot;}
+      - {name: password_grace_time, value: 7}
+      - {name: password_lock_time, value: 1}
+      - {name: password_verify_function, value: &quot;null&quot;}
+</code></pre>
+<h3 id="ansibleinventorygroup_varsallhostyml">ansible/inventory/group_vars/all/host.yml</h3>
+<pre><code class="language-yaml">---
+configure_public_yum_repo: false
+configure_motd: false
+
+autostartup_service: true
+
+configure_hugepages_by: memory
+
+# disable hugepages on small systems
+# don't forget to enable use_large_pages in oracle parameter
+# size_in_gb_hugepages: 2
+size_in_gb_hugepages: 0
+
+
+configure_host_disks: true
+
+# Hyper-V VM from packer-hyperv: one disk /dev/sda, the free space of VG &quot;ol&quot; (/dev/sda3)
+# is used for the Oracle filesystems.
+host_fs_layout:
+  - vgname: ol
+    state: present
+    filesystem:
+      - {mntp: swap, lvname: lvswap, lvsize: 16G, fstype: swap}
+      - {mntp: /u01, lvname: lvorabase, lvsize: 40G, fstype: xfs}
+      - {mntp: /u02, lvname: lvoradata, lvsize: 25G, fstype: xfs, fsopts: &quot;-m reflink=1 -m crc=1&quot;}
+    disk:
+      - {device: /dev/sda, pvname: /dev/sda3}
+</code></pre>
+<h3 id="ansibleinventorygroup_varsallmos_loginyml">ansible/inventory/group_vars/all/mos_login.yml</h3>
+<pre><code class="language-yaml">---
+# My Oracle Support credentials for AutoUpgrade from the OS environment:
+#   export MOS_USERNAME=&lt;login&gt;
+#   read -s MOS_PASSWORD &amp;&amp; export MOS_PASSWORD
+#
+# Optional: replace the lookups with static values.
+# Encrypt the password with ansible-vault in this case.
+mos_username: &quot;{{ lookup('ansible.builtin.env', 'MOS_USERNAME', default=Undefined) }}&quot;
+mos_password: &quot;{{ lookup('ansible.builtin.env', 'MOS_PASSWORD', default=Undefined) }}&quot;
+
+# Keystore password for AutoUpgrade (16 characters), derived from mos_password:
+# fixed prefix for digit, special, lower and upper case + first 12 characters of sha256(mos_password)
+autoupgrade_keystore_password: &quot;1_aA{{ (mos_password | hash('sha256'))[:12] }}&quot;
+</code></pre>
+<h3 id="ansibleinventorygroup_varsallpasswordyml">ansible/inventory/group_vars/all/password.yml</h3>
+<pre><code class="language-yaml">---
+# default_dbpass for all users not listed in dbpasswords
+default_dbpass: Oracle_123
+</code></pre>
+<h3 id="ansibleinventorygroup_varsallsoftware_srcyml">ansible/inventory/group_vars/all/software_src.yml</h3>
+<pre><code class="language-yaml">---
+is_sw_source_local: true
+oracle_sw_copy: false
+oracle_sw_unpack: true
+
+# Installation media: target of the AutoUpgrade download on the NFS server (dataguard-dbfs1).
+# The ORACLE_HOME is extracted from oracle_stage_remote, because oracle_sw_copy is false.
+oracle_sw_source_local: /u01/sw
+oracle_stage_remote: /u01/sw
+
+# Directory for response files, extracted patches etc.
+oracle_stage: /u01/stage
+
+# NFS share with the installation media (playbooks/nfs_server.yml)
+# install_from_nfs: true is set for the NFS clients in host_vars.
+# They mount the share on oracle_stage_remote during the installation of the ORACLE_HOME
+# (same path as on the NFS server =&gt; the symlink db_home_26_latest.zip works on all hosts).
+install_from_nfs: false
+nfs_server_sw: &quot;{{ hostvars[groups['nfs_server'][0]]['ansible_host'] }}&quot;
+nfs_server_sw_path: /u01/sw
+</code></pre>
+<h3 id="ansibleinventorygroup_varsdbfsdatabase_db1yml">ansible/inventory/group_vars/dbfs/database_DB1.yml</h3>
+<pre><code class="language-yaml">---
+# Database DB1 on both members of the Data Guard configuration DG1.
+#
+# Host specific values in host_vars/&lt;host&gt;/databases.yml:
+# - db1_unique_name: db_unique_name of the member in db_standby_config (group_vars/dbfs/standby.yml)
+#
+# dataguard-dbfs1 (initial_role primary):          created with dbca
+# dataguard-dbfs2 (initial_role physical_standby): created with RMAN DUPLICATE by oradb_standby
+oracle_database_db1:
+  home: &amp;db_config_home db26_si_ee
+  oracle_db_name: &amp;oracle_db_name DB1
+  oracle_db_unique_name: &quot;{{ db1_unique_name }}&quot;
+  standby_config: DG1
+  oracle_db_type: SI                                   # Type of database (RAC,RACONENODE,SI)
+  storage_type: FS                                     # Database storage to be used. ASM or FS.
+  oracle_database_type: MULTIPURPOSE                   # MULTIPURPOSE|DATA_WAREHOUSING|OLTP
+  redolog_size: 75M
+  redolog_groups: 3
+  # mandatory for Data Guard: static listener entry &lt;db_unique_name&gt;_DGMGRL
+  listener_name: LISTENER
+  listener_port: &amp;cdb_listener_port 1521
+  # Data Guard needs archivelog and force logging, flashback allows the reinstate after a failover
+  archivelog: true
+  flashback: true
+  force_logging: true
+  state: present
+  tablespaces:
+    - {name: system, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false}
+    - {name: sysaux, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false}
+    - {name: undotbs1, size: 10M, autoextend: true, next: 50M, maxsize: 8G, content: permanent, state: present, bigfile: false}
+    - {name: users, size: 10M, autoextend: true, next: 50M, maxsize: 2G, content: permanent, state: present, bigfile: false}
+    - {name: temp, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false}
+  init_parameters:
+    - {name: processes, value: '400', scope: spfile, state: present, dbca: false}
+    # EZConnect of the local listener with the IP address of the host.
+    # The standby gets its own value with SET in RMAN DUPLICATE (oradb_standby).
+    - {name: local_listener, value: '//{{ ansible_host }}:1521', scope: both, state: present}
+    - {name: control_management_pack_access, value: 'NONE', scope: both, state: present}
+    - {name: control_file_record_keep_time, value: '30', scope: both, state: present}
+    - {name: deferred_segment_creation, value: 'false', scope: both, state: present}
+    - {name: filesystemio_options, value: 'setall', scope: spfile, state: present}
+    - {name: job_queue_processes, value: '10', scope: both, state: present}
+    - {name: log_archive_dest_1, value: 'location=USE_DB_RECOVERY_FILE_DEST', scope: both, state: present}
+    - {name: pga_aggregate_target, value: '200M', scope: both, state: present}
+    - {name: sga_target, value: '1800M', scope: spfile, state: present}
+    - {name: recyclebin, value: 'off', scope: spfile, state: present}
+    - {name: max_pdbs, value: '3', scope: both, state: present}
+    # Oracle Managed Files are mandatory for Data Guard in ansible-oracle
+    - {name: db_create_file_dest, value: '/u02/oradata', scope: both, state: present}
+    - {name: db_create_online_log_dest_1, value: '/u02/oradata', scope: both, state: present}
+    - {name: db_recovery_file_dest_size, value: '10G', scope: both, state: present, dbca: false}
+    - {name: db_recovery_file_dest, value: '/u02/fra', scope: both, state: present}
+    # Data Guard Broker: configuration files outside of ORACLE_HOME (read-only ORACLE_HOME =&gt; ORACLE_BASE/dbs),
+    # dg_broker_start below the file parameters: the files cannot be changed while the broker is running
+    - {name: dg_broker_config_file1, value: '/u01/app/oracle/dbs/dr1{{ db1_unique_name }}.dat', scope: both, state: present, dbca: false}
+    - {name: dg_broker_config_file2, value: '/u01/app/oracle/dbs/dr2{{ db1_unique_name }}.dat', scope: both, state: present, dbca: false}
+    - {name: dg_broker_start, value: 'TRUE', scope: both, state: present, dbca: false}
+    - {name: standby_file_management, value: 'AUTO', scope: both, state: present}
+
+  profiles:
+    - name: DEFAULT
+      state: present
+      attributes:
+        - {name: password_life_time, value: unlimited}
+
+  # RMAN backups to the NFS share nfs_server_backup_path (group_vars/all/backup.yml)
+  # control_file_record_keep_time (init_parameters) must be &gt;= the days of the RECOVERY WINDOW
+  rman_retention_policy: 'RECOVERY WINDOW OF 7 DAYS'
+  rman_channel_disk: &quot;format '/u01/app/oracle/backup/%d/%d_%T_%U'&quot;
+  # %F contains the DBID, which is identical on all members =&gt; db_unique_name in the name
+  rman_controlfile_autobackup_disk: &quot;'/u01/app/oracle/backup/%d/%d_{{ db1_unique_name }}_%F'&quot;
+  # Both members get the same jobs. role: primary =&gt; the backup runs on the current primary only,
+  # rman_backup.sh skips it on the standby. After a switchover the backups follow the role.
+  rman_jobs:
+    # CONFIGURE ... during the playbook: parameter on the primary,
+    # parameter_standby on the standby (without CONFIGURE RETENTION POLICY: not configurable on a standby)
+    - {name: parameter, role: primary, immediate: true}
+    - {name: parameter_standby, role: standby, immediate: true}
+    # weekly level 0 backup on Sunday at 01:10
+    - {name: online_level0, role: primary, weekday: &quot;0&quot;, hour: &quot;01&quot;, minute: &quot;10&quot;, day: &quot;*&quot;}
+    # hourly archivelog backup
+    - {name: archivelog, role: primary, weekday: &quot;*&quot;, hour: &quot;*&quot;, minute: &quot;30&quot;, day: &quot;*&quot;}
+
+oracle_pdb_db1_orclpdb:
+  home: *db_config_home
+  listener_port: *cdb_listener_port
+  cdb: *oracle_db_name
+  pdb_name: ORCLPDB
+  state: present
+  profiles: &quot;{{ oracle_default_profiles }}&quot;
+
+  tablespaces:
+    - {name: system, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false}
+    - {name: sysaux, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false}
+    - {name: undotbs1, size: 10M, autoextend: true, next: 50M, maxsize: 8G, content: permanent, state: present, bigfile: false}
+    - {name: users, size: 10M, autoextend: true, next: 50M, maxsize: 2G, content: permanent, state: present, bigfile: false}
+    - {name: temp, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false}
+
+oracle_databases:
+  - &quot;{{ oracle_database_db1 }}&quot;
+
+# PDBs are managed on the primary database only (oradb_manage_pdb skips a standby database)
+oracle_pdbs:
+  - &quot;{{ oracle_pdb_db1_orclpdb }}&quot;
+</code></pre>
+<h3 id="ansibleinventorygroup_varsdbfsdatabaseyml">ansible/inventory/group_vars/dbfs/database.yml</h3>
+<pre><code class="language-yaml">---
+db_homes_installed:
+  - home: db26_si_ee
+    apply_patches: false
+    state: present
+</code></pre>
+<h3 id="ansibleinventorygroup_varsdbfslisteneryml">ansible/inventory/group_vars/dbfs/listener.yml</h3>
+<pre><code class="language-yaml">---
+
+oracle_listeners_config:
+  LISTENER:
+    home: &amp;listener_home db26_si_ee
+    address:
+      - host: &quot;{{ ansible_hostname }}&quot;
+        protocol: TCP
+        port: 1521
+
+listener_installed:
+  - home: *listener_home
+    listener_name: LISTENER
+    state: present
+</code></pre>
+<h3 id="ansibleinventorygroup_varsdbfsstandbyyml">ansible/inventory/group_vars/dbfs/standby.yml</h3>
+<pre><code class="language-yaml">---
+# Data Guard configuration DG1 with 2 members.
+# Must be identical on all members =&gt; group_vars of the group with all members.
+#
+# Inventory structure: doc/guides/standby_databases.adoc
+db_standby_config:
+  - name: DG1
+    type: dataguard
+    dg:
+      protection_mode: MaxPerformance
+      # mandatory: RMAN CONFIGURE ARCHIVELOG DELETION POLICY of all members (oradb_standby).
+      # Archive logs are eligible for deletion after they are applied on all standby databases.
+      # 'BACKED UP ...' needs an RMAN catalog: without catalog the controlfile of a standby
+      # does not know the backups of the primary =&gt; no archive log of the standby would be eligible.
+      archivelog_deletion_policy: APPLIED ON ALL STANDBY
+    members:
+      - hosts: [dataguard-dbfs1]
+        db_unique_name: DB1_SITE1
+        initial_role: primary
+        dg:
+          connect_identifier: DB1_SITE1
+          log_xpt_mode: ASYNC
+      - hosts: [dataguard-dbfs2]
+        db_unique_name: DB1_SITE2
+        initial_role: physical_standby
+        dg:
+          connect_identifier: DB1_SITE2
+          log_xpt_mode: ASYNC
+</code></pre>
+<h3 id="ansibleinventorygroup_varsdbfstnsnamesyml">ansible/inventory/group_vars/dbfs/tnsnames.yml</h3>
+<pre><code class="language-yaml">---
+# Connect identifiers of the members (dg.connect_identifier in db_standby_config).
+# Used by RMAN DUPLICATE (oradb_standby), the Data Guard Broker (dgmgrl) and for redo transport.
+# The service &lt;db_unique_name&gt; is registered dynamically at the listener of each host.
+# IP addresses from ansible_host =&gt; no DNS needed between the database servers.
+oracle_tnsnames_config:
+  DB1_SITE1:
+    connect:
+      service_name: DB1_SITE1
+    address:
+      - host: &quot;{{ hostvars['dataguard-dbfs1']['ansible_host'] }}&quot;
+        port: 1521
+  DB1_SITE2:
+    connect:
+      service_name: DB1_SITE2
+    address:
+      - host: &quot;{{ hostvars['dataguard-dbfs2']['ansible_host'] }}&quot;
+        port: 1521
+
+tnsnames_installed:
+  - tnsname: DB1_SITE1
+    home: db26_si_ee
+    state: present
+  - tnsname: DB1_SITE2
+    home: db26_si_ee
+    state: present
+</code></pre>
+<h3 id="ansibleinventoryhost_varsdataguard-dbfs1databasesyml">ansible/inventory/host_vars/dataguard-dbfs1/databases.yml</h3>
+<pre><code class="language-yaml">---
+# initial primary of the Data Guard configuration DG1 (db_standby_config in group_vars/dbfs/standby.yml)
+db1_unique_name: DB1_SITE1
+</code></pre>
+<h3 id="ansibleinventoryhost_varsdataguard-dbfs2databasesyml">ansible/inventory/host_vars/dataguard-dbfs2/databases.yml</h3>
+<pre><code class="language-yaml">---
+# initial physical standby of the Data Guard configuration DG1 (db_standby_config in group_vars/dbfs/standby.yml)
+db1_unique_name: DB1_SITE2
+</code></pre>
+<h3 id="ansibleinventoryhost_varsdataguard-dbfs2software_srcyml">ansible/inventory/host_vars/dataguard-dbfs2/software_src.yml</h3>
+<pre><code class="language-yaml">---
+# The installation media are mounted with NFS from dataguard-dbfs1 (group nfs_server)
+# on oracle_stage_remote during the installation of the ORACLE_HOME.
+# No AutoUpgrade download on this host.
+install_from_nfs: true
+</code></pre>
+<h3 id="ansibleinventoryhostsyml">ansible/inventory/hosts.yml</h3>
+<pre><code class="language-yaml">---
+all:
+  children:
+    # both database servers of the Data Guard configuration DG1
+    dbfs:
+      hosts:
+        dataguard-dbfs1:
+          # IP address or DNS name of the 1st Oracle Linux 9 VM (initial primary)
+          ansible_host: 192.168.66.166
+          # Login user on the VM with sudo privileges (SSH key login)
+          ansible_user: ol
+        dataguard-dbfs2:
+          # IP address or DNS name of the 2nd Oracle Linux 9 VM (initial physical standby)
+          ansible_host: 192.168.66.167
+          ansible_user: ol
+
+    # NFS server for the installation media (playbooks/nfs_server.yml)
+    # AutoUpgrade downloads the gold image on this host only.
+    nfs_server:
+      hosts:
+        dataguard-dbfs1:
+
+    # Database servers which mount the installation media from nfs_server
+    nfs_client:
+      hosts:
+        dataguard-dbfs2:
+</code></pre>
+<h3 id="ansibleplaybooksautoupgradeyml">ansible/playbooks/autoupgrade.yml</h3>
+<pre><code class="language-yaml">---
+# AutoUpgrade on the NFS server only (group nfs_server):
+# the gold image is downloaded once into /u01/sw and used by all database servers with NFS.
+- name: Install Oracle AutoUpgrade
+  hosts: &quot;{{ hostgroup | default('nfs_server') }}&quot;
+  any_errors_fatal: true
+  tasks:
+
+    - name: install openJDK and python-pexpect
+      become: true
+      become_user: root
+      when:
+        - not autoupgrade_run_local | bool
+      ansible.builtin.package:
+        name:
+          - java-1.8.0-openjdk
+          - python-pexpect
+        state: present
+
+    - name: Install autoupgrade.jar
+      ansible.builtin.import_role:
+        name: opitzconsulting.ansible_oracle.autoupgrade
+        tasks_from: install.yml
+
+- name: Import_playbook autoupgrade_download_patches
+  import_playbook: opitzconsulting.ansible_oracle.autoupgrade_download_patches
+  vars:
+    hostgroup: nfs_server
+</code></pre>
+<h3 id="ansibleplaybooksdo_allyml">ansible/playbooks/do_all.yml</h3>
+<pre><code class="language-yaml">---
+# 1. OS of both database servers
+- name: Import_playbook os
+  import_playbook: opitzconsulting.ansible_oracle.os
+  vars:
+    hostgroup: dbfs
+
+# 2. NFS server for the installation media and the RMAN backups on dataguard-dbfs1,
+#    permanent mount of the RMAN backups on dataguard-dbfs2
+- name: Import_playbook nfs_server
+  import_playbook: nfs_server.yml
+  vars:
+    hostgroup: nfs_server
+
+# 3. AutoUpgrade and download of the gold image on dataguard-dbfs1
+- name: Import_playbook autoupgrade
+  import_playbook: autoupgrade.yml
+  vars:
+    hostgroup: nfs_server
+
+# 4. ORACLE_HOME on both hosts (dataguard-dbfs2 with NFS),
+#    primary database with dbca, standby database with RMAN DUPLICATE, Data Guard Broker
+#    Both hosts must be part of the play: oradb_standby needs the facts of the primary.
+- name: Import_playbook single_instance_fs
+  import_playbook: opitzconsulting.ansible_oracle.single_instance_fs
+  vars:
+    hostgroup: dbfs
+</code></pre>
+<h3 id="ansibleplaybooksnfs_serveryml">ansible/playbooks/nfs_server.yml</h3>
+<pre><code class="language-yaml">---
+# NFS server on the 1st database server (group nfs_server) for
+# - the installation media (nfs_server_sw_path, read only):
+#   AutoUpgrade downloads the gold image into nfs_server_sw_path on this host only.
+#   The hosts of the group nfs_client mount the share with install_from_nfs: true
+#   during the installation of the ORACLE_HOME (role oraswdb_install).
+# - the RMAN backups (nfs_server_backup_path, read write):
+#   The hosts of the group nfs_client mount the share permanently on the same path (2nd play).
+#
+# Requires the playbook opitzconsulting.ansible_oracle.os before: filesystem /u01, user oracle.
+- name: NFS server for installation media and RMAN backups
+  hosts: &quot;{{ hostgroup | default('nfs_server') }}&quot;
+  become: true
+  any_errors_fatal: true
+  vars:
+    # IP addresses of the NFS clients
+    nfs_server_clients: &gt;-
+      {{ groups['nfs_client'] | default([]) | map('extract', hostvars, 'ansible_host') | list }}
+  tasks:
+    - name: Install nfs-utils
+      ansible.builtin.package:
+        name: nfs-utils
+        state: present
+
+    # target of the AutoUpgrade download
+    - name: Create directory for installation media
+      ansible.builtin.file:
+        path: &quot;{{ nfs_server_sw_path }}&quot;
+        state: directory
+        owner: &quot;{{ oracle_user | default('oracle') }}&quot;
+        group: &quot;{{ oracle_group | default('oinstall') }}&quot;
+        mode: &quot;0755&quot;
+
+    - name: Export installation media
+      ansible.builtin.copy:
+        content: |
+          # Managed by Ansible (playbooks/nfs_server.yml): installation media for ansible-oracle
+          {{ nfs_server_sw_path }} {{ nfs_server_clients | map('regex_replace', '$', '(ro,sync,root_squash)') | join(' ') }}
+        dest: /etc/exports.d/oracle-sw.exports
+        owner: root
+        group: root
+        mode: &quot;0644&quot;
+      register: _nfs_server_exports
+
+    # ORACLE_BASE with the same owner and mode as in the role oraswdb_install
+    - name: Create ORACLE_BASE
+      ansible.builtin.file:
+        path: &quot;{{ oracle_base | default('/u01/app/oracle') }}&quot;
+        state: directory
+        owner: &quot;{{ oracle_user | default('oracle') }}&quot;
+        group: &quot;{{ oracle_group | default('oinstall') }}&quot;
+        mode: &quot;0775&quot;
+
+    # RMAN does not create directories: one directory per DB_NAME (%d in the RMAN format)
+    - name: Create directories for RMAN backups
+      ansible.builtin.file:
+        path: &quot;{{ item }}&quot;
+        state: directory
+        owner: &quot;{{ oracle_user | default('oracle') }}&quot;
+        group: &quot;{{ oracle_group | default('oinstall') }}&quot;
+        mode: &quot;0750&quot;
+      loop: &gt;-
+        {{ [nfs_server_backup_path]
+           + oracle_databases | default([]) | map(attribute='oracle_db_name')
+             | map('regex_replace', '^', nfs_server_backup_path ~ '/') | list }}
+
+    - name: Export RMAN backups
+      ansible.builtin.copy:
+        content: |
+          # Managed by Ansible (playbooks/nfs_server.yml): RMAN backups for ansible-oracle
+          {{ nfs_server_backup_path }} {{ nfs_server_clients | map('regex_replace', '$', '(rw,sync,root_squash)') | join(' ') }}
+        dest: /etc/exports.d/oracle-backup.exports
+        owner: root
+        group: root
+        mode: &quot;0644&quot;
+      register: _nfs_server_exports_backup
+
+    - name: Start NFS server
+      ansible.builtin.systemd:
+        name: nfs-server
+        enabled: true
+        state: started
+
+    - name: Reload exports
+      ansible.builtin.command: exportfs -ra
+      when: _nfs_server_exports is changed or _nfs_server_exports_backup is changed  # noqa no-handler
+      changed_when: true
+
+    - name: Gather service facts
+      ansible.builtin.service_facts:
+
+    - name: Open NFS in firewalld
+      ansible.posix.firewalld:
+        service: &quot;{{ item }}&quot;
+        permanent: true
+        immediate: true
+        state: enabled
+      loop:
+        - nfs
+        - rpc-bind
+        - mountd
+      when:
+        - ansible_facts.services['firewalld.service'] is defined
+        - ansible_facts.services['firewalld.service'].state == 'running'
+
+# Permanent mount of the RMAN backups on the NFS clients (/etc/fstab).
+# The mount point is identical to the directory on the NFS server
+# =&gt; the same RMAN format on all members of the Data Guard configuration.
+- name: NFS client for RMAN backups
+  hosts: &quot;{{ hostgroup_nfs_client | default('nfs_client') }}&quot;
+  become: true
+  any_errors_fatal: true
+  tasks:
+    - name: Install nfs-utils
+      ansible.builtin.package:
+        name: nfs-utils
+        state: present
+
+    - name: Create ORACLE_BASE
+      ansible.builtin.file:
+        path: &quot;{{ oracle_base | default('/u01/app/oracle') }}&quot;
+        state: directory
+        owner: &quot;{{ oracle_user | default('oracle') }}&quot;
+        group: &quot;{{ oracle_group | default('oinstall') }}&quot;
+        mode: &quot;0775&quot;
+
+    # Owner and mode of the directory come from the NFS server after the mount
+    - name: Mount RMAN backups
+      ansible.posix.mount:
+        src: &quot;{{ nfs_server_backup }}:{{ nfs_server_backup_path }}&quot;
+        path: &quot;{{ nfs_server_backup_path }}&quot;
+        fstype: nfs
+        opts: &quot;{{ nfs_client_backup_opts }}&quot;
+        state: mounted
+</code></pre>
+<h3 id="ansiblerequirementsyml">ansible/requirements.yml</h3>
+<pre><code class="language-yaml">---
+collections:
+  # Data Guard (role oradb_standby) needs ansible-oracle 5.0.0 or newer
+  - name: opitzconsulting.ansible_oracle
+    version: &quot;&gt;=5.0.0&quot;
+
+  # following entry is for development only!
+  # - name: opitzconsulting.ansible_oracle
+  #   source: ./../../..
+  #   type: dir
+</code></pre>
+
+</div>
+
+
+
+    
+	
+  
+
+
+
+          </main>
+        </div>
+      </div>
+      <footer class="td-footer row d-print-none">
+  <div class="container-fluid">
+    <div class="row mx-md-2">
+      <div class="td-footer__left col-6 col-sm-4 order-sm-1">
+        
+      </div><div class="td-footer__right col-6 col-sm-4 order-sm-3">
+        <ul class="td-footer__links-list">
+  
+  <li class="td-footer__links-item" data-bs-toggle="tooltip" title="GitHub" aria-label="GitHub">
+    <a href="https://github.com/oravirt/ansible-oracle" aria-label="GitHub" target="_blank" rel="noopener">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+</ul>
+
+      </div><div class="td-footer__center col-12 col-sm-4 py-2 order-sm-2">
+        <span class="td-footer__copyright">&copy;
+    2016&ndash;2026
+    <span class="td-footer__authors">Thorsten Bruhns | <a href="https://github.com/oravirt/ansible-oracle/blob/master/LICENSE">MIT</a></span></span><nav aria-label="Legal" class="td-footer__legal mt-2">
+  <ul class="list-inline mb-0">
+    <li class="list-inline-item"><a href="/legal-notice/">Legal Notice</a></li>
+    <li class="list-inline-item"><a href="/privacy/">Privacy</a></li>
+    <li class="list-inline-item"><a href="/accessibility/">Accessibility</a></li>
+    </ul>
+</nav>
+
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <script src="/js/main.js"></script>
+<script src='/js/prism.js'></script>
+<script src='/js/tabpane-persist.js'></script>
+
+  </body>
+</html>

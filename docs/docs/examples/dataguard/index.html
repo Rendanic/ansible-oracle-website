@@ -1,0 +1,1017 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="robots" content="noindex, nofollow">
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+<title>Data Guard | ansible-oracle Project</title>
+<meta name="description" content="Primary and standby database with Data Guard on 2 Oracle Linux VMs.
+The example is described step by step in the guide.
+Source: example/dataguard
+Files ansible/ansible.cfg [defaults] inventory = inventory host_key_checking = False display_skipped_hosts = false duplicate_dict_key = ignore nocolor = 1 retry_files_enabled = False interpreter_python = auto_silent callbacks_enabled = timer stdout_callback = ansible.builtin.default result_format = yaml [ssh_connection] pipelining = True ansible/inventory/group_vars/all/autoupgrade.yml --- autoupgrade_run_local: false autoupgrade_download_use_oracle_sw_patches: false autoupgrade_download_latest: true autoupgrade_download_gold_image_rename: true # db_home_26_latest.zip -&gt; latest downloaded Gold Image for 26ai (imagename in db-homes.yml) autoupgrade_download_gold_image_latest: true autoupgrade_jar_filesource: /u01/stage/autoupgrade.jar autoupgrade_download_patches: # - target_version: 19 # # renovate: datasource=custom.oracle-ru-19 depName=oracle-db-ru-19 # patch: RU:19.33,OPATCH,OJVM,DPBP # gold_image: &#34;ALL&#34; - target_version: 26 # renovate: datasource=custom.oracle-ru-26 depName=oracle-db-ru-26 patch: RU:23.26.4,AHF,CVU # patch: RECOMMENDED gold_image: &#34;ALL&#34; platform: LINUX.X64 ansible/inventory/group_vars/all/backup.yml --- # RMAN backups with NFS (playbooks/nfs_server.yml, role oradb_rman) # # dataguard-dbfs1 (group nfs_server) exports nfs_server_backup_path read write, # the hosts of the group nfs_client mount the share permanently on the same path. # =&gt; all members of the Data Guard configuration write their backups into the same directory # and every member can read the backups of the other member. nfs_server_backup: &#34;{{ hostvars[groups[&#39;nfs_server&#39;][0]][&#39;ansible_host&#39;] }}&#34; nfs_server_backup_path: /u01/app/oracle/backup # Mount options of the backup share on the NFS clients nfs_client_backup_opts: rw,bg,hard,tcp,timeo=600,rsize=1048576,wsize=1048576 # CONFIGURE DEVICE TYPE DISK in the RMAN script parameter (role oradb_rman) rman_device_type_disk: &#39;PARALLELISM 1 BACKUP TYPE TO COMPRESSED BACKUPSET&#39; ansible/inventory/group_vars/all/db-homes.yml --- apply_patches_db: false db_homes_config: # read-only ORACLE_HOME: SPFile, password file and the Data Guard Broker configuration files # are in ORACLE_BASE/dbs =&gt; they are kept with Out-of-Place Patching db26_si_ee: version: 26.1.0.0 oracle_home: /u01/app/oracle/product/db26_si_ee edition: EE imagename: db_home_26_latest.zip readonly_home: true # mandatory for readonly_home oracle_home_name: db26_si_ee opatch_minversion: 12.2.0.1.36 state: present ansible/inventory/group_vars/all/db-profiles.yml --- # global Defaults for Database-Profiles oracle_default_profiles: - name: DEFAULT state: present attributes: - {name: password_life_time, value: unlimited} - name: PW_UNLIMIT state: present attributes: - {name: password_life_time, value: &#34;UNLIMITED&#34;} - {name: password_grace_time, value: 7} - {name: password_lock_time, value: 1} - {name: password_verify_function, value: &#34;null&#34;} ansible/inventory/group_vars/all/host.yml --- configure_public_yum_repo: false configure_motd: false autostartup_service: true configure_hugepages_by: memory # disable hugepages on small systems # don&#39;t forget to enable use_large_pages in oracle parameter # size_in_gb_hugepages: 2 size_in_gb_hugepages: 0 configure_host_disks: true # Hyper-V VM from packer-hyperv: one disk /dev/sda, the free space of VG &#34;ol&#34; (/dev/sda3) # is used for the Oracle filesystems. host_fs_layout: - vgname: ol state: present filesystem: - {mntp: swap, lvname: lvswap, lvsize: 16G, fstype: swap} - {mntp: /u01, lvname: lvorabase, lvsize: 40G, fstype: xfs} - {mntp: /u02, lvname: lvoradata, lvsize: 25G, fstype: xfs, fsopts: &#34;-m reflink=1 -m crc=1&#34;} disk: - {device: /dev/sda, pvname: /dev/sda3} ansible/inventory/group_vars/all/mos_login.yml --- # My Oracle Support credentials for AutoUpgrade from the OS environment: # export MOS_USERNAME=&lt;login&gt; # read -s MOS_PASSWORD &amp;&amp; export MOS_PASSWORD # # Optional: replace the lookups with static values. # Encrypt the password with ansible-vault in this case. mos_username: &#34;{{ lookup(&#39;ansible.builtin.env&#39;, &#39;MOS_USERNAME&#39;, default=Undefined) }}&#34; mos_password: &#34;{{ lookup(&#39;ansible.builtin.env&#39;, &#39;MOS_PASSWORD&#39;, default=Undefined) }}&#34; # Keystore password for AutoUpgrade (16 characters), derived from mos_password: # fixed prefix for digit, special, lower and upper case &#43; first 12 characters of sha256(mos_password) autoupgrade_keystore_password: &#34;1_aA{{ (mos_password | hash(&#39;sha256&#39;))[:12] }}&#34; ansible/inventory/group_vars/all/password.yml --- # default_dbpass for all users not listed in dbpasswords default_dbpass: Oracle_123 ansible/inventory/group_vars/all/software_src.yml --- is_sw_source_local: true oracle_sw_copy: false oracle_sw_unpack: true # Installation media: target of the AutoUpgrade download on the NFS server (dataguard-dbfs1). # The ORACLE_HOME is extracted from oracle_stage_remote, because oracle_sw_copy is false. oracle_sw_source_local: /u01/sw oracle_stage_remote: /u01/sw # Directory for response files, extracted patches etc. oracle_stage: /u01/stage # NFS share with the installation media (playbooks/nfs_server.yml) # install_from_nfs: true is set for the NFS clients in host_vars. # They mount the share on oracle_stage_remote during the installation of the ORACLE_HOME # (same path as on the NFS server =&gt; the symlink db_home_26_latest.zip works on all hosts). install_from_nfs: false nfs_server_sw: &#34;{{ hostvars[groups[&#39;nfs_server&#39;][0]][&#39;ansible_host&#39;] }}&#34; nfs_server_sw_path: /u01/sw ansible/inventory/group_vars/dbfs/database_DB1.yml --- # Database DB1 on both members of the Data Guard configuration DG1. # # Host specific values in host_vars/&lt;host&gt;/databases.yml: # - db1_unique_name: db_unique_name of the member in db_standby_config (group_vars/dbfs/standby.yml) # # dataguard-dbfs1 (initial_role primary): created with dbca # dataguard-dbfs2 (initial_role physical_standby): created with RMAN DUPLICATE by oradb_standby oracle_database_db1: home: &amp;db_config_home db26_si_ee oracle_db_name: &amp;oracle_db_name DB1 oracle_db_unique_name: &#34;{{ db1_unique_name }}&#34; standby_config: DG1 oracle_db_type: SI # Type of database (RAC,RACONENODE,SI) storage_type: FS # Database storage to be used. ASM or FS. oracle_database_type: MULTIPURPOSE # MULTIPURPOSE|DATA_WAREHOUSING|OLTP redolog_size: 75M redolog_groups: 3 # mandatory for Data Guard: static listener entry &lt;db_unique_name&gt;_DGMGRL listener_name: LISTENER listener_port: &amp;cdb_listener_port 1521 # Data Guard needs archivelog and force logging, flashback allows the reinstate after a failover archivelog: true flashback: true force_logging: true state: present tablespaces: - {name: system, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false} - {name: sysaux, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false} - {name: undotbs1, size: 10M, autoextend: true, next: 50M, maxsize: 8G, content: permanent, state: present, bigfile: false} - {name: users, size: 10M, autoextend: true, next: 50M, maxsize: 2G, content: permanent, state: present, bigfile: false} - {name: temp, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false} init_parameters: - {name: processes, value: &#39;400&#39;, scope: spfile, state: present, dbca: false} # EZConnect of the local listener with the IP address of the host. # The standby gets its own value with SET in RMAN DUPLICATE (oradb_standby). - {name: local_listener, value: &#39;//{{ ansible_host }}:1521&#39;, scope: both, state: present} - {name: control_management_pack_access, value: &#39;NONE&#39;, scope: both, state: present} - {name: control_file_record_keep_time, value: &#39;30&#39;, scope: both, state: present} - {name: deferred_segment_creation, value: &#39;false&#39;, scope: both, state: present} - {name: filesystemio_options, value: &#39;setall&#39;, scope: spfile, state: present} - {name: job_queue_processes, value: &#39;10&#39;, scope: both, state: present} - {name: log_archive_dest_1, value: &#39;location=USE_DB_RECOVERY_FILE_DEST&#39;, scope: both, state: present} - {name: pga_aggregate_target, value: &#39;200M&#39;, scope: both, state: present} - {name: sga_target, value: &#39;1800M&#39;, scope: spfile, state: present} - {name: recyclebin, value: &#39;off&#39;, scope: spfile, state: present} - {name: max_pdbs, value: &#39;3&#39;, scope: both, state: present} # Oracle Managed Files are mandatory for Data Guard in ansible-oracle - {name: db_create_file_dest, value: &#39;/u02/oradata&#39;, scope: both, state: present} - {name: db_create_online_log_dest_1, value: &#39;/u02/oradata&#39;, scope: both, state: present} - {name: db_recovery_file_dest_size, value: &#39;10G&#39;, scope: both, state: present, dbca: false} - {name: db_recovery_file_dest, value: &#39;/u02/fra&#39;, scope: both, state: present} # Data Guard Broker: configuration files outside of ORACLE_HOME (read-only ORACLE_HOME =&gt; ORACLE_BASE/dbs), # dg_broker_start below the file parameters: the files cannot be changed while the broker is running - {name: dg_broker_config_file1, value: &#39;/u01/app/oracle/dbs/dr1{{ db1_unique_name }}.dat&#39;, scope: both, state: present, dbca: false} - {name: dg_broker_config_file2, value: &#39;/u01/app/oracle/dbs/dr2{{ db1_unique_name }}.dat&#39;, scope: both, state: present, dbca: false} - {name: dg_broker_start, value: &#39;TRUE&#39;, scope: both, state: present, dbca: false} - {name: standby_file_management, value: &#39;AUTO&#39;, scope: both, state: present} profiles: - name: DEFAULT state: present attributes: - {name: password_life_time, value: unlimited} # RMAN backups to the NFS share nfs_server_backup_path (group_vars/all/backup.yml) # control_file_record_keep_time (init_parameters) must be &gt;= the days of the RECOVERY WINDOW rman_retention_policy: &#39;RECOVERY WINDOW OF 7 DAYS&#39; rman_channel_disk: &#34;format &#39;/u01/app/oracle/backup/%d/%d_%T_%U&#39;&#34; # %F contains the DBID, which is identical on all members =&gt; db_unique_name in the name rman_controlfile_autobackup_disk: &#34;&#39;/u01/app/oracle/backup/%d/%d_{{ db1_unique_name }}_%F&#39;&#34; # Both members get the same jobs. role: primary =&gt; the backup runs on the current primary only, # rman_backup.sh skips it on the standby. After a switchover the backups follow the role. rman_jobs: # CONFIGURE ... during the playbook: parameter on the primary, # parameter_standby on the standby (without CONFIGURE RETENTION POLICY: not configurable on a standby) - {name: parameter, role: primary, immediate: true} - {name: parameter_standby, role: standby, immediate: true} # weekly level 0 backup on Sunday at 01:10 - {name: online_level0, role: primary, weekday: &#34;0&#34;, hour: &#34;01&#34;, minute: &#34;10&#34;, day: &#34;*&#34;} # hourly archivelog backup - {name: archivelog, role: primary, weekday: &#34;*&#34;, hour: &#34;*&#34;, minute: &#34;30&#34;, day: &#34;*&#34;} oracle_pdb_db1_orclpdb: home: *db_config_home listener_port: *cdb_listener_port cdb: *oracle_db_name pdb_name: ORCLPDB state: present profiles: &#34;{{ oracle_default_profiles }}&#34; tablespaces: - {name: system, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false} - {name: sysaux, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false} - {name: undotbs1, size: 10M, autoextend: true, next: 50M, maxsize: 8G, content: permanent, state: present, bigfile: false} - {name: users, size: 10M, autoextend: true, next: 50M, maxsize: 2G, content: permanent, state: present, bigfile: false} - {name: temp, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false} oracle_databases: - &#34;{{ oracle_database_db1 }}&#34; # PDBs are managed on the primary database only (oradb_manage_pdb skips a standby database) oracle_pdbs: - &#34;{{ oracle_pdb_db1_orclpdb }}&#34; ansible/inventory/group_vars/dbfs/database.yml --- db_homes_installed: - home: db26_si_ee apply_patches: false state: present ansible/inventory/group_vars/dbfs/listener.yml --- oracle_listeners_config: LISTENER: home: &amp;listener_home db26_si_ee address: - host: &#34;{{ ansible_hostname }}&#34; protocol: TCP port: 1521 listener_installed: - home: *listener_home listener_name: LISTENER state: present ansible/inventory/group_vars/dbfs/standby.yml --- # Data Guard configuration DG1 with 2 members. # Must be identical on all members =&gt; group_vars of the group with all members. # # Inventory structure: doc/guides/standby_databases.adoc db_standby_config: - name: DG1 type: dataguard dg: protection_mode: MaxPerformance # mandatory: RMAN CONFIGURE ARCHIVELOG DELETION POLICY of all members (oradb_standby). # Archive logs are eligible for deletion after they are applied on all standby databases. # &#39;BACKED UP ...&#39; needs an RMAN catalog: without catalog the controlfile of a standby # does not know the backups of the primary =&gt; no archive log of the standby would be eligible. archivelog_deletion_policy: APPLIED ON ALL STANDBY members: - hosts: [dataguard-dbfs1] db_unique_name: DB1_SITE1 initial_role: primary dg: connect_identifier: DB1_SITE1 log_xpt_mode: ASYNC - hosts: [dataguard-dbfs2] db_unique_name: DB1_SITE2 initial_role: physical_standby dg: connect_identifier: DB1_SITE2 log_xpt_mode: ASYNC ansible/inventory/group_vars/dbfs/tnsnames.yml --- # Connect identifiers of the members (dg.connect_identifier in db_standby_config). # Used by RMAN DUPLICATE (oradb_standby), the Data Guard Broker (dgmgrl) and for redo transport. # The service &lt;db_unique_name&gt; is registered dynamically at the listener of each host. # IP addresses from ansible_host =&gt; no DNS needed between the database servers. oracle_tnsnames_config: DB1_SITE1: connect: service_name: DB1_SITE1 address: - host: &#34;{{ hostvars[&#39;dataguard-dbfs1&#39;][&#39;ansible_host&#39;] }}&#34; port: 1521 DB1_SITE2: connect: service_name: DB1_SITE2 address: - host: &#34;{{ hostvars[&#39;dataguard-dbfs2&#39;][&#39;ansible_host&#39;] }}&#34; port: 1521 tnsnames_installed: - tnsname: DB1_SITE1 home: db26_si_ee state: present - tnsname: DB1_SITE2 home: db26_si_ee state: present ansible/inventory/host_vars/dataguard-dbfs1/databases.yml --- # initial primary of the Data Guard configuration DG1 (db_standby_config in group_vars/dbfs/standby.yml) db1_unique_name: DB1_SITE1 ansible/inventory/host_vars/dataguard-dbfs2/databases.yml --- # initial physical standby of the Data Guard configuration DG1 (db_standby_config in group_vars/dbfs/standby.yml) db1_unique_name: DB1_SITE2 ansible/inventory/host_vars/dataguard-dbfs2/software_src.yml --- # The installation media are mounted with NFS from dataguard-dbfs1 (group nfs_server) # on oracle_stage_remote during the installation of the ORACLE_HOME. # No AutoUpgrade download on this host. install_from_nfs: true ansible/inventory/hosts.yml --- all: children: # both database servers of the Data Guard configuration DG1 dbfs: hosts: dataguard-dbfs1: # IP address or DNS name of the 1st Oracle Linux 9 VM (initial primary) ansible_host: 192.168.66.166 # Login user on the VM with sudo privileges (SSH key login) ansible_user: ol dataguard-dbfs2: # IP address or DNS name of the 2nd Oracle Linux 9 VM (initial physical standby) ansible_host: 192.168.66.167 ansible_user: ol # NFS server for the installation media (playbooks/nfs_server.yml) # AutoUpgrade downloads the gold image on this host only. nfs_server: hosts: dataguard-dbfs1: # Database servers which mount the installation media from nfs_server nfs_client: hosts: dataguard-dbfs2: ansible/playbooks/autoupgrade.yml --- # AutoUpgrade on the NFS server only (group nfs_server): # the gold image is downloaded once into /u01/sw and used by all database servers with NFS. - name: Install Oracle AutoUpgrade hosts: &#34;{{ hostgroup | default(&#39;nfs_server&#39;) }}&#34; any_errors_fatal: true tasks: - name: install openJDK and python-pexpect become: true become_user: root when: - not autoupgrade_run_local | bool ansible.builtin.package: name: - java-1.8.0-openjdk - python-pexpect state: present - name: Install autoupgrade.jar ansible.builtin.import_role: name: opitzconsulting.ansible_oracle.autoupgrade tasks_from: install.yml - name: Import_playbook autoupgrade_download_patches import_playbook: opitzconsulting.ansible_oracle.autoupgrade_download_patches vars: hostgroup: nfs_server ansible/playbooks/do_all.yml --- # 1. OS of both database servers - name: Import_playbook os import_playbook: opitzconsulting.ansible_oracle.os vars: hostgroup: dbfs # 2. NFS server for the installation media and the RMAN backups on dataguard-dbfs1, # permanent mount of the RMAN backups on dataguard-dbfs2 - name: Import_playbook nfs_server import_playbook: nfs_server.yml vars: hostgroup: nfs_server # 3. AutoUpgrade and download of the gold image on dataguard-dbfs1 - name: Import_playbook autoupgrade import_playbook: autoupgrade.yml vars: hostgroup: nfs_server # 4. ORACLE_HOME on both hosts (dataguard-dbfs2 with NFS), # primary database with dbca, standby database with RMAN DUPLICATE, Data Guard Broker # Both hosts must be part of the play: oradb_standby needs the facts of the primary. - name: Import_playbook single_instance_fs import_playbook: opitzconsulting.ansible_oracle.single_instance_fs vars: hostgroup: dbfs ansible/playbooks/nfs_server.yml --- # NFS server on the 1st database server (group nfs_server) for # - the installation media (nfs_server_sw_path, read only): # AutoUpgrade downloads the gold image into nfs_server_sw_path on this host only. # The hosts of the group nfs_client mount the share with install_from_nfs: true # during the installation of the ORACLE_HOME (role oraswdb_install). # - the RMAN backups (nfs_server_backup_path, read write): # The hosts of the group nfs_client mount the share permanently on the same path (2nd play). # # Requires the playbook opitzconsulting.ansible_oracle.os before: filesystem /u01, user oracle. - name: NFS server for installation media and RMAN backups hosts: &#34;{{ hostgroup | default(&#39;nfs_server&#39;) }}&#34; become: true any_errors_fatal: true vars: # IP addresses of the NFS clients nfs_server_clients: &gt;- {{ groups[&#39;nfs_client&#39;] | default([]) | map(&#39;extract&#39;, hostvars, &#39;ansible_host&#39;) | list }} tasks: - name: Install nfs-utils ansible.builtin.package: name: nfs-utils state: present # target of the AutoUpgrade download - name: Create directory for installation media ansible.builtin.file: path: &#34;{{ nfs_server_sw_path }}&#34; state: directory owner: &#34;{{ oracle_user | default(&#39;oracle&#39;) }}&#34; group: &#34;{{ oracle_group | default(&#39;oinstall&#39;) }}&#34; mode: &#34;0755&#34; - name: Export installation media ansible.builtin.copy: content: | # Managed by Ansible (playbooks/nfs_server.yml): installation media for ansible-oracle {{ nfs_server_sw_path }} {{ nfs_server_clients | map(&#39;regex_replace&#39;, &#39;$&#39;, &#39;(ro,sync,root_squash)&#39;) | join(&#39; &#39;) }} dest: /etc/exports.d/oracle-sw.exports owner: root group: root mode: &#34;0644&#34; register: _nfs_server_exports # ORACLE_BASE with the same owner and mode as in the role oraswdb_install - name: Create ORACLE_BASE ansible.builtin.file: path: &#34;{{ oracle_base | default(&#39;/u01/app/oracle&#39;) }}&#34; state: directory owner: &#34;{{ oracle_user | default(&#39;oracle&#39;) }}&#34; group: &#34;{{ oracle_group | default(&#39;oinstall&#39;) }}&#34; mode: &#34;0775&#34; # RMAN does not create directories: one directory per DB_NAME (%d in the RMAN format) - name: Create directories for RMAN backups ansible.builtin.file: path: &#34;{{ item }}&#34; state: directory owner: &#34;{{ oracle_user | default(&#39;oracle&#39;) }}&#34; group: &#34;{{ oracle_group | default(&#39;oinstall&#39;) }}&#34; mode: &#34;0750&#34; loop: &gt;- {{ [nfs_server_backup_path] &#43; oracle_databases | default([]) | map(attribute=&#39;oracle_db_name&#39;) | map(&#39;regex_replace&#39;, &#39;^&#39;, nfs_server_backup_path ~ &#39;/&#39;) | list }} - name: Export RMAN backups ansible.builtin.copy: content: | # Managed by Ansible (playbooks/nfs_server.yml): RMAN backups for ansible-oracle {{ nfs_server_backup_path }} {{ nfs_server_clients | map(&#39;regex_replace&#39;, &#39;$&#39;, &#39;(rw,sync,root_squash)&#39;) | join(&#39; &#39;) }} dest: /etc/exports.d/oracle-backup.exports owner: root group: root mode: &#34;0644&#34; register: _nfs_server_exports_backup - name: Start NFS server ansible.builtin.systemd: name: nfs-server enabled: true state: started - name: Reload exports ansible.builtin.command: exportfs -ra when: _nfs_server_exports is changed or _nfs_server_exports_backup is changed # noqa no-handler changed_when: true - name: Gather service facts ansible.builtin.service_facts: - name: Open NFS in firewalld ansible.posix.firewalld: service: &#34;{{ item }}&#34; permanent: true immediate: true state: enabled loop: - nfs - rpc-bind - mountd when: - ansible_facts.services[&#39;firewalld.service&#39;] is defined - ansible_facts.services[&#39;firewalld.service&#39;].state == &#39;running&#39; # Permanent mount of the RMAN backups on the NFS clients (/etc/fstab). # The mount point is identical to the directory on the NFS server # =&gt; the same RMAN format on all members of the Data Guard configuration. - name: NFS client for RMAN backups hosts: &#34;{{ hostgroup_nfs_client | default(&#39;nfs_client&#39;) }}&#34; become: true any_errors_fatal: true tasks: - name: Install nfs-utils ansible.builtin.package: name: nfs-utils state: present - name: Create ORACLE_BASE ansible.builtin.file: path: &#34;{{ oracle_base | default(&#39;/u01/app/oracle&#39;) }}&#34; state: directory owner: &#34;{{ oracle_user | default(&#39;oracle&#39;) }}&#34; group: &#34;{{ oracle_group | default(&#39;oinstall&#39;) }}&#34; mode: &#34;0775&#34; # Owner and mode of the directory come from the NFS server after the mount - name: Mount RMAN backups ansible.posix.mount: src: &#34;{{ nfs_server_backup }}:{{ nfs_server_backup_path }}&#34; path: &#34;{{ nfs_server_backup_path }}&#34; fstype: nfs opts: &#34;{{ nfs_client_backup_opts }}&#34; state: mounted ansible/requirements.yml --- collections: # Data Guard (role oradb_standby) needs ansible-oracle 5.0.0 or newer - name: opitzconsulting.ansible_oracle version: &#34;&gt;=5.0.0&#34; # following entry is for development only! # - name: opitzconsulting.ansible_oracle # source: ./../../.. # type: dir">
+<meta property="og:url" content="https://www.ansible-oracle.eu/docs/examples/dataguard/">
+	<meta property="og:site_name" content="ansible-oracle Project">
+	<meta property="og:title" content="Data Guard">
+	<meta property="og:description" content="Primary and standby database with Data Guard on 2 Oracle Linux VMs.
+The example is described step by step in the guide.
+Source: example/dataguard
+Files ansible/ansible.cfg [defaults] inventory = inventory host_key_checking = False display_skipped_hosts = false duplicate_dict_key = ignore nocolor = 1 retry_files_enabled = False interpreter_python = auto_silent callbacks_enabled = timer stdout_callback = ansible.builtin.default result_format = yaml [ssh_connection] pipelining = True ansible/inventory/group_vars/all/autoupgrade.yml --- autoupgrade_run_local: false autoupgrade_download_use_oracle_sw_patches: false autoupgrade_download_latest: true autoupgrade_download_gold_image_rename: true # db_home_26_latest.zip -&gt; latest downloaded Gold Image for 26ai (imagename in db-homes.yml) autoupgrade_download_gold_image_latest: true autoupgrade_jar_filesource: /u01/stage/autoupgrade.jar autoupgrade_download_patches: # - target_version: 19 # # renovate: datasource=custom.oracle-ru-19 depName=oracle-db-ru-19 # patch: RU:19.33,OPATCH,OJVM,DPBP # gold_image: &#34;ALL&#34; - target_version: 26 # renovate: datasource=custom.oracle-ru-26 depName=oracle-db-ru-26 patch: RU:23.26.4,AHF,CVU # patch: RECOMMENDED gold_image: &#34;ALL&#34; platform: LINUX.X64 ansible/inventory/group_vars/all/backup.yml --- # RMAN backups with NFS (playbooks/nfs_server.yml, role oradb_rman) # # dataguard-dbfs1 (group nfs_server) exports nfs_server_backup_path read write, # the hosts of the group nfs_client mount the share permanently on the same path. # =&gt; all members of the Data Guard configuration write their backups into the same directory # and every member can read the backups of the other member. nfs_server_backup: &#34;{{ hostvars[groups[&#39;nfs_server&#39;][0]][&#39;ansible_host&#39;] }}&#34; nfs_server_backup_path: /u01/app/oracle/backup # Mount options of the backup share on the NFS clients nfs_client_backup_opts: rw,bg,hard,tcp,timeo=600,rsize=1048576,wsize=1048576 # CONFIGURE DEVICE TYPE DISK in the RMAN script parameter (role oradb_rman) rman_device_type_disk: &#39;PARALLELISM 1 BACKUP TYPE TO COMPRESSED BACKUPSET&#39; ansible/inventory/group_vars/all/db-homes.yml --- apply_patches_db: false db_homes_config: # read-only ORACLE_HOME: SPFile, password file and the Data Guard Broker configuration files # are in ORACLE_BASE/dbs =&gt; they are kept with Out-of-Place Patching db26_si_ee: version: 26.1.0.0 oracle_home: /u01/app/oracle/product/db26_si_ee edition: EE imagename: db_home_26_latest.zip readonly_home: true # mandatory for readonly_home oracle_home_name: db26_si_ee opatch_minversion: 12.2.0.1.36 state: present ansible/inventory/group_vars/all/db-profiles.yml --- # global Defaults for Database-Profiles oracle_default_profiles: - name: DEFAULT state: present attributes: - {name: password_life_time, value: unlimited} - name: PW_UNLIMIT state: present attributes: - {name: password_life_time, value: &#34;UNLIMITED&#34;} - {name: password_grace_time, value: 7} - {name: password_lock_time, value: 1} - {name: password_verify_function, value: &#34;null&#34;} ansible/inventory/group_vars/all/host.yml --- configure_public_yum_repo: false configure_motd: false autostartup_service: true configure_hugepages_by: memory # disable hugepages on small systems # don&#39;t forget to enable use_large_pages in oracle parameter # size_in_gb_hugepages: 2 size_in_gb_hugepages: 0 configure_host_disks: true # Hyper-V VM from packer-hyperv: one disk /dev/sda, the free space of VG &#34;ol&#34; (/dev/sda3) # is used for the Oracle filesystems. host_fs_layout: - vgname: ol state: present filesystem: - {mntp: swap, lvname: lvswap, lvsize: 16G, fstype: swap} - {mntp: /u01, lvname: lvorabase, lvsize: 40G, fstype: xfs} - {mntp: /u02, lvname: lvoradata, lvsize: 25G, fstype: xfs, fsopts: &#34;-m reflink=1 -m crc=1&#34;} disk: - {device: /dev/sda, pvname: /dev/sda3} ansible/inventory/group_vars/all/mos_login.yml --- # My Oracle Support credentials for AutoUpgrade from the OS environment: # export MOS_USERNAME=&lt;login&gt; # read -s MOS_PASSWORD &amp;&amp; export MOS_PASSWORD # # Optional: replace the lookups with static values. # Encrypt the password with ansible-vault in this case. mos_username: &#34;{{ lookup(&#39;ansible.builtin.env&#39;, &#39;MOS_USERNAME&#39;, default=Undefined) }}&#34; mos_password: &#34;{{ lookup(&#39;ansible.builtin.env&#39;, &#39;MOS_PASSWORD&#39;, default=Undefined) }}&#34; # Keystore password for AutoUpgrade (16 characters), derived from mos_password: # fixed prefix for digit, special, lower and upper case &#43; first 12 characters of sha256(mos_password) autoupgrade_keystore_password: &#34;1_aA{{ (mos_password | hash(&#39;sha256&#39;))[:12] }}&#34; ansible/inventory/group_vars/all/password.yml --- # default_dbpass for all users not listed in dbpasswords default_dbpass: Oracle_123 ansible/inventory/group_vars/all/software_src.yml --- is_sw_source_local: true oracle_sw_copy: false oracle_sw_unpack: true # Installation media: target of the AutoUpgrade download on the NFS server (dataguard-dbfs1). # The ORACLE_HOME is extracted from oracle_stage_remote, because oracle_sw_copy is false. oracle_sw_source_local: /u01/sw oracle_stage_remote: /u01/sw # Directory for response files, extracted patches etc. oracle_stage: /u01/stage # NFS share with the installation media (playbooks/nfs_server.yml) # install_from_nfs: true is set for the NFS clients in host_vars. # They mount the share on oracle_stage_remote during the installation of the ORACLE_HOME # (same path as on the NFS server =&gt; the symlink db_home_26_latest.zip works on all hosts). install_from_nfs: false nfs_server_sw: &#34;{{ hostvars[groups[&#39;nfs_server&#39;][0]][&#39;ansible_host&#39;] }}&#34; nfs_server_sw_path: /u01/sw ansible/inventory/group_vars/dbfs/database_DB1.yml --- # Database DB1 on both members of the Data Guard configuration DG1. # # Host specific values in host_vars/&lt;host&gt;/databases.yml: # - db1_unique_name: db_unique_name of the member in db_standby_config (group_vars/dbfs/standby.yml) # # dataguard-dbfs1 (initial_role primary): created with dbca # dataguard-dbfs2 (initial_role physical_standby): created with RMAN DUPLICATE by oradb_standby oracle_database_db1: home: &amp;db_config_home db26_si_ee oracle_db_name: &amp;oracle_db_name DB1 oracle_db_unique_name: &#34;{{ db1_unique_name }}&#34; standby_config: DG1 oracle_db_type: SI # Type of database (RAC,RACONENODE,SI) storage_type: FS # Database storage to be used. ASM or FS. oracle_database_type: MULTIPURPOSE # MULTIPURPOSE|DATA_WAREHOUSING|OLTP redolog_size: 75M redolog_groups: 3 # mandatory for Data Guard: static listener entry &lt;db_unique_name&gt;_DGMGRL listener_name: LISTENER listener_port: &amp;cdb_listener_port 1521 # Data Guard needs archivelog and force logging, flashback allows the reinstate after a failover archivelog: true flashback: true force_logging: true state: present tablespaces: - {name: system, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false} - {name: sysaux, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false} - {name: undotbs1, size: 10M, autoextend: true, next: 50M, maxsize: 8G, content: permanent, state: present, bigfile: false} - {name: users, size: 10M, autoextend: true, next: 50M, maxsize: 2G, content: permanent, state: present, bigfile: false} - {name: temp, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false} init_parameters: - {name: processes, value: &#39;400&#39;, scope: spfile, state: present, dbca: false} # EZConnect of the local listener with the IP address of the host. # The standby gets its own value with SET in RMAN DUPLICATE (oradb_standby). - {name: local_listener, value: &#39;//{{ ansible_host }}:1521&#39;, scope: both, state: present} - {name: control_management_pack_access, value: &#39;NONE&#39;, scope: both, state: present} - {name: control_file_record_keep_time, value: &#39;30&#39;, scope: both, state: present} - {name: deferred_segment_creation, value: &#39;false&#39;, scope: both, state: present} - {name: filesystemio_options, value: &#39;setall&#39;, scope: spfile, state: present} - {name: job_queue_processes, value: &#39;10&#39;, scope: both, state: present} - {name: log_archive_dest_1, value: &#39;location=USE_DB_RECOVERY_FILE_DEST&#39;, scope: both, state: present} - {name: pga_aggregate_target, value: &#39;200M&#39;, scope: both, state: present} - {name: sga_target, value: &#39;1800M&#39;, scope: spfile, state: present} - {name: recyclebin, value: &#39;off&#39;, scope: spfile, state: present} - {name: max_pdbs, value: &#39;3&#39;, scope: both, state: present} # Oracle Managed Files are mandatory for Data Guard in ansible-oracle - {name: db_create_file_dest, value: &#39;/u02/oradata&#39;, scope: both, state: present} - {name: db_create_online_log_dest_1, value: &#39;/u02/oradata&#39;, scope: both, state: present} - {name: db_recovery_file_dest_size, value: &#39;10G&#39;, scope: both, state: present, dbca: false} - {name: db_recovery_file_dest, value: &#39;/u02/fra&#39;, scope: both, state: present} # Data Guard Broker: configuration files outside of ORACLE_HOME (read-only ORACLE_HOME =&gt; ORACLE_BASE/dbs), # dg_broker_start below the file parameters: the files cannot be changed while the broker is running - {name: dg_broker_config_file1, value: &#39;/u01/app/oracle/dbs/dr1{{ db1_unique_name }}.dat&#39;, scope: both, state: present, dbca: false} - {name: dg_broker_config_file2, value: &#39;/u01/app/oracle/dbs/dr2{{ db1_unique_name }}.dat&#39;, scope: both, state: present, dbca: false} - {name: dg_broker_start, value: &#39;TRUE&#39;, scope: both, state: present, dbca: false} - {name: standby_file_management, value: &#39;AUTO&#39;, scope: both, state: present} profiles: - name: DEFAULT state: present attributes: - {name: password_life_time, value: unlimited} # RMAN backups to the NFS share nfs_server_backup_path (group_vars/all/backup.yml) # control_file_record_keep_time (init_parameters) must be &gt;= the days of the RECOVERY WINDOW rman_retention_policy: &#39;RECOVERY WINDOW OF 7 DAYS&#39; rman_channel_disk: &#34;format &#39;/u01/app/oracle/backup/%d/%d_%T_%U&#39;&#34; # %F contains the DBID, which is identical on all members =&gt; db_unique_name in the name rman_controlfile_autobackup_disk: &#34;&#39;/u01/app/oracle/backup/%d/%d_{{ db1_unique_name }}_%F&#39;&#34; # Both members get the same jobs. role: primary =&gt; the backup runs on the current primary only, # rman_backup.sh skips it on the standby. After a switchover the backups follow the role. rman_jobs: # CONFIGURE ... during the playbook: parameter on the primary, # parameter_standby on the standby (without CONFIGURE RETENTION POLICY: not configurable on a standby) - {name: parameter, role: primary, immediate: true} - {name: parameter_standby, role: standby, immediate: true} # weekly level 0 backup on Sunday at 01:10 - {name: online_level0, role: primary, weekday: &#34;0&#34;, hour: &#34;01&#34;, minute: &#34;10&#34;, day: &#34;*&#34;} # hourly archivelog backup - {name: archivelog, role: primary, weekday: &#34;*&#34;, hour: &#34;*&#34;, minute: &#34;30&#34;, day: &#34;*&#34;} oracle_pdb_db1_orclpdb: home: *db_config_home listener_port: *cdb_listener_port cdb: *oracle_db_name pdb_name: ORCLPDB state: present profiles: &#34;{{ oracle_default_profiles }}&#34; tablespaces: - {name: system, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false} - {name: sysaux, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false} - {name: undotbs1, size: 10M, autoextend: true, next: 50M, maxsize: 8G, content: permanent, state: present, bigfile: false} - {name: users, size: 10M, autoextend: true, next: 50M, maxsize: 2G, content: permanent, state: present, bigfile: false} - {name: temp, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false} oracle_databases: - &#34;{{ oracle_database_db1 }}&#34; # PDBs are managed on the primary database only (oradb_manage_pdb skips a standby database) oracle_pdbs: - &#34;{{ oracle_pdb_db1_orclpdb }}&#34; ansible/inventory/group_vars/dbfs/database.yml --- db_homes_installed: - home: db26_si_ee apply_patches: false state: present ansible/inventory/group_vars/dbfs/listener.yml --- oracle_listeners_config: LISTENER: home: &amp;listener_home db26_si_ee address: - host: &#34;{{ ansible_hostname }}&#34; protocol: TCP port: 1521 listener_installed: - home: *listener_home listener_name: LISTENER state: present ansible/inventory/group_vars/dbfs/standby.yml --- # Data Guard configuration DG1 with 2 members. # Must be identical on all members =&gt; group_vars of the group with all members. # # Inventory structure: doc/guides/standby_databases.adoc db_standby_config: - name: DG1 type: dataguard dg: protection_mode: MaxPerformance # mandatory: RMAN CONFIGURE ARCHIVELOG DELETION POLICY of all members (oradb_standby). # Archive logs are eligible for deletion after they are applied on all standby databases. # &#39;BACKED UP ...&#39; needs an RMAN catalog: without catalog the controlfile of a standby # does not know the backups of the primary =&gt; no archive log of the standby would be eligible. archivelog_deletion_policy: APPLIED ON ALL STANDBY members: - hosts: [dataguard-dbfs1] db_unique_name: DB1_SITE1 initial_role: primary dg: connect_identifier: DB1_SITE1 log_xpt_mode: ASYNC - hosts: [dataguard-dbfs2] db_unique_name: DB1_SITE2 initial_role: physical_standby dg: connect_identifier: DB1_SITE2 log_xpt_mode: ASYNC ansible/inventory/group_vars/dbfs/tnsnames.yml --- # Connect identifiers of the members (dg.connect_identifier in db_standby_config). # Used by RMAN DUPLICATE (oradb_standby), the Data Guard Broker (dgmgrl) and for redo transport. # The service &lt;db_unique_name&gt; is registered dynamically at the listener of each host. # IP addresses from ansible_host =&gt; no DNS needed between the database servers. oracle_tnsnames_config: DB1_SITE1: connect: service_name: DB1_SITE1 address: - host: &#34;{{ hostvars[&#39;dataguard-dbfs1&#39;][&#39;ansible_host&#39;] }}&#34; port: 1521 DB1_SITE2: connect: service_name: DB1_SITE2 address: - host: &#34;{{ hostvars[&#39;dataguard-dbfs2&#39;][&#39;ansible_host&#39;] }}&#34; port: 1521 tnsnames_installed: - tnsname: DB1_SITE1 home: db26_si_ee state: present - tnsname: DB1_SITE2 home: db26_si_ee state: present ansible/inventory/host_vars/dataguard-dbfs1/databases.yml --- # initial primary of the Data Guard configuration DG1 (db_standby_config in group_vars/dbfs/standby.yml) db1_unique_name: DB1_SITE1 ansible/inventory/host_vars/dataguard-dbfs2/databases.yml --- # initial physical standby of the Data Guard configuration DG1 (db_standby_config in group_vars/dbfs/standby.yml) db1_unique_name: DB1_SITE2 ansible/inventory/host_vars/dataguard-dbfs2/software_src.yml --- # The installation media are mounted with NFS from dataguard-dbfs1 (group nfs_server) # on oracle_stage_remote during the installation of the ORACLE_HOME. # No AutoUpgrade download on this host. install_from_nfs: true ansible/inventory/hosts.yml --- all: children: # both database servers of the Data Guard configuration DG1 dbfs: hosts: dataguard-dbfs1: # IP address or DNS name of the 1st Oracle Linux 9 VM (initial primary) ansible_host: 192.168.66.166 # Login user on the VM with sudo privileges (SSH key login) ansible_user: ol dataguard-dbfs2: # IP address or DNS name of the 2nd Oracle Linux 9 VM (initial physical standby) ansible_host: 192.168.66.167 ansible_user: ol # NFS server for the installation media (playbooks/nfs_server.yml) # AutoUpgrade downloads the gold image on this host only. nfs_server: hosts: dataguard-dbfs1: # Database servers which mount the installation media from nfs_server nfs_client: hosts: dataguard-dbfs2: ansible/playbooks/autoupgrade.yml --- # AutoUpgrade on the NFS server only (group nfs_server): # the gold image is downloaded once into /u01/sw and used by all database servers with NFS. - name: Install Oracle AutoUpgrade hosts: &#34;{{ hostgroup | default(&#39;nfs_server&#39;) }}&#34; any_errors_fatal: true tasks: - name: install openJDK and python-pexpect become: true become_user: root when: - not autoupgrade_run_local | bool ansible.builtin.package: name: - java-1.8.0-openjdk - python-pexpect state: present - name: Install autoupgrade.jar ansible.builtin.import_role: name: opitzconsulting.ansible_oracle.autoupgrade tasks_from: install.yml - name: Import_playbook autoupgrade_download_patches import_playbook: opitzconsulting.ansible_oracle.autoupgrade_download_patches vars: hostgroup: nfs_server ansible/playbooks/do_all.yml --- # 1. OS of both database servers - name: Import_playbook os import_playbook: opitzconsulting.ansible_oracle.os vars: hostgroup: dbfs # 2. NFS server for the installation media and the RMAN backups on dataguard-dbfs1, # permanent mount of the RMAN backups on dataguard-dbfs2 - name: Import_playbook nfs_server import_playbook: nfs_server.yml vars: hostgroup: nfs_server # 3. AutoUpgrade and download of the gold image on dataguard-dbfs1 - name: Import_playbook autoupgrade import_playbook: autoupgrade.yml vars: hostgroup: nfs_server # 4. ORACLE_HOME on both hosts (dataguard-dbfs2 with NFS), # primary database with dbca, standby database with RMAN DUPLICATE, Data Guard Broker # Both hosts must be part of the play: oradb_standby needs the facts of the primary. - name: Import_playbook single_instance_fs import_playbook: opitzconsulting.ansible_oracle.single_instance_fs vars: hostgroup: dbfs ansible/playbooks/nfs_server.yml --- # NFS server on the 1st database server (group nfs_server) for # - the installation media (nfs_server_sw_path, read only): # AutoUpgrade downloads the gold image into nfs_server_sw_path on this host only. # The hosts of the group nfs_client mount the share with install_from_nfs: true # during the installation of the ORACLE_HOME (role oraswdb_install). # - the RMAN backups (nfs_server_backup_path, read write): # The hosts of the group nfs_client mount the share permanently on the same path (2nd play). # # Requires the playbook opitzconsulting.ansible_oracle.os before: filesystem /u01, user oracle. - name: NFS server for installation media and RMAN backups hosts: &#34;{{ hostgroup | default(&#39;nfs_server&#39;) }}&#34; become: true any_errors_fatal: true vars: # IP addresses of the NFS clients nfs_server_clients: &gt;- {{ groups[&#39;nfs_client&#39;] | default([]) | map(&#39;extract&#39;, hostvars, &#39;ansible_host&#39;) | list }} tasks: - name: Install nfs-utils ansible.builtin.package: name: nfs-utils state: present # target of the AutoUpgrade download - name: Create directory for installation media ansible.builtin.file: path: &#34;{{ nfs_server_sw_path }}&#34; state: directory owner: &#34;{{ oracle_user | default(&#39;oracle&#39;) }}&#34; group: &#34;{{ oracle_group | default(&#39;oinstall&#39;) }}&#34; mode: &#34;0755&#34; - name: Export installation media ansible.builtin.copy: content: | # Managed by Ansible (playbooks/nfs_server.yml): installation media for ansible-oracle {{ nfs_server_sw_path }} {{ nfs_server_clients | map(&#39;regex_replace&#39;, &#39;$&#39;, &#39;(ro,sync,root_squash)&#39;) | join(&#39; &#39;) }} dest: /etc/exports.d/oracle-sw.exports owner: root group: root mode: &#34;0644&#34; register: _nfs_server_exports # ORACLE_BASE with the same owner and mode as in the role oraswdb_install - name: Create ORACLE_BASE ansible.builtin.file: path: &#34;{{ oracle_base | default(&#39;/u01/app/oracle&#39;) }}&#34; state: directory owner: &#34;{{ oracle_user | default(&#39;oracle&#39;) }}&#34; group: &#34;{{ oracle_group | default(&#39;oinstall&#39;) }}&#34; mode: &#34;0775&#34; # RMAN does not create directories: one directory per DB_NAME (%d in the RMAN format) - name: Create directories for RMAN backups ansible.builtin.file: path: &#34;{{ item }}&#34; state: directory owner: &#34;{{ oracle_user | default(&#39;oracle&#39;) }}&#34; group: &#34;{{ oracle_group | default(&#39;oinstall&#39;) }}&#34; mode: &#34;0750&#34; loop: &gt;- {{ [nfs_server_backup_path] &#43; oracle_databases | default([]) | map(attribute=&#39;oracle_db_name&#39;) | map(&#39;regex_replace&#39;, &#39;^&#39;, nfs_server_backup_path ~ &#39;/&#39;) | list }} - name: Export RMAN backups ansible.builtin.copy: content: | # Managed by Ansible (playbooks/nfs_server.yml): RMAN backups for ansible-oracle {{ nfs_server_backup_path }} {{ nfs_server_clients | map(&#39;regex_replace&#39;, &#39;$&#39;, &#39;(rw,sync,root_squash)&#39;) | join(&#39; &#39;) }} dest: /etc/exports.d/oracle-backup.exports owner: root group: root mode: &#34;0644&#34; register: _nfs_server_exports_backup - name: Start NFS server ansible.builtin.systemd: name: nfs-server enabled: true state: started - name: Reload exports ansible.builtin.command: exportfs -ra when: _nfs_server_exports is changed or _nfs_server_exports_backup is changed # noqa no-handler changed_when: true - name: Gather service facts ansible.builtin.service_facts: - name: Open NFS in firewalld ansible.posix.firewalld: service: &#34;{{ item }}&#34; permanent: true immediate: true state: enabled loop: - nfs - rpc-bind - mountd when: - ansible_facts.services[&#39;firewalld.service&#39;] is defined - ansible_facts.services[&#39;firewalld.service&#39;].state == &#39;running&#39; # Permanent mount of the RMAN backups on the NFS clients (/etc/fstab). # The mount point is identical to the directory on the NFS server # =&gt; the same RMAN format on all members of the Data Guard configuration. - name: NFS client for RMAN backups hosts: &#34;{{ hostgroup_nfs_client | default(&#39;nfs_client&#39;) }}&#34; become: true any_errors_fatal: true tasks: - name: Install nfs-utils ansible.builtin.package: name: nfs-utils state: present - name: Create ORACLE_BASE ansible.builtin.file: path: &#34;{{ oracle_base | default(&#39;/u01/app/oracle&#39;) }}&#34; state: directory owner: &#34;{{ oracle_user | default(&#39;oracle&#39;) }}&#34; group: &#34;{{ oracle_group | default(&#39;oinstall&#39;) }}&#34; mode: &#34;0775&#34; # Owner and mode of the directory come from the NFS server after the mount - name: Mount RMAN backups ansible.posix.mount: src: &#34;{{ nfs_server_backup }}:{{ nfs_server_backup_path }}&#34; path: &#34;{{ nfs_server_backup_path }}&#34; fstype: nfs opts: &#34;{{ nfs_client_backup_opts }}&#34; state: mounted ansible/requirements.yml --- collections: # Data Guard (role oradb_standby) needs ansible-oracle 5.0.0 or newer - name: opitzconsulting.ansible_oracle version: &#34;&gt;=5.0.0&#34; # following entry is for development only! # - name: opitzconsulting.ansible_oracle # source: ./../../.. # type: dir">
+	<meta property="og:locale" content="en_us">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="docs">
+		<meta property="article:published_time" content="2026-11-11T07:09:32+01:00">
+		<meta property="article:modified_time" content="2026-11-11T07:09:32+01:00">
+
+	<meta itemprop="name" content="Data Guard">
+	<meta itemprop="description" content="Primary and standby database with Data Guard on 2 Oracle Linux VMs.
+The example is described step by step in the guide.
+Source: example/dataguard
+Files ansible/ansible.cfg [defaults] inventory = inventory host_key_checking = False display_skipped_hosts = false duplicate_dict_key = ignore nocolor = 1 retry_files_enabled = False interpreter_python = auto_silent callbacks_enabled = timer stdout_callback = ansible.builtin.default result_format = yaml [ssh_connection] pipelining = True ansible/inventory/group_vars/all/autoupgrade.yml --- autoupgrade_run_local: false autoupgrade_download_use_oracle_sw_patches: false autoupgrade_download_latest: true autoupgrade_download_gold_image_rename: true # db_home_26_latest.zip -&gt; latest downloaded Gold Image for 26ai (imagename in db-homes.yml) autoupgrade_download_gold_image_latest: true autoupgrade_jar_filesource: /u01/stage/autoupgrade.jar autoupgrade_download_patches: # - target_version: 19 # # renovate: datasource=custom.oracle-ru-19 depName=oracle-db-ru-19 # patch: RU:19.33,OPATCH,OJVM,DPBP # gold_image: &#34;ALL&#34; - target_version: 26 # renovate: datasource=custom.oracle-ru-26 depName=oracle-db-ru-26 patch: RU:23.26.4,AHF,CVU # patch: RECOMMENDED gold_image: &#34;ALL&#34; platform: LINUX.X64 ansible/inventory/group_vars/all/backup.yml --- # RMAN backups with NFS (playbooks/nfs_server.yml, role oradb_rman) # # dataguard-dbfs1 (group nfs_server) exports nfs_server_backup_path read write, # the hosts of the group nfs_client mount the share permanently on the same path. # =&gt; all members of the Data Guard configuration write their backups into the same directory # and every member can read the backups of the other member. nfs_server_backup: &#34;{{ hostvars[groups[&#39;nfs_server&#39;][0]][&#39;ansible_host&#39;] }}&#34; nfs_server_backup_path: /u01/app/oracle/backup # Mount options of the backup share on the NFS clients nfs_client_backup_opts: rw,bg,hard,tcp,timeo=600,rsize=1048576,wsize=1048576 # CONFIGURE DEVICE TYPE DISK in the RMAN script parameter (role oradb_rman) rman_device_type_disk: &#39;PARALLELISM 1 BACKUP TYPE TO COMPRESSED BACKUPSET&#39; ansible/inventory/group_vars/all/db-homes.yml --- apply_patches_db: false db_homes_config: # read-only ORACLE_HOME: SPFile, password file and the Data Guard Broker configuration files # are in ORACLE_BASE/dbs =&gt; they are kept with Out-of-Place Patching db26_si_ee: version: 26.1.0.0 oracle_home: /u01/app/oracle/product/db26_si_ee edition: EE imagename: db_home_26_latest.zip readonly_home: true # mandatory for readonly_home oracle_home_name: db26_si_ee opatch_minversion: 12.2.0.1.36 state: present ansible/inventory/group_vars/all/db-profiles.yml --- # global Defaults for Database-Profiles oracle_default_profiles: - name: DEFAULT state: present attributes: - {name: password_life_time, value: unlimited} - name: PW_UNLIMIT state: present attributes: - {name: password_life_time, value: &#34;UNLIMITED&#34;} - {name: password_grace_time, value: 7} - {name: password_lock_time, value: 1} - {name: password_verify_function, value: &#34;null&#34;} ansible/inventory/group_vars/all/host.yml --- configure_public_yum_repo: false configure_motd: false autostartup_service: true configure_hugepages_by: memory # disable hugepages on small systems # don&#39;t forget to enable use_large_pages in oracle parameter # size_in_gb_hugepages: 2 size_in_gb_hugepages: 0 configure_host_disks: true # Hyper-V VM from packer-hyperv: one disk /dev/sda, the free space of VG &#34;ol&#34; (/dev/sda3) # is used for the Oracle filesystems. host_fs_layout: - vgname: ol state: present filesystem: - {mntp: swap, lvname: lvswap, lvsize: 16G, fstype: swap} - {mntp: /u01, lvname: lvorabase, lvsize: 40G, fstype: xfs} - {mntp: /u02, lvname: lvoradata, lvsize: 25G, fstype: xfs, fsopts: &#34;-m reflink=1 -m crc=1&#34;} disk: - {device: /dev/sda, pvname: /dev/sda3} ansible/inventory/group_vars/all/mos_login.yml --- # My Oracle Support credentials for AutoUpgrade from the OS environment: # export MOS_USERNAME=&lt;login&gt; # read -s MOS_PASSWORD &amp;&amp; export MOS_PASSWORD # # Optional: replace the lookups with static values. # Encrypt the password with ansible-vault in this case. mos_username: &#34;{{ lookup(&#39;ansible.builtin.env&#39;, &#39;MOS_USERNAME&#39;, default=Undefined) }}&#34; mos_password: &#34;{{ lookup(&#39;ansible.builtin.env&#39;, &#39;MOS_PASSWORD&#39;, default=Undefined) }}&#34; # Keystore password for AutoUpgrade (16 characters), derived from mos_password: # fixed prefix for digit, special, lower and upper case &#43; first 12 characters of sha256(mos_password) autoupgrade_keystore_password: &#34;1_aA{{ (mos_password | hash(&#39;sha256&#39;))[:12] }}&#34; ansible/inventory/group_vars/all/password.yml --- # default_dbpass for all users not listed in dbpasswords default_dbpass: Oracle_123 ansible/inventory/group_vars/all/software_src.yml --- is_sw_source_local: true oracle_sw_copy: false oracle_sw_unpack: true # Installation media: target of the AutoUpgrade download on the NFS server (dataguard-dbfs1). # The ORACLE_HOME is extracted from oracle_stage_remote, because oracle_sw_copy is false. oracle_sw_source_local: /u01/sw oracle_stage_remote: /u01/sw # Directory for response files, extracted patches etc. oracle_stage: /u01/stage # NFS share with the installation media (playbooks/nfs_server.yml) # install_from_nfs: true is set for the NFS clients in host_vars. # They mount the share on oracle_stage_remote during the installation of the ORACLE_HOME # (same path as on the NFS server =&gt; the symlink db_home_26_latest.zip works on all hosts). install_from_nfs: false nfs_server_sw: &#34;{{ hostvars[groups[&#39;nfs_server&#39;][0]][&#39;ansible_host&#39;] }}&#34; nfs_server_sw_path: /u01/sw ansible/inventory/group_vars/dbfs/database_DB1.yml --- # Database DB1 on both members of the Data Guard configuration DG1. # # Host specific values in host_vars/&lt;host&gt;/databases.yml: # - db1_unique_name: db_unique_name of the member in db_standby_config (group_vars/dbfs/standby.yml) # # dataguard-dbfs1 (initial_role primary): created with dbca # dataguard-dbfs2 (initial_role physical_standby): created with RMAN DUPLICATE by oradb_standby oracle_database_db1: home: &amp;db_config_home db26_si_ee oracle_db_name: &amp;oracle_db_name DB1 oracle_db_unique_name: &#34;{{ db1_unique_name }}&#34; standby_config: DG1 oracle_db_type: SI # Type of database (RAC,RACONENODE,SI) storage_type: FS # Database storage to be used. ASM or FS. oracle_database_type: MULTIPURPOSE # MULTIPURPOSE|DATA_WAREHOUSING|OLTP redolog_size: 75M redolog_groups: 3 # mandatory for Data Guard: static listener entry &lt;db_unique_name&gt;_DGMGRL listener_name: LISTENER listener_port: &amp;cdb_listener_port 1521 # Data Guard needs archivelog and force logging, flashback allows the reinstate after a failover archivelog: true flashback: true force_logging: true state: present tablespaces: - {name: system, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false} - {name: sysaux, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false} - {name: undotbs1, size: 10M, autoextend: true, next: 50M, maxsize: 8G, content: permanent, state: present, bigfile: false} - {name: users, size: 10M, autoextend: true, next: 50M, maxsize: 2G, content: permanent, state: present, bigfile: false} - {name: temp, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false} init_parameters: - {name: processes, value: &#39;400&#39;, scope: spfile, state: present, dbca: false} # EZConnect of the local listener with the IP address of the host. # The standby gets its own value with SET in RMAN DUPLICATE (oradb_standby). - {name: local_listener, value: &#39;//{{ ansible_host }}:1521&#39;, scope: both, state: present} - {name: control_management_pack_access, value: &#39;NONE&#39;, scope: both, state: present} - {name: control_file_record_keep_time, value: &#39;30&#39;, scope: both, state: present} - {name: deferred_segment_creation, value: &#39;false&#39;, scope: both, state: present} - {name: filesystemio_options, value: &#39;setall&#39;, scope: spfile, state: present} - {name: job_queue_processes, value: &#39;10&#39;, scope: both, state: present} - {name: log_archive_dest_1, value: &#39;location=USE_DB_RECOVERY_FILE_DEST&#39;, scope: both, state: present} - {name: pga_aggregate_target, value: &#39;200M&#39;, scope: both, state: present} - {name: sga_target, value: &#39;1800M&#39;, scope: spfile, state: present} - {name: recyclebin, value: &#39;off&#39;, scope: spfile, state: present} - {name: max_pdbs, value: &#39;3&#39;, scope: both, state: present} # Oracle Managed Files are mandatory for Data Guard in ansible-oracle - {name: db_create_file_dest, value: &#39;/u02/oradata&#39;, scope: both, state: present} - {name: db_create_online_log_dest_1, value: &#39;/u02/oradata&#39;, scope: both, state: present} - {name: db_recovery_file_dest_size, value: &#39;10G&#39;, scope: both, state: present, dbca: false} - {name: db_recovery_file_dest, value: &#39;/u02/fra&#39;, scope: both, state: present} # Data Guard Broker: configuration files outside of ORACLE_HOME (read-only ORACLE_HOME =&gt; ORACLE_BASE/dbs), # dg_broker_start below the file parameters: the files cannot be changed while the broker is running - {name: dg_broker_config_file1, value: &#39;/u01/app/oracle/dbs/dr1{{ db1_unique_name }}.dat&#39;, scope: both, state: present, dbca: false} - {name: dg_broker_config_file2, value: &#39;/u01/app/oracle/dbs/dr2{{ db1_unique_name }}.dat&#39;, scope: both, state: present, dbca: false} - {name: dg_broker_start, value: &#39;TRUE&#39;, scope: both, state: present, dbca: false} - {name: standby_file_management, value: &#39;AUTO&#39;, scope: both, state: present} profiles: - name: DEFAULT state: present attributes: - {name: password_life_time, value: unlimited} # RMAN backups to the NFS share nfs_server_backup_path (group_vars/all/backup.yml) # control_file_record_keep_time (init_parameters) must be &gt;= the days of the RECOVERY WINDOW rman_retention_policy: &#39;RECOVERY WINDOW OF 7 DAYS&#39; rman_channel_disk: &#34;format &#39;/u01/app/oracle/backup/%d/%d_%T_%U&#39;&#34; # %F contains the DBID, which is identical on all members =&gt; db_unique_name in the name rman_controlfile_autobackup_disk: &#34;&#39;/u01/app/oracle/backup/%d/%d_{{ db1_unique_name }}_%F&#39;&#34; # Both members get the same jobs. role: primary =&gt; the backup runs on the current primary only, # rman_backup.sh skips it on the standby. After a switchover the backups follow the role. rman_jobs: # CONFIGURE ... during the playbook: parameter on the primary, # parameter_standby on the standby (without CONFIGURE RETENTION POLICY: not configurable on a standby) - {name: parameter, role: primary, immediate: true} - {name: parameter_standby, role: standby, immediate: true} # weekly level 0 backup on Sunday at 01:10 - {name: online_level0, role: primary, weekday: &#34;0&#34;, hour: &#34;01&#34;, minute: &#34;10&#34;, day: &#34;*&#34;} # hourly archivelog backup - {name: archivelog, role: primary, weekday: &#34;*&#34;, hour: &#34;*&#34;, minute: &#34;30&#34;, day: &#34;*&#34;} oracle_pdb_db1_orclpdb: home: *db_config_home listener_port: *cdb_listener_port cdb: *oracle_db_name pdb_name: ORCLPDB state: present profiles: &#34;{{ oracle_default_profiles }}&#34; tablespaces: - {name: system, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false} - {name: sysaux, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false} - {name: undotbs1, size: 10M, autoextend: true, next: 50M, maxsize: 8G, content: permanent, state: present, bigfile: false} - {name: users, size: 10M, autoextend: true, next: 50M, maxsize: 2G, content: permanent, state: present, bigfile: false} - {name: temp, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false} oracle_databases: - &#34;{{ oracle_database_db1 }}&#34; # PDBs are managed on the primary database only (oradb_manage_pdb skips a standby database) oracle_pdbs: - &#34;{{ oracle_pdb_db1_orclpdb }}&#34; ansible/inventory/group_vars/dbfs/database.yml --- db_homes_installed: - home: db26_si_ee apply_patches: false state: present ansible/inventory/group_vars/dbfs/listener.yml --- oracle_listeners_config: LISTENER: home: &amp;listener_home db26_si_ee address: - host: &#34;{{ ansible_hostname }}&#34; protocol: TCP port: 1521 listener_installed: - home: *listener_home listener_name: LISTENER state: present ansible/inventory/group_vars/dbfs/standby.yml --- # Data Guard configuration DG1 with 2 members. # Must be identical on all members =&gt; group_vars of the group with all members. # # Inventory structure: doc/guides/standby_databases.adoc db_standby_config: - name: DG1 type: dataguard dg: protection_mode: MaxPerformance # mandatory: RMAN CONFIGURE ARCHIVELOG DELETION POLICY of all members (oradb_standby). # Archive logs are eligible for deletion after they are applied on all standby databases. # &#39;BACKED UP ...&#39; needs an RMAN catalog: without catalog the controlfile of a standby # does not know the backups of the primary =&gt; no archive log of the standby would be eligible. archivelog_deletion_policy: APPLIED ON ALL STANDBY members: - hosts: [dataguard-dbfs1] db_unique_name: DB1_SITE1 initial_role: primary dg: connect_identifier: DB1_SITE1 log_xpt_mode: ASYNC - hosts: [dataguard-dbfs2] db_unique_name: DB1_SITE2 initial_role: physical_standby dg: connect_identifier: DB1_SITE2 log_xpt_mode: ASYNC ansible/inventory/group_vars/dbfs/tnsnames.yml --- # Connect identifiers of the members (dg.connect_identifier in db_standby_config). # Used by RMAN DUPLICATE (oradb_standby), the Data Guard Broker (dgmgrl) and for redo transport. # The service &lt;db_unique_name&gt; is registered dynamically at the listener of each host. # IP addresses from ansible_host =&gt; no DNS needed between the database servers. oracle_tnsnames_config: DB1_SITE1: connect: service_name: DB1_SITE1 address: - host: &#34;{{ hostvars[&#39;dataguard-dbfs1&#39;][&#39;ansible_host&#39;] }}&#34; port: 1521 DB1_SITE2: connect: service_name: DB1_SITE2 address: - host: &#34;{{ hostvars[&#39;dataguard-dbfs2&#39;][&#39;ansible_host&#39;] }}&#34; port: 1521 tnsnames_installed: - tnsname: DB1_SITE1 home: db26_si_ee state: present - tnsname: DB1_SITE2 home: db26_si_ee state: present ansible/inventory/host_vars/dataguard-dbfs1/databases.yml --- # initial primary of the Data Guard configuration DG1 (db_standby_config in group_vars/dbfs/standby.yml) db1_unique_name: DB1_SITE1 ansible/inventory/host_vars/dataguard-dbfs2/databases.yml --- # initial physical standby of the Data Guard configuration DG1 (db_standby_config in group_vars/dbfs/standby.yml) db1_unique_name: DB1_SITE2 ansible/inventory/host_vars/dataguard-dbfs2/software_src.yml --- # The installation media are mounted with NFS from dataguard-dbfs1 (group nfs_server) # on oracle_stage_remote during the installation of the ORACLE_HOME. # No AutoUpgrade download on this host. install_from_nfs: true ansible/inventory/hosts.yml --- all: children: # both database servers of the Data Guard configuration DG1 dbfs: hosts: dataguard-dbfs1: # IP address or DNS name of the 1st Oracle Linux 9 VM (initial primary) ansible_host: 192.168.66.166 # Login user on the VM with sudo privileges (SSH key login) ansible_user: ol dataguard-dbfs2: # IP address or DNS name of the 2nd Oracle Linux 9 VM (initial physical standby) ansible_host: 192.168.66.167 ansible_user: ol # NFS server for the installation media (playbooks/nfs_server.yml) # AutoUpgrade downloads the gold image on this host only. nfs_server: hosts: dataguard-dbfs1: # Database servers which mount the installation media from nfs_server nfs_client: hosts: dataguard-dbfs2: ansible/playbooks/autoupgrade.yml --- # AutoUpgrade on the NFS server only (group nfs_server): # the gold image is downloaded once into /u01/sw and used by all database servers with NFS. - name: Install Oracle AutoUpgrade hosts: &#34;{{ hostgroup | default(&#39;nfs_server&#39;) }}&#34; any_errors_fatal: true tasks: - name: install openJDK and python-pexpect become: true become_user: root when: - not autoupgrade_run_local | bool ansible.builtin.package: name: - java-1.8.0-openjdk - python-pexpect state: present - name: Install autoupgrade.jar ansible.builtin.import_role: name: opitzconsulting.ansible_oracle.autoupgrade tasks_from: install.yml - name: Import_playbook autoupgrade_download_patches import_playbook: opitzconsulting.ansible_oracle.autoupgrade_download_patches vars: hostgroup: nfs_server ansible/playbooks/do_all.yml --- # 1. OS of both database servers - name: Import_playbook os import_playbook: opitzconsulting.ansible_oracle.os vars: hostgroup: dbfs # 2. NFS server for the installation media and the RMAN backups on dataguard-dbfs1, # permanent mount of the RMAN backups on dataguard-dbfs2 - name: Import_playbook nfs_server import_playbook: nfs_server.yml vars: hostgroup: nfs_server # 3. AutoUpgrade and download of the gold image on dataguard-dbfs1 - name: Import_playbook autoupgrade import_playbook: autoupgrade.yml vars: hostgroup: nfs_server # 4. ORACLE_HOME on both hosts (dataguard-dbfs2 with NFS), # primary database with dbca, standby database with RMAN DUPLICATE, Data Guard Broker # Both hosts must be part of the play: oradb_standby needs the facts of the primary. - name: Import_playbook single_instance_fs import_playbook: opitzconsulting.ansible_oracle.single_instance_fs vars: hostgroup: dbfs ansible/playbooks/nfs_server.yml --- # NFS server on the 1st database server (group nfs_server) for # - the installation media (nfs_server_sw_path, read only): # AutoUpgrade downloads the gold image into nfs_server_sw_path on this host only. # The hosts of the group nfs_client mount the share with install_from_nfs: true # during the installation of the ORACLE_HOME (role oraswdb_install). # - the RMAN backups (nfs_server_backup_path, read write): # The hosts of the group nfs_client mount the share permanently on the same path (2nd play). # # Requires the playbook opitzconsulting.ansible_oracle.os before: filesystem /u01, user oracle. - name: NFS server for installation media and RMAN backups hosts: &#34;{{ hostgroup | default(&#39;nfs_server&#39;) }}&#34; become: true any_errors_fatal: true vars: # IP addresses of the NFS clients nfs_server_clients: &gt;- {{ groups[&#39;nfs_client&#39;] | default([]) | map(&#39;extract&#39;, hostvars, &#39;ansible_host&#39;) | list }} tasks: - name: Install nfs-utils ansible.builtin.package: name: nfs-utils state: present # target of the AutoUpgrade download - name: Create directory for installation media ansible.builtin.file: path: &#34;{{ nfs_server_sw_path }}&#34; state: directory owner: &#34;{{ oracle_user | default(&#39;oracle&#39;) }}&#34; group: &#34;{{ oracle_group | default(&#39;oinstall&#39;) }}&#34; mode: &#34;0755&#34; - name: Export installation media ansible.builtin.copy: content: | # Managed by Ansible (playbooks/nfs_server.yml): installation media for ansible-oracle {{ nfs_server_sw_path }} {{ nfs_server_clients | map(&#39;regex_replace&#39;, &#39;$&#39;, &#39;(ro,sync,root_squash)&#39;) | join(&#39; &#39;) }} dest: /etc/exports.d/oracle-sw.exports owner: root group: root mode: &#34;0644&#34; register: _nfs_server_exports # ORACLE_BASE with the same owner and mode as in the role oraswdb_install - name: Create ORACLE_BASE ansible.builtin.file: path: &#34;{{ oracle_base | default(&#39;/u01/app/oracle&#39;) }}&#34; state: directory owner: &#34;{{ oracle_user | default(&#39;oracle&#39;) }}&#34; group: &#34;{{ oracle_group | default(&#39;oinstall&#39;) }}&#34; mode: &#34;0775&#34; # RMAN does not create directories: one directory per DB_NAME (%d in the RMAN format) - name: Create directories for RMAN backups ansible.builtin.file: path: &#34;{{ item }}&#34; state: directory owner: &#34;{{ oracle_user | default(&#39;oracle&#39;) }}&#34; group: &#34;{{ oracle_group | default(&#39;oinstall&#39;) }}&#34; mode: &#34;0750&#34; loop: &gt;- {{ [nfs_server_backup_path] &#43; oracle_databases | default([]) | map(attribute=&#39;oracle_db_name&#39;) | map(&#39;regex_replace&#39;, &#39;^&#39;, nfs_server_backup_path ~ &#39;/&#39;) | list }} - name: Export RMAN backups ansible.builtin.copy: content: | # Managed by Ansible (playbooks/nfs_server.yml): RMAN backups for ansible-oracle {{ nfs_server_backup_path }} {{ nfs_server_clients | map(&#39;regex_replace&#39;, &#39;$&#39;, &#39;(rw,sync,root_squash)&#39;) | join(&#39; &#39;) }} dest: /etc/exports.d/oracle-backup.exports owner: root group: root mode: &#34;0644&#34; register: _nfs_server_exports_backup - name: Start NFS server ansible.builtin.systemd: name: nfs-server enabled: true state: started - name: Reload exports ansible.builtin.command: exportfs -ra when: _nfs_server_exports is changed or _nfs_server_exports_backup is changed # noqa no-handler changed_when: true - name: Gather service facts ansible.builtin.service_facts: - name: Open NFS in firewalld ansible.posix.firewalld: service: &#34;{{ item }}&#34; permanent: true immediate: true state: enabled loop: - nfs - rpc-bind - mountd when: - ansible_facts.services[&#39;firewalld.service&#39;] is defined - ansible_facts.services[&#39;firewalld.service&#39;].state == &#39;running&#39; # Permanent mount of the RMAN backups on the NFS clients (/etc/fstab). # The mount point is identical to the directory on the NFS server # =&gt; the same RMAN format on all members of the Data Guard configuration. - name: NFS client for RMAN backups hosts: &#34;{{ hostgroup_nfs_client | default(&#39;nfs_client&#39;) }}&#34; become: true any_errors_fatal: true tasks: - name: Install nfs-utils ansible.builtin.package: name: nfs-utils state: present - name: Create ORACLE_BASE ansible.builtin.file: path: &#34;{{ oracle_base | default(&#39;/u01/app/oracle&#39;) }}&#34; state: directory owner: &#34;{{ oracle_user | default(&#39;oracle&#39;) }}&#34; group: &#34;{{ oracle_group | default(&#39;oinstall&#39;) }}&#34; mode: &#34;0775&#34; # Owner and mode of the directory come from the NFS server after the mount - name: Mount RMAN backups ansible.posix.mount: src: &#34;{{ nfs_server_backup }}:{{ nfs_server_backup_path }}&#34; path: &#34;{{ nfs_server_backup_path }}&#34; fstype: nfs opts: &#34;{{ nfs_client_backup_opts }}&#34; state: mounted ansible/requirements.yml --- collections: # Data Guard (role oradb_standby) needs ansible-oracle 5.0.0 or newer - name: opitzconsulting.ansible_oracle version: &#34;&gt;=5.0.0&#34; # following entry is for development only! # - name: opitzconsulting.ansible_oracle # source: ./../../.. # type: dir">
+	<meta itemprop="datePublished" content="2026-11-11T07:09:32+01:00">
+	<meta itemprop="dateModified" content="2026-11-11T07:09:32+01:00">
+	<meta itemprop="wordCount" content="2607">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Data Guard">
+	<meta name="twitter:description" content="Primary and standby database with Data Guard on 2 Oracle Linux VMs.
+The example is described step by step in the guide.
+Source: example/dataguard
+Files ansible/ansible.cfg [defaults] inventory = inventory host_key_checking = False display_skipped_hosts = false duplicate_dict_key = ignore nocolor = 1 retry_files_enabled = False interpreter_python = auto_silent callbacks_enabled = timer stdout_callback = ansible.builtin.default result_format = yaml [ssh_connection] pipelining = True ansible/inventory/group_vars/all/autoupgrade.yml --- autoupgrade_run_local: false autoupgrade_download_use_oracle_sw_patches: false autoupgrade_download_latest: true autoupgrade_download_gold_image_rename: true # db_home_26_latest.zip -&gt; latest downloaded Gold Image for 26ai (imagename in db-homes.yml) autoupgrade_download_gold_image_latest: true autoupgrade_jar_filesource: /u01/stage/autoupgrade.jar autoupgrade_download_patches: # - target_version: 19 # # renovate: datasource=custom.oracle-ru-19 depName=oracle-db-ru-19 # patch: RU:19.33,OPATCH,OJVM,DPBP # gold_image: &#34;ALL&#34; - target_version: 26 # renovate: datasource=custom.oracle-ru-26 depName=oracle-db-ru-26 patch: RU:23.26.4,AHF,CVU # patch: RECOMMENDED gold_image: &#34;ALL&#34; platform: LINUX.X64 ansible/inventory/group_vars/all/backup.yml --- # RMAN backups with NFS (playbooks/nfs_server.yml, role oradb_rman) # # dataguard-dbfs1 (group nfs_server) exports nfs_server_backup_path read write, # the hosts of the group nfs_client mount the share permanently on the same path. # =&gt; all members of the Data Guard configuration write their backups into the same directory # and every member can read the backups of the other member. nfs_server_backup: &#34;{{ hostvars[groups[&#39;nfs_server&#39;][0]][&#39;ansible_host&#39;] }}&#34; nfs_server_backup_path: /u01/app/oracle/backup # Mount options of the backup share on the NFS clients nfs_client_backup_opts: rw,bg,hard,tcp,timeo=600,rsize=1048576,wsize=1048576 # CONFIGURE DEVICE TYPE DISK in the RMAN script parameter (role oradb_rman) rman_device_type_disk: &#39;PARALLELISM 1 BACKUP TYPE TO COMPRESSED BACKUPSET&#39; ansible/inventory/group_vars/all/db-homes.yml --- apply_patches_db: false db_homes_config: # read-only ORACLE_HOME: SPFile, password file and the Data Guard Broker configuration files # are in ORACLE_BASE/dbs =&gt; they are kept with Out-of-Place Patching db26_si_ee: version: 26.1.0.0 oracle_home: /u01/app/oracle/product/db26_si_ee edition: EE imagename: db_home_26_latest.zip readonly_home: true # mandatory for readonly_home oracle_home_name: db26_si_ee opatch_minversion: 12.2.0.1.36 state: present ansible/inventory/group_vars/all/db-profiles.yml --- # global Defaults for Database-Profiles oracle_default_profiles: - name: DEFAULT state: present attributes: - {name: password_life_time, value: unlimited} - name: PW_UNLIMIT state: present attributes: - {name: password_life_time, value: &#34;UNLIMITED&#34;} - {name: password_grace_time, value: 7} - {name: password_lock_time, value: 1} - {name: password_verify_function, value: &#34;null&#34;} ansible/inventory/group_vars/all/host.yml --- configure_public_yum_repo: false configure_motd: false autostartup_service: true configure_hugepages_by: memory # disable hugepages on small systems # don&#39;t forget to enable use_large_pages in oracle parameter # size_in_gb_hugepages: 2 size_in_gb_hugepages: 0 configure_host_disks: true # Hyper-V VM from packer-hyperv: one disk /dev/sda, the free space of VG &#34;ol&#34; (/dev/sda3) # is used for the Oracle filesystems. host_fs_layout: - vgname: ol state: present filesystem: - {mntp: swap, lvname: lvswap, lvsize: 16G, fstype: swap} - {mntp: /u01, lvname: lvorabase, lvsize: 40G, fstype: xfs} - {mntp: /u02, lvname: lvoradata, lvsize: 25G, fstype: xfs, fsopts: &#34;-m reflink=1 -m crc=1&#34;} disk: - {device: /dev/sda, pvname: /dev/sda3} ansible/inventory/group_vars/all/mos_login.yml --- # My Oracle Support credentials for AutoUpgrade from the OS environment: # export MOS_USERNAME=&lt;login&gt; # read -s MOS_PASSWORD &amp;&amp; export MOS_PASSWORD # # Optional: replace the lookups with static values. # Encrypt the password with ansible-vault in this case. mos_username: &#34;{{ lookup(&#39;ansible.builtin.env&#39;, &#39;MOS_USERNAME&#39;, default=Undefined) }}&#34; mos_password: &#34;{{ lookup(&#39;ansible.builtin.env&#39;, &#39;MOS_PASSWORD&#39;, default=Undefined) }}&#34; # Keystore password for AutoUpgrade (16 characters), derived from mos_password: # fixed prefix for digit, special, lower and upper case &#43; first 12 characters of sha256(mos_password) autoupgrade_keystore_password: &#34;1_aA{{ (mos_password | hash(&#39;sha256&#39;))[:12] }}&#34; ansible/inventory/group_vars/all/password.yml --- # default_dbpass for all users not listed in dbpasswords default_dbpass: Oracle_123 ansible/inventory/group_vars/all/software_src.yml --- is_sw_source_local: true oracle_sw_copy: false oracle_sw_unpack: true # Installation media: target of the AutoUpgrade download on the NFS server (dataguard-dbfs1). # The ORACLE_HOME is extracted from oracle_stage_remote, because oracle_sw_copy is false. oracle_sw_source_local: /u01/sw oracle_stage_remote: /u01/sw # Directory for response files, extracted patches etc. oracle_stage: /u01/stage # NFS share with the installation media (playbooks/nfs_server.yml) # install_from_nfs: true is set for the NFS clients in host_vars. # They mount the share on oracle_stage_remote during the installation of the ORACLE_HOME # (same path as on the NFS server =&gt; the symlink db_home_26_latest.zip works on all hosts). install_from_nfs: false nfs_server_sw: &#34;{{ hostvars[groups[&#39;nfs_server&#39;][0]][&#39;ansible_host&#39;] }}&#34; nfs_server_sw_path: /u01/sw ansible/inventory/group_vars/dbfs/database_DB1.yml --- # Database DB1 on both members of the Data Guard configuration DG1. # # Host specific values in host_vars/&lt;host&gt;/databases.yml: # - db1_unique_name: db_unique_name of the member in db_standby_config (group_vars/dbfs/standby.yml) # # dataguard-dbfs1 (initial_role primary): created with dbca # dataguard-dbfs2 (initial_role physical_standby): created with RMAN DUPLICATE by oradb_standby oracle_database_db1: home: &amp;db_config_home db26_si_ee oracle_db_name: &amp;oracle_db_name DB1 oracle_db_unique_name: &#34;{{ db1_unique_name }}&#34; standby_config: DG1 oracle_db_type: SI # Type of database (RAC,RACONENODE,SI) storage_type: FS # Database storage to be used. ASM or FS. oracle_database_type: MULTIPURPOSE # MULTIPURPOSE|DATA_WAREHOUSING|OLTP redolog_size: 75M redolog_groups: 3 # mandatory for Data Guard: static listener entry &lt;db_unique_name&gt;_DGMGRL listener_name: LISTENER listener_port: &amp;cdb_listener_port 1521 # Data Guard needs archivelog and force logging, flashback allows the reinstate after a failover archivelog: true flashback: true force_logging: true state: present tablespaces: - {name: system, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false} - {name: sysaux, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false} - {name: undotbs1, size: 10M, autoextend: true, next: 50M, maxsize: 8G, content: permanent, state: present, bigfile: false} - {name: users, size: 10M, autoextend: true, next: 50M, maxsize: 2G, content: permanent, state: present, bigfile: false} - {name: temp, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false} init_parameters: - {name: processes, value: &#39;400&#39;, scope: spfile, state: present, dbca: false} # EZConnect of the local listener with the IP address of the host. # The standby gets its own value with SET in RMAN DUPLICATE (oradb_standby). - {name: local_listener, value: &#39;//{{ ansible_host }}:1521&#39;, scope: both, state: present} - {name: control_management_pack_access, value: &#39;NONE&#39;, scope: both, state: present} - {name: control_file_record_keep_time, value: &#39;30&#39;, scope: both, state: present} - {name: deferred_segment_creation, value: &#39;false&#39;, scope: both, state: present} - {name: filesystemio_options, value: &#39;setall&#39;, scope: spfile, state: present} - {name: job_queue_processes, value: &#39;10&#39;, scope: both, state: present} - {name: log_archive_dest_1, value: &#39;location=USE_DB_RECOVERY_FILE_DEST&#39;, scope: both, state: present} - {name: pga_aggregate_target, value: &#39;200M&#39;, scope: both, state: present} - {name: sga_target, value: &#39;1800M&#39;, scope: spfile, state: present} - {name: recyclebin, value: &#39;off&#39;, scope: spfile, state: present} - {name: max_pdbs, value: &#39;3&#39;, scope: both, state: present} # Oracle Managed Files are mandatory for Data Guard in ansible-oracle - {name: db_create_file_dest, value: &#39;/u02/oradata&#39;, scope: both, state: present} - {name: db_create_online_log_dest_1, value: &#39;/u02/oradata&#39;, scope: both, state: present} - {name: db_recovery_file_dest_size, value: &#39;10G&#39;, scope: both, state: present, dbca: false} - {name: db_recovery_file_dest, value: &#39;/u02/fra&#39;, scope: both, state: present} # Data Guard Broker: configuration files outside of ORACLE_HOME (read-only ORACLE_HOME =&gt; ORACLE_BASE/dbs), # dg_broker_start below the file parameters: the files cannot be changed while the broker is running - {name: dg_broker_config_file1, value: &#39;/u01/app/oracle/dbs/dr1{{ db1_unique_name }}.dat&#39;, scope: both, state: present, dbca: false} - {name: dg_broker_config_file2, value: &#39;/u01/app/oracle/dbs/dr2{{ db1_unique_name }}.dat&#39;, scope: both, state: present, dbca: false} - {name: dg_broker_start, value: &#39;TRUE&#39;, scope: both, state: present, dbca: false} - {name: standby_file_management, value: &#39;AUTO&#39;, scope: both, state: present} profiles: - name: DEFAULT state: present attributes: - {name: password_life_time, value: unlimited} # RMAN backups to the NFS share nfs_server_backup_path (group_vars/all/backup.yml) # control_file_record_keep_time (init_parameters) must be &gt;= the days of the RECOVERY WINDOW rman_retention_policy: &#39;RECOVERY WINDOW OF 7 DAYS&#39; rman_channel_disk: &#34;format &#39;/u01/app/oracle/backup/%d/%d_%T_%U&#39;&#34; # %F contains the DBID, which is identical on all members =&gt; db_unique_name in the name rman_controlfile_autobackup_disk: &#34;&#39;/u01/app/oracle/backup/%d/%d_{{ db1_unique_name }}_%F&#39;&#34; # Both members get the same jobs. role: primary =&gt; the backup runs on the current primary only, # rman_backup.sh skips it on the standby. After a switchover the backups follow the role. rman_jobs: # CONFIGURE ... during the playbook: parameter on the primary, # parameter_standby on the standby (without CONFIGURE RETENTION POLICY: not configurable on a standby) - {name: parameter, role: primary, immediate: true} - {name: parameter_standby, role: standby, immediate: true} # weekly level 0 backup on Sunday at 01:10 - {name: online_level0, role: primary, weekday: &#34;0&#34;, hour: &#34;01&#34;, minute: &#34;10&#34;, day: &#34;*&#34;} # hourly archivelog backup - {name: archivelog, role: primary, weekday: &#34;*&#34;, hour: &#34;*&#34;, minute: &#34;30&#34;, day: &#34;*&#34;} oracle_pdb_db1_orclpdb: home: *db_config_home listener_port: *cdb_listener_port cdb: *oracle_db_name pdb_name: ORCLPDB state: present profiles: &#34;{{ oracle_default_profiles }}&#34; tablespaces: - {name: system, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false} - {name: sysaux, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false} - {name: undotbs1, size: 10M, autoextend: true, next: 50M, maxsize: 8G, content: permanent, state: present, bigfile: false} - {name: users, size: 10M, autoextend: true, next: 50M, maxsize: 2G, content: permanent, state: present, bigfile: false} - {name: temp, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false} oracle_databases: - &#34;{{ oracle_database_db1 }}&#34; # PDBs are managed on the primary database only (oradb_manage_pdb skips a standby database) oracle_pdbs: - &#34;{{ oracle_pdb_db1_orclpdb }}&#34; ansible/inventory/group_vars/dbfs/database.yml --- db_homes_installed: - home: db26_si_ee apply_patches: false state: present ansible/inventory/group_vars/dbfs/listener.yml --- oracle_listeners_config: LISTENER: home: &amp;listener_home db26_si_ee address: - host: &#34;{{ ansible_hostname }}&#34; protocol: TCP port: 1521 listener_installed: - home: *listener_home listener_name: LISTENER state: present ansible/inventory/group_vars/dbfs/standby.yml --- # Data Guard configuration DG1 with 2 members. # Must be identical on all members =&gt; group_vars of the group with all members. # # Inventory structure: doc/guides/standby_databases.adoc db_standby_config: - name: DG1 type: dataguard dg: protection_mode: MaxPerformance # mandatory: RMAN CONFIGURE ARCHIVELOG DELETION POLICY of all members (oradb_standby). # Archive logs are eligible for deletion after they are applied on all standby databases. # &#39;BACKED UP ...&#39; needs an RMAN catalog: without catalog the controlfile of a standby # does not know the backups of the primary =&gt; no archive log of the standby would be eligible. archivelog_deletion_policy: APPLIED ON ALL STANDBY members: - hosts: [dataguard-dbfs1] db_unique_name: DB1_SITE1 initial_role: primary dg: connect_identifier: DB1_SITE1 log_xpt_mode: ASYNC - hosts: [dataguard-dbfs2] db_unique_name: DB1_SITE2 initial_role: physical_standby dg: connect_identifier: DB1_SITE2 log_xpt_mode: ASYNC ansible/inventory/group_vars/dbfs/tnsnames.yml --- # Connect identifiers of the members (dg.connect_identifier in db_standby_config). # Used by RMAN DUPLICATE (oradb_standby), the Data Guard Broker (dgmgrl) and for redo transport. # The service &lt;db_unique_name&gt; is registered dynamically at the listener of each host. # IP addresses from ansible_host =&gt; no DNS needed between the database servers. oracle_tnsnames_config: DB1_SITE1: connect: service_name: DB1_SITE1 address: - host: &#34;{{ hostvars[&#39;dataguard-dbfs1&#39;][&#39;ansible_host&#39;] }}&#34; port: 1521 DB1_SITE2: connect: service_name: DB1_SITE2 address: - host: &#34;{{ hostvars[&#39;dataguard-dbfs2&#39;][&#39;ansible_host&#39;] }}&#34; port: 1521 tnsnames_installed: - tnsname: DB1_SITE1 home: db26_si_ee state: present - tnsname: DB1_SITE2 home: db26_si_ee state: present ansible/inventory/host_vars/dataguard-dbfs1/databases.yml --- # initial primary of the Data Guard configuration DG1 (db_standby_config in group_vars/dbfs/standby.yml) db1_unique_name: DB1_SITE1 ansible/inventory/host_vars/dataguard-dbfs2/databases.yml --- # initial physical standby of the Data Guard configuration DG1 (db_standby_config in group_vars/dbfs/standby.yml) db1_unique_name: DB1_SITE2 ansible/inventory/host_vars/dataguard-dbfs2/software_src.yml --- # The installation media are mounted with NFS from dataguard-dbfs1 (group nfs_server) # on oracle_stage_remote during the installation of the ORACLE_HOME. # No AutoUpgrade download on this host. install_from_nfs: true ansible/inventory/hosts.yml --- all: children: # both database servers of the Data Guard configuration DG1 dbfs: hosts: dataguard-dbfs1: # IP address or DNS name of the 1st Oracle Linux 9 VM (initial primary) ansible_host: 192.168.66.166 # Login user on the VM with sudo privileges (SSH key login) ansible_user: ol dataguard-dbfs2: # IP address or DNS name of the 2nd Oracle Linux 9 VM (initial physical standby) ansible_host: 192.168.66.167 ansible_user: ol # NFS server for the installation media (playbooks/nfs_server.yml) # AutoUpgrade downloads the gold image on this host only. nfs_server: hosts: dataguard-dbfs1: # Database servers which mount the installation media from nfs_server nfs_client: hosts: dataguard-dbfs2: ansible/playbooks/autoupgrade.yml --- # AutoUpgrade on the NFS server only (group nfs_server): # the gold image is downloaded once into /u01/sw and used by all database servers with NFS. - name: Install Oracle AutoUpgrade hosts: &#34;{{ hostgroup | default(&#39;nfs_server&#39;) }}&#34; any_errors_fatal: true tasks: - name: install openJDK and python-pexpect become: true become_user: root when: - not autoupgrade_run_local | bool ansible.builtin.package: name: - java-1.8.0-openjdk - python-pexpect state: present - name: Install autoupgrade.jar ansible.builtin.import_role: name: opitzconsulting.ansible_oracle.autoupgrade tasks_from: install.yml - name: Import_playbook autoupgrade_download_patches import_playbook: opitzconsulting.ansible_oracle.autoupgrade_download_patches vars: hostgroup: nfs_server ansible/playbooks/do_all.yml --- # 1. OS of both database servers - name: Import_playbook os import_playbook: opitzconsulting.ansible_oracle.os vars: hostgroup: dbfs # 2. NFS server for the installation media and the RMAN backups on dataguard-dbfs1, # permanent mount of the RMAN backups on dataguard-dbfs2 - name: Import_playbook nfs_server import_playbook: nfs_server.yml vars: hostgroup: nfs_server # 3. AutoUpgrade and download of the gold image on dataguard-dbfs1 - name: Import_playbook autoupgrade import_playbook: autoupgrade.yml vars: hostgroup: nfs_server # 4. ORACLE_HOME on both hosts (dataguard-dbfs2 with NFS), # primary database with dbca, standby database with RMAN DUPLICATE, Data Guard Broker # Both hosts must be part of the play: oradb_standby needs the facts of the primary. - name: Import_playbook single_instance_fs import_playbook: opitzconsulting.ansible_oracle.single_instance_fs vars: hostgroup: dbfs ansible/playbooks/nfs_server.yml --- # NFS server on the 1st database server (group nfs_server) for # - the installation media (nfs_server_sw_path, read only): # AutoUpgrade downloads the gold image into nfs_server_sw_path on this host only. # The hosts of the group nfs_client mount the share with install_from_nfs: true # during the installation of the ORACLE_HOME (role oraswdb_install). # - the RMAN backups (nfs_server_backup_path, read write): # The hosts of the group nfs_client mount the share permanently on the same path (2nd play). # # Requires the playbook opitzconsulting.ansible_oracle.os before: filesystem /u01, user oracle. - name: NFS server for installation media and RMAN backups hosts: &#34;{{ hostgroup | default(&#39;nfs_server&#39;) }}&#34; become: true any_errors_fatal: true vars: # IP addresses of the NFS clients nfs_server_clients: &gt;- {{ groups[&#39;nfs_client&#39;] | default([]) | map(&#39;extract&#39;, hostvars, &#39;ansible_host&#39;) | list }} tasks: - name: Install nfs-utils ansible.builtin.package: name: nfs-utils state: present # target of the AutoUpgrade download - name: Create directory for installation media ansible.builtin.file: path: &#34;{{ nfs_server_sw_path }}&#34; state: directory owner: &#34;{{ oracle_user | default(&#39;oracle&#39;) }}&#34; group: &#34;{{ oracle_group | default(&#39;oinstall&#39;) }}&#34; mode: &#34;0755&#34; - name: Export installation media ansible.builtin.copy: content: | # Managed by Ansible (playbooks/nfs_server.yml): installation media for ansible-oracle {{ nfs_server_sw_path }} {{ nfs_server_clients | map(&#39;regex_replace&#39;, &#39;$&#39;, &#39;(ro,sync,root_squash)&#39;) | join(&#39; &#39;) }} dest: /etc/exports.d/oracle-sw.exports owner: root group: root mode: &#34;0644&#34; register: _nfs_server_exports # ORACLE_BASE with the same owner and mode as in the role oraswdb_install - name: Create ORACLE_BASE ansible.builtin.file: path: &#34;{{ oracle_base | default(&#39;/u01/app/oracle&#39;) }}&#34; state: directory owner: &#34;{{ oracle_user | default(&#39;oracle&#39;) }}&#34; group: &#34;{{ oracle_group | default(&#39;oinstall&#39;) }}&#34; mode: &#34;0775&#34; # RMAN does not create directories: one directory per DB_NAME (%d in the RMAN format) - name: Create directories for RMAN backups ansible.builtin.file: path: &#34;{{ item }}&#34; state: directory owner: &#34;{{ oracle_user | default(&#39;oracle&#39;) }}&#34; group: &#34;{{ oracle_group | default(&#39;oinstall&#39;) }}&#34; mode: &#34;0750&#34; loop: &gt;- {{ [nfs_server_backup_path] &#43; oracle_databases | default([]) | map(attribute=&#39;oracle_db_name&#39;) | map(&#39;regex_replace&#39;, &#39;^&#39;, nfs_server_backup_path ~ &#39;/&#39;) | list }} - name: Export RMAN backups ansible.builtin.copy: content: | # Managed by Ansible (playbooks/nfs_server.yml): RMAN backups for ansible-oracle {{ nfs_server_backup_path }} {{ nfs_server_clients | map(&#39;regex_replace&#39;, &#39;$&#39;, &#39;(rw,sync,root_squash)&#39;) | join(&#39; &#39;) }} dest: /etc/exports.d/oracle-backup.exports owner: root group: root mode: &#34;0644&#34; register: _nfs_server_exports_backup - name: Start NFS server ansible.builtin.systemd: name: nfs-server enabled: true state: started - name: Reload exports ansible.builtin.command: exportfs -ra when: _nfs_server_exports is changed or _nfs_server_exports_backup is changed # noqa no-handler changed_when: true - name: Gather service facts ansible.builtin.service_facts: - name: Open NFS in firewalld ansible.posix.firewalld: service: &#34;{{ item }}&#34; permanent: true immediate: true state: enabled loop: - nfs - rpc-bind - mountd when: - ansible_facts.services[&#39;firewalld.service&#39;] is defined - ansible_facts.services[&#39;firewalld.service&#39;].state == &#39;running&#39; # Permanent mount of the RMAN backups on the NFS clients (/etc/fstab). # The mount point is identical to the directory on the NFS server # =&gt; the same RMAN format on all members of the Data Guard configuration. - name: NFS client for RMAN backups hosts: &#34;{{ hostgroup_nfs_client | default(&#39;nfs_client&#39;) }}&#34; become: true any_errors_fatal: true tasks: - name: Install nfs-utils ansible.builtin.package: name: nfs-utils state: present - name: Create ORACLE_BASE ansible.builtin.file: path: &#34;{{ oracle_base | default(&#39;/u01/app/oracle&#39;) }}&#34; state: directory owner: &#34;{{ oracle_user | default(&#39;oracle&#39;) }}&#34; group: &#34;{{ oracle_group | default(&#39;oinstall&#39;) }}&#34; mode: &#34;0775&#34; # Owner and mode of the directory come from the NFS server after the mount - name: Mount RMAN backups ansible.posix.mount: src: &#34;{{ nfs_server_backup }}:{{ nfs_server_backup_path }}&#34; path: &#34;{{ nfs_server_backup_path }}&#34; fstype: nfs opts: &#34;{{ nfs_client_backup_opts }}&#34; state: mounted ansible/requirements.yml --- collections: # Data Guard (role oradb_standby) needs ansible-oracle 5.0.0 or newer - name: opitzconsulting.ansible_oracle version: &#34;&gt;=5.0.0&#34; # following entry is for development only! # - name: opitzconsulting.ansible_oracle # source: ./../../.. # type: dir">
+<link href="/scss/main.css" rel="stylesheet">
+<script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+  crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/css/prism.css"/>
+
+  </head>
+  <body class="td-page">
+    <header>
+      <nav class="td-navbar js-navbar-scroll" data-bs-theme="light">
+<div class="container-fluid flex-column flex-md-row">
+  <a class="navbar-brand" href="/"><span class="navbar-brand__logo navbar-logo"><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500"><g><path style="fill:#fff" d="M116.8525 421.9722c-5.7041.0-10.3442-4.3127-10.3442-9.6129V88.183c0-5.3002 4.6401-9.6117 10.3442-9.6117H320.858c3.0347.0 9.3959.5498 11.7506 2.6302l.3545.3442 58.905 63.2912c2.3101 2.491 2.9202 8.4928 2.9202 11.3184v256.2039c0 5.3002-4.6407 9.6129-10.3436 9.6129H116.8525z"/><g><g><g><path style="fill:#767676" d="M384.4445 423.2066H116.852c-6.3839.0-11.5786-4.8658-11.5786-10.8474V88.1831c0-5.9804 5.1947-10.8461 11.5786-10.8461h204.0062c.377.0 9.2786.0329 12.568 2.9389l.3947.3833 58.9508 63.337c3.2135 3.4652 3.2514 11.7924 3.2514 12.1593v256.2036C396.0231 418.3408 390.8284 423.2066 384.4445 423.2066zM116.5079 411.9189c.0848.0278.1999.0531.3441.0531h267.5925c.1442.0.2581-.0253.3441-.0531V156.1556c-.0076-.9033-.3593-3.7347-.7034-5.0037l-57.6527-61.9416c-1.4651-.3176-4.4533-.6389-5.5742-.6389H116.852c-.143.0-.2594.024-.3441.0531V411.9189zm267.4533-261.149zM327.0321 89.371v.0013V89.371z"/></g></g></g><g><g><path style="fill:#5b7fc0" d="M189.0874 210.1754l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4473C177.5953 212.627 183.0601 210.1742 189.0874 210.1754zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 234.1722 197.0804 232.033z"/><path style="opacity:.3;fill:#fff" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/><g><defs><path id="SVGID_1_" d="M194.7376 237.6875c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 234.2399 196.1861 236.239 194.7376 237.6875z"/></defs><clipPath id="SVGID_2_"><use xlink:href="#SVGID_1_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_2_);fill:#fff" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/><path style="opacity:.13;clip-path:url(#SVGID_2_);fill:#020202" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/></g><g><defs><path id="SVGID_3_" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/></defs><clipPath id="SVGID_4_"><use xlink:href="#SVGID_3_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_4_);fill:#5b7fc0" d="M172.6595 215.6045c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8475-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 209.1953 176.6171 211.647 172.6595 215.6045z"/></g></g><rect x="198.8952" y="225.1043" style="fill:#5b7fc0" width="122.6266" height="13.8671"/></g><g><path style="fill:#d95140" d="M189.0874 155.7611l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.0249 2.454-11.4897 6.4116-15.4473C177.5953 158.2128 183.0601 155.7599 189.0874 155.7611zm7.993 21.8577c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.2508 181.7667 197.0816 179.758 197.0804 177.6188z"/><path style="opacity:.3;fill:#fff" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/><g><defs><path id="SVGID_5_" d="M194.7376 183.2733c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 179.8256 196.1861 181.8248 194.7376 183.2733z"/></defs><clipPath id="SVGID_6_"><use xlink:href="#SVGID_5_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_6_);fill:#fff" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/><path style="opacity:.13;clip-path:url(#SVGID_6_);fill:#020202" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/></g><g><defs><path id="SVGID_7_" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/></defs><clipPath id="SVGID_8_"><use xlink:href="#SVGID_7_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_8_);fill:#d95140" d="M172.6595 161.1903c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 154.7811 176.6171 157.2327 172.6595 161.1903z"/></g><rect x="198.8952" y="170.69" style="fill:#d95140" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#56a55c" d="M189.5379 264.6147l.0012-.0012c7.7751.0012 15.0294 4.1862 18.932 10.9235 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032-5.8394.0-11.3281-2.2733-15.458-6.4032-4.13-4.13-6.4032-9.6186-6.4056-15.4628.0012-6.0249 2.454-11.4897 6.4116-15.4472C178.0458 267.0663 183.5105 264.6135 189.5379 264.6147zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6538 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.7013 290.6202 197.5321 288.6115 197.5309 286.4723z"/><path style="opacity:.3;fill:#fff" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/><g><defs><path id="SVGID_9_" d="M195.1881 292.1268c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9941 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.5344 288.6792 196.6366 290.6783 195.1881 292.1268z"/></defs><clipPath id="SVGID_10_"><use xlink:href="#SVGID_9_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_10_);fill:#fff" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/><path style="opacity:.13;clip-path:url(#SVGID_10_);fill:#020202" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/></g><g><defs><path id="SVGID_11_" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/></defs><clipPath id="SVGID_12_"><use xlink:href="#SVGID_11_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_12_);fill:#56a55c" d="M173.11 270.0439c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7325-11.1497-10.9151-18.926-10.9151C182.5311 263.6346 177.0676 266.0863 173.11 270.0439z"/></g></g><rect x="199.3456" y="279.5436" style="fill:#56a55c" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#f1bc42" d="M189.0874 318.7208l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3305-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4472C177.5953 321.1724 183.0601 318.7196 189.0874 318.7208zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 342.7176 197.0804 340.5784z"/><path style="opacity:.3;fill:#fff" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/><g><defs><path id="SVGID_13_" d="M194.7376 346.2329c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 342.7853 196.1861 344.7844 194.7376 346.2329z"/></defs><clipPath id="SVGID_14_"><use xlink:href="#SVGID_13_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_14_);fill:#fff" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/><path style="opacity:.13;clip-path:url(#SVGID_14_);fill:#020202" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/></g><g><defs><path id="SVGID_15_" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/></defs><clipPath id="SVGID_16_"><use xlink:href="#SVGID_15_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_16_);fill:#f1bc42" d="M172.6595 324.15c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8474-1.0151-7.6327-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 317.7407 176.6171 320.1924 172.6595 324.15z"/></g></g><rect x="198.8952" y="333.6497" style="fill:#f1bc42" width="122.6266" height="13.8671"/></g></g></svg></span><span class="navbar-brand__name">ansible-oracle Project</span></a>
+  <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/about/"><span>About</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/docs/"><span>Documentation</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/oravirt/ansible-oracle/releases" target="_blank" rel="noopener"><span>Releases</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/oravirt/ansible-oracle" target="_blank" rel="noopener"><span>Github</span></a>
+      </li>
+      </ul>
+  </div>
+  <div class="d-none d-lg-block">
+    
+  </div>
+</div>
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main" data-bs-spy="scroll" data-bs-target=".td-toc" data-bs-root-margin="0px 0px -10%">
+        <div class="row flex-xl-nowrap">
+          <aside class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            <div id="td-sidebar-menu" class="td-sidebar__inner">
+  <div id="content-mobile">
+  <form class="td-sidebar__search d-flex align-items-center">
+    
+    <button class="btn btn-link td-sidebar__toggle" type="button" data-bs-toggle="collapse" data-bs-target="#td-section-nav" aria-controls="td-section-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  </div>
+  <div id="content-desktop"></div>
+  <nav class="td-sidebar-nav collapse td-sidebar-nav--search-disabled" id="td-section-nav">
+    <ul class="td-sidebar-nav__section pe-md-3 ul-0">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docs-li">
+    <a href="/docs/" title="Documentation" class="align-left ps-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-docs"><span class="">Docs</span></a>
+    <ul class="ul-1">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsfeatures-li">
+    <a href="/docs/features/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsfeatures"><span class="">Features</span></a>
+    <ul class="ul-2 foldable">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsfeaturesfeaturelist-li">
+    <a href="/docs/features/featurelist/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsfeaturesfeaturelist"><span class="">Supported features in ansible-oracle</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsfeaturesbreaking_changes-li">
+    <a href="/docs/features/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsfeaturesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
+  </li>
+    </ul>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguides-li">
+    <a href="/docs/guides/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsguides"><span class="">Guides</span></a>
+    <ul class="ul-2 foldable">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguidespatching-li">
+    <a href="/docs/guides/patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsguidespatching"><span class="">Patching</span></a>
+    <ul class="ul-3 foldable">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidespatchinginstall-and-patch-settings-li">
+    <a href="/docs/guides/patching/install-and-patch-settings/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidespatchinginstall-and-patch-settings"><span class="">Installation &amp; Patching Settings for the Inventory</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidespatchingautoupgrade-li">
+    <a href="/docs/guides/patching/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidespatchingautoupgrade"><span class="">Oracle AutoUpgrade</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidespatchingautoupgrade_upgrade-li">
+    <a href="/docs/guides/patching/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidespatchingautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidespatchingout_of_place_patching-li">
+    <a href="/docs/guides/patching/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidespatchingout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
+  </li>
+    </ul>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguidesrman-standby-li">
+    <a href="/docs/guides/rman-standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsguidesrman-standby"><span class="">RMAN and Standby Databases</span></a>
+    <ul class="ul-3 foldable">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-standbyrman-li">
+    <a href="/docs/guides/rman-standby/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman-standbyrman"><span class="">RMAN Backups with oradb_rman</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-standbystandby_databases-li">
+    <a href="/docs/guides/rman-standby/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman-standbystandby_databases"><span class="">Standby Databases</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-standbydataguard-li">
+    <a href="/docs/guides/rman-standby/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman-standbydataguard"><span class="">Data Guard Guide</span></a>
+  </li>
+    </ul>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
+    <a href="/docs/guides/restart_rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="">Setup ASM for Oracle Grid Infrastructure / Restart</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesahf-li">
+    <a href="/docs/guides/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesahf"><span class="">Oracle Autonomous Health Framework (AHF)</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesapex_ords-li">
+    <a href="/docs/guides/apex_ords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesapex_ords"><span class="">Setup APEX and ORDS</span></a>
+  </li>
+    </ul>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docsexamples-li">
+    <a href="/docs/examples/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsexamples"><span class="">Examples</span></a>
+    <ul class="ul-2 foldable">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsexamplesbeginner-li">
+    <a href="/docs/examples/beginner/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsexamplesbeginner"><span class="">Beginners Guide</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsexamplesbeginner_patching-li">
+    <a href="/docs/examples/beginner_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsexamplesbeginner_patching"><span class="">Beginner with Patching</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsexamplesdataguard-li">
+    <a href="/docs/examples/dataguard/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsexamplesdataguard"><span class="td-sidebar-nav-active-item">Data Guard</span></a>
+  </li>
+    </ul>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsdevelopment-li">
+    <a href="/docs/development/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsdevelopment"><span class="">Development</span></a>
+    <ul class="ul-2 foldable">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsdevelopmentdevelopment-li">
+    <a href="/docs/development/development/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsdevelopmentdevelopment"><span class="">How to develop</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsdevelopmentwebsite-li">
+    <a href="/docs/development/website/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsdevelopmentwebsite"><span class="">Website</span></a>
+  </li>
+    </ul>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsroles-li">
+    <a href="/docs/roles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsroles"><span class="">Ansible Roles</span></a>
+    <ul class="ul-2 foldable">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
+    <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf-li">
+    <a href="/docs/roles/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf"><span class="">ahf</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf_fleet_insights-li">
+    <a href="/docs/roles/ahf_fleet_insights/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf_fleet_insights"><span class="">ahf_fleet_insights</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
+    <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
+    <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
+    <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
+    <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
+    <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
+    <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+    <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+    <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+    <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolespyoracledb-li">
+    <a href="/docs/roles/pyoracledb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolespyoracledb"><span class="">pyoracledb</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
+    <a href="/docs/roles/orahost/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost"><span class="">orahost</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesautoupgrade-li">
+    <a href="/docs/roles/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesautoupgrade"><span class="">autoupgrade</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesglobal_handlers-li">
+    <a href="/docs/roles/global_handlers/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesglobal_handlers"><span class="">global_handlers</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraapex-li">
+    <a href="/docs/roles/oraapex/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraapex"><span class="">oraapex</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraasm_manage_diskgroups-li">
+    <a href="/docs/roles/oraasm_manage_diskgroups/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraasm_manage_diskgroups"><span class="">oraasm_manage_diskgroups</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoracluvfy-li">
+    <a href="/docs/roles/oracluvfy/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoracluvfy"><span class="">oracluvfy</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_datapatch-li">
+    <a href="/docs/roles/oradb_datapatch/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_datapatch"><span class="">oradb_datapatch</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_facts-li">
+    <a href="/docs/roles/oradb_facts/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_facts"><span class="">oradb_facts</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_grants-li">
+    <a href="/docs/roles/oradb_manage_grants/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_grants"><span class="">oradb_manage_grants</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_parameters-li">
+    <a href="/docs/roles/oradb_manage_parameters/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_parameters"><span class="">oradb_manage_parameters</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_pdb-li">
+    <a href="/docs/roles/oradb_manage_pdb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_pdb"><span class="">oradb_manage_pdb</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_profiles-li">
+    <a href="/docs/roles/oradb_manage_profiles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_profiles"><span class="">oradb_manage_profiles</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_redo-li">
+    <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="">oradb_manage_redo</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_roles-li">
+    <a href="/docs/roles/oradb_manage_roles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_roles"><span class="">oradb_manage_roles</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_services-li">
+    <a href="/docs/roles/oradb_manage_services/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_services"><span class="">oradb_manage_services</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_statspack-li">
+    <a href="/docs/roles/oradb_manage_statspack/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_statspack"><span class="">oradb_manage_statspack</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_tablespace-li">
+    <a href="/docs/roles/oradb_manage_tablespace/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_tablespace"><span class="">oradb_manage_tablespace</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_users-li">
+    <a href="/docs/roles/oradb_manage_users/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_users"><span class="">oradb_manage_users</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_wallet-li">
+    <a href="/docs/roles/oradb_manage_wallet/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_wallet"><span class="">oradb_manage_wallet</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_tzupgrade-li">
+    <a href="/docs/roles/oradb_tzupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_tzupgrade"><span class="">oradb_tzupgrade</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_cron-li">
+    <a href="/docs/roles/orahost_cron/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_cron"><span class="">orahost_cron</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_logrotate-li">
+    <a href="/docs/roles/orahost_logrotate/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_logrotate"><span class="">orahost_logrotate</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_ssh-li">
+    <a href="/docs/roles/orahost_ssh/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_ssh"><span class="">orahost_ssh</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_storage-li">
+    <a href="/docs/roles/orahost_storage/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_storage"><span class="">orahost_storage</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraords-li">
+    <a href="/docs/roles/oraords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraords"><span class="">oraords</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_download_patches-li">
+    <a href="/docs/roles/orasw_download_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_download_patches"><span class="">orasw_download_patches</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_golden_image-li">
+    <a href="/docs/roles/oraswdb_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_golden_image"><span class="">oraswdb_golden_image</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_manage_patches-li">
+    <a href="/docs/roles/oraswdb_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_manage_patches"><span class="">oraswdb_manage_patches</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_golden_image-li">
+    <a href="/docs/roles/oraswgi_golden_image/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_golden_image"><span class="">oraswgi_golden_image</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_manage_patches-li">
+    <a href="/docs/roles/oraswgi_manage_patches/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_manage_patches"><span class="">oraswgi_manage_patches</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_meta-li">
+    <a href="/docs/roles/oraswgi_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_meta"><span class="">oraswgi_meta</span></a>
+  </li>
+    </ul>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docslegacy-li">
+    <a href="/docs/legacy/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docslegacy"><span class="">Legacy</span></a>
+    <ul class="ul-2 foldable">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docslegacyvagrant-li">
+    <a href="/docs/legacy/vagrant/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docslegacyvagrant"><span class="">Vagrant</span></a>
+    <ul class="ul-3 foldable">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslegacyvagrantwindows-li">
+    <a href="/docs/legacy/vagrant/windows/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docslegacyvagrantwindows"><span class="">Vagrant on Windows</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslegacyvagrantvagrant_basics-li">
+    <a href="/docs/legacy/vagrant/vagrant_basics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docslegacyvagrantvagrant_basics"><span class="">Vagrant Basics</span></a>
+  </li>
+    </ul>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslegacyexample-beginner-li">
+    <a href="/docs/legacy/example-beginner/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docslegacyexample-beginner"><span class="">Beginner Example</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslegacyadvanced-li">
+    <a href="/docs/legacy/advanced/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docslegacyadvanced"><span class="">Advanced Guide</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslegacyansible-container-li">
+    <a href="/docs/legacy/ansible-container/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docslegacyansible-container"><span class="">Ansible as a Docker Container</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslegacyexample-rac-li">
+    <a href="/docs/legacy/example-rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docslegacyexample-rac"><span class="">RAC Example</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslegacylocal-install-howto-li">
+    <a href="/docs/legacy/local-install-howto/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docslegacylocal-install-howto"><span class="">HOWTO: Local Installation of Ansible-Oracle</span></a>
+  </li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+    </ul>
+  </nav>
+</div>
+          </aside>
+          <aside class="td-sidebar-toc">
+            <div class="td-page-meta ms-2 pb-1 pt-2 mb-0">
+<a id="print" href="/_print/docs/examples/"><i class="fa-solid fa-print fa-fw"></i> Print entire section</a>
+
+</div>
+
+            <div class="td-toc" data-proofer-ignore>
+<div class="td-toc-title">
+      <span class="td-toc-title__text">On this page</span>
+      <a class="td-toc-title__link" title="Top of page" href="#"></a>
+    </div>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#files">Files</a>
+      <ul>
+        <li><a href="#ansibleansiblecfg">ansible/ansible.cfg</a></li>
+        <li><a href="#ansibleinventorygroup_varsallautoupgradeyml">ansible/inventory/group_vars/all/autoupgrade.yml</a></li>
+        <li><a href="#ansibleinventorygroup_varsallbackupyml">ansible/inventory/group_vars/all/backup.yml</a></li>
+        <li><a href="#ansibleinventorygroup_varsalldb-homesyml">ansible/inventory/group_vars/all/db-homes.yml</a></li>
+        <li><a href="#ansibleinventorygroup_varsalldb-profilesyml">ansible/inventory/group_vars/all/db-profiles.yml</a></li>
+        <li><a href="#ansibleinventorygroup_varsallhostyml">ansible/inventory/group_vars/all/host.yml</a></li>
+        <li><a href="#ansibleinventorygroup_varsallmos_loginyml">ansible/inventory/group_vars/all/mos_login.yml</a></li>
+        <li><a href="#ansibleinventorygroup_varsallpasswordyml">ansible/inventory/group_vars/all/password.yml</a></li>
+        <li><a href="#ansibleinventorygroup_varsallsoftware_srcyml">ansible/inventory/group_vars/all/software_src.yml</a></li>
+        <li><a href="#ansibleinventorygroup_varsdbfsdatabase_db1yml">ansible/inventory/group_vars/dbfs/database_DB1.yml</a></li>
+        <li><a href="#ansibleinventorygroup_varsdbfsdatabaseyml">ansible/inventory/group_vars/dbfs/database.yml</a></li>
+        <li><a href="#ansibleinventorygroup_varsdbfslisteneryml">ansible/inventory/group_vars/dbfs/listener.yml</a></li>
+        <li><a href="#ansibleinventorygroup_varsdbfsstandbyyml">ansible/inventory/group_vars/dbfs/standby.yml</a></li>
+        <li><a href="#ansibleinventorygroup_varsdbfstnsnamesyml">ansible/inventory/group_vars/dbfs/tnsnames.yml</a></li>
+        <li><a href="#ansibleinventoryhost_varsdataguard-dbfs1databasesyml">ansible/inventory/host_vars/dataguard-dbfs1/databases.yml</a></li>
+        <li><a href="#ansibleinventoryhost_varsdataguard-dbfs2databasesyml">ansible/inventory/host_vars/dataguard-dbfs2/databases.yml</a></li>
+        <li><a href="#ansibleinventoryhost_varsdataguard-dbfs2software_srcyml">ansible/inventory/host_vars/dataguard-dbfs2/software_src.yml</a></li>
+        <li><a href="#ansibleinventoryhostsyml">ansible/inventory/hosts.yml</a></li>
+        <li><a href="#ansibleplaybooksautoupgradeyml">ansible/playbooks/autoupgrade.yml</a></li>
+        <li><a href="#ansibleplaybooksdo_allyml">ansible/playbooks/do_all.yml</a></li>
+        <li><a href="#ansibleplaybooksnfs_serveryml">ansible/playbooks/nfs_server.yml</a></li>
+        <li><a href="#ansiblerequirementsyml">ansible/requirements.yml</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+
+            
+	
+          </aside>
+          <main class="col-12 col-md-9 col-xl-8 ps-md-5" role="main">
+            
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
+  <ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="/docs/">Docs</a></li>
+  <li class="breadcrumb-item">
+    <a href="/docs/examples/">Examples</a></li>
+  <li class="breadcrumb-item active" aria-current="page">
+    Data Guard</li>
+  </ol>
+</nav>
+<div class="td-content">
+	<h1>Data Guard</h1>
+	
+	<header class="article-meta">
+		
+  </header>
+	<p>Primary and standby database with Data Guard on 2 Oracle Linux VMs.</p>
+<p>The example is described step by step in the <a href="/docs/guides/rman-standby/dataguard/">guide</a>.</p>
+<p>Source: <a href="https://github.com/oravirt/ansible-oracle/tree/master/example/dataguard"><code>example/dataguard</code></a></p>
+<h2 id="files">Files</h2>
+<h3 id="ansibleansiblecfg">ansible/ansible.cfg</h3>
+<pre><code class="language-ini">[defaults]
+
+inventory = inventory
+host_key_checking = False
+display_skipped_hosts = false
+duplicate_dict_key = ignore
+
+nocolor = 1
+retry_files_enabled = False
+
+interpreter_python = auto_silent
+
+callbacks_enabled = timer
+stdout_callback = ansible.builtin.default
+result_format = yaml
+
+[ssh_connection]
+pipelining = True
+</code></pre>
+<h3 id="ansibleinventorygroup_varsallautoupgradeyml">ansible/inventory/group_vars/all/autoupgrade.yml</h3>
+<pre><code class="language-yaml">---
+autoupgrade_run_local: false
+autoupgrade_download_use_oracle_sw_patches: false
+autoupgrade_download_latest: true
+
+autoupgrade_download_gold_image_rename: true
+# db_home_26_latest.zip -&gt; latest downloaded Gold Image for 26ai (imagename in db-homes.yml)
+autoupgrade_download_gold_image_latest: true
+autoupgrade_jar_filesource: /u01/stage/autoupgrade.jar
+
+autoupgrade_download_patches:
+  # - target_version: 19
+  #   # renovate: datasource=custom.oracle-ru-19 depName=oracle-db-ru-19
+  #   patch: RU:19.33,OPATCH,OJVM,DPBP
+  #   gold_image: &quot;ALL&quot;
+  - target_version: 26
+    # renovate: datasource=custom.oracle-ru-26 depName=oracle-db-ru-26
+    patch: RU:23.26.4,AHF,CVU
+    # patch: RECOMMENDED
+    gold_image: &quot;ALL&quot;
+    platform: LINUX.X64
+</code></pre>
+<h3 id="ansibleinventorygroup_varsallbackupyml">ansible/inventory/group_vars/all/backup.yml</h3>
+<pre><code class="language-yaml">---
+# RMAN backups with NFS (playbooks/nfs_server.yml, role oradb_rman)
+#
+# dataguard-dbfs1 (group nfs_server) exports nfs_server_backup_path read write,
+# the hosts of the group nfs_client mount the share permanently on the same path.
+# =&gt; all members of the Data Guard configuration write their backups into the same directory
+#    and every member can read the backups of the other member.
+nfs_server_backup: &quot;{{ hostvars[groups['nfs_server'][0]]['ansible_host'] }}&quot;
+nfs_server_backup_path: /u01/app/oracle/backup
+# Mount options of the backup share on the NFS clients
+nfs_client_backup_opts: rw,bg,hard,tcp,timeo=600,rsize=1048576,wsize=1048576
+
+# CONFIGURE DEVICE TYPE DISK in the RMAN script parameter (role oradb_rman)
+rman_device_type_disk: 'PARALLELISM 1 BACKUP TYPE TO COMPRESSED BACKUPSET'
+</code></pre>
+<h3 id="ansibleinventorygroup_varsalldb-homesyml">ansible/inventory/group_vars/all/db-homes.yml</h3>
+<pre><code class="language-yaml">---
+apply_patches_db: false
+db_homes_config:
+
+  # read-only ORACLE_HOME: SPFile, password file and the Data Guard Broker configuration files
+  # are in ORACLE_BASE/dbs =&gt; they are kept with Out-of-Place Patching
+  db26_si_ee:
+    version: 26.1.0.0
+    oracle_home: /u01/app/oracle/product/db26_si_ee
+    edition: EE
+    imagename: db_home_26_latest.zip
+    readonly_home: true
+    # mandatory for readonly_home
+    oracle_home_name: db26_si_ee
+    opatch_minversion: 12.2.0.1.36
+    state: present
+</code></pre>
+<h3 id="ansibleinventorygroup_varsalldb-profilesyml">ansible/inventory/group_vars/all/db-profiles.yml</h3>
+<pre><code class="language-yaml">---
+# global Defaults for Database-Profiles
+
+oracle_default_profiles:
+  - name: DEFAULT
+    state: present
+    attributes:
+      - {name: password_life_time, value: unlimited}
+  - name: PW_UNLIMIT
+    state: present
+    attributes:
+      - {name: password_life_time, value: &quot;UNLIMITED&quot;}
+      - {name: password_grace_time, value: 7}
+      - {name: password_lock_time, value: 1}
+      - {name: password_verify_function, value: &quot;null&quot;}
+</code></pre>
+<h3 id="ansibleinventorygroup_varsallhostyml">ansible/inventory/group_vars/all/host.yml</h3>
+<pre><code class="language-yaml">---
+configure_public_yum_repo: false
+configure_motd: false
+
+autostartup_service: true
+
+configure_hugepages_by: memory
+
+# disable hugepages on small systems
+# don't forget to enable use_large_pages in oracle parameter
+# size_in_gb_hugepages: 2
+size_in_gb_hugepages: 0
+
+
+configure_host_disks: true
+
+# Hyper-V VM from packer-hyperv: one disk /dev/sda, the free space of VG &quot;ol&quot; (/dev/sda3)
+# is used for the Oracle filesystems.
+host_fs_layout:
+  - vgname: ol
+    state: present
+    filesystem:
+      - {mntp: swap, lvname: lvswap, lvsize: 16G, fstype: swap}
+      - {mntp: /u01, lvname: lvorabase, lvsize: 40G, fstype: xfs}
+      - {mntp: /u02, lvname: lvoradata, lvsize: 25G, fstype: xfs, fsopts: &quot;-m reflink=1 -m crc=1&quot;}
+    disk:
+      - {device: /dev/sda, pvname: /dev/sda3}
+</code></pre>
+<h3 id="ansibleinventorygroup_varsallmos_loginyml">ansible/inventory/group_vars/all/mos_login.yml</h3>
+<pre><code class="language-yaml">---
+# My Oracle Support credentials for AutoUpgrade from the OS environment:
+#   export MOS_USERNAME=&lt;login&gt;
+#   read -s MOS_PASSWORD &amp;&amp; export MOS_PASSWORD
+#
+# Optional: replace the lookups with static values.
+# Encrypt the password with ansible-vault in this case.
+mos_username: &quot;{{ lookup('ansible.builtin.env', 'MOS_USERNAME', default=Undefined) }}&quot;
+mos_password: &quot;{{ lookup('ansible.builtin.env', 'MOS_PASSWORD', default=Undefined) }}&quot;
+
+# Keystore password for AutoUpgrade (16 characters), derived from mos_password:
+# fixed prefix for digit, special, lower and upper case + first 12 characters of sha256(mos_password)
+autoupgrade_keystore_password: &quot;1_aA{{ (mos_password | hash('sha256'))[:12] }}&quot;
+</code></pre>
+<h3 id="ansibleinventorygroup_varsallpasswordyml">ansible/inventory/group_vars/all/password.yml</h3>
+<pre><code class="language-yaml">---
+# default_dbpass for all users not listed in dbpasswords
+default_dbpass: Oracle_123
+</code></pre>
+<h3 id="ansibleinventorygroup_varsallsoftware_srcyml">ansible/inventory/group_vars/all/software_src.yml</h3>
+<pre><code class="language-yaml">---
+is_sw_source_local: true
+oracle_sw_copy: false
+oracle_sw_unpack: true
+
+# Installation media: target of the AutoUpgrade download on the NFS server (dataguard-dbfs1).
+# The ORACLE_HOME is extracted from oracle_stage_remote, because oracle_sw_copy is false.
+oracle_sw_source_local: /u01/sw
+oracle_stage_remote: /u01/sw
+
+# Directory for response files, extracted patches etc.
+oracle_stage: /u01/stage
+
+# NFS share with the installation media (playbooks/nfs_server.yml)
+# install_from_nfs: true is set for the NFS clients in host_vars.
+# They mount the share on oracle_stage_remote during the installation of the ORACLE_HOME
+# (same path as on the NFS server =&gt; the symlink db_home_26_latest.zip works on all hosts).
+install_from_nfs: false
+nfs_server_sw: &quot;{{ hostvars[groups['nfs_server'][0]]['ansible_host'] }}&quot;
+nfs_server_sw_path: /u01/sw
+</code></pre>
+<h3 id="ansibleinventorygroup_varsdbfsdatabase_db1yml">ansible/inventory/group_vars/dbfs/database_DB1.yml</h3>
+<pre><code class="language-yaml">---
+# Database DB1 on both members of the Data Guard configuration DG1.
+#
+# Host specific values in host_vars/&lt;host&gt;/databases.yml:
+# - db1_unique_name: db_unique_name of the member in db_standby_config (group_vars/dbfs/standby.yml)
+#
+# dataguard-dbfs1 (initial_role primary):          created with dbca
+# dataguard-dbfs2 (initial_role physical_standby): created with RMAN DUPLICATE by oradb_standby
+oracle_database_db1:
+  home: &amp;db_config_home db26_si_ee
+  oracle_db_name: &amp;oracle_db_name DB1
+  oracle_db_unique_name: &quot;{{ db1_unique_name }}&quot;
+  standby_config: DG1
+  oracle_db_type: SI                                   # Type of database (RAC,RACONENODE,SI)
+  storage_type: FS                                     # Database storage to be used. ASM or FS.
+  oracle_database_type: MULTIPURPOSE                   # MULTIPURPOSE|DATA_WAREHOUSING|OLTP
+  redolog_size: 75M
+  redolog_groups: 3
+  # mandatory for Data Guard: static listener entry &lt;db_unique_name&gt;_DGMGRL
+  listener_name: LISTENER
+  listener_port: &amp;cdb_listener_port 1521
+  # Data Guard needs archivelog and force logging, flashback allows the reinstate after a failover
+  archivelog: true
+  flashback: true
+  force_logging: true
+  state: present
+  tablespaces:
+    - {name: system, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false}
+    - {name: sysaux, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false}
+    - {name: undotbs1, size: 10M, autoextend: true, next: 50M, maxsize: 8G, content: permanent, state: present, bigfile: false}
+    - {name: users, size: 10M, autoextend: true, next: 50M, maxsize: 2G, content: permanent, state: present, bigfile: false}
+    - {name: temp, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false}
+  init_parameters:
+    - {name: processes, value: '400', scope: spfile, state: present, dbca: false}
+    # EZConnect of the local listener with the IP address of the host.
+    # The standby gets its own value with SET in RMAN DUPLICATE (oradb_standby).
+    - {name: local_listener, value: '//{{ ansible_host }}:1521', scope: both, state: present}
+    - {name: control_management_pack_access, value: 'NONE', scope: both, state: present}
+    - {name: control_file_record_keep_time, value: '30', scope: both, state: present}
+    - {name: deferred_segment_creation, value: 'false', scope: both, state: present}
+    - {name: filesystemio_options, value: 'setall', scope: spfile, state: present}
+    - {name: job_queue_processes, value: '10', scope: both, state: present}
+    - {name: log_archive_dest_1, value: 'location=USE_DB_RECOVERY_FILE_DEST', scope: both, state: present}
+    - {name: pga_aggregate_target, value: '200M', scope: both, state: present}
+    - {name: sga_target, value: '1800M', scope: spfile, state: present}
+    - {name: recyclebin, value: 'off', scope: spfile, state: present}
+    - {name: max_pdbs, value: '3', scope: both, state: present}
+    # Oracle Managed Files are mandatory for Data Guard in ansible-oracle
+    - {name: db_create_file_dest, value: '/u02/oradata', scope: both, state: present}
+    - {name: db_create_online_log_dest_1, value: '/u02/oradata', scope: both, state: present}
+    - {name: db_recovery_file_dest_size, value: '10G', scope: both, state: present, dbca: false}
+    - {name: db_recovery_file_dest, value: '/u02/fra', scope: both, state: present}
+    # Data Guard Broker: configuration files outside of ORACLE_HOME (read-only ORACLE_HOME =&gt; ORACLE_BASE/dbs),
+    # dg_broker_start below the file parameters: the files cannot be changed while the broker is running
+    - {name: dg_broker_config_file1, value: '/u01/app/oracle/dbs/dr1{{ db1_unique_name }}.dat', scope: both, state: present, dbca: false}
+    - {name: dg_broker_config_file2, value: '/u01/app/oracle/dbs/dr2{{ db1_unique_name }}.dat', scope: both, state: present, dbca: false}
+    - {name: dg_broker_start, value: 'TRUE', scope: both, state: present, dbca: false}
+    - {name: standby_file_management, value: 'AUTO', scope: both, state: present}
+
+  profiles:
+    - name: DEFAULT
+      state: present
+      attributes:
+        - {name: password_life_time, value: unlimited}
+
+  # RMAN backups to the NFS share nfs_server_backup_path (group_vars/all/backup.yml)
+  # control_file_record_keep_time (init_parameters) must be &gt;= the days of the RECOVERY WINDOW
+  rman_retention_policy: 'RECOVERY WINDOW OF 7 DAYS'
+  rman_channel_disk: &quot;format '/u01/app/oracle/backup/%d/%d_%T_%U'&quot;
+  # %F contains the DBID, which is identical on all members =&gt; db_unique_name in the name
+  rman_controlfile_autobackup_disk: &quot;'/u01/app/oracle/backup/%d/%d_{{ db1_unique_name }}_%F'&quot;
+  # Both members get the same jobs. role: primary =&gt; the backup runs on the current primary only,
+  # rman_backup.sh skips it on the standby. After a switchover the backups follow the role.
+  rman_jobs:
+    # CONFIGURE ... during the playbook: parameter on the primary,
+    # parameter_standby on the standby (without CONFIGURE RETENTION POLICY: not configurable on a standby)
+    - {name: parameter, role: primary, immediate: true}
+    - {name: parameter_standby, role: standby, immediate: true}
+    # weekly level 0 backup on Sunday at 01:10
+    - {name: online_level0, role: primary, weekday: &quot;0&quot;, hour: &quot;01&quot;, minute: &quot;10&quot;, day: &quot;*&quot;}
+    # hourly archivelog backup
+    - {name: archivelog, role: primary, weekday: &quot;*&quot;, hour: &quot;*&quot;, minute: &quot;30&quot;, day: &quot;*&quot;}
+
+oracle_pdb_db1_orclpdb:
+  home: *db_config_home
+  listener_port: *cdb_listener_port
+  cdb: *oracle_db_name
+  pdb_name: ORCLPDB
+  state: present
+  profiles: &quot;{{ oracle_default_profiles }}&quot;
+
+  tablespaces:
+    - {name: system, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false}
+    - {name: sysaux, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false}
+    - {name: undotbs1, size: 10M, autoextend: true, next: 50M, maxsize: 8G, content: permanent, state: present, bigfile: false}
+    - {name: users, size: 10M, autoextend: true, next: 50M, maxsize: 2G, content: permanent, state: present, bigfile: false}
+    - {name: temp, size: 10M, autoextend: true, next: 50M, maxsize: 4G, content: permanent, state: present, bigfile: false}
+
+oracle_databases:
+  - &quot;{{ oracle_database_db1 }}&quot;
+
+# PDBs are managed on the primary database only (oradb_manage_pdb skips a standby database)
+oracle_pdbs:
+  - &quot;{{ oracle_pdb_db1_orclpdb }}&quot;
+</code></pre>
+<h3 id="ansibleinventorygroup_varsdbfsdatabaseyml">ansible/inventory/group_vars/dbfs/database.yml</h3>
+<pre><code class="language-yaml">---
+db_homes_installed:
+  - home: db26_si_ee
+    apply_patches: false
+    state: present
+</code></pre>
+<h3 id="ansibleinventorygroup_varsdbfslisteneryml">ansible/inventory/group_vars/dbfs/listener.yml</h3>
+<pre><code class="language-yaml">---
+
+oracle_listeners_config:
+  LISTENER:
+    home: &amp;listener_home db26_si_ee
+    address:
+      - host: &quot;{{ ansible_hostname }}&quot;
+        protocol: TCP
+        port: 1521
+
+listener_installed:
+  - home: *listener_home
+    listener_name: LISTENER
+    state: present
+</code></pre>
+<h3 id="ansibleinventorygroup_varsdbfsstandbyyml">ansible/inventory/group_vars/dbfs/standby.yml</h3>
+<pre><code class="language-yaml">---
+# Data Guard configuration DG1 with 2 members.
+# Must be identical on all members =&gt; group_vars of the group with all members.
+#
+# Inventory structure: doc/guides/standby_databases.adoc
+db_standby_config:
+  - name: DG1
+    type: dataguard
+    dg:
+      protection_mode: MaxPerformance
+      # mandatory: RMAN CONFIGURE ARCHIVELOG DELETION POLICY of all members (oradb_standby).
+      # Archive logs are eligible for deletion after they are applied on all standby databases.
+      # 'BACKED UP ...' needs an RMAN catalog: without catalog the controlfile of a standby
+      # does not know the backups of the primary =&gt; no archive log of the standby would be eligible.
+      archivelog_deletion_policy: APPLIED ON ALL STANDBY
+    members:
+      - hosts: [dataguard-dbfs1]
+        db_unique_name: DB1_SITE1
+        initial_role: primary
+        dg:
+          connect_identifier: DB1_SITE1
+          log_xpt_mode: ASYNC
+      - hosts: [dataguard-dbfs2]
+        db_unique_name: DB1_SITE2
+        initial_role: physical_standby
+        dg:
+          connect_identifier: DB1_SITE2
+          log_xpt_mode: ASYNC
+</code></pre>
+<h3 id="ansibleinventorygroup_varsdbfstnsnamesyml">ansible/inventory/group_vars/dbfs/tnsnames.yml</h3>
+<pre><code class="language-yaml">---
+# Connect identifiers of the members (dg.connect_identifier in db_standby_config).
+# Used by RMAN DUPLICATE (oradb_standby), the Data Guard Broker (dgmgrl) and for redo transport.
+# The service &lt;db_unique_name&gt; is registered dynamically at the listener of each host.
+# IP addresses from ansible_host =&gt; no DNS needed between the database servers.
+oracle_tnsnames_config:
+  DB1_SITE1:
+    connect:
+      service_name: DB1_SITE1
+    address:
+      - host: &quot;{{ hostvars['dataguard-dbfs1']['ansible_host'] }}&quot;
+        port: 1521
+  DB1_SITE2:
+    connect:
+      service_name: DB1_SITE2
+    address:
+      - host: &quot;{{ hostvars['dataguard-dbfs2']['ansible_host'] }}&quot;
+        port: 1521
+
+tnsnames_installed:
+  - tnsname: DB1_SITE1
+    home: db26_si_ee
+    state: present
+  - tnsname: DB1_SITE2
+    home: db26_si_ee
+    state: present
+</code></pre>
+<h3 id="ansibleinventoryhost_varsdataguard-dbfs1databasesyml">ansible/inventory/host_vars/dataguard-dbfs1/databases.yml</h3>
+<pre><code class="language-yaml">---
+# initial primary of the Data Guard configuration DG1 (db_standby_config in group_vars/dbfs/standby.yml)
+db1_unique_name: DB1_SITE1
+</code></pre>
+<h3 id="ansibleinventoryhost_varsdataguard-dbfs2databasesyml">ansible/inventory/host_vars/dataguard-dbfs2/databases.yml</h3>
+<pre><code class="language-yaml">---
+# initial physical standby of the Data Guard configuration DG1 (db_standby_config in group_vars/dbfs/standby.yml)
+db1_unique_name: DB1_SITE2
+</code></pre>
+<h3 id="ansibleinventoryhost_varsdataguard-dbfs2software_srcyml">ansible/inventory/host_vars/dataguard-dbfs2/software_src.yml</h3>
+<pre><code class="language-yaml">---
+# The installation media are mounted with NFS from dataguard-dbfs1 (group nfs_server)
+# on oracle_stage_remote during the installation of the ORACLE_HOME.
+# No AutoUpgrade download on this host.
+install_from_nfs: true
+</code></pre>
+<h3 id="ansibleinventoryhostsyml">ansible/inventory/hosts.yml</h3>
+<pre><code class="language-yaml">---
+all:
+  children:
+    # both database servers of the Data Guard configuration DG1
+    dbfs:
+      hosts:
+        dataguard-dbfs1:
+          # IP address or DNS name of the 1st Oracle Linux 9 VM (initial primary)
+          ansible_host: 192.168.66.166
+          # Login user on the VM with sudo privileges (SSH key login)
+          ansible_user: ol
+        dataguard-dbfs2:
+          # IP address or DNS name of the 2nd Oracle Linux 9 VM (initial physical standby)
+          ansible_host: 192.168.66.167
+          ansible_user: ol
+
+    # NFS server for the installation media (playbooks/nfs_server.yml)
+    # AutoUpgrade downloads the gold image on this host only.
+    nfs_server:
+      hosts:
+        dataguard-dbfs1:
+
+    # Database servers which mount the installation media from nfs_server
+    nfs_client:
+      hosts:
+        dataguard-dbfs2:
+</code></pre>
+<h3 id="ansibleplaybooksautoupgradeyml">ansible/playbooks/autoupgrade.yml</h3>
+<pre><code class="language-yaml">---
+# AutoUpgrade on the NFS server only (group nfs_server):
+# the gold image is downloaded once into /u01/sw and used by all database servers with NFS.
+- name: Install Oracle AutoUpgrade
+  hosts: &quot;{{ hostgroup | default('nfs_server') }}&quot;
+  any_errors_fatal: true
+  tasks:
+
+    - name: install openJDK and python-pexpect
+      become: true
+      become_user: root
+      when:
+        - not autoupgrade_run_local | bool
+      ansible.builtin.package:
+        name:
+          - java-1.8.0-openjdk
+          - python-pexpect
+        state: present
+
+    - name: Install autoupgrade.jar
+      ansible.builtin.import_role:
+        name: opitzconsulting.ansible_oracle.autoupgrade
+        tasks_from: install.yml
+
+- name: Import_playbook autoupgrade_download_patches
+  import_playbook: opitzconsulting.ansible_oracle.autoupgrade_download_patches
+  vars:
+    hostgroup: nfs_server
+</code></pre>
+<h3 id="ansibleplaybooksdo_allyml">ansible/playbooks/do_all.yml</h3>
+<pre><code class="language-yaml">---
+# 1. OS of both database servers
+- name: Import_playbook os
+  import_playbook: opitzconsulting.ansible_oracle.os
+  vars:
+    hostgroup: dbfs
+
+# 2. NFS server for the installation media and the RMAN backups on dataguard-dbfs1,
+#    permanent mount of the RMAN backups on dataguard-dbfs2
+- name: Import_playbook nfs_server
+  import_playbook: nfs_server.yml
+  vars:
+    hostgroup: nfs_server
+
+# 3. AutoUpgrade and download of the gold image on dataguard-dbfs1
+- name: Import_playbook autoupgrade
+  import_playbook: autoupgrade.yml
+  vars:
+    hostgroup: nfs_server
+
+# 4. ORACLE_HOME on both hosts (dataguard-dbfs2 with NFS),
+#    primary database with dbca, standby database with RMAN DUPLICATE, Data Guard Broker
+#    Both hosts must be part of the play: oradb_standby needs the facts of the primary.
+- name: Import_playbook single_instance_fs
+  import_playbook: opitzconsulting.ansible_oracle.single_instance_fs
+  vars:
+    hostgroup: dbfs
+</code></pre>
+<h3 id="ansibleplaybooksnfs_serveryml">ansible/playbooks/nfs_server.yml</h3>
+<pre><code class="language-yaml">---
+# NFS server on the 1st database server (group nfs_server) for
+# - the installation media (nfs_server_sw_path, read only):
+#   AutoUpgrade downloads the gold image into nfs_server_sw_path on this host only.
+#   The hosts of the group nfs_client mount the share with install_from_nfs: true
+#   during the installation of the ORACLE_HOME (role oraswdb_install).
+# - the RMAN backups (nfs_server_backup_path, read write):
+#   The hosts of the group nfs_client mount the share permanently on the same path (2nd play).
+#
+# Requires the playbook opitzconsulting.ansible_oracle.os before: filesystem /u01, user oracle.
+- name: NFS server for installation media and RMAN backups
+  hosts: &quot;{{ hostgroup | default('nfs_server') }}&quot;
+  become: true
+  any_errors_fatal: true
+  vars:
+    # IP addresses of the NFS clients
+    nfs_server_clients: &gt;-
+      {{ groups['nfs_client'] | default([]) | map('extract', hostvars, 'ansible_host') | list }}
+  tasks:
+    - name: Install nfs-utils
+      ansible.builtin.package:
+        name: nfs-utils
+        state: present
+
+    # target of the AutoUpgrade download
+    - name: Create directory for installation media
+      ansible.builtin.file:
+        path: &quot;{{ nfs_server_sw_path }}&quot;
+        state: directory
+        owner: &quot;{{ oracle_user | default('oracle') }}&quot;
+        group: &quot;{{ oracle_group | default('oinstall') }}&quot;
+        mode: &quot;0755&quot;
+
+    - name: Export installation media
+      ansible.builtin.copy:
+        content: |
+          # Managed by Ansible (playbooks/nfs_server.yml): installation media for ansible-oracle
+          {{ nfs_server_sw_path }} {{ nfs_server_clients | map('regex_replace', '$', '(ro,sync,root_squash)') | join(' ') }}
+        dest: /etc/exports.d/oracle-sw.exports
+        owner: root
+        group: root
+        mode: &quot;0644&quot;
+      register: _nfs_server_exports
+
+    # ORACLE_BASE with the same owner and mode as in the role oraswdb_install
+    - name: Create ORACLE_BASE
+      ansible.builtin.file:
+        path: &quot;{{ oracle_base | default('/u01/app/oracle') }}&quot;
+        state: directory
+        owner: &quot;{{ oracle_user | default('oracle') }}&quot;
+        group: &quot;{{ oracle_group | default('oinstall') }}&quot;
+        mode: &quot;0775&quot;
+
+    # RMAN does not create directories: one directory per DB_NAME (%d in the RMAN format)
+    - name: Create directories for RMAN backups
+      ansible.builtin.file:
+        path: &quot;{{ item }}&quot;
+        state: directory
+        owner: &quot;{{ oracle_user | default('oracle') }}&quot;
+        group: &quot;{{ oracle_group | default('oinstall') }}&quot;
+        mode: &quot;0750&quot;
+      loop: &gt;-
+        {{ [nfs_server_backup_path]
+           + oracle_databases | default([]) | map(attribute='oracle_db_name')
+             | map('regex_replace', '^', nfs_server_backup_path ~ '/') | list }}
+
+    - name: Export RMAN backups
+      ansible.builtin.copy:
+        content: |
+          # Managed by Ansible (playbooks/nfs_server.yml): RMAN backups for ansible-oracle
+          {{ nfs_server_backup_path }} {{ nfs_server_clients | map('regex_replace', '$', '(rw,sync,root_squash)') | join(' ') }}
+        dest: /etc/exports.d/oracle-backup.exports
+        owner: root
+        group: root
+        mode: &quot;0644&quot;
+      register: _nfs_server_exports_backup
+
+    - name: Start NFS server
+      ansible.builtin.systemd:
+        name: nfs-server
+        enabled: true
+        state: started
+
+    - name: Reload exports
+      ansible.builtin.command: exportfs -ra
+      when: _nfs_server_exports is changed or _nfs_server_exports_backup is changed  # noqa no-handler
+      changed_when: true
+
+    - name: Gather service facts
+      ansible.builtin.service_facts:
+
+    - name: Open NFS in firewalld
+      ansible.posix.firewalld:
+        service: &quot;{{ item }}&quot;
+        permanent: true
+        immediate: true
+        state: enabled
+      loop:
+        - nfs
+        - rpc-bind
+        - mountd
+      when:
+        - ansible_facts.services['firewalld.service'] is defined
+        - ansible_facts.services['firewalld.service'].state == 'running'
+
+# Permanent mount of the RMAN backups on the NFS clients (/etc/fstab).
+# The mount point is identical to the directory on the NFS server
+# =&gt; the same RMAN format on all members of the Data Guard configuration.
+- name: NFS client for RMAN backups
+  hosts: &quot;{{ hostgroup_nfs_client | default('nfs_client') }}&quot;
+  become: true
+  any_errors_fatal: true
+  tasks:
+    - name: Install nfs-utils
+      ansible.builtin.package:
+        name: nfs-utils
+        state: present
+
+    - name: Create ORACLE_BASE
+      ansible.builtin.file:
+        path: &quot;{{ oracle_base | default('/u01/app/oracle') }}&quot;
+        state: directory
+        owner: &quot;{{ oracle_user | default('oracle') }}&quot;
+        group: &quot;{{ oracle_group | default('oinstall') }}&quot;
+        mode: &quot;0775&quot;
+
+    # Owner and mode of the directory come from the NFS server after the mount
+    - name: Mount RMAN backups
+      ansible.posix.mount:
+        src: &quot;{{ nfs_server_backup }}:{{ nfs_server_backup_path }}&quot;
+        path: &quot;{{ nfs_server_backup_path }}&quot;
+        fstype: nfs
+        opts: &quot;{{ nfs_client_backup_opts }}&quot;
+        state: mounted
+</code></pre>
+<h3 id="ansiblerequirementsyml">ansible/requirements.yml</h3>
+<pre><code class="language-yaml">---
+collections:
+  # Data Guard (role oradb_standby) needs ansible-oracle 5.0.0 or newer
+  - name: opitzconsulting.ansible_oracle
+    version: &quot;&gt;=5.0.0&quot;
+
+  # following entry is for development only!
+  # - name: opitzconsulting.ansible_oracle
+  #   source: ./../../..
+  #   type: dir
+</code></pre>
+
+	<div class="td-page-meta__lastmod">
+  Last modified November 11, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/4f31da3804d47487d38bc07be40b8a60508f18b9">oracle_databases: is_container and omf true by default, datafile_dest/recoveryfile_dest deprecated (4f31da38)</a>
+</div>
+
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      <footer class="td-footer row d-print-none">
+  <div class="container-fluid">
+    <div class="row mx-md-2">
+      <div class="td-footer__left col-6 col-sm-4 order-sm-1">
+        
+      </div><div class="td-footer__right col-6 col-sm-4 order-sm-3">
+        <ul class="td-footer__links-list">
+  
+  <li class="td-footer__links-item" data-bs-toggle="tooltip" title="GitHub" aria-label="GitHub">
+    <a href="https://github.com/oravirt/ansible-oracle" aria-label="GitHub" target="_blank" rel="noopener">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+</ul>
+
+      </div><div class="td-footer__center col-12 col-sm-4 py-2 order-sm-2">
+        <span class="td-footer__copyright">&copy;
+    2016&ndash;2026
+    <span class="td-footer__authors">Thorsten Bruhns | <a href="https://github.com/oravirt/ansible-oracle/blob/master/LICENSE">MIT</a></span></span><nav aria-label="Legal" class="td-footer__legal mt-2">
+  <ul class="list-inline mb-0">
+    <li class="list-inline-item"><a href="/legal-notice/">Legal Notice</a></li>
+    <li class="list-inline-item"><a href="/privacy/">Privacy</a></li>
+    <li class="list-inline-item"><a href="/accessibility/">Accessibility</a></li>
+    </ul>
+</nav>
+
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <script src="/js/main.js"></script>
+<script src='/js/prism.js'></script>
+<script src='/js/tabpane-persist.js'></script>
+
+  </body>
+</html>
