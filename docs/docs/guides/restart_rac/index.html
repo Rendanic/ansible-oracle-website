@@ -18,70 +18,550 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>Setup ASM for Oracle Grid Infrastructure / Restart | ansible-oracle Project</title>
-<meta name="description" content="1. Setup ASM for Oracle Grid Infrastructure / Restart Table 1. Inventory Variables for ASM Value Default Description device_persistence
-empty string
-Allowed values: asmfd, asmlib
+<title>Setup of Oracle Restart and Grid Infrastructure | ansible-oracle Project</title>
+<meta name="description" content="1. Setup of Oracle Restart and Grid Infrastructure This guide describes the setup of the software of Grid Infrastructure with ansible-oracle in 2 independent parts:
+Oracle Restart: Grid Infrastructure for a Standalone Server, Single Instance databases with ASM on one host.
+Grid Infrastructure (cluster): Grid Infrastructure for a Cluster, the prerequisite for RAC and RAC One Node.
+Both parts are complete on their own. Some variables are described in both parts on purpose, because their meaning and their defaults differ between Oracle Restart and Grid Infrastructure. Read only the part you need.
+Note Terms (Oracle Restart, Grid Infrastructure, RAC): see Featurelist.
+Not tested in this guide means: not covered by the molecule scenarios. Untested combinations should work, as long as they are not explicitly excluded and are supported by Oracle.
+Both Oracle Restart and Grid Infrastructure use the software of Grid Infrastructure (oracle_home_gi). The variable oracle_install_option_gi decides what is configured. Table 1. Oracle Restart and Grid Infrastructure at a glance Oracle Restart Grid Infrastructure (cluster) oracle_install_option_gi
+HA_CONFIG
+CRS_CONFIG
+State in ansible-oracle
+Oracle Restart 26ai is supported, tested with databases 19c and 26ai (molecule scenario has-ol9).
+Grid Infrastructure 26ai is supported, tested with 2 nodes and a RAC database 26ai (molecule scenario rac).
+Grid Infrastructure 19c, RAC databases 19c and RAC One Node are not tested.
+Hosts
+every host is configured on its own
+all nodes of the cluster are configured together
+(inventory group orasw_meta_cluster_hostgroup)
+Default of oracle_home_gi
+{{ oracle_base }}/{{ oracle_install_version_gi }}/grid
+/u01/app/{{ oracle_install_version_gi }}/grid
+Default of grid_base
+oracle_base
+/u01/app/grid/base
+oracle_home_gi and grid_base
+oracle_home_gi must be below grid_base
+oracle_home_gi must not be below grid_base
+Storage for ASM
+local disks
+shared disks, visible on all nodes
+Network
+no special requirements
+public and private network, SCAN, VIP for each node
+SSH user equivalence
+not needed
+configured by orahost_ssh for the grid user (and oracle_user)
+1.1. Playbooks and roles The same playbooks are used for Oracle Restart and Grid Infrastructure:
+Order Playbook Content for Oracle Restart / Grid Infrastructure 1
+opitzconsulting.ansible_oracle.os
+orahost: users, groups, kernel parameters, packages, firewall.
+orahost_storage: partitions and device persistence (asmlib, udev) of the ASM disks.
+orahost_ssh: SSH user equivalence between the nodes (Grid Infrastructure only).
+2
+opitzconsulting.ansible_oracle.swgi
+oraswgi_install: installation and configuration of Grid Infrastructure (gridSetup.sh, root.sh, ConfigTools).
+oraswgi_manage_patches: patches for oracle_home_gi.
+oraasm_manage_diskgroups: all ASM disk groups of asm_diskgroups except oracle_asm_init_dg.
+3
+opitzconsulting.ansible_oracle.swdb
+Installation of the RDBMS software (db_homes_installed). The version of a database home must not be newer than Grid Infrastructure.
+4
+opitzconsulting.ansible_oracle.manage_db
+Listener, databases and PDBs.
+The playbooks use the variable hostgroup (default: all) as target hosts.
+1.2. Common basics for both parts 1.2.1. Software of Grid Infrastructure Variable Default Description oracle_install_version_gi
+26.1.0.0
+Base release of the software, e.g. 26.1.0.0 or 19.3.0.0. It selects the response file template (grid-install.rsp.&lt;version&gt;.j2), the task file of oraswgi_install, the default installation media in oracle_sw_image_gi, the key in gi_patches and the default of oracle_home_gi. It is the base release, not the Release Update: a Golden Image with 19.33 is still 19.3.0.0, 23.26.3 is 26.1.0.0. Always set it in the inventory, it must match the installation media.
+oracle_sw_image_gi
+list of the base release images
+List of installation media with filename and version. The entry with version: oracle_install_version_gi is unpacked into oracle_home_gi, when oracle_install_image_gi is not defined.
+No need to change it: the default contains all supported releases.
+oracle_install_image_gi
+not defined
+Filename of the installation media. When it is defined, it is used instead of the filename from oracle_sw_image_gi, e.g. for a Golden Image (gi_goldimage_26_03.zip).
+Recommended: always install a Golden Image with the Release Update from Oracle and use a new oracle_home_gi for every Release Update (Out-of-Place Patching, see below).
+oracle_sw_copy, is_sw_source_local, oracle_stage_remote
+Source of the installation media (copied into oracle_stage or used directly from oracle_stage_remote). See Install and Patch Settings.
+oracle_home_gi
+derived, see below
+ORACLE_HOME of Grid Infrastructure. The default depends on oracle_install_option_gi: oracle_home_gi_so for Oracle Restart, oracle_home_gi_cl for Grid Infrastructure. Set oracle_home_gi directly when the path should not contain the base release, e.g. for Golden Images with a Release Update.
+Important The default of oracle_install_version_gi is 26.1.0.0 (26ai) as of 5.0.0 (19c before). Set oracle_install_version_gi in every inventory with Oracle Restart or Grid Infrastructure, especially for existing 19c installations without oracle_home_gi in the inventory: the default of oracle_home_gi contains the version. See Breaking Changes (Default of oracle_install_version_gi is 26ai). 1.2.2. Passwords Variable Default Description default_gipass
+&#39;&#39;
+Default password for SYS (SYSASM) and ASMSNMP of ASM. Mandatory, as long as sysasmpassword and asmmonitorpassword are not defined.
+sysasmpassword
+{{ default_gipass }}
+Password of SYS in ASM (sysasmPassword in the response file).
+asmmonitorpassword
+{{ default_gipass }}
+Password of ASMSNMP (asmsnmpPassword in the response file).
+1.2.3. Patching during the installation Variable Default Description apply_patches_gi
+true
+Apply the patches from gi_patches to oracle_home_gi.
+patch_before_rootsh
+true
+true: the Release Update (opatchauto patch with state: present) is applied by gridSetup.sh -applyRU before root.sh.
+Only used together with apply_patches_gi: true.
+gi_patches
+{}
+Patches for Grid Infrastructure per base release (opatchauto, opatch). See the example in role oraswgi_meta and Install and Patch Settings.
+Tip Recommended is a Golden Image with the Release Update from Oracle in oracle_install_image_gi instead of patching the base release. Then set apply_patches_gi: false and patch_before_rootsh: false. A new Release Update is installed as new Golden Image into a new oracle_home_gi (Out-of-Place Patching), not with opatchauto into the running home. 1.2.4. ASM disk groups asm_diskgroups defines all disk groups, for Oracle Restart and for Grid Infrastructure.
+Example asm_diskgroups asm_diskgroups: - diskgroup: crs # oracle_asm_init_dg =&gt; created by gridSetup.sh state: present properties: - {redundancy: external, ausize: 4} attributes: - {name: compatible.rdbms, value: 19.0.0.0.0} - {name: compatible.asm, value: 23.0.0.0.0} disk: - {device: /dev/sdc, asmlabel: crs01} - diskgroup: data # created by oraasm_manage_diskgroups state: present properties: - {redundancy: external} attributes: - {name: compatible.rdbms, value: 19.0.0.0.0} - {name: compatible.asm, value: 23.0.0.0.0} - {name: au_size, value: 4M} disk: - {device: /dev/sdd, asmlabel: data01} Table 2. Attributes of an entry in asm_diskgroups Attribute Description diskgroup
+Name of the disk group (lower case in the inventory, ASM uses upper case).
+state
+present or absent.
+properties
+List with 1 dictionary: redundancy (external, normal, high) and ausize (in MB).
+ausize in properties is used only for oracle_asm_init_dg (response file of gridSetup.sh). Use the attribute au_size for all other disk groups.
+attributes
+ASM attributes of the disk group (name, value), e.g. compatible.asm, compatible.rdbms, au_size.
+disk
+List of disks:
+* device: device of the disk (e.g. /dev/sdc). * asmlabel: label of the disk for asmlib, udev and asmfd (see device_persistence). * failure_group (optional): name of the failure group. Disks with the same name are in the same failure group. Without failure_group, ASM creates a failure group for every disk. For oracle_asm_init_dg set failure_group for all disks or for none. * quorum (optional): true for a quorum failure group (voting files only). Must be the same for all disks of a failure group.
+oracle_asm_init_dg (default: crs) is the 1st disk group. It must be an entry of asm_diskgroups. It is created during the configuration of Grid Infrastructure (gridSetup.sh, root.sh) and contains the SPFile of ASM, with Grid Infrastructure additionally the OCR and the voting files. All other disk groups are created later by oraasm_manage_diskgroups.
+1.2.5. Device persistence of the ASM disks device_persistence defines how the ASM disks are made persistent. It controls 3 things together with oracle_asm_disk_string:
+the preparation of the disks by orahost_storage or oraswgi_install,
+the path of each disk in the response file of gridSetup.sh (diskList of oracle_asm_init_dg),
+the ASM discovery string (asm_diskstring, diskString in the response file).
+Table 3. device_persistence Value Preparation Path of a disk Discovery string &#39;&#39; (default)
+nothing, the devices must already exist with owner _grid_install_user and group asmadmin_group.
+device
 oracle_asm_disk_string
+asmlib
+orahost_storage: oracleasm createdisk &lt;asmlabel&gt; &lt;device&gt;&lt;partition_suffix&gt;
+oracle_asm_disk_string without trailing * &#43; asmlabel (upper case), e.g. ORCL:DATA01
+oracle_asm_disk_string (default: ORCL:*)
+udev
+orahost_storage: udev rules with a symlink &lt;oracle_asm_disk_string without leading /dev/&gt;&lt;asmlabel&gt; per disk
+oracle_asm_disk_string &#43; asmlabel ⇒ oracle_asm_disk_string must end with / (no *), e.g. /dev/oracle/
+oracle_asm_disk_string
+asmfd
+oraswgi_install: installation and configuration of the ASM Filter Driver, asmcmd afd_label &lt;asmlabel&gt; &lt;device&gt;1
+AFD:&lt;ASMLABEL&gt;
+oracle_asmfd_disk_string (mandatory for asmfd)
+Variable Default Description oracle_asm_disk_string
 ORCL:*
-init.ora-Parameter for asm_diskstring.
-oracle_asm_init_dg
-crs
-1st Diskgroup for ASM SPFile.
-asm_diskgroups
-Defines the ASM-Diskgroups. More Details below.
-Example asm_diskgroups asm_diskgroups: # ASM Diskgroups used for DB-storage. Should map to dict asm_storage_layout. - diskgroup: data state: present properties: - {redundancy: external, ausize: 4} attributes: - {name: compatible.rdbms, value: 11.2.0.4.0} - {name: compatible.asm, value: &#34;19.0.0.0.0&#34;} disk: - {device: /dev/sdc, asmlabel: data01}">
+ASM discovery string (asm_diskstring). The default fits asmlib only. Set it for all other values of device_persistence, e.g. /dev/oracleasm/* for &#39;&#39;.
+oracle_asmfd_disk_string
+not defined
+ASM discovery string with asmfd, e.g. AFD:*.
+partition_devices
+true
+Create 1 partition on every disk of asm_diskgroups with parted (GPT). asmlib uses &lt;device&gt;&lt;partition_suffix&gt;, asmfd uses &lt;device&gt;1. Set false when the disks must not be partitioned (e.g. device_persistence: &#39;&#39; with existing devices).
+Warning Only device_persistence: &#39;&#39; is tested by the molecule scenarios of ansible-oracle. asmlib, udev and asmfd are not tested with Oracle Linux 9 and 26ai.">
 <meta property="og:url" content="https://www.ansible-oracle.eu/docs/guides/restart_rac/">
 	<meta property="og:site_name" content="ansible-oracle Project">
-	<meta property="og:title" content="Setup ASM for Oracle Grid Infrastructure / Restart">
-	<meta property="og:description" content="1. Setup ASM for Oracle Grid Infrastructure / Restart Table 1. Inventory Variables for ASM Value Default Description device_persistence
-empty string
-Allowed values: asmfd, asmlib
+	<meta property="og:title" content="Setup of Oracle Restart and Grid Infrastructure">
+	<meta property="og:description" content="1. Setup of Oracle Restart and Grid Infrastructure This guide describes the setup of the software of Grid Infrastructure with ansible-oracle in 2 independent parts:
+Oracle Restart: Grid Infrastructure for a Standalone Server, Single Instance databases with ASM on one host.
+Grid Infrastructure (cluster): Grid Infrastructure for a Cluster, the prerequisite for RAC and RAC One Node.
+Both parts are complete on their own. Some variables are described in both parts on purpose, because their meaning and their defaults differ between Oracle Restart and Grid Infrastructure. Read only the part you need.
+Note Terms (Oracle Restart, Grid Infrastructure, RAC): see Featurelist.
+Not tested in this guide means: not covered by the molecule scenarios. Untested combinations should work, as long as they are not explicitly excluded and are supported by Oracle.
+Both Oracle Restart and Grid Infrastructure use the software of Grid Infrastructure (oracle_home_gi). The variable oracle_install_option_gi decides what is configured. Table 1. Oracle Restart and Grid Infrastructure at a glance Oracle Restart Grid Infrastructure (cluster) oracle_install_option_gi
+HA_CONFIG
+CRS_CONFIG
+State in ansible-oracle
+Oracle Restart 26ai is supported, tested with databases 19c and 26ai (molecule scenario has-ol9).
+Grid Infrastructure 26ai is supported, tested with 2 nodes and a RAC database 26ai (molecule scenario rac).
+Grid Infrastructure 19c, RAC databases 19c and RAC One Node are not tested.
+Hosts
+every host is configured on its own
+all nodes of the cluster are configured together
+(inventory group orasw_meta_cluster_hostgroup)
+Default of oracle_home_gi
+{{ oracle_base }}/{{ oracle_install_version_gi }}/grid
+/u01/app/{{ oracle_install_version_gi }}/grid
+Default of grid_base
+oracle_base
+/u01/app/grid/base
+oracle_home_gi and grid_base
+oracle_home_gi must be below grid_base
+oracle_home_gi must not be below grid_base
+Storage for ASM
+local disks
+shared disks, visible on all nodes
+Network
+no special requirements
+public and private network, SCAN, VIP for each node
+SSH user equivalence
+not needed
+configured by orahost_ssh for the grid user (and oracle_user)
+1.1. Playbooks and roles The same playbooks are used for Oracle Restart and Grid Infrastructure:
+Order Playbook Content for Oracle Restart / Grid Infrastructure 1
+opitzconsulting.ansible_oracle.os
+orahost: users, groups, kernel parameters, packages, firewall.
+orahost_storage: partitions and device persistence (asmlib, udev) of the ASM disks.
+orahost_ssh: SSH user equivalence between the nodes (Grid Infrastructure only).
+2
+opitzconsulting.ansible_oracle.swgi
+oraswgi_install: installation and configuration of Grid Infrastructure (gridSetup.sh, root.sh, ConfigTools).
+oraswgi_manage_patches: patches for oracle_home_gi.
+oraasm_manage_diskgroups: all ASM disk groups of asm_diskgroups except oracle_asm_init_dg.
+3
+opitzconsulting.ansible_oracle.swdb
+Installation of the RDBMS software (db_homes_installed). The version of a database home must not be newer than Grid Infrastructure.
+4
+opitzconsulting.ansible_oracle.manage_db
+Listener, databases and PDBs.
+The playbooks use the variable hostgroup (default: all) as target hosts.
+1.2. Common basics for both parts 1.2.1. Software of Grid Infrastructure Variable Default Description oracle_install_version_gi
+26.1.0.0
+Base release of the software, e.g. 26.1.0.0 or 19.3.0.0. It selects the response file template (grid-install.rsp.&lt;version&gt;.j2), the task file of oraswgi_install, the default installation media in oracle_sw_image_gi, the key in gi_patches and the default of oracle_home_gi. It is the base release, not the Release Update: a Golden Image with 19.33 is still 19.3.0.0, 23.26.3 is 26.1.0.0. Always set it in the inventory, it must match the installation media.
+oracle_sw_image_gi
+list of the base release images
+List of installation media with filename and version. The entry with version: oracle_install_version_gi is unpacked into oracle_home_gi, when oracle_install_image_gi is not defined.
+No need to change it: the default contains all supported releases.
+oracle_install_image_gi
+not defined
+Filename of the installation media. When it is defined, it is used instead of the filename from oracle_sw_image_gi, e.g. for a Golden Image (gi_goldimage_26_03.zip).
+Recommended: always install a Golden Image with the Release Update from Oracle and use a new oracle_home_gi for every Release Update (Out-of-Place Patching, see below).
+oracle_sw_copy, is_sw_source_local, oracle_stage_remote
+Source of the installation media (copied into oracle_stage or used directly from oracle_stage_remote). See Install and Patch Settings.
+oracle_home_gi
+derived, see below
+ORACLE_HOME of Grid Infrastructure. The default depends on oracle_install_option_gi: oracle_home_gi_so for Oracle Restart, oracle_home_gi_cl for Grid Infrastructure. Set oracle_home_gi directly when the path should not contain the base release, e.g. for Golden Images with a Release Update.
+Important The default of oracle_install_version_gi is 26.1.0.0 (26ai) as of 5.0.0 (19c before). Set oracle_install_version_gi in every inventory with Oracle Restart or Grid Infrastructure, especially for existing 19c installations without oracle_home_gi in the inventory: the default of oracle_home_gi contains the version. See Breaking Changes (Default of oracle_install_version_gi is 26ai). 1.2.2. Passwords Variable Default Description default_gipass
+&#39;&#39;
+Default password for SYS (SYSASM) and ASMSNMP of ASM. Mandatory, as long as sysasmpassword and asmmonitorpassword are not defined.
+sysasmpassword
+{{ default_gipass }}
+Password of SYS in ASM (sysasmPassword in the response file).
+asmmonitorpassword
+{{ default_gipass }}
+Password of ASMSNMP (asmsnmpPassword in the response file).
+1.2.3. Patching during the installation Variable Default Description apply_patches_gi
+true
+Apply the patches from gi_patches to oracle_home_gi.
+patch_before_rootsh
+true
+true: the Release Update (opatchauto patch with state: present) is applied by gridSetup.sh -applyRU before root.sh.
+Only used together with apply_patches_gi: true.
+gi_patches
+{}
+Patches for Grid Infrastructure per base release (opatchauto, opatch). See the example in role oraswgi_meta and Install and Patch Settings.
+Tip Recommended is a Golden Image with the Release Update from Oracle in oracle_install_image_gi instead of patching the base release. Then set apply_patches_gi: false and patch_before_rootsh: false. A new Release Update is installed as new Golden Image into a new oracle_home_gi (Out-of-Place Patching), not with opatchauto into the running home. 1.2.4. ASM disk groups asm_diskgroups defines all disk groups, for Oracle Restart and for Grid Infrastructure.
+Example asm_diskgroups asm_diskgroups: - diskgroup: crs # oracle_asm_init_dg =&gt; created by gridSetup.sh state: present properties: - {redundancy: external, ausize: 4} attributes: - {name: compatible.rdbms, value: 19.0.0.0.0} - {name: compatible.asm, value: 23.0.0.0.0} disk: - {device: /dev/sdc, asmlabel: crs01} - diskgroup: data # created by oraasm_manage_diskgroups state: present properties: - {redundancy: external} attributes: - {name: compatible.rdbms, value: 19.0.0.0.0} - {name: compatible.asm, value: 23.0.0.0.0} - {name: au_size, value: 4M} disk: - {device: /dev/sdd, asmlabel: data01} Table 2. Attributes of an entry in asm_diskgroups Attribute Description diskgroup
+Name of the disk group (lower case in the inventory, ASM uses upper case).
+state
+present or absent.
+properties
+List with 1 dictionary: redundancy (external, normal, high) and ausize (in MB).
+ausize in properties is used only for oracle_asm_init_dg (response file of gridSetup.sh). Use the attribute au_size for all other disk groups.
+attributes
+ASM attributes of the disk group (name, value), e.g. compatible.asm, compatible.rdbms, au_size.
+disk
+List of disks:
+* device: device of the disk (e.g. /dev/sdc). * asmlabel: label of the disk for asmlib, udev and asmfd (see device_persistence). * failure_group (optional): name of the failure group. Disks with the same name are in the same failure group. Without failure_group, ASM creates a failure group for every disk. For oracle_asm_init_dg set failure_group for all disks or for none. * quorum (optional): true for a quorum failure group (voting files only). Must be the same for all disks of a failure group.
+oracle_asm_init_dg (default: crs) is the 1st disk group. It must be an entry of asm_diskgroups. It is created during the configuration of Grid Infrastructure (gridSetup.sh, root.sh) and contains the SPFile of ASM, with Grid Infrastructure additionally the OCR and the voting files. All other disk groups are created later by oraasm_manage_diskgroups.
+1.2.5. Device persistence of the ASM disks device_persistence defines how the ASM disks are made persistent. It controls 3 things together with oracle_asm_disk_string:
+the preparation of the disks by orahost_storage or oraswgi_install,
+the path of each disk in the response file of gridSetup.sh (diskList of oracle_asm_init_dg),
+the ASM discovery string (asm_diskstring, diskString in the response file).
+Table 3. device_persistence Value Preparation Path of a disk Discovery string &#39;&#39; (default)
+nothing, the devices must already exist with owner _grid_install_user and group asmadmin_group.
+device
 oracle_asm_disk_string
+asmlib
+orahost_storage: oracleasm createdisk &lt;asmlabel&gt; &lt;device&gt;&lt;partition_suffix&gt;
+oracle_asm_disk_string without trailing * &#43; asmlabel (upper case), e.g. ORCL:DATA01
+oracle_asm_disk_string (default: ORCL:*)
+udev
+orahost_storage: udev rules with a symlink &lt;oracle_asm_disk_string without leading /dev/&gt;&lt;asmlabel&gt; per disk
+oracle_asm_disk_string &#43; asmlabel ⇒ oracle_asm_disk_string must end with / (no *), e.g. /dev/oracle/
+oracle_asm_disk_string
+asmfd
+oraswgi_install: installation and configuration of the ASM Filter Driver, asmcmd afd_label &lt;asmlabel&gt; &lt;device&gt;1
+AFD:&lt;ASMLABEL&gt;
+oracle_asmfd_disk_string (mandatory for asmfd)
+Variable Default Description oracle_asm_disk_string
 ORCL:*
-init.ora-Parameter for asm_diskstring.
-oracle_asm_init_dg
-crs
-1st Diskgroup for ASM SPFile.
-asm_diskgroups
-Defines the ASM-Diskgroups. More Details below.
-Example asm_diskgroups asm_diskgroups: # ASM Diskgroups used for DB-storage. Should map to dict asm_storage_layout. - diskgroup: data state: present properties: - {redundancy: external, ausize: 4} attributes: - {name: compatible.rdbms, value: 11.2.0.4.0} - {name: compatible.asm, value: &#34;19.0.0.0.0&#34;} disk: - {device: /dev/sdc, asmlabel: data01}">
+ASM discovery string (asm_diskstring). The default fits asmlib only. Set it for all other values of device_persistence, e.g. /dev/oracleasm/* for &#39;&#39;.
+oracle_asmfd_disk_string
+not defined
+ASM discovery string with asmfd, e.g. AFD:*.
+partition_devices
+true
+Create 1 partition on every disk of asm_diskgroups with parted (GPT). asmlib uses &lt;device&gt;&lt;partition_suffix&gt;, asmfd uses &lt;device&gt;1. Set false when the disks must not be partitioned (e.g. device_persistence: &#39;&#39; with existing devices).
+Warning Only device_persistence: &#39;&#39; is tested by the molecule scenarios of ansible-oracle. asmlib, udev and asmfd are not tested with Oracle Linux 9 and 26ai.">
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2024-09-13T17:40:15+02:00">
-		<meta property="article:modified_time" content="2024-09-13T17:40:15+02:00">
+		<meta property="article:published_time" content="2026-11-13T07:06:55+01:00">
+		<meta property="article:modified_time" content="2026-11-13T07:06:55+01:00">
 
-	<meta itemprop="name" content="Setup ASM for Oracle Grid Infrastructure / Restart">
-	<meta itemprop="description" content="1. Setup ASM for Oracle Grid Infrastructure / Restart Table 1. Inventory Variables for ASM Value Default Description device_persistence
-empty string
-Allowed values: asmfd, asmlib
+	<meta itemprop="name" content="Setup of Oracle Restart and Grid Infrastructure">
+	<meta itemprop="description" content="1. Setup of Oracle Restart and Grid Infrastructure This guide describes the setup of the software of Grid Infrastructure with ansible-oracle in 2 independent parts:
+Oracle Restart: Grid Infrastructure for a Standalone Server, Single Instance databases with ASM on one host.
+Grid Infrastructure (cluster): Grid Infrastructure for a Cluster, the prerequisite for RAC and RAC One Node.
+Both parts are complete on their own. Some variables are described in both parts on purpose, because their meaning and their defaults differ between Oracle Restart and Grid Infrastructure. Read only the part you need.
+Note Terms (Oracle Restart, Grid Infrastructure, RAC): see Featurelist.
+Not tested in this guide means: not covered by the molecule scenarios. Untested combinations should work, as long as they are not explicitly excluded and are supported by Oracle.
+Both Oracle Restart and Grid Infrastructure use the software of Grid Infrastructure (oracle_home_gi). The variable oracle_install_option_gi decides what is configured. Table 1. Oracle Restart and Grid Infrastructure at a glance Oracle Restart Grid Infrastructure (cluster) oracle_install_option_gi
+HA_CONFIG
+CRS_CONFIG
+State in ansible-oracle
+Oracle Restart 26ai is supported, tested with databases 19c and 26ai (molecule scenario has-ol9).
+Grid Infrastructure 26ai is supported, tested with 2 nodes and a RAC database 26ai (molecule scenario rac).
+Grid Infrastructure 19c, RAC databases 19c and RAC One Node are not tested.
+Hosts
+every host is configured on its own
+all nodes of the cluster are configured together
+(inventory group orasw_meta_cluster_hostgroup)
+Default of oracle_home_gi
+{{ oracle_base }}/{{ oracle_install_version_gi }}/grid
+/u01/app/{{ oracle_install_version_gi }}/grid
+Default of grid_base
+oracle_base
+/u01/app/grid/base
+oracle_home_gi and grid_base
+oracle_home_gi must be below grid_base
+oracle_home_gi must not be below grid_base
+Storage for ASM
+local disks
+shared disks, visible on all nodes
+Network
+no special requirements
+public and private network, SCAN, VIP for each node
+SSH user equivalence
+not needed
+configured by orahost_ssh for the grid user (and oracle_user)
+1.1. Playbooks and roles The same playbooks are used for Oracle Restart and Grid Infrastructure:
+Order Playbook Content for Oracle Restart / Grid Infrastructure 1
+opitzconsulting.ansible_oracle.os
+orahost: users, groups, kernel parameters, packages, firewall.
+orahost_storage: partitions and device persistence (asmlib, udev) of the ASM disks.
+orahost_ssh: SSH user equivalence between the nodes (Grid Infrastructure only).
+2
+opitzconsulting.ansible_oracle.swgi
+oraswgi_install: installation and configuration of Grid Infrastructure (gridSetup.sh, root.sh, ConfigTools).
+oraswgi_manage_patches: patches for oracle_home_gi.
+oraasm_manage_diskgroups: all ASM disk groups of asm_diskgroups except oracle_asm_init_dg.
+3
+opitzconsulting.ansible_oracle.swdb
+Installation of the RDBMS software (db_homes_installed). The version of a database home must not be newer than Grid Infrastructure.
+4
+opitzconsulting.ansible_oracle.manage_db
+Listener, databases and PDBs.
+The playbooks use the variable hostgroup (default: all) as target hosts.
+1.2. Common basics for both parts 1.2.1. Software of Grid Infrastructure Variable Default Description oracle_install_version_gi
+26.1.0.0
+Base release of the software, e.g. 26.1.0.0 or 19.3.0.0. It selects the response file template (grid-install.rsp.&lt;version&gt;.j2), the task file of oraswgi_install, the default installation media in oracle_sw_image_gi, the key in gi_patches and the default of oracle_home_gi. It is the base release, not the Release Update: a Golden Image with 19.33 is still 19.3.0.0, 23.26.3 is 26.1.0.0. Always set it in the inventory, it must match the installation media.
+oracle_sw_image_gi
+list of the base release images
+List of installation media with filename and version. The entry with version: oracle_install_version_gi is unpacked into oracle_home_gi, when oracle_install_image_gi is not defined.
+No need to change it: the default contains all supported releases.
+oracle_install_image_gi
+not defined
+Filename of the installation media. When it is defined, it is used instead of the filename from oracle_sw_image_gi, e.g. for a Golden Image (gi_goldimage_26_03.zip).
+Recommended: always install a Golden Image with the Release Update from Oracle and use a new oracle_home_gi for every Release Update (Out-of-Place Patching, see below).
+oracle_sw_copy, is_sw_source_local, oracle_stage_remote
+Source of the installation media (copied into oracle_stage or used directly from oracle_stage_remote). See Install and Patch Settings.
+oracle_home_gi
+derived, see below
+ORACLE_HOME of Grid Infrastructure. The default depends on oracle_install_option_gi: oracle_home_gi_so for Oracle Restart, oracle_home_gi_cl for Grid Infrastructure. Set oracle_home_gi directly when the path should not contain the base release, e.g. for Golden Images with a Release Update.
+Important The default of oracle_install_version_gi is 26.1.0.0 (26ai) as of 5.0.0 (19c before). Set oracle_install_version_gi in every inventory with Oracle Restart or Grid Infrastructure, especially for existing 19c installations without oracle_home_gi in the inventory: the default of oracle_home_gi contains the version. See Breaking Changes (Default of oracle_install_version_gi is 26ai). 1.2.2. Passwords Variable Default Description default_gipass
+&#39;&#39;
+Default password for SYS (SYSASM) and ASMSNMP of ASM. Mandatory, as long as sysasmpassword and asmmonitorpassword are not defined.
+sysasmpassword
+{{ default_gipass }}
+Password of SYS in ASM (sysasmPassword in the response file).
+asmmonitorpassword
+{{ default_gipass }}
+Password of ASMSNMP (asmsnmpPassword in the response file).
+1.2.3. Patching during the installation Variable Default Description apply_patches_gi
+true
+Apply the patches from gi_patches to oracle_home_gi.
+patch_before_rootsh
+true
+true: the Release Update (opatchauto patch with state: present) is applied by gridSetup.sh -applyRU before root.sh.
+Only used together with apply_patches_gi: true.
+gi_patches
+{}
+Patches for Grid Infrastructure per base release (opatchauto, opatch). See the example in role oraswgi_meta and Install and Patch Settings.
+Tip Recommended is a Golden Image with the Release Update from Oracle in oracle_install_image_gi instead of patching the base release. Then set apply_patches_gi: false and patch_before_rootsh: false. A new Release Update is installed as new Golden Image into a new oracle_home_gi (Out-of-Place Patching), not with opatchauto into the running home. 1.2.4. ASM disk groups asm_diskgroups defines all disk groups, for Oracle Restart and for Grid Infrastructure.
+Example asm_diskgroups asm_diskgroups: - diskgroup: crs # oracle_asm_init_dg =&gt; created by gridSetup.sh state: present properties: - {redundancy: external, ausize: 4} attributes: - {name: compatible.rdbms, value: 19.0.0.0.0} - {name: compatible.asm, value: 23.0.0.0.0} disk: - {device: /dev/sdc, asmlabel: crs01} - diskgroup: data # created by oraasm_manage_diskgroups state: present properties: - {redundancy: external} attributes: - {name: compatible.rdbms, value: 19.0.0.0.0} - {name: compatible.asm, value: 23.0.0.0.0} - {name: au_size, value: 4M} disk: - {device: /dev/sdd, asmlabel: data01} Table 2. Attributes of an entry in asm_diskgroups Attribute Description diskgroup
+Name of the disk group (lower case in the inventory, ASM uses upper case).
+state
+present or absent.
+properties
+List with 1 dictionary: redundancy (external, normal, high) and ausize (in MB).
+ausize in properties is used only for oracle_asm_init_dg (response file of gridSetup.sh). Use the attribute au_size for all other disk groups.
+attributes
+ASM attributes of the disk group (name, value), e.g. compatible.asm, compatible.rdbms, au_size.
+disk
+List of disks:
+* device: device of the disk (e.g. /dev/sdc). * asmlabel: label of the disk for asmlib, udev and asmfd (see device_persistence). * failure_group (optional): name of the failure group. Disks with the same name are in the same failure group. Without failure_group, ASM creates a failure group for every disk. For oracle_asm_init_dg set failure_group for all disks or for none. * quorum (optional): true for a quorum failure group (voting files only). Must be the same for all disks of a failure group.
+oracle_asm_init_dg (default: crs) is the 1st disk group. It must be an entry of asm_diskgroups. It is created during the configuration of Grid Infrastructure (gridSetup.sh, root.sh) and contains the SPFile of ASM, with Grid Infrastructure additionally the OCR and the voting files. All other disk groups are created later by oraasm_manage_diskgroups.
+1.2.5. Device persistence of the ASM disks device_persistence defines how the ASM disks are made persistent. It controls 3 things together with oracle_asm_disk_string:
+the preparation of the disks by orahost_storage or oraswgi_install,
+the path of each disk in the response file of gridSetup.sh (diskList of oracle_asm_init_dg),
+the ASM discovery string (asm_diskstring, diskString in the response file).
+Table 3. device_persistence Value Preparation Path of a disk Discovery string &#39;&#39; (default)
+nothing, the devices must already exist with owner _grid_install_user and group asmadmin_group.
+device
 oracle_asm_disk_string
+asmlib
+orahost_storage: oracleasm createdisk &lt;asmlabel&gt; &lt;device&gt;&lt;partition_suffix&gt;
+oracle_asm_disk_string without trailing * &#43; asmlabel (upper case), e.g. ORCL:DATA01
+oracle_asm_disk_string (default: ORCL:*)
+udev
+orahost_storage: udev rules with a symlink &lt;oracle_asm_disk_string without leading /dev/&gt;&lt;asmlabel&gt; per disk
+oracle_asm_disk_string &#43; asmlabel ⇒ oracle_asm_disk_string must end with / (no *), e.g. /dev/oracle/
+oracle_asm_disk_string
+asmfd
+oraswgi_install: installation and configuration of the ASM Filter Driver, asmcmd afd_label &lt;asmlabel&gt; &lt;device&gt;1
+AFD:&lt;ASMLABEL&gt;
+oracle_asmfd_disk_string (mandatory for asmfd)
+Variable Default Description oracle_asm_disk_string
 ORCL:*
-init.ora-Parameter for asm_diskstring.
-oracle_asm_init_dg
-crs
-1st Diskgroup for ASM SPFile.
-asm_diskgroups
-Defines the ASM-Diskgroups. More Details below.
-Example asm_diskgroups asm_diskgroups: # ASM Diskgroups used for DB-storage. Should map to dict asm_storage_layout. - diskgroup: data state: present properties: - {redundancy: external, ausize: 4} attributes: - {name: compatible.rdbms, value: 11.2.0.4.0} - {name: compatible.asm, value: &#34;19.0.0.0.0&#34;} disk: - {device: /dev/sdc, asmlabel: data01}">
-	<meta itemprop="datePublished" content="2024-09-13T17:40:15+02:00">
-	<meta itemprop="dateModified" content="2024-09-13T17:40:15+02:00">
-	<meta itemprop="wordCount" content="142">
+ASM discovery string (asm_diskstring). The default fits asmlib only. Set it for all other values of device_persistence, e.g. /dev/oracleasm/* for &#39;&#39;.
+oracle_asmfd_disk_string
+not defined
+ASM discovery string with asmfd, e.g. AFD:*.
+partition_devices
+true
+Create 1 partition on every disk of asm_diskgroups with parted (GPT). asmlib uses &lt;device&gt;&lt;partition_suffix&gt;, asmfd uses &lt;device&gt;1. Set false when the disks must not be partitioned (e.g. device_persistence: &#39;&#39; with existing devices).
+Warning Only device_persistence: &#39;&#39; is tested by the molecule scenarios of ansible-oracle. asmlib, udev and asmfd are not tested with Oracle Linux 9 and 26ai.">
+	<meta itemprop="datePublished" content="2026-11-13T07:06:55+01:00">
+	<meta itemprop="dateModified" content="2026-11-13T07:06:55+01:00">
+	<meta itemprop="wordCount" content="4622">
 	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="Setup ASM for Oracle Grid Infrastructure / Restart">
-	<meta name="twitter:description" content="1. Setup ASM for Oracle Grid Infrastructure / Restart Table 1. Inventory Variables for ASM Value Default Description device_persistence
-empty string
-Allowed values: asmfd, asmlib
+	<meta name="twitter:title" content="Setup of Oracle Restart and Grid Infrastructure">
+	<meta name="twitter:description" content="1. Setup of Oracle Restart and Grid Infrastructure This guide describes the setup of the software of Grid Infrastructure with ansible-oracle in 2 independent parts:
+Oracle Restart: Grid Infrastructure for a Standalone Server, Single Instance databases with ASM on one host.
+Grid Infrastructure (cluster): Grid Infrastructure for a Cluster, the prerequisite for RAC and RAC One Node.
+Both parts are complete on their own. Some variables are described in both parts on purpose, because their meaning and their defaults differ between Oracle Restart and Grid Infrastructure. Read only the part you need.
+Note Terms (Oracle Restart, Grid Infrastructure, RAC): see Featurelist.
+Not tested in this guide means: not covered by the molecule scenarios. Untested combinations should work, as long as they are not explicitly excluded and are supported by Oracle.
+Both Oracle Restart and Grid Infrastructure use the software of Grid Infrastructure (oracle_home_gi). The variable oracle_install_option_gi decides what is configured. Table 1. Oracle Restart and Grid Infrastructure at a glance Oracle Restart Grid Infrastructure (cluster) oracle_install_option_gi
+HA_CONFIG
+CRS_CONFIG
+State in ansible-oracle
+Oracle Restart 26ai is supported, tested with databases 19c and 26ai (molecule scenario has-ol9).
+Grid Infrastructure 26ai is supported, tested with 2 nodes and a RAC database 26ai (molecule scenario rac).
+Grid Infrastructure 19c, RAC databases 19c and RAC One Node are not tested.
+Hosts
+every host is configured on its own
+all nodes of the cluster are configured together
+(inventory group orasw_meta_cluster_hostgroup)
+Default of oracle_home_gi
+{{ oracle_base }}/{{ oracle_install_version_gi }}/grid
+/u01/app/{{ oracle_install_version_gi }}/grid
+Default of grid_base
+oracle_base
+/u01/app/grid/base
+oracle_home_gi and grid_base
+oracle_home_gi must be below grid_base
+oracle_home_gi must not be below grid_base
+Storage for ASM
+local disks
+shared disks, visible on all nodes
+Network
+no special requirements
+public and private network, SCAN, VIP for each node
+SSH user equivalence
+not needed
+configured by orahost_ssh for the grid user (and oracle_user)
+1.1. Playbooks and roles The same playbooks are used for Oracle Restart and Grid Infrastructure:
+Order Playbook Content for Oracle Restart / Grid Infrastructure 1
+opitzconsulting.ansible_oracle.os
+orahost: users, groups, kernel parameters, packages, firewall.
+orahost_storage: partitions and device persistence (asmlib, udev) of the ASM disks.
+orahost_ssh: SSH user equivalence between the nodes (Grid Infrastructure only).
+2
+opitzconsulting.ansible_oracle.swgi
+oraswgi_install: installation and configuration of Grid Infrastructure (gridSetup.sh, root.sh, ConfigTools).
+oraswgi_manage_patches: patches for oracle_home_gi.
+oraasm_manage_diskgroups: all ASM disk groups of asm_diskgroups except oracle_asm_init_dg.
+3
+opitzconsulting.ansible_oracle.swdb
+Installation of the RDBMS software (db_homes_installed). The version of a database home must not be newer than Grid Infrastructure.
+4
+opitzconsulting.ansible_oracle.manage_db
+Listener, databases and PDBs.
+The playbooks use the variable hostgroup (default: all) as target hosts.
+1.2. Common basics for both parts 1.2.1. Software of Grid Infrastructure Variable Default Description oracle_install_version_gi
+26.1.0.0
+Base release of the software, e.g. 26.1.0.0 or 19.3.0.0. It selects the response file template (grid-install.rsp.&lt;version&gt;.j2), the task file of oraswgi_install, the default installation media in oracle_sw_image_gi, the key in gi_patches and the default of oracle_home_gi. It is the base release, not the Release Update: a Golden Image with 19.33 is still 19.3.0.0, 23.26.3 is 26.1.0.0. Always set it in the inventory, it must match the installation media.
+oracle_sw_image_gi
+list of the base release images
+List of installation media with filename and version. The entry with version: oracle_install_version_gi is unpacked into oracle_home_gi, when oracle_install_image_gi is not defined.
+No need to change it: the default contains all supported releases.
+oracle_install_image_gi
+not defined
+Filename of the installation media. When it is defined, it is used instead of the filename from oracle_sw_image_gi, e.g. for a Golden Image (gi_goldimage_26_03.zip).
+Recommended: always install a Golden Image with the Release Update from Oracle and use a new oracle_home_gi for every Release Update (Out-of-Place Patching, see below).
+oracle_sw_copy, is_sw_source_local, oracle_stage_remote
+Source of the installation media (copied into oracle_stage or used directly from oracle_stage_remote). See Install and Patch Settings.
+oracle_home_gi
+derived, see below
+ORACLE_HOME of Grid Infrastructure. The default depends on oracle_install_option_gi: oracle_home_gi_so for Oracle Restart, oracle_home_gi_cl for Grid Infrastructure. Set oracle_home_gi directly when the path should not contain the base release, e.g. for Golden Images with a Release Update.
+Important The default of oracle_install_version_gi is 26.1.0.0 (26ai) as of 5.0.0 (19c before). Set oracle_install_version_gi in every inventory with Oracle Restart or Grid Infrastructure, especially for existing 19c installations without oracle_home_gi in the inventory: the default of oracle_home_gi contains the version. See Breaking Changes (Default of oracle_install_version_gi is 26ai). 1.2.2. Passwords Variable Default Description default_gipass
+&#39;&#39;
+Default password for SYS (SYSASM) and ASMSNMP of ASM. Mandatory, as long as sysasmpassword and asmmonitorpassword are not defined.
+sysasmpassword
+{{ default_gipass }}
+Password of SYS in ASM (sysasmPassword in the response file).
+asmmonitorpassword
+{{ default_gipass }}
+Password of ASMSNMP (asmsnmpPassword in the response file).
+1.2.3. Patching during the installation Variable Default Description apply_patches_gi
+true
+Apply the patches from gi_patches to oracle_home_gi.
+patch_before_rootsh
+true
+true: the Release Update (opatchauto patch with state: present) is applied by gridSetup.sh -applyRU before root.sh.
+Only used together with apply_patches_gi: true.
+gi_patches
+{}
+Patches for Grid Infrastructure per base release (opatchauto, opatch). See the example in role oraswgi_meta and Install and Patch Settings.
+Tip Recommended is a Golden Image with the Release Update from Oracle in oracle_install_image_gi instead of patching the base release. Then set apply_patches_gi: false and patch_before_rootsh: false. A new Release Update is installed as new Golden Image into a new oracle_home_gi (Out-of-Place Patching), not with opatchauto into the running home. 1.2.4. ASM disk groups asm_diskgroups defines all disk groups, for Oracle Restart and for Grid Infrastructure.
+Example asm_diskgroups asm_diskgroups: - diskgroup: crs # oracle_asm_init_dg =&gt; created by gridSetup.sh state: present properties: - {redundancy: external, ausize: 4} attributes: - {name: compatible.rdbms, value: 19.0.0.0.0} - {name: compatible.asm, value: 23.0.0.0.0} disk: - {device: /dev/sdc, asmlabel: crs01} - diskgroup: data # created by oraasm_manage_diskgroups state: present properties: - {redundancy: external} attributes: - {name: compatible.rdbms, value: 19.0.0.0.0} - {name: compatible.asm, value: 23.0.0.0.0} - {name: au_size, value: 4M} disk: - {device: /dev/sdd, asmlabel: data01} Table 2. Attributes of an entry in asm_diskgroups Attribute Description diskgroup
+Name of the disk group (lower case in the inventory, ASM uses upper case).
+state
+present or absent.
+properties
+List with 1 dictionary: redundancy (external, normal, high) and ausize (in MB).
+ausize in properties is used only for oracle_asm_init_dg (response file of gridSetup.sh). Use the attribute au_size for all other disk groups.
+attributes
+ASM attributes of the disk group (name, value), e.g. compatible.asm, compatible.rdbms, au_size.
+disk
+List of disks:
+* device: device of the disk (e.g. /dev/sdc). * asmlabel: label of the disk for asmlib, udev and asmfd (see device_persistence). * failure_group (optional): name of the failure group. Disks with the same name are in the same failure group. Without failure_group, ASM creates a failure group for every disk. For oracle_asm_init_dg set failure_group for all disks or for none. * quorum (optional): true for a quorum failure group (voting files only). Must be the same for all disks of a failure group.
+oracle_asm_init_dg (default: crs) is the 1st disk group. It must be an entry of asm_diskgroups. It is created during the configuration of Grid Infrastructure (gridSetup.sh, root.sh) and contains the SPFile of ASM, with Grid Infrastructure additionally the OCR and the voting files. All other disk groups are created later by oraasm_manage_diskgroups.
+1.2.5. Device persistence of the ASM disks device_persistence defines how the ASM disks are made persistent. It controls 3 things together with oracle_asm_disk_string:
+the preparation of the disks by orahost_storage or oraswgi_install,
+the path of each disk in the response file of gridSetup.sh (diskList of oracle_asm_init_dg),
+the ASM discovery string (asm_diskstring, diskString in the response file).
+Table 3. device_persistence Value Preparation Path of a disk Discovery string &#39;&#39; (default)
+nothing, the devices must already exist with owner _grid_install_user and group asmadmin_group.
+device
 oracle_asm_disk_string
+asmlib
+orahost_storage: oracleasm createdisk &lt;asmlabel&gt; &lt;device&gt;&lt;partition_suffix&gt;
+oracle_asm_disk_string without trailing * &#43; asmlabel (upper case), e.g. ORCL:DATA01
+oracle_asm_disk_string (default: ORCL:*)
+udev
+orahost_storage: udev rules with a symlink &lt;oracle_asm_disk_string without leading /dev/&gt;&lt;asmlabel&gt; per disk
+oracle_asm_disk_string &#43; asmlabel ⇒ oracle_asm_disk_string must end with / (no *), e.g. /dev/oracle/
+oracle_asm_disk_string
+asmfd
+oraswgi_install: installation and configuration of the ASM Filter Driver, asmcmd afd_label &lt;asmlabel&gt; &lt;device&gt;1
+AFD:&lt;ASMLABEL&gt;
+oracle_asmfd_disk_string (mandatory for asmfd)
+Variable Default Description oracle_asm_disk_string
 ORCL:*
-init.ora-Parameter for asm_diskstring.
-oracle_asm_init_dg
-crs
-1st Diskgroup for ASM SPFile.
-asm_diskgroups
-Defines the ASM-Diskgroups. More Details below.
-Example asm_diskgroups asm_diskgroups: # ASM Diskgroups used for DB-storage. Should map to dict asm_storage_layout. - diskgroup: data state: present properties: - {redundancy: external, ausize: 4} attributes: - {name: compatible.rdbms, value: 11.2.0.4.0} - {name: compatible.asm, value: &#34;19.0.0.0.0&#34;} disk: - {device: /dev/sdc, asmlabel: data01}">
+ASM discovery string (asm_diskstring). The default fits asmlib only. Set it for all other values of device_persistence, e.g. /dev/oracleasm/* for &#39;&#39;.
+oracle_asmfd_disk_string
+not defined
+ASM discovery string with asmfd, e.g. AFD:*.
+partition_devices
+true
+Create 1 partition on every disk of asm_diskgroups with parted (GPT). asmlib uses &lt;device&gt;&lt;partition_suffix&gt;, asmfd uses &lt;device&gt;1. Set false when the disks must not be partitioned (e.g. device_persistence: &#39;&#39; with existing devices).
+Warning Only device_persistence: &#39;&#39; is tested by the molecule scenarios of ansible-oracle. asmlib, udev and asmfd are not tested with Oracle Linux 9 and 26ai.">
 <link href="/scss/main.css" rel="stylesheet">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -141,63 +621,50 @@ Example asm_diskgroups asm_diskgroups: # ASM Diskgroups used for DB-storage. Sho
     <ul class="ul-2 foldable">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsfeaturesfeaturelist-li">
     <a href="/docs/features/featurelist/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsfeaturesfeaturelist"><span class="">Supported features in ansible-oracle</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsfeaturesbreaking_changes-li">
-    <a href="/docs/features/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsfeaturesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
   </li>
     </ul>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docsguides-li">
     <a href="/docs/guides/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsguides"><span class="">Guides</span></a>
     <ul class="ul-2 foldable">
-      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguidespatching-li">
-    <a href="/docs/guides/patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsguidespatching"><span class="">Patching</span></a>
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguidesvagrant-li">
+    <a href="/docs/guides/vagrant/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsguidesvagrant"><span class="">Vagrant</span></a>
     <ul class="ul-3 foldable">
-      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidespatchinginstall-and-patch-settings-li">
-    <a href="/docs/guides/patching/install-and-patch-settings/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidespatchinginstall-and-patch-settings"><span class="">Installation &amp; Patching Settings for the Inventory</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidespatchingautoupgrade-li">
-    <a href="/docs/guides/patching/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidespatchingautoupgrade"><span class="">Oracle AutoUpgrade</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidespatchingautoupgrade_upgrade-li">
-    <a href="/docs/guides/patching/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidespatchingautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidespatchingout_of_place_patching-li">
-    <a href="/docs/guides/patching/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidespatchingout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesvagrantwindows-li">
+    <a href="/docs/guides/vagrant/windows/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesvagrantwindows"><span class="">Vagrant on Windows</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesvagrantvagrant_basics-li">
+    <a href="/docs/guides/vagrant/vagrant_basics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesvagrantvagrant_basics"><span class="">Vagrant Basics</span></a>
   </li>
     </ul>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguidesrman-standby-li">
-    <a href="/docs/guides/rman-standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsguidesrman-standby"><span class="">RMAN and Standby Databases</span></a>
-    <ul class="ul-3 foldable">
-      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-standbyrman-li">
-    <a href="/docs/guides/rman-standby/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman-standbyrman"><span class="">RMAN Backups with oradb_rman</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-standbystandby_databases-li">
-    <a href="/docs/guides/rman-standby/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman-standbystandby_databases"><span class="">Standby Databases</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-standbydataguard-li">
-    <a href="/docs/guides/rman-standby/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman-standbydataguard"><span class="">Data Guard Guide</span></a>
-  </li>
-    </ul>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguidesrestart_rac-li">
-    <a href="/docs/guides/restart_rac/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="td-sidebar-nav-active-item">Setup ASM for Oracle Grid Infrastructure / Restart</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesahf-li">
-    <a href="/docs/guides/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesahf"><span class="">Oracle Autonomous Health Framework (AHF)</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbeginner-li">
+    <a href="/docs/guides/beginner/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbeginner"><span class="">Beginners Guide</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesadvanced-li">
+    <a href="/docs/guides/advanced/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesadvanced"><span class="">Advanced Guide</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesansible-container-li">
+    <a href="/docs/guides/ansible-container/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesansible-container"><span class="">Ansible as a Docker Container</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguideslocal-install-howto-li">
+    <a href="/docs/guides/local-install-howto/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguideslocal-install-howto"><span class="">HOWTO: Local Installation of Ansible-Oracle</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesinstall-and-patch-settings-li">
+    <a href="/docs/guides/install-and-patch-settings/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesinstall-and-patch-settings"><span class="">Installation &amp; Patching Settings for the Inventory</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesapex_ords-li">
     <a href="/docs/guides/apex_ords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesapex_ords"><span class="">Setup APEX and ORDS</span></a>
-  </li>
-    </ul>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsexamples-li">
-    <a href="/docs/examples/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsexamples"><span class="">Examples</span></a>
-    <ul class="ul-2 foldable">
-      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsexamplesbeginner-li">
-    <a href="/docs/examples/beginner/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsexamplesbeginner"><span class="">Beginners Guide</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsexamplesbeginner_patching-li">
-    <a href="/docs/examples/beginner_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsexamplesbeginner_patching"><span class="">Beginner with Patching</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsexamplesdataguard-li">
-    <a href="/docs/examples/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsexamplesdataguard"><span class="">Data Guard</span></a>
-  </li>
-    </ul>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsdevelopment-li">
-    <a href="/docs/development/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsdevelopment"><span class="">Development</span></a>
-    <ul class="ul-2 foldable">
-      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsdevelopmentdevelopment-li">
-    <a href="/docs/development/development/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsdevelopmentdevelopment"><span class="">How to develop</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsdevelopmentwebsite-li">
-    <a href="/docs/development/website/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsdevelopmentwebsite"><span class="">Website</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesautoupgrade-li">
+    <a href="/docs/guides/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade"><span class="">Oracle AutoUpgrade</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesautoupgrade_upgrade-li">
+    <a href="/docs/guides/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesahf-li">
+    <a href="/docs/guides/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesahf"><span class="">Oracle Autonomous Health Framework (AHF)</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
+    <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguidesrestart_rac-li">
+    <a href="/docs/guides/restart_rac/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="td-sidebar-nav-active-item">Setup of Oracle Restart and Grid Infrastructure</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
+    <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
+    <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_databases-li">
+    <a href="/docs/guides/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="">Standby Databases</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
+    <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li>
     </ul>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsroles-li">
@@ -205,6 +672,14 @@ Example asm_diskgroups asm_diskgroups: # ASM Diskgroups used for DB-storage. Sho
     <ul class="ul-2 foldable">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
     <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
+    <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+    <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+    <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+    <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf-li">
     <a href="/docs/roles/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf"><span class="">ahf</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf_fleet_insights-li">
@@ -213,20 +688,12 @@ Example asm_diskgroups asm_diskgroups: # ASM Diskgroups used for DB-storage. Sho
     <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
     <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
-    <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
     <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
     <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
     <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
-    <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
-    <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
-    <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolespyoracledb-li">
     <a href="/docs/roles/pyoracledb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolespyoracledb"><span class="">pyoracledb</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
@@ -293,28 +760,13 @@ Example asm_diskgroups asm_diskgroups: # ASM Diskgroups used for DB-storage. Sho
     <a href="/docs/roles/oraswgi_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_meta"><span class="">oraswgi_meta</span></a>
   </li>
     </ul>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docslegacy-li">
-    <a href="/docs/legacy/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docslegacy"><span class="">Legacy</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsdevelopment-li">
+    <a href="/docs/development/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsdevelopment"><span class="">Development</span></a>
     <ul class="ul-2 foldable">
-      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docslegacyvagrant-li">
-    <a href="/docs/legacy/vagrant/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docslegacyvagrant"><span class="">Vagrant</span></a>
-    <ul class="ul-3 foldable">
-      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslegacyvagrantwindows-li">
-    <a href="/docs/legacy/vagrant/windows/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docslegacyvagrantwindows"><span class="">Vagrant on Windows</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslegacyvagrantvagrant_basics-li">
-    <a href="/docs/legacy/vagrant/vagrant_basics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docslegacyvagrantvagrant_basics"><span class="">Vagrant Basics</span></a>
-  </li>
-    </ul>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslegacyexample-beginner-li">
-    <a href="/docs/legacy/example-beginner/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docslegacyexample-beginner"><span class="">Beginner Example</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslegacyadvanced-li">
-    <a href="/docs/legacy/advanced/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docslegacyadvanced"><span class="">Advanced Guide</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslegacyansible-container-li">
-    <a href="/docs/legacy/ansible-container/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docslegacyansible-container"><span class="">Ansible as a Docker Container</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslegacyexample-rac-li">
-    <a href="/docs/legacy/example-rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docslegacyexample-rac"><span class="">RAC Example</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslegacylocal-install-howto-li">
-    <a href="/docs/legacy/local-install-howto/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docslegacylocal-install-howto"><span class="">HOWTO: Local Installation of Ansible-Oracle</span></a>
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsdevelopmentdevelopment-li">
+    <a href="/docs/development/development/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsdevelopmentdevelopment"><span class="">How to develop</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsdevelopmentwebsite-li">
+    <a href="/docs/development/website/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsdevelopmentwebsite"><span class="">Website</span></a>
   </li>
     </ul>
   </li>
@@ -329,7 +781,7 @@ Example asm_diskgroups asm_diskgroups: # ASM Diskgroups used for DB-storage. Sho
 <a href="https://github.com/oravirt/ansible-oracle/tree/master/doc/guides/restart_rac.adoc" class="td-page-meta--view td-page-meta__view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines fa-fw"></i> View page source</a>
   <a href="https://github.com/oravirt/ansible-oracle/edit/master/doc/guides/restart_rac.adoc" class="td-page-meta--edit td-page-meta__edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Edit this page</a>
   <a href="https://github.com/oravirt/ansible-oracle/new/master/doc/guides?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60get-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" class="td-page-meta--child td-page-meta__child" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Create child page</a>
-  <a href="https://github.com/oravirt/ansible-oracle/issues/new?title=Setup%20ASM%20for%20Oracle%20Grid%20Infrastructure%20/%20Restart" class="td-page-meta--issue td-page-meta__issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create documentation issue</a>
+  <a href="https://github.com/oravirt/ansible-oracle/issues/new?title=Setup%20of%20Oracle%20Restart%20and%20Grid%20Infrastructure" class="td-page-meta--issue td-page-meta__issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create documentation issue</a>
   <a href="https://github.com/oravirt/ansible-oracle/issues/new" class="td-page-meta--project td-page-meta__project-issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create project issue</a>
   <a id="print" href="/_print/docs/guides/"><i class="fa-solid fa-print fa-fw"></i> Print entire section</a>
 
@@ -342,10 +794,63 @@ Example asm_diskgroups asm_diskgroups: # ASM Diskgroups used for DB-storage. Sho
     </div>
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#_setup_asm_for_oracle_grid_infrastructure_restart">1. Setup ASM for Oracle Grid Infrastructure / Restart</a></li>
-    <li><a href="#_setup_real_application_clusters_rac">2. Setup Real Application Clusters (RAC)</a>
+    <li><a href="#_setup_of_oracle_restart_and_grid_infrastructure">1. Setup of Oracle Restart and Grid Infrastructure</a>
       <ul>
-        <li><a href="#_inventory_variables">2.1. Inventory Variables</a></li>
+        <li><a href="#_playbooks_and_roles">1.1. Playbooks and roles</a></li>
+        <li><a href="#_common_basics_for_both_parts">1.2. Common basics for both parts</a>
+          <ul>
+            <li><a href="#_software_of_grid_infrastructure">1.2.1. Software of Grid Infrastructure</a></li>
+            <li><a href="#_passwords">1.2.2. Passwords</a></li>
+            <li><a href="#_patching_during_the_installation">1.2.3. Patching during the installation</a></li>
+            <li><a href="#_asm_disk_groups">1.2.4. ASM disk groups</a></li>
+            <li><a href="#_device_persistence_of_the_asm_disks">1.2.5. Device persistence of the ASM disks</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#_oracle_restart">2. Oracle Restart</a>
+      <ul>
+        <li><a href="#_requirements">2.1. Requirements</a></li>
+        <li><a href="#_example_inventory">2.2. Example inventory</a></li>
+        <li><a href="#_installation_type">2.3. Installation type</a></li>
+        <li><a href="#_oracle_home_and_oracle_base">2.4. ORACLE_HOME and ORACLE_BASE</a></li>
+        <li><a href="#_users_and_groups">2.5. Users and groups</a></li>
+        <li><a href="#_installation_steps">2.6. Installation steps</a></li>
+        <li><a href="#_prerequisite_checks_and_configtools">2.7. Prerequisite checks and ConfigTools</a></li>
+        <li><a href="#_listener_and_databases_with_oracle_restart">2.8. Listener and databases with Oracle Restart</a></li>
+        <li><a href="#_out_of_place_patching_of_oracle_restart">2.9. Out-of-Place Patching of Oracle Restart</a></li>
+      </ul>
+    </li>
+    <li><a href="#_grid_infrastructure_cluster">3. Grid Infrastructure (cluster)</a>
+      <ul>
+        <li><a href="#_requirements_2">3.1. Requirements</a></li>
+        <li><a href="#_inventory_structure">3.2. Inventory structure</a></li>
+        <li><a href="#_installation_type_and_cluster">3.3. Installation type and cluster</a>
+          <ul>
+            <li><a href="#_primary_node_and_the_other_nodes">3.3.1. Primary node and the other nodes</a></li>
+          </ul>
+        </li>
+        <li><a href="#_oracle_home_and_oracle_base_2">3.4. ORACLE_HOME and ORACLE_BASE</a></li>
+        <li><a href="#_users_and_groups_2">3.5. Users and groups</a></li>
+        <li><a href="#_networks">3.6. Networks</a>
+          <ul>
+            <li><a href="#_public_and_private_network">3.6.1. Public and private network</a></li>
+            <li><a href="#_scan">3.6.2. SCAN</a></li>
+            <li><a href="#_vips_of_the_nodes">3.6.3. VIPs of the nodes</a></li>
+            <li><a href="#_name_resolution">3.6.4. Name resolution</a></li>
+          </ul>
+        </li>
+        <li><a href="#_ssh_user_equivalence">3.7. SSH user equivalence</a></li>
+        <li><a href="#_shared_storage_for_asm">3.8. Shared storage for ASM</a></li>
+        <li><a href="#_prerequisite_checks_and_configtools_for_the_cluster">3.9. Prerequisite checks and ConfigTools for the cluster</a></li>
+        <li><a href="#_rac_databases">3.10. RAC databases</a>
+          <ul>
+            <li><a href="#_oracle_home_of_a_rac_database">3.10.1. ORACLE_HOME of a RAC database</a></li>
+            <li><a href="#_database">3.10.2. Database</a></li>
+          </ul>
+        </li>
+        <li><a href="#_limitations">3.11. Limitations</a></li>
+        <li><a href="#_test_environment_molecule_scenario_rac">3.12. Test environment: molecule scenario rac</a></li>
       </ul>
     </li>
   </ul>
@@ -364,78 +869,226 @@ Example asm_diskgroups asm_diskgroups: # ASM Diskgroups used for DB-storage. Sho
   <li class="breadcrumb-item">
     <a href="/docs/guides/">Guides</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    Setup ASM for Oracle Grid Infrastructure / Restart</li>
+    Setup of Oracle Restart and Grid Infrastructure</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>Setup ASM for Oracle Grid Infrastructure / Restart</h1>
+	<h1>Setup of Oracle Restart and Grid Infrastructure</h1>
 	
 	<header class="article-meta">
 		
   </header>
 	
 <div class="sect1">
-<h2 id="_setup_asm_for_oracle_grid_infrastructure_restart">1. Setup ASM for Oracle Grid Infrastructure / Restart</h2>
+<h2 id="_setup_of_oracle_restart_and_grid_infrastructure">1. Setup of Oracle Restart and Grid Infrastructure</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>This guide describes the setup of the software of Grid Infrastructure with <code>ansible-oracle</code> in 2 independent parts:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#_oracle_restart">Oracle Restart</a>: Grid Infrastructure for a Standalone Server, Single Instance databases with ASM on one host.</p>
+</li>
+<li>
+<p><a href="#_grid_infrastructure_cluster">Grid Infrastructure (cluster)</a>: Grid Infrastructure for a Cluster, the prerequisite for RAC and RAC One Node.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Both parts are complete on their own.
+Some variables are described in both parts on purpose, because their meaning and their defaults differ between Oracle Restart and Grid Infrastructure.
+Read only the part you need.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Terms (Oracle Restart, Grid Infrastructure, RAC): see <a href="/docs/features/featurelist/">Featurelist</a>.<br/>
+<em>Not tested</em> in this guide means: not covered by the molecule scenarios.
+Untested combinations should work, as long as they are not explicitly excluded and are supported by Oracle.<br/>
+Both Oracle Restart and Grid Infrastructure use the software of Grid Infrastructure (<code>oracle_home_gi</code>).
+The variable <code>oracle_install_option_gi</code> decides what is configured.
+</td>
+</tr>
+</tbody></table>
+</div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Inventory Variables for ASM</caption>
+<caption class="title">Table 1. Oracle Restart and Grid Infrastructure at a glance</caption>
 <colgroup>
-<col style="width: 33.3333%;"/>
-<col style="width: 33.3333%;"/>
-<col style="width: 33.3334%;"/>
+<col style="width: 25%;"/>
+<col style="width: 37.5%;"/>
+<col style="width: 37.5%;"/>
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top"></th>
+<th class="tableblock halign-left valign-top">Oracle Restart</th>
+<th class="tableblock halign-left valign-top">Grid Infrastructure (cluster)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_install_option_gi</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HA_CONFIG</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CRS_CONFIG</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">State in <code>ansible-oracle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Restart 26ai is supported, tested with databases 19c and 26ai (molecule scenario <code>has-ol9</code>).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Grid Infrastructure 26ai is supported, tested with 2 nodes and a RAC database 26ai (molecule scenario <code>rac</code>).<br/>
+Grid Infrastructure 19c, RAC databases 19c and RAC One Node are not tested.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hosts</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">every host is configured on its own</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">all nodes of the cluster are configured together<br/>
+(inventory group <code>orasw_meta_cluster_hostgroup</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default of <code>oracle_home_gi</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>{{ oracle_base }}/{{ oracle_install_version_gi }}/grid</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u01/app/{{ oracle_install_version_gi }}/grid</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default of <code>grid_base</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_base</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u01/app/grid/base</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_home_gi</code> and <code>grid_base</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_home_gi</code> <strong>must be below</strong> <code>grid_base</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_home_gi</code> <strong>must not be below</strong> <code>grid_base</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Storage for ASM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">local disks</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">shared disks, visible on all nodes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Network</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no special requirements</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">public and private network, SCAN, VIP for each node</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSH user equivalence</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">not needed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">configured by <code>orahost_ssh</code> for the grid user (and <code>oracle_user</code>)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_playbooks_and_roles">1.1. Playbooks and roles</h3>
+<div class="paragraph">
+<p>The same playbooks are used for Oracle Restart and Grid Infrastructure:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 14.2857%;"/>
+<col style="width: 28.5714%;"/>
+<col style="width: 57.1429%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Order</th>
+<th class="tableblock halign-left valign-top">Playbook</th>
+<th class="tableblock halign-left valign-top">Content for Oracle Restart / Grid Infrastructure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>opitzconsulting.ansible_oracle.os</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>orahost</code>: users, groups, kernel parameters, packages, firewall.<br/>
+<code>orahost_storage</code>: partitions and device persistence (<code>asmlib</code>, <code>udev</code>) of the ASM disks.<br/>
+<code>orahost_ssh</code>: SSH user equivalence between the nodes (Grid Infrastructure only).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>opitzconsulting.ansible_oracle.swgi</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oraswgi_install</code>: installation and configuration of Grid Infrastructure (<code>gridSetup.sh</code>, <code>root.sh</code>, ConfigTools).<br/>
+<code>oraswgi_manage_patches</code>: patches for <code>oracle_home_gi</code>.<br/>
+<code>oraasm_manage_diskgroups</code>: all ASM disk groups of <code>asm_diskgroups</code> except <code>oracle_asm_init_dg</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>opitzconsulting.ansible_oracle.swdb</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Installation of the RDBMS software (<code>db_homes_installed</code>).
+The version of a database home must not be newer than Grid Infrastructure.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>opitzconsulting.ansible_oracle.manage_db</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Listener, databases and PDBs.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The playbooks use the variable <code>hostgroup</code> (default: <code>all</code>) as target hosts.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_common_basics_for_both_parts">1.2. Common basics for both parts</h3>
+<div class="sect3">
+<h4 id="_software_of_grid_infrastructure">1.2.1. Software of Grid Infrastructure</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 22.2222%;"/>
+<col style="width: 22.2222%;"/>
+<col style="width: 55.5556%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
 <th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>device_persistence</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">empty string</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed values: <code>asmfd</code>, <code>asmlib</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_install_version_gi</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>26.1.0.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Base release of the software, e.g. <code>26.1.0.0</code> or <code>19.3.0.0</code>.
+It selects the response file template (<code>grid-install.rsp.&lt;version&gt;.j2</code>), the task file of <code>oraswgi_install</code>,
+the default installation media in <code>oracle_sw_image_gi</code>, the key in <code>gi_patches</code> and the default of <code>oracle_home_gi</code>.
+It is the base release, not the Release Update: a Golden Image with 19.33 is still <code>19.3.0.0</code>, 23.26.3 is <code>26.1.0.0</code>.
+Always set it in the inventory, it must match the installation media.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_asm_disk_string</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORCL:*</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">init.ora-Parameter for <code>asm_diskstring</code>.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_sw_image_gi</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">list of the base release images</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of installation media with <code>filename</code> and <code>version</code>.
+The entry with <code>version: oracle_install_version_gi</code> is unpacked into <code>oracle_home_gi</code>,
+when <code>oracle_install_image_gi</code> is not defined.<br/>
+No need to change it: the default contains all supported releases.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_asm_init_dg</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>crs</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1st Diskgroup for ASM SPFile.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_install_image_gi</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">not defined</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Filename of the installation media.
+When it is defined, it is used instead of the <code>filename</code> from <code>oracle_sw_image_gi</code>, e.g. for a Golden Image (<code>gi_goldimage_26_03.zip</code>).<br/>
+<strong>Recommended</strong>: always install a Golden Image with the Release Update from Oracle
+and use a new <code>oracle_home_gi</code> for every Release Update (Out-of-Place Patching, see below).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_sw_copy</code>, <code>is_sw_source_local</code>, <code>oracle_stage_remote</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Source of the installation media (copied into <code>oracle_stage</code> or used directly from <code>oracle_stage_remote</code>).
+See <a href="/docs/guides/install-and-patch-settings/">Install and Patch Settings</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_home_gi</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">derived, see below</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORACLE_HOME</code> of Grid Infrastructure.
+The default depends on <code>oracle_install_option_gi</code>:
+<code>oracle_home_gi_so</code> for Oracle Restart, <code>oracle_home_gi_cl</code> for Grid Infrastructure.
+Set <code>oracle_home_gi</code> directly when the path should not contain the base release, e.g. for Golden Images with a Release Update.</p></td>
 </tr>
 </tbody>
-<tfoot>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>asm_diskgroups</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Defines the ASM-Diskgroups. More Details below.</p></td>
-</tr>
-</tfoot>
 </table>
-<div class="listingblock">
-<div class="title">Example <code>asm_diskgroups</code></div>
-<div class="content">
-<pre>asm_diskgroups:        # ASM Diskgroups used for DB-storage. Should map to dict asm_storage_layout.
-  - diskgroup: data
-    state: present
-    properties:
-      - {redundancy: external, ausize: 4}
-    attributes:
-      - {name: compatible.rdbms, value: 11.2.0.4.0}
-      - {name: compatible.asm, value: &#34;19.0.0.0.0&#34;}
-    disk:
-      - {device: /dev/sdc, asmlabel: data01}</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_setup_real_application_clusters_rac">2. Setup Real Application Clusters (RAC)</h2>
-<div class="sectionbody">
 <div class="admonitionblock important">
 <table>
 <tbody><tr>
@@ -443,23 +1096,787 @@ Example asm_diskgroups asm_diskgroups: # ASM Diskgroups used for DB-storage. Sho
 <div class="title">Important</div>
 </td>
 <td class="content">
-The documentation is heavily work in progress.
+The default of <code>oracle_install_version_gi</code> is <code>26.1.0.0</code> (26ai) as of 5.0.0 (19c before).
+Set <code>oracle_install_version_gi</code> in every inventory with Oracle Restart or Grid Infrastructure,
+especially for existing 19c installations without <code>oracle_home_gi</code> in the inventory:
+the default of <code>oracle_home_gi</code> contains the version.
+See <a href="/docs/guides/breaking_changes/">Breaking Changes</a> (<em>Default of oracle_install_version_gi is 26ai</em>).
 </td>
 </tr>
 </tbody></table>
 </div>
-<div class="sect2">
-<h3 id="_inventory_variables">2.1. Inventory Variables</h3>
+</div>
+<div class="sect3">
+<h4 id="_passwords">1.2.2. Passwords</h4>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. Inventory Variables for Cluster configuration</caption>
 <colgroup>
-<col style="width: 33.3333%;"/>
-<col style="width: 33.3333%;"/>
-<col style="width: 33.3334%;"/>
+<col style="width: 22.2222%;"/>
+<col style="width: 22.2222%;"/>
+<col style="width: 55.5556%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>default_gipass</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&#39;&#39;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default password for <code>SYS</code> (SYSASM) and <code>ASMSNMP</code> of ASM.
+Mandatory, as long as <code>sysasmpassword</code> and <code>asmmonitorpassword</code> are not defined.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sysasmpassword</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>{{ default_gipass }}</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Password of <code>SYS</code> in ASM (<code>sysasmPassword</code> in the response file).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>asmmonitorpassword</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>{{ default_gipass }}</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Password of <code>ASMSNMP</code> (<code>asmsnmpPassword</code> in the response file).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_patching_during_the_installation">1.2.3. Patching during the installation</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 22.2222%;"/>
+<col style="width: 22.2222%;"/>
+<col style="width: 55.5556%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>apply_patches_gi</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Apply the patches from <code>gi_patches</code> to <code>oracle_home_gi</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>patch_before_rootsh</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code>: the Release Update (<code>opatchauto</code> patch with <code>state: present</code>) is applied by <code>gridSetup.sh -applyRU</code> before <code>root.sh</code>.<br/>
+Only used together with <code>apply_patches_gi: true</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gi_patches</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>{}</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Patches for Grid Infrastructure per base release (<code>opatchauto</code>, <code>opatch</code>).
+See the example in role <code>oraswgi_meta</code> and <a href="/docs/guides/install-and-patch-settings/">Install and Patch Settings</a>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock tip">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+Recommended is a Golden Image with the Release Update from Oracle in <code>oracle_install_image_gi</code> instead of patching the base release.
+Then set <code>apply_patches_gi: false</code> and <code>patch_before_rootsh: false</code>.
+A new Release Update is installed as new Golden Image into a new <code>oracle_home_gi</code> (Out-of-Place Patching),
+not with <code>opatchauto</code> into the running home.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_asm_disk_groups">1.2.4. ASM disk groups</h4>
+<div class="paragraph">
+<p><code>asm_diskgroups</code> defines all disk groups, for Oracle Restart and for Grid Infrastructure.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example <code>asm_diskgroups</code></div>
+<div class="content">
+<pre>asm_diskgroups:
+  - diskgroup: crs                   # oracle_asm_init_dg =&gt; created by gridSetup.sh
+    state: present
+    properties:
+      - {redundancy: external, ausize: 4}
+    attributes:
+      - {name: compatible.rdbms, value: 19.0.0.0.0}
+      - {name: compatible.asm, value: 23.0.0.0.0}
+    disk:
+      - {device: /dev/sdc, asmlabel: crs01}
+  - diskgroup: data                  # created by oraasm_manage_diskgroups
+    state: present
+    properties:
+      - {redundancy: external}
+    attributes:
+      - {name: compatible.rdbms, value: 19.0.0.0.0}
+      - {name: compatible.asm, value: 23.0.0.0.0}
+      - {name: au_size, value: 4M}
+    disk:
+      - {device: /dev/sdd, asmlabel: data01}</pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Attributes of an entry in <code>asm_diskgroups</code></caption>
+<colgroup>
+<col style="width: 28.5714%;"/>
+<col style="width: 71.4286%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>diskgroup</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the disk group (lower case in the inventory, ASM uses upper case).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>state</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>present</code> or <code>absent</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>properties</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List with 1 dictionary: <code>redundancy</code> (<code>external</code>, <code>normal</code>, <code>high</code>) and <code>ausize</code> (in MB).<br/>
+<code>ausize</code> in <code>properties</code> is used only for <code>oracle_asm_init_dg</code> (response file of <code>gridSetup.sh</code>).
+Use the attribute <code>au_size</code> for all other disk groups.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>attributes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ASM attributes of the disk group (<code>name</code>, <code>value</code>), e.g. <code>compatible.asm</code>, <code>compatible.rdbms</code>, <code>au_size</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>disk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of disks:</p>
+<p class="tableblock">* <code>device</code>: device of the disk (e.g. <code>/dev/sdc</code>).
+* <code>asmlabel</code>: label of the disk for <code>asmlib</code>, <code>udev</code> and <code>asmfd</code> (see <code>device_persistence</code>).
+* <code>failure_group</code> (optional): name of the failure group. Disks with the same name are in the same failure group.
+Without <code>failure_group</code>, ASM creates a failure group for every disk.
+For <code>oracle_asm_init_dg</code> set <code>failure_group</code> for all disks or for none.
+* <code>quorum</code> (optional): <code>true</code> for a quorum failure group (voting files only). Must be the same for all disks of a failure group.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><code>oracle_asm_init_dg</code> (default: <code>crs</code>) is the 1st disk group.
+It must be an entry of <code>asm_diskgroups</code>.
+It is created during the configuration of Grid Infrastructure (<code>gridSetup.sh</code>, <code>root.sh</code>) and contains the SPFile of ASM,
+with Grid Infrastructure additionally the OCR and the voting files.
+All other disk groups are created later by <code>oraasm_manage_diskgroups</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_device_persistence_of_the_asm_disks">1.2.5. Device persistence of the ASM disks</h4>
+<div class="paragraph">
+<p><code>device_persistence</code> defines how the ASM disks are made persistent.
+It controls 3 things together with <code>oracle_asm_disk_string</code>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>the preparation of the disks by <code>orahost_storage</code> or <code>oraswgi_install</code>,</p>
+</li>
+<li>
+<p>the path of each disk in the response file of <code>gridSetup.sh</code> (<code>diskList</code> of <code>oracle_asm_init_dg</code>),</p>
+</li>
+<li>
+<p>the ASM discovery string (<code>asm_diskstring</code>, <code>diskString</code> in the response file).</p>
+</li>
+</ol>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. <code>device_persistence</code></caption>
+<colgroup>
+<col style="width: 12.5%;"/>
+<col style="width: 37.5%;"/>
+<col style="width: 25%;"/>
+<col style="width: 25%;"/>
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Preparation</th>
+<th class="tableblock halign-left valign-top">Path of a disk</th>
+<th class="tableblock halign-left valign-top">Discovery string</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&#39;&#39;</code> (default)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">nothing, the devices must already exist with owner <code>_grid_install_user</code> and group <code>asmadmin_group</code>.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>device</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_asm_disk_string</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>asmlib</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>orahost_storage</code>: <code>oracleasm createdisk &lt;asmlabel&gt; &lt;device&gt;&lt;partition_suffix&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_asm_disk_string</code> without trailing <code>*</code> + <code>asmlabel</code> (upper case), e.g. <code>ORCL:DATA01</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_asm_disk_string</code> (default: <code>ORCL:*</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>udev</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>orahost_storage</code>: udev rules with a symlink <code>&lt;oracle_asm_disk_string without leading /dev/&gt;&lt;asmlabel&gt;</code> per disk</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_asm_disk_string</code> + <code>asmlabel</code> ⇒ <code>oracle_asm_disk_string</code> must end with <code>/</code> (no <code>*</code>), e.g. <code>/dev/oracle/</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_asm_disk_string</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>asmfd</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oraswgi_install</code>: installation and configuration of the ASM Filter Driver, <code>asmcmd afd_label &lt;asmlabel&gt; &lt;device&gt;1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AFD:&lt;ASMLABEL&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_asmfd_disk_string</code> (mandatory for <code>asmfd</code>)</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 22.2222%;"/>
+<col style="width: 22.2222%;"/>
+<col style="width: 55.5556%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_asm_disk_string</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORCL:*</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ASM discovery string (<code>asm_diskstring</code>).
+The default fits <code>asmlib</code> only. Set it for all other values of <code>device_persistence</code>, e.g. <code>/dev/oracleasm/*</code> for <code>&#39;&#39;</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_asmfd_disk_string</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">not defined</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ASM discovery string with <code>asmfd</code>, e.g. <code>AFD:*</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>partition_devices</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create 1 partition on every disk of <code>asm_diskgroups</code> with <code>parted</code> (GPT).
+<code>asmlib</code> uses <code>&lt;device&gt;&lt;partition_suffix&gt;</code>, <code>asmfd</code> uses <code>&lt;device&gt;1</code>.
+Set <code>false</code> when the disks must not be partitioned (e.g. <code>device_persistence: &#39;&#39;</code> with existing devices).</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock warning">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+Only <code>device_persistence: &#39;&#39;</code> is tested by the molecule scenarios of <code>ansible-oracle</code>.
+<code>asmlib</code>, <code>udev</code> and <code>asmfd</code> are not tested with Oracle Linux 9 and 26ai.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_oracle_restart">2. Oracle Restart</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Oracle Restart is Grid Infrastructure for a Standalone Server (<code>oracle_install_option_gi: HA_CONFIG</code>).
+It manages ASM, listeners and Single Instance databases on one host.</p>
+</div>
+<div class="paragraph">
+<p>Oracle Restart 26ai is supported and tested with databases 19c and 26ai (molecule scenario <code>has-ol9</code>).
+Every host is configured on its own; there is no dependency between hosts.</p>
+</div>
+<div class="sect2">
+<h3 id="_requirements">2.1. Requirements</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Oracle Linux / RHEL 8 or 9, see <a href="/docs/features/featurelist/">Featurelist</a>.</p>
+</li>
+<li>
+<p>Local disks for ASM (at least for <code>oracle_asm_init_dg</code>).</p>
+</li>
+<li>
+<p><code>oracle_install_version_gi</code> must be the same or newer than the version of all database homes.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_example_inventory">2.2. Example inventory</h3>
+<div class="listingblock">
+<div class="title"><code>host_vars/&lt;host&gt;/restart.yml</code></div>
+<div class="content">
+<pre>oracle_install_option_gi: HA_CONFIG
+oracle_install_version_gi: 26.1.0.0
+oracle_install_image_gi: gi_goldimage_26_03.zip   # Golden Image with RU 23.26.3
+oracle_home_gi: /u01/app/oracle/product/26/restart_26.03
+
+apply_patches_gi: false        # the Golden Image contains the Release Update
+patch_before_rootsh: false
+
+role_separation: false         # GI software owned by oracle_user
+default_gipass: &#34;{{ vault_default_gipass }}&#34;
+
+device_persistence: &#39;&#39;
+partition_devices: false
+oracle_asm_disk_string: /dev/oracleasm/*
+oracle_asm_init_dg: data
+
+asm_diskgroups:
+  - diskgroup: data
+    state: present
+    properties:
+      - {redundancy: external, ausize: 4}
+    attributes:
+      - {name: compatible.rdbms, value: 19.0.0.0.0}
+      - {name: compatible.asm, value: 23.0.0.0.0}
+    disk:
+      - {device: /dev/oracleasm/data01, asmlabel: data01}
+  - diskgroup: fra
+    state: present
+    properties:
+      - {redundancy: external}
+    attributes:
+      - {name: compatible.rdbms, value: 19.0.0.0.0}
+      - {name: compatible.asm, value: 23.0.0.0.0}
+      - {name: au_size, value: 4M}
+    disk:
+      - {device: /dev/oracleasm/fra01, asmlabel: fra01}</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_installation_type">2.3. Installation type</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 22.2222%;"/>
+<col style="width: 22.2222%;"/>
+<col style="width: 55.5556%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_install_option_gi</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HA_CONFIG</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configure Oracle Restart.
+An empty string (default) means: no Grid Infrastructure software on the host, databases use file systems.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>With <code>HA_CONFIG</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>orasw_meta_primary_node</code> is always <code>true</code>: every host runs all steps itself.</p>
+</li>
+<li>
+<p><code>orasw_meta_cluster_hostgroup</code>, <code>oracle_scan</code>, <code>oracle_vip</code> and all network variables of Grid Infrastructure are not used.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_oracle_home_and_oracle_base">2.4. ORACLE_HOME and ORACLE_BASE</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 22.2222%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 44.4445%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Default for Oracle Restart</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_base</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u01/app/oracle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORACLE_BASE</code> of the databases.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>grid_base</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>{{ oracle_base }}</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORACLE_BASE</code> of Oracle Restart. For Oracle Restart it is the same as <code>oracle_base</code> by default.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_home_gi_so</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>{{ oracle_base }}/{{ oracle_install_version_gi }}/grid</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default for <code>oracle_home_gi</code> with Oracle Restart (<code>so</code> = stand alone).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_home_gi</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>{{ oracle_home_gi_so }}</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORACLE_HOME</code> of Oracle Restart. It must be below <code>grid_base</code>.
+Recommended: an own path per Release Update, e.g. <code>/u01/app/oracle/product/26/restart_26.03</code>.
+That is the prerequisite for the switch into a new home, see below.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_inventory_loc</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u01/app/oraInventory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Central inventory.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Oracle Restart: <code>oracle_home_gi</code> must be a subdirectory of <code>grid_base</code>,
+e.g. <code>grid_base: /u01/app/oracle</code> and <code>oracle_home_gi: /u01/app/oracle/product/26/restart_26.03</code>.<br/>
+This is the opposite of Grid Infrastructure (cluster), where <code>oracle_home_gi</code> must not be below <code>grid_base</code>.
+Keep this in mind, when an inventory is changed from Oracle Restart to Grid Infrastructure or vice versa.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_users_and_groups">2.5. Users and groups</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 22.2222%;"/>
+<col style="width: 22.2222%;"/>
+<col style="width: 55.5556%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>role_separation</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code>: Oracle Restart is installed and owned by <code>oracle_user</code>.<br/>
+<code>true</code>: Oracle Restart is installed and owned by <code>grid_user</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_user</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Owner of the database software.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>grid_user</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>grid</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Owner of Oracle Restart with <code>role_separation: true</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>asmadmin_group</code>, <code>asmdba_group</code>, <code>asmoper_group</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>asmadmin</code>, <code>asmdba</code>, <code>asmoper</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OS groups OSASM, OSDBA and OSOPER for ASM (<code>OSASM</code>, <code>OSDBA</code>, <code>OSOPER</code> in the response file).
+The ASM disks must be owned by the install user and <code>asmadmin_group</code>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The install user of Oracle Restart is derived from both variables:
+<code>_grid_install_user</code> is <code>grid_user</code> with <code>role_separation: true</code>, otherwise <code>oracle_user</code>.
+It is the owner of <code>oracle_home_gi</code>, of <code>grid_base</code> and of the ASM disks.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_installation_steps">2.6. Installation steps</h3>
+<div class="paragraph">
+<p><code>oraswgi_install</code> executes the following steps.
+Steps 5 to 8 are only executed when <code>/etc/oracle/olr.loc</code> does not exist (Oracle Restart is not configured yet).</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Unpack the installation media into <code>oracle_home_gi</code>, when the home is not registered in the central inventory.</p>
+</li>
+<li>
+<p>Install <code>cvuqdisk</code> (only with <code>device_persistence: asmfd</code>).</p>
+</li>
+<li>
+<p>Create the response file <code>&lt;oracle_rsp_stage&gt;/grid-&lt;oracle_cluster_name&gt;.rsp</code>.</p>
+</li>
+<li>
+<p>Run <code>cluvfy</code> (skipped with <code>gi_ignoreprereq: true</code>).</p>
+</li>
+<li>
+<p>With <code>device_persistence: asmfd</code>: configure the ASM Filter Driver and label the disks.</p>
+</li>
+<li>
+<p><code>gridSetup.sh -silent -responseFile …​</code> (with <code>-applyRU</code>, when <code>apply_patches_gi</code> and <code>patch_before_rootsh</code> are <code>true</code>).</p>
+</li>
+<li>
+<p><code>orainstRoot.sh</code> and <code>root.sh</code>. <code>root.sh</code> configures Oracle Restart and creates <code>oracle_asm_init_dg</code>.</p>
+</li>
+<li>
+<p><code>gridSetup.sh -executeConfigTools</code> (<code>run_configtoolallcommand: true</code>): listener <code>LISTENER</code> in <code>oracle_home_gi</code>, ASM post configuration, CVU.</p>
+</li>
+<li>
+<p>CRS flag (<code>CRS=TRUE</code>) of <code>oracle_home_gi</code> in the central inventory.</p>
+</li>
+<li>
+<p>Patches (<code>oraswgi_manage_patches</code>) and all other disk groups (<code>oraasm_manage_diskgroups</code>).</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_prerequisite_checks_and_configtools">2.7. Prerequisite checks and ConfigTools</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 22.2222%;"/>
+<col style="width: 22.2222%;"/>
+<col style="width: 55.5556%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gi_ignoreprereq</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code>: <code>cluvfy</code> is not executed and <code>gridSetup.sh</code> is started with <code>-ignorePrereq</code>.
+Failures of the Cluster Verification Utility (CVU) in <code>-executeConfigTools</code> are ignored as well.
+Failures of all other configuration assistants (NETCA, ASMCA) still stop the installation.
+<code>runInstaller -updateNodeList</code> is started with <code>-ignoreSysPrereqs</code> (e.g. for missing swap space).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>run_configtoolallcommand</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Run <code>gridSetup.sh -executeConfigTools</code> after <code>root.sh</code>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_listener_and_databases_with_oracle_restart">2.8. Listener and databases with Oracle Restart</h3>
+<div class="paragraph">
+<p>Databases on Oracle Restart are created by <code>oradb_manage_db</code> (playbook <code>manage_db</code>) with <code>storage_type: ASM</code>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The listener in <code>oracle_home_gi</code> is defined in <code>listener_installed</code> with <code>use_gi_home: true</code> (no <code>home</code>).
+The <code>ORACLE_HOME</code> of Oracle Restart is read from <code>/etc/oracle/olr.loc</code>.</p>
+</li>
+<li>
+<p>A listener in a database home is defined with <code>home</code> and is registered in Oracle Restart with <code>srvctl</code>.</p>
+</li>
+<li>
+<p>The <code>ORACLE_HOME</code> of a database must not be newer than <code>oracle_home_gi</code>.</p>
+</li>
+<li>
+<p><code>db_create_file_dest</code> and <code>db_recovery_file_dest</code> in <code>init_parameters</code> point to the disk groups (e.g. <code>+DATA</code>, <code>+FRA</code>).</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>listener_installed:
+  - listener_name: LISTENER
+    use_gi_home: true
+    state: present
+
+oracle_databases:
+  - home: db19-gi-ee
+    oracle_db_name: DBHAS
+    oracle_db_type: SI
+    storage_type: ASM
+    init_parameters:
+      - {name: db_create_file_dest, value: &#39;+DATA&#39;, scope: both, state: present}
+      - {name: db_recovery_file_dest, value: &#39;+FRA&#39;, scope: both, state: present}
+      ...</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_out_of_place_patching_of_oracle_restart">2.9. Out-of-Place Patching of Oracle Restart</h3>
+<div class="paragraph">
+<p>With 26ai the home of Oracle Restart can be switched into a new <code>oracle_home_gi</code> (new Release Update),
+see <a href="/docs/guides/out_of_place_patching/">Out-of-Place Patching</a>.
+This is the recommended way for Release Updates:
+install the Golden Image of the new Release Update with <code>oracle_install_image_gi</code> into a new <code>oracle_home_gi</code>
+(e.g. <code>/u01/app/oracle/product/26/restart_26.04</code>), the switch is done by <code>oraswgi_install</code>.
+Obsolete homes can be removed with <code>oraswgi_install_remove_obsolete_homes: true</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_grid_infrastructure_cluster">3. Grid Infrastructure (cluster)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Grid Infrastructure for a Cluster (<code>oracle_install_option_gi: CRS_CONFIG</code>) is the prerequisite for RAC and RAC One Node.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Grid Infrastructure 26ai is supported: tested with 2 nodes on Oracle Linux 9 and a RAC database 26ai
+(molecule scenario <code>rac</code>, see <a href="#_test_environment_molecule_scenario_rac">Test environment: molecule scenario rac</a>).<br/>
+Grid Infrastructure 19c, RAC databases 19c and RAC One Node are not tested.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>All nodes of a cluster are configured together in one play.
+Most steps run on the 1st node only; <code>gridSetup.sh</code> copies the software to the other nodes with SSH.</p>
+</div>
+<div class="sect2">
+<h3 id="_requirements_2">3.1. Requirements</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>All nodes in one inventory group (<code>orasw_meta_cluster_hostgroup</code>), all nodes in the same play.</p>
+</li>
+<li>
+<p>Shared disks for ASM, visible with the same path and the same owner on all nodes.</p>
+</li>
+<li>
+<p>2 networks with the <strong>same interface names on all nodes</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>public network: IP of the node, VIP of every node, SCAN,</p>
+</li>
+<li>
+<p>private network: interconnect (and ASM network with Flex ASM).</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Name resolution of the nodes, the VIPs and the SCAN on all nodes (DNS or <code>/etc/hosts</code>).
+The hostname of a node must resolve to its public IP only.</p>
+</li>
+<li>
+<p><code>sshd</code> on all nodes and SSH logins allowed for the grid user (and <code>oracle_user</code>).</p>
+</li>
+<li>
+<p>Time synchronization (chrony). Without it, the Cluster Time Synchronization Service (CTSS) runs in active mode.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_inventory_structure">3.2. Inventory structure</h3>
+<div class="paragraph">
+<p>The cluster is defined by an inventory group.
+<code>orasw_meta_cluster_hostgroup</code> contains the name of this group.
+The order of the hosts in the group is important: the 1st host is the primary node.</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>hosts.yml</code></div>
+<div class="content">
+<pre>all:
+  children:
+    rac:                  # orasw_meta_cluster_hostgroup
+      hosts:
+        rac-1:            # primary node: gridSetup.sh, 1st root.sh
+        rac-2:</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title"><code>group_vars/rac/gi.yml</code></div>
+<div class="content">
+<pre>oracle_install_option_gi: CRS_CONFIG
+oracle_install_version_gi: 26.1.0.0
+oracle_install_image_gi: gi_goldimage_26_03.zip
+oracle_home_gi: /u01/app/gridinfra/26.03
+
+orasw_meta_cluster_hostgroup: rac
+oracle_cluster_name: cluster-rac
+oracle_gi_cluster_type: STANDARD
+
+oracle_scan: rac-scan.example.com
+oracle_scan_port: 1521
+oracle_gi_nic_pub: eth0
+oracle_gi_nic_priv: eth1
+
+role_separation: true          # grid user for GI, oracle user for the databases
+default_gipass: &#34;{{ vault_default_gipass }}&#34;
+
+apply_patches_gi: false
+patch_before_rootsh: false
+
+device_persistence: udev      # not tested, see &#39;Device persistence of the ASM disks&#39;
+partition_devices: true
+oracle_asm_disk_string: /dev/oracle/
+oracle_asm_init_dg: crs
+
+asm_diskgroups:
+  - diskgroup: crs
+    state: present
+    properties:
+      - {redundancy: normal, ausize: 4}
+    attributes:
+      - {name: compatible.rdbms, value: 19.0.0.0.0}
+      - {name: compatible.asm, value: 23.0.0.0.0}
+    disk:
+      - {device: /dev/sdc, asmlabel: crs01, failure_group: fg1}
+      - {device: /dev/sdd, asmlabel: crs02, failure_group: fg2}
+      - {device: /dev/sde, asmlabel: crs03, failure_group: fg3}
+  - diskgroup: data
+    state: present
+    properties:
+      - {redundancy: external}
+    attributes:
+      - {name: compatible.rdbms, value: 19.0.0.0.0}
+      - {name: compatible.asm, value: 23.0.0.0.0}
+      - {name: au_size, value: 4M}
+    disk:
+      - {device: /dev/sdf, asmlabel: data01}</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title"><code>host_vars/rac-1/gi.yml</code> (<code>rac-2</code> accordingly)</div>
+<div class="content">
+<pre>oracle_node_vip: rac-1-vip.example.com</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_installation_type_and_cluster">3.3. Installation type and cluster</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 22.2222%;"/>
+<col style="width: 22.2222%;"/>
+<col style="width: 55.5556%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
 <th class="tableblock halign-left valign-top">Default</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
@@ -467,29 +1884,776 @@ The documentation is heavily work in progress.
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_install_option_gi</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">empty string</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed values: <code>CRS_CONFIG</code>, <code>HA_CONFIG</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&#39;&#39;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CRS_CONFIG</code>: configure Grid Infrastructure for a Cluster.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_node_vip</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">{{ ansible_hostname }}{{ oracle_vip }}</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Defines the VIP of the clusternode.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>orasw_meta_cluster_hostgroup</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>&#39;&#39;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the inventory group with all nodes of the cluster.
+Mandatory for <code>CRS_CONFIG</code>; the group must exist in the inventory (assert in <code>orahost_meta</code>).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>orasw_meta_primary_node</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">derived</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code> for the 1st host of <code>groups[orasw_meta_cluster_hostgroup]</code>, <code>false</code> for all other nodes.
+Do not set it in the inventory.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_cluster_name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>{{ orasw_meta_cluster_hostgroup }}</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the cluster (<code>clusterName</code> in the response file).
+Oracle allows at most 15 characters: letters, digits and <code>-</code>, starting with a letter.
+Set it explicitly when the group name contains <code>_</code> or is too long.
+It is also part of the name of the response file (<code>grid-&lt;oracle_cluster_name&gt;.rsp</code>).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_gi_cluster_type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>STANDARD</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type of the cluster: <code>STANDARD</code> or <code>STANDALONE</code> (assert in <code>oraswgi_install</code>).
+Only <code>STANDARD</code> is tested.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_asm_storage_option</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FLEX_ASM_STORAGE</code> (12.2+)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Storage option of ASM in the response file.
+It changes the usage of the private interface in <code>networkInterfaceList</code>, see <a href="#_networks">Networks</a>.</p></td>
 </tr>
 </tbody>
-<tfoot>
+</table>
+<div class="sect3">
+<h4 id="_primary_node_and_the_other_nodes">3.3.1. Primary node and the other nodes</h4>
+<div class="paragraph">
+<p><code>orasw_meta_primary_node</code> decides which node executes a step:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 71.4285%;"/>
+<col style="width: 14.2857%;"/>
+<col style="width: 14.2858%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Step</th>
+<th class="tableblock halign-left valign-top">Primary node</th>
+<th class="tableblock halign-left valign-top">Other nodes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Users, groups, kernel parameters, packages (<code>orahost</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Partitions of the ASM disks (<code>partition_devices</code>), <code>asmlib createdisk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">udev rules (<code>device_persistence: udev</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SSH user equivalence (<code>orahost_ssh</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unpack the installation media into <code>oracle_home_gi</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Install <code>cvuqdisk</code> (copied from the primary node via the Ansible controller)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Response file, <code>cluvfy</code>, <code>gridSetup.sh</code> (copies the home to all nodes)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>orainstRoot.sh</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>root.sh</code>: 1st on the primary node, then on the other nodes one after the other (<code>throttle: 1</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gridSetup.sh -executeConfigTools</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CRS flag of <code>oracle_home_gi</code> in the central inventory (<code>runInstaller -updateNodeList -local</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Disk groups (<code>oraasm_manage_diskgroups</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Run the playbooks always for all nodes of the cluster.
+Many steps on the other nodes use facts or results of the primary node (<code>hostvars</code>).
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_oracle_home_and_oracle_base_2">3.4. ORACLE_HOME and ORACLE_BASE</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 22.2222%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 44.4445%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Default for Grid Infrastructure</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_home_gi_cl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u01/app/{{ oracle_install_version_gi }}/grid</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default for <code>oracle_home_gi</code> with Grid Infrastructure (<code>cl</code> = cluster).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_home_gi</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>{{ oracle_home_gi_cl }}</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORACLE_HOME</code> of Grid Infrastructure. Same path on all nodes.
+It must <strong>not</strong> be below <code>grid_base</code> (and not below <code>oracle_base</code>): <code>root.sh</code> changes the owner of the home and its parent directories to <code>root</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>grid_base</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u01/app/grid/base</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORACLE_BASE</code> of Grid Infrastructure. It must differ from <code>oracle_base</code> with <code>role_separation: true</code> (assert in <code>orasw_meta</code>).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_base</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/u01/app/oracle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORACLE_BASE</code> of the databases.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Grid Infrastructure (cluster): <code>oracle_home_gi</code> must <strong>not</strong> be a subdirectory of <code>grid_base</code>,
+e.g. <code>grid_base: /u01/app/grid/base</code> and <code>oracle_home_gi: /u01/app/gridinfra/26.03</code>.<br/>
+This is the opposite of Oracle Restart, where <code>oracle_home_gi</code> must be below <code>grid_base</code>.
+The default <code>oracle_home_gi_cl</code> (<code>/u01/app/&lt;version&gt;/grid</code>) is outside of the default <code>grid_base</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_users_and_groups_2">3.5. Users and groups</h3>
+<div class="paragraph">
+<p>The variables are the same as for Oracle Restart (<code>role_separation</code>, <code>grid_user</code>, <code>oracle_user</code>, <code>asmadmin_group</code>, …​).
+For Grid Infrastructure <code>role_separation: true</code> is recommended (and tested):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>grid_user</code> owns <code>oracle_home_gi</code>, <code>grid_base</code> and the ASM disks,</p>
+</li>
+<li>
+<p><code>oracle_user</code> owns the database homes.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The install user <code>_grid_install_user</code> is <code>grid_user</code> with <code>role_separation: true</code>, otherwise <code>oracle_user</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_networks">3.6. Networks</h3>
+<div class="sect3">
+<h4 id="_public_and_private_network">3.6.1. Public and private network</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 22.2222%;"/>
+<col style="width: 22.2222%;"/>
+<col style="width: 55.5556%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_gi_nic_pub</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>eth0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interface of the public network.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_gi_nic_priv</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>eth1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interface of the private network (interconnect).</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Both interfaces must exist with an IPv4 address on all nodes and have the <strong>same name on all nodes</strong>.
+The response file is created on the primary node from its facts (<code>ansible_&lt;interface&gt;.ipv4.network</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>networkInterfaceList=&lt;oracle_gi_nic_pub&gt;:&lt;public network&gt;:1,&lt;oracle_gi_nic_priv&gt;:&lt;private network&gt;:5</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The interface type of the private network depends on <code>oracle_asm_storage_option</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>FLEX_ASM_STORAGE</code> (default for 12.2+): <code>5</code> = interconnect and ASM network,</p>
+</li>
+<li>
+<p><code>LOCAL_ASM_STORAGE</code>: <code>2</code> = interconnect only.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Grid Infrastructure uses Highly Available IP addresses (HAIP, <code>169.254.x.x</code>) on the private interface.
+The private network must allow these addresses between the nodes (no filter on the subnet of the private network).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<code>configure_interconnect</code> and <code>oracle_ic_net</code> of <code>orahost</code> write <code>ifcfg</code> files of the network scripts.
+They are not usable with Oracle Linux 9. Configure the private network outside of <code>ansible-oracle</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_scan">3.6.2. SCAN</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 22.2222%;"/>
+<col style="width: 22.2222%;"/>
+<col style="width: 55.5556%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_scan</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">not defined</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the Single Client Access Name (<code>scanName</code>). Mandatory for <code>CRS_CONFIG</code> (assert in <code>oraswgi_install</code>).
+<code>scanType</code> is always <code>LOCAL_SCAN</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_scan_port</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1521</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Port of the SCAN listener. <code>orahost</code> opens it in <code>firewalld</code> together with the listener ports
+(<code>firewall_open_listener_ports</code>, default <code>true</code>).</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The SCAN should resolve to 3 IPs in DNS.
+A SCAN with 1 IP in <code>/etc/hosts</code> works, but the Cluster Verification Utility reports <code>PRVG-1101</code> (see <a href="#_prerequisite_checks_and_configtools_for_the_cluster">Prerequisite checks and ConfigTools for the cluster</a>).</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_vips_of_the_nodes">3.6.3. VIPs of the nodes</h4>
+<div class="paragraph">
+<p>The response file contains every node of <code>orasw_meta_cluster_hostgroup</code> with its VIP:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>clusterNodes=&lt;ansible_fqdn of node 1&gt;:&lt;VIP of node 1&gt;,&lt;ansible_fqdn of node 2&gt;:&lt;VIP of node 2&gt;</pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 22.2222%;"/>
+<col style="width: 22.2222%;"/>
+<col style="width: 55.5556%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_node_vip</code> (host variable)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">not defined</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the VIP of this node, e.g. <code>rac-1-vip.example.com</code>.
+Recommended: set it in <code>host_vars</code> for every node.</p></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_vip</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>-vip</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Suffix for VIP when <code>oracle_node_vip</code> is not defined.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Suffix for the VIP, when <code>oracle_node_vip</code> is not defined:
+<code>&lt;ansible_hostname&gt;&lt;oracle_vip&gt;[.&lt;ansible_domain&gt;]</code>, e.g. <code>rac-1-vip.example.com</code>.</p></td>
 </tr>
-</tfoot>
+</tbody>
 </table>
+</div>
+<div class="sect3">
+<h4 id="_name_resolution">3.6.4. Name resolution</h4>
+<div class="paragraph">
+<p>Without DNS, <code>orahost</code> can write the entries into <code>/etc/hosts</code>:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 22.2222%;"/>
+<col style="width: 22.2222%;"/>
+<col style="width: 55.5556%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>configure_etc_hosts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code>: add <code>&lt;etc_hosts_ip&gt; &lt;ansible_hostname&gt; &lt;ansible_fqdn&gt;</code> of the node and all <code>etc_hosts_entries</code> to <code>/etc/hosts</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>etc_hosts_ip</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ansible_default_ipv4.address</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IP of the node in <code>/etc/hosts</code>. Must be the public IP.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>etc_hosts_entries</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Additional entries, e.g. other nodes, VIPs and the SCAN (<code>fqdn</code>, <code>ip</code>, <code>aliases</code>).</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="content">
+<pre>configure_etc_hosts: true
+etc_hosts_entries:
+  - {fqdn: rac-1.example.com, ip: 192.168.56.11}
+  - {fqdn: rac-2.example.com, ip: 192.168.56.12}
+  - {fqdn: rac-1-vip.example.com, ip: 192.168.56.21}
+  - {fqdn: rac-2-vip.example.com, ip: 192.168.56.22}
+  - {fqdn: rac-scan.example.com, ip: 192.168.56.30}</pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The hostname must resolve to exactly 1 IP (the public IP) on all nodes.
+A 2nd entry with the private IP stops <code>gridSetup.sh</code> with <code>PRVH-1541</code> / <code>PRVG-13632</code>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>The Grid Naming Service (GNS) is not supported: <code>configureGNS</code> is always <code>false</code> in the response file.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ssh_user_equivalence">3.7. SSH user equivalence</h3>
+<div class="paragraph">
+<p><code>gridSetup.sh</code> copies <code>oracle_home_gi</code> from the primary node to the other nodes with SSH.
+<code>orahost_ssh</code> (playbook <code>os</code>) configures the user equivalence automatically for <code>CRS_CONFIG</code>
+for <code>oracle_user</code> and, with <code>role_separation: true</code>, for <code>grid_user</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>creates a key pair per user and node (<code>orahost_ssh_key_type</code>, default <code>rsa</code>, <code>orahost_ssh_key_size</code>, default <code>4096</code>),</p>
+</li>
+<li>
+<p>adds the public keys of all nodes into <code>authorized_keys</code> on all nodes,</p>
+</li>
+<li>
+<p>adds the host keys (<code>ssh-keyscan -t &lt;orahost_ssh_hostkeytypes&gt;</code> for <code>ansible_hostname</code>) into <code>known_hosts</code> on all nodes.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>configure_ssh</code> is not needed for Grid Infrastructure.</p>
+</div>
+<div class="paragraph">
+<p><code>sshd</code> must run on all nodes and allow logins of these users.
+Typical failures: <code>/run/nologin</code> exists, <code>AllowUsers</code> in <code>sshd_config</code>.
+<code>gridSetup.sh</code> stops with <code>PRVF-4098 : User equivalence not found for node</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_shared_storage_for_asm">3.8. Shared storage for ASM</h3>
+<div class="paragraph">
+<p>The ASM disks must be shared between all nodes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Every device of <code>asm_diskgroups</code> must exist on every node with the same path.
+With <code>device_persistence: &#39;&#39;</code> the owner (<code>_grid_install_user</code>) and the group (<code>asmadmin_group</code>) must be set before <code>gridSetup.sh</code>.</p>
+</li>
+<li>
+<p>Partitions (<code>partition_devices</code>) and <code>asmlib</code> labels are created on the primary node only.</p>
+</li>
+<li>
+<p><code>oracle_asm_init_dg</code> contains the OCR and the voting files.
+The number of voting files depends on the redundancy: <code>external</code> 1, <code>normal</code> 3, <code>high</code> 5 disks (failure groups).
+With <code>normal</code> and 2 storage systems use a quorum failure group (<code>quorum: true</code>) for the 3rd voting file.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_prerequisite_checks_and_configtools_for_the_cluster">3.9. Prerequisite checks and ConfigTools for the cluster</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 22.2222%;"/>
+<col style="width: 22.2222%;"/>
+<col style="width: 55.5556%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gi_ignoreprereq</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code>: no <code>cluvfy</code> before the installation, <code>gridSetup.sh -ignorePrereq</code>,
+failures of the post check with CVU in <code>-executeConfigTools</code> are ignored
+(e.g. <code>PRVG-1101</code> for a SCAN without DNS), <code>runInstaller -updateNodeList -ignoreSysPrereqs</code>.
+Failures of NETCA or ASMCA still stop the installation.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>run_configtoolallcommand</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Run <code>gridSetup.sh -executeConfigTools</code> on the primary node after <code>root.sh</code> on all nodes.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock tip">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+Start with <code>gi_ignoreprereq: false</code>.
+Use <code>true</code> only for known and accepted failures of <code>cluvfy</code>, e.g. in test environments.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rac_databases">3.10. RAC databases</h3>
+<div class="paragraph">
+<p>A RAC database needs 2 things on top of Grid Infrastructure:
+an <code>ORACLE_HOME</code> on all nodes (playbook <code>swdb</code>) and the database itself (playbook <code>manage_db</code>).</p>
+</div>
+<div class="sect3">
+<h4 id="_oracle_home_of_a_rac_database">3.10.1. ORACLE_HOME of a RAC database</h4>
+<div class="paragraph">
+<p>The database home is defined in <code>db_homes_config</code> and installed with <code>db_homes_installed</code>, as for Single Instance databases.
+<code>oraswdb_install</code> decides from <code>oracle_databases</code> how the home is installed:
+when a database with <code>oracle_db_type: RAC</code> or <code>RACONENODE</code> uses the home, it is installed as cluster home.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 71.4285%;"/>
+<col style="width: 14.2857%;"/>
+<col style="width: 14.2858%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Step</th>
+<th class="tableblock halign-left valign-top">Primary node</th>
+<th class="tableblock halign-left valign-top">Other nodes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unpack the installation media into the <code>ORACLE_HOME</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>runInstaller</code> with <code>clusterNodes</code> = all hosts of <code>orasw_meta_cluster_hostgroup</code> (copies the home to all nodes)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>root.sh</code> of the database home (other nodes only after <code>runInstaller</code> on the primary node)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">x</p></td>
+</tr>
+</tbody>
+</table>
+<div class="ulist">
+<ul>
+<li>
+<p>The version of the database home must not be newer than Grid Infrastructure,
+e.g. a database home with 23.26.3 needs Grid Infrastructure with 23.26.3 or newer.</p>
+</li>
+<li>
+<p><code>oracle_databases</code> must be defined for <code>swdb</code>, not only for <code>manage_db</code>:
+without a RAC database in <code>oracle_databases</code>, the home is installed as Single Instance home on every node.</p>
+</li>
+<li>
+<p>All databases of a home must have the same <code>oracle_db_type</code> (assert in <code>orasw_meta</code>).</p>
+</li>
+<li>
+<p>Read-Only Oracle Homes (<code>readonly_home: true</code> with <code>oracle_home_name</code>) are supported for RAC as well.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title"><code>group_vars/rac/db.yml</code>: database home</div>
+<div class="content">
+<pre>db_homes_config:
+  db26-rac-ee:
+    version: 26.1.0.0
+    oracle_home: /u01/app/oracle/product/26/db_26.03
+    imagename: db_home_26.03.zip      # Golden Image with RU 23.26.3
+    edition: EE
+    readonly_home: true
+    oracle_home_name: db2603racee
+
+db_homes_installed:
+  - home: db26-rac-ee
+    state: present
+    apply_patches: false</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_database">3.10.2. Database</h4>
+<div class="paragraph">
+<p><code>oradb_manage_db</code> creates the database with <code>dbca</code> on the primary node:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>nodelist</code> in the response file of <code>dbca</code> contains all hosts of <code>orasw_meta_cluster_hostgroup</code>.</p>
+</li>
+<li>
+<p>The instances are named <code>&lt;oracle_db_name&gt;&lt;n&gt;</code> (e.g. <code>RACCDB1</code> on the 1st node, <code>RACCDB2</code> on the 2nd node).</p>
+</li>
+<li>
+<p><code>dbca</code> registers the database in Grid Infrastructure (<code>srvctl config database</code>), the database is administrator managed.</p>
+</li>
+<li>
+<p><code>/etc/oratab</code> gets an entry <code>&lt;oracle_db_name&gt;:&lt;ORACLE_HOME&gt;:N</code> on all nodes (start and stop by Clusterware, not by <code>dbstart</code>).</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 22.2222%;"/>
+<col style="width: 22.2222%;"/>
+<col style="width: 55.5556%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute in <code>oracle_databases</code></th>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle_db_type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RAC</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RAC database on all nodes of <code>orasw_meta_cluster_hostgroup</code>. (<code>RACONENODE</code> is not tested.)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>storage_type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ASM</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The datafiles are in the disk group of <code>db_create_file_dest</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>init_parameters</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>local_listener</code> is not needed: Clusterware sets <code>local_listener</code> (VIP of the node) and <code>remote_listener</code> (SCAN).
+The assert for <code>local_listener</code> applies to Single Instance databases only.<br/>
+<code>db_create_file_dest</code>, <code>db_recovery_file_dest</code> (with <code>dbca: false</code> for <code>db_recovery_file_dest_size</code>),
+<code>processes</code>, <code>sga_target</code>, <code>pga_aggregate_target</code> and <code>control_management_pack_access</code> are mandatory as for every database.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 22.2222%;"/>
+<col style="width: 22.2222%;"/>
+<col style="width: 55.5556%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Default</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oradb_manage_db_dbca_ignore_prereq_failure</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>{{ gi_ignoreprereq }}</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code>: <code>dbca -ignorePrereqFailure</code>. <code>dbca</code> executes its prerequisite checks for RAC databases (e.g. SCAN, runlevel),
+but failures do not stop the creation of the database.
+The default follows <code>gi_ignoreprereq</code>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title"><code>group_vars/rac/db.yml</code>: database</div>
+<div class="content">
+<pre>oracle_databases:
+  - home: db26-rac-ee
+    oracle_db_name: RACCDB
+    oracle_db_type: RAC
+    storage_type: ASM
+    oracle_database_type: MULTIPURPOSE
+    redolog_size: 50M
+    redolog_groups: 2
+    listener_port: 1521
+    archivelog: false
+    flashback: false
+    force_logging: false
+    state: present
+    init_parameters:
+      - {name: max_pdbs, value: &#39;3&#39;, scope: both, state: present}
+      - {name: control_management_pack_access, value: &#39;NONE&#39;, scope: both, state: present}
+      - {name: db_create_file_dest, value: &#39;+DATA&#39;, scope: both, state: present}
+      - {name: db_recovery_file_dest_size, value: &#39;8G&#39;, scope: both, state: present, dbca: false}
+      - {name: db_recovery_file_dest, value: &#39;+FRA&#39;, scope: both, state: present}
+      - {name: pga_aggregate_target, value: &#39;256M&#39;, scope: both, state: present}
+      - {name: processes, value: &#39;320&#39;, scope: spfile, state: present}
+      - {name: sga_target, value: &#39;2560M&#39;, scope: spfile, state: present}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Sizing hints from the tests with 26ai:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>dbca</code> checks the free space of the disk group of the Fast Recovery Area before the creation
+(<code>DBT-06604</code>, about 13 GB for a new Container Database), independent from <code>db_recovery_file_dest_size</code>.</p>
+</li>
+<li>
+<p><code>sga_target: 1536M</code> was too small: <code>datapatch</code> during <code>dbca</code> failed with <code>ORA-04031</code> in the java pool and the instance hung.
+<code>2560M</code> works.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_limitations">3.11. Limitations</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Out-of-Place Patching (switch into a new <code>oracle_home_gi</code>) is supported for Oracle Restart only.
+<code>oraswgi_install</code> stops with an assert, when <code>oracle_home_gi</code> differs from the running home of Grid Infrastructure.
+The switch of a RAC database into a new <code>ORACLE_HOME</code> is not supported either.</p>
+</li>
+<li>
+<p><code>oraswgi_install_remove_obsolete_homes</code> is supported for Oracle Restart only.</p>
+</li>
+<li>
+<p>RAC databases are tested with 26ai only (2 nodes, administrator managed, Container Database without PDB).</p>
+</li>
+<li>
+<p>RAC One Node is not tested.</p>
+</li>
+<li>
+<p>Grid Infrastructure 19c is not tested.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_test_environment_molecule_scenario_rac">3.12. Test environment: molecule scenario rac</h3>
+<div class="paragraph">
+<p>The molecule scenario <code>extensions/molecule/rac</code> installs Grid Infrastructure 26ai on 2 containers with Oracle Linux 9
+and creates the RAC database <code>RACCDB</code> (26ai, instances <code>RACCDB1</code> and <code>RACCDB2</code>).
+It is a test environment, not a template for production:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>ASM disks are loop devices on sparse files (<code>device_persistence: &#39;&#39;</code>).</p>
+</li>
+<li>
+<p>SCAN with 1 IP and VIPs in <code>/etc/hosts</code> ⇒ <code>gi_ignoreprereq: true</code>.</p>
+</li>
+<li>
+<p>Container specific workarounds (<code>init.ohasd</code> with cgroup v2, <code>/run/nologin</code>, entries of Docker in <code>/etc/hosts</code>).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Inventory: <code>extensions/molecule/shared_config/inventory/group_vars/rac</code> (<code>gi.yml</code>, <code>db.yml</code>) and <code>host_vars/rac-*.yml</code>.<br/>
+<code>verify.yml</code> checks the cluster stack, SCAN, VIPs, ASM, voting files, OCR, disk groups and the open instances of the RAC databases.</p>
+</div>
 </div>
 </div>
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified September 13, 2024: <a href="https://github.com/oravirt/ansible-oracle/commit/d3743bbd7216b82b807d4824f418c9344f01d5f7">oraswgi_install: documentation changes for ansible-doctor make happy again (d3743bbd)</a>
+  Last modified November 13, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/40e0f6898a3c7cbfb80935f8ad22281031b63aff">doc: support of Grid Infrastructure 26ai, tested combinations, grid_base (40e0f689)</a>
 </div>
 
 </div>

@@ -19,32 +19,36 @@
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
 <title>Supported features in ansible-oracle | ansible-oracle Project</title>
-<meta name="description" content="Warning Please check the official Compatibility List from Oracle for RDBMS and Restart/Grid-Infrastructure.
-ansible-oracle only supports combinations from Oracle with exceptions from the following table. Important As of ansible-oracle 5.0 only Oracle 19c and 26ai are supported for RDBMS. Restart and Grid-Infrastructure are supported for 19c only.
+<meta name="description" content="Warning Please check the official Compatibility List from Oracle for RDBMS, Oracle Restart and Grid Infrastructure.
+ansible-oracle only supports combinations from Oracle with exceptions from the following table. Important As of ansible-oracle 5.0 only Oracle 19c and 26ai are supported for RDBMS. Installation and tests are done for Single Instance databases without and with Oracle Restart.
+Grid Infrastructure 26ai for a Cluster is supported (tested with a RAC database 26ai).
 Older releases (11.2, 12.1, 12.2, 18c, 21c) are rejected by the assert of db_homes_config, see Breaking Changes - Upgrade Guide.">
 <meta property="og:url" content="https://www.ansible-oracle.eu/docs/features/featurelist/">
 	<meta property="og:site_name" content="ansible-oracle Project">
 	<meta property="og:title" content="Supported features in ansible-oracle">
-	<meta property="og:description" content="Warning Please check the official Compatibility List from Oracle for RDBMS and Restart/Grid-Infrastructure.
-ansible-oracle only supports combinations from Oracle with exceptions from the following table. Important As of ansible-oracle 5.0 only Oracle 19c and 26ai are supported for RDBMS. Restart and Grid-Infrastructure are supported for 19c only.
+	<meta property="og:description" content="Warning Please check the official Compatibility List from Oracle for RDBMS, Oracle Restart and Grid Infrastructure.
+ansible-oracle only supports combinations from Oracle with exceptions from the following table. Important As of ansible-oracle 5.0 only Oracle 19c and 26ai are supported for RDBMS. Installation and tests are done for Single Instance databases without and with Oracle Restart.
+Grid Infrastructure 26ai for a Cluster is supported (tested with a RAC database 26ai).
 Older releases (11.2, 12.1, 12.2, 18c, 21c) are rejected by the assert of db_homes_config, see Breaking Changes - Upgrade Guide.">
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-12T07:06:15+01:00">
-		<meta property="article:modified_time" content="2026-11-12T07:06:15+01:00">
+		<meta property="article:published_time" content="2026-11-13T07:06:55+01:00">
+		<meta property="article:modified_time" content="2026-11-13T07:06:55+01:00">
 
 	<meta itemprop="name" content="Supported features in ansible-oracle">
-	<meta itemprop="description" content="Warning Please check the official Compatibility List from Oracle for RDBMS and Restart/Grid-Infrastructure.
-ansible-oracle only supports combinations from Oracle with exceptions from the following table. Important As of ansible-oracle 5.0 only Oracle 19c and 26ai are supported for RDBMS. Restart and Grid-Infrastructure are supported for 19c only.
+	<meta itemprop="description" content="Warning Please check the official Compatibility List from Oracle for RDBMS, Oracle Restart and Grid Infrastructure.
+ansible-oracle only supports combinations from Oracle with exceptions from the following table. Important As of ansible-oracle 5.0 only Oracle 19c and 26ai are supported for RDBMS. Installation and tests are done for Single Instance databases without and with Oracle Restart.
+Grid Infrastructure 26ai for a Cluster is supported (tested with a RAC database 26ai).
 Older releases (11.2, 12.1, 12.2, 18c, 21c) are rejected by the assert of db_homes_config, see Breaking Changes - Upgrade Guide.">
-	<meta itemprop="datePublished" content="2026-11-12T07:06:15+01:00">
-	<meta itemprop="dateModified" content="2026-11-12T07:06:15+01:00">
-	<meta itemprop="wordCount" content="680">
+	<meta itemprop="datePublished" content="2026-11-13T07:06:55+01:00">
+	<meta itemprop="dateModified" content="2026-11-13T07:06:55+01:00">
+	<meta itemprop="wordCount" content="935">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Supported features in ansible-oracle">
-	<meta name="twitter:description" content="Warning Please check the official Compatibility List from Oracle for RDBMS and Restart/Grid-Infrastructure.
-ansible-oracle only supports combinations from Oracle with exceptions from the following table. Important As of ansible-oracle 5.0 only Oracle 19c and 26ai are supported for RDBMS. Restart and Grid-Infrastructure are supported for 19c only.
+	<meta name="twitter:description" content="Warning Please check the official Compatibility List from Oracle for RDBMS, Oracle Restart and Grid Infrastructure.
+ansible-oracle only supports combinations from Oracle with exceptions from the following table. Important As of ansible-oracle 5.0 only Oracle 19c and 26ai are supported for RDBMS. Installation and tests are done for Single Instance databases without and with Oracle Restart.
+Grid Infrastructure 26ai for a Cluster is supported (tested with a RAC database 26ai).
 Older releases (11.2, 12.1, 12.2, 18c, 21c) are rejected by the assert of db_homes_config, see Breaking Changes - Upgrade Guide.">
 <link href="/scss/main.css" rel="stylesheet">
 <script
@@ -105,63 +109,50 @@ Older releases (11.2, 12.1, 12.2, 18c, 21c) are rejected by the assert of db_hom
     <ul class="ul-2 foldable">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsfeaturesfeaturelist-li">
     <a href="/docs/features/featurelist/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsfeaturesfeaturelist"><span class="td-sidebar-nav-active-item">Supported features in ansible-oracle</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsfeaturesbreaking_changes-li">
-    <a href="/docs/features/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsfeaturesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
   </li>
     </ul>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguides-li">
     <a href="/docs/guides/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsguides"><span class="">Guides</span></a>
     <ul class="ul-2 foldable">
-      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguidespatching-li">
-    <a href="/docs/guides/patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsguidespatching"><span class="">Patching</span></a>
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguidesvagrant-li">
+    <a href="/docs/guides/vagrant/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsguidesvagrant"><span class="">Vagrant</span></a>
     <ul class="ul-3 foldable">
-      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidespatchinginstall-and-patch-settings-li">
-    <a href="/docs/guides/patching/install-and-patch-settings/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidespatchinginstall-and-patch-settings"><span class="">Installation &amp; Patching Settings for the Inventory</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidespatchingautoupgrade-li">
-    <a href="/docs/guides/patching/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidespatchingautoupgrade"><span class="">Oracle AutoUpgrade</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidespatchingautoupgrade_upgrade-li">
-    <a href="/docs/guides/patching/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidespatchingautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidespatchingout_of_place_patching-li">
-    <a href="/docs/guides/patching/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidespatchingout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesvagrantwindows-li">
+    <a href="/docs/guides/vagrant/windows/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesvagrantwindows"><span class="">Vagrant on Windows</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesvagrantvagrant_basics-li">
+    <a href="/docs/guides/vagrant/vagrant_basics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesvagrantvagrant_basics"><span class="">Vagrant Basics</span></a>
   </li>
     </ul>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguidesrman-standby-li">
-    <a href="/docs/guides/rman-standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsguidesrman-standby"><span class="">RMAN and Standby Databases</span></a>
-    <ul class="ul-3 foldable">
-      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-standbyrman-li">
-    <a href="/docs/guides/rman-standby/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman-standbyrman"><span class="">RMAN Backups with oradb_rman</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-standbystandby_databases-li">
-    <a href="/docs/guides/rman-standby/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman-standbystandby_databases"><span class="">Standby Databases</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-standbydataguard-li">
-    <a href="/docs/guides/rman-standby/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman-standbydataguard"><span class="">Data Guard Guide</span></a>
-  </li>
-    </ul>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
-    <a href="/docs/guides/restart_rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="">Setup ASM for Oracle Grid Infrastructure / Restart</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesahf-li">
-    <a href="/docs/guides/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesahf"><span class="">Oracle Autonomous Health Framework (AHF)</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbeginner-li">
+    <a href="/docs/guides/beginner/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbeginner"><span class="">Beginners Guide</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesadvanced-li">
+    <a href="/docs/guides/advanced/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesadvanced"><span class="">Advanced Guide</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesansible-container-li">
+    <a href="/docs/guides/ansible-container/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesansible-container"><span class="">Ansible as a Docker Container</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguideslocal-install-howto-li">
+    <a href="/docs/guides/local-install-howto/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguideslocal-install-howto"><span class="">HOWTO: Local Installation of Ansible-Oracle</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesinstall-and-patch-settings-li">
+    <a href="/docs/guides/install-and-patch-settings/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesinstall-and-patch-settings"><span class="">Installation &amp; Patching Settings for the Inventory</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesapex_ords-li">
     <a href="/docs/guides/apex_ords/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesapex_ords"><span class="">Setup APEX and ORDS</span></a>
-  </li>
-    </ul>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsexamples-li">
-    <a href="/docs/examples/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsexamples"><span class="">Examples</span></a>
-    <ul class="ul-2 foldable">
-      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsexamplesbeginner-li">
-    <a href="/docs/examples/beginner/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsexamplesbeginner"><span class="">Beginners Guide</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsexamplesbeginner_patching-li">
-    <a href="/docs/examples/beginner_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsexamplesbeginner_patching"><span class="">Beginner with Patching</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsexamplesdataguard-li">
-    <a href="/docs/examples/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsexamplesdataguard"><span class="">Data Guard</span></a>
-  </li>
-    </ul>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsdevelopment-li">
-    <a href="/docs/development/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsdevelopment"><span class="">Development</span></a>
-    <ul class="ul-2 foldable">
-      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsdevelopmentdevelopment-li">
-    <a href="/docs/development/development/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsdevelopmentdevelopment"><span class="">How to develop</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsdevelopmentwebsite-li">
-    <a href="/docs/development/website/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsdevelopmentwebsite"><span class="">Website</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesautoupgrade-li">
+    <a href="/docs/guides/autoupgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade"><span class="">Oracle AutoUpgrade</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesautoupgrade_upgrade-li">
+    <a href="/docs/guides/autoupgrade_upgrade/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesautoupgrade_upgrade"><span class="">Upgrade of PDBs with AutoUpgrade (Unplug/Plug)</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesahf-li">
+    <a href="/docs/guides/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesahf"><span class="">Oracle Autonomous Health Framework (AHF)</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
+    <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
+    <a href="/docs/guides/restart_rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="">Setup of Oracle Restart and Grid Infrastructure</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
+    <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
+    <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_databases-li">
+    <a href="/docs/guides/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="">Standby Databases</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
+    <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li>
     </ul>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsroles-li">
@@ -169,6 +160,14 @@ Older releases (11.2, 12.1, 12.2, 18c, 21c) are rejected by the assert of db_hom
     <ul class="ul-2 foldable">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
     <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
+    <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+    <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+    <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+    <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf-li">
     <a href="/docs/roles/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf"><span class="">ahf</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf_fleet_insights-li">
@@ -177,20 +176,12 @@ Older releases (11.2, 12.1, 12.2, 18c, 21c) are rejected by the assert of db_hom
     <a href="/docs/roles/orasw_meta_internal/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta_internal"><span class="">orasw_meta_internal</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswdb_install-li">
     <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
-    <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
     <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
     <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
     <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
-    <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
-    <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
-    <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolespyoracledb-li">
     <a href="/docs/roles/pyoracledb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolespyoracledb"><span class="">pyoracledb</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost-li">
@@ -257,28 +248,13 @@ Older releases (11.2, 12.1, 12.2, 18c, 21c) are rejected by the assert of db_hom
     <a href="/docs/roles/oraswgi_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_meta"><span class="">oraswgi_meta</span></a>
   </li>
     </ul>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docslegacy-li">
-    <a href="/docs/legacy/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docslegacy"><span class="">Legacy</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsdevelopment-li">
+    <a href="/docs/development/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsdevelopment"><span class="">Development</span></a>
     <ul class="ul-2 foldable">
-      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docslegacyvagrant-li">
-    <a href="/docs/legacy/vagrant/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docslegacyvagrant"><span class="">Vagrant</span></a>
-    <ul class="ul-3 foldable">
-      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslegacyvagrantwindows-li">
-    <a href="/docs/legacy/vagrant/windows/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docslegacyvagrantwindows"><span class="">Vagrant on Windows</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslegacyvagrantvagrant_basics-li">
-    <a href="/docs/legacy/vagrant/vagrant_basics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docslegacyvagrantvagrant_basics"><span class="">Vagrant Basics</span></a>
-  </li>
-    </ul>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslegacyexample-beginner-li">
-    <a href="/docs/legacy/example-beginner/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docslegacyexample-beginner"><span class="">Beginner Example</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslegacyadvanced-li">
-    <a href="/docs/legacy/advanced/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docslegacyadvanced"><span class="">Advanced Guide</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslegacyansible-container-li">
-    <a href="/docs/legacy/ansible-container/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docslegacyansible-container"><span class="">Ansible as a Docker Container</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslegacyexample-rac-li">
-    <a href="/docs/legacy/example-rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docslegacyexample-rac"><span class="">RAC Example</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docslegacylocal-install-howto-li">
-    <a href="/docs/legacy/local-install-howto/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docslegacylocal-install-howto"><span class="">HOWTO: Local Installation of Ansible-Oracle</span></a>
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsdevelopmentdevelopment-li">
+    <a href="/docs/development/development/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsdevelopmentdevelopment"><span class="">How to develop</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsdevelopmentwebsite-li">
+    <a href="/docs/development/website/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsdevelopmentwebsite"><span class="">Website</span></a>
   </li>
     </ul>
   </li>
@@ -330,7 +306,7 @@ Older releases (11.2, 12.1, 12.2, 18c, 21c) are rejected by the assert of db_hom
 <div class="title">Warning</div>
 </td>
 <td class="content">
-Please check the official Compatibility List from Oracle for RDBMS and Restart/Grid-Infrastructure.<br/>
+Please check the official Compatibility List from Oracle for RDBMS, Oracle Restart and Grid Infrastructure.<br/>
 <code>ansible-oracle</code> only supports combinations from Oracle with exceptions from the following table.
 </td>
 </tr>
@@ -344,9 +320,26 @@ Please check the official Compatibility List from Oracle for RDBMS and Restart/G
 </td>
 <td class="content">
 As of <code>ansible-oracle</code> 5.0 only Oracle 19c and 26ai are supported for RDBMS.
-Restart and Grid-Infrastructure are supported for 19c only.<br/>
+Installation and tests are done for Single Instance databases without and with Oracle Restart.<br/>
+Grid Infrastructure 26ai for a Cluster is supported (tested with a RAC database 26ai).<br/>
 Older releases (11.2, 12.1, 12.2, 18c, 21c) are rejected by the assert of <code>db_homes_config</code>,
-see <a href="/docs/features/breaking_changes/">Breaking Changes - Upgrade Guide</a>.
+see <a href="/docs/guides/breaking_changes/">Breaking Changes - Upgrade Guide</a>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The number of combinations of options is huge (operating system, Oracle release, Edition,
+Single Instance / Oracle Restart / Grid Infrastructure, device persistence for ASM, file system or ASM, …​).
+Only a few combinations are tested by the molecule scenarios of <code>ansible-oracle</code>.<br/>
+All other combinations should work, as long as they are not explicitly excluded in this list
+and are supported by Oracle. <em>Not tested</em> means: not covered by an automated test, it does not mean <em>does not work</em>.
 </td>
 </tr>
 </tbody></table>
@@ -360,6 +353,22 @@ see <a href="/docs/features/breaking_changes/">Breaking Changes - Upgrade Guide<
 <td class="content">
 All Editions from Oracle are supported.
 See documentation from Oracle for differences between Enterprise and Standard Edition (SE, SE One and SE2)
+</td>
+</tr>
+</tbody></table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Terms used in this document:<br/>
+<strong>Oracle Restart</strong>: Grid Infrastructure for a Standalone Server (<code>oracle_install_option_gi: HA_CONFIG</code>), Single Instance databases with ASM on one host.<br/>
+<strong>Grid Infrastructure</strong>: Grid Infrastructure for a Cluster (<code>oracle_install_option_gi: CRS_CONFIG</code>).<br/>
+<strong>RAC</strong> (Real Application Clusters) and <strong>RAC One Node</strong> need Grid Infrastructure.<br/>
+Both Oracle Restart and Grid Infrastructure use the software of Grid Infrastructure (<code>oracle_home_gi</code>).
 </td>
 </tr>
 </tbody></table>
@@ -415,12 +424,13 @@ Redhat Enterprise Linux</p></td>
 26ai</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Grid-Infrastructure</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">19c</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Grid Infrastructure (cluster)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">26ai <a href="#table1footnote"><sup>[16]</sup></a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Restart</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">19c</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19c<br/>
+26ai</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">python-oracledb</p></td>
@@ -477,7 +487,7 @@ Redhat Enterprise Linux</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Golden Image for RDBMS, Restart &amp; GI</p>
+<p>Golden Image for RDBMS and Grid Infrastructure software (Oracle Restart)</p>
 </div>
 <div class="ulist">
 <ul>
@@ -497,7 +507,7 @@ Redhat Enterprise Linux</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Data Guard: physical standby databases with Data Guard Broker
-(<a href="/docs/guides/rman-standby/standby_databases/">Standby Databases</a>, experimental! <a href="#table1footnote"><sup>[2]</sup></a>) <a href="#table1footnote"><sup>[13]</sup></a></p></td>
+(<a href="/docs/guides/standby_databases/">Standby Databases</a>, experimental! <a href="#table1footnote"><sup>[2]</sup></a>) <a href="#table1footnote"><sup>[13]</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">19c<br/>
 26ai</p></td>
 </tr>
@@ -566,7 +576,7 @@ Redhat Enterprise Linux</p></td>
 26ai</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top" rowspan="5"><p class="tableblock">Database Patching</p></td>
+<td class="tableblock halign-left valign-top" rowspan="6"><p class="tableblock">Database Patching</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Release Updates<a href="#table1footnote"><sup>[11]</sup></a></p></td>
 <td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">19c<br/>
 26ai</p></td>
@@ -593,9 +603,13 @@ Redhat Enterprise Linux</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Patch Download from Oracle</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/docs/guides/patching/out_of_place_patching/">Out-of-Place Patching</a>: switch of a database into another <code>ORACLE_HOME</code> <a href="#table1footnote"><sup>[14]</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/docs/guides/out_of_place_patching/">Out-of-Place Patching</a>: switch of a database into another <code>ORACLE_HOME</code> <a href="#table1footnote"><sup>[14]</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">19c<br/>
 26ai</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/docs/guides/out_of_place_patching/#oracle_restart_switch_gi_home">Out-of-Place Patching of Oracle Restart</a>: switch of the Grid Infrastructure home <a href="#table1footnote"><sup>[15]</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">26ai</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Oracle APEX (experimental!)</p></td>
@@ -608,7 +622,7 @@ Redhat Enterprise Linux</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Oracle AutoUpgrade (experimental! <a href="#table1footnote"><sup>[2]</sup></a>)</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a href="/docs/guides/patching/autoupgrade/">AutoUpgrade</a> with role <code>autoupgrade</code></p>
+<p><a href="/docs/guides/autoupgrade/">AutoUpgrade</a> with role <code>autoupgrade</code></p>
 </div>
 <div class="ulist">
 <ul>
@@ -622,7 +636,7 @@ Redhat Enterprise Linux</p></td>
 <p>Download of patches and gold images from My Oracle Support</p>
 </li>
 <li>
-<p><a href="/docs/guides/patching/autoupgrade_upgrade/">Unplug/Plug upgrade of PDBs</a> (analyze, fixups, deploy) <a href="#table1footnote"><sup>[12]</sup></a></p>
+<p><a href="/docs/guides/autoupgrade_upgrade/">Unplug/Plug upgrade of PDBs</a> (analyze, fixups, deploy) <a href="#table1footnote"><sup>[12]</sup></a></p>
 </li>
 <li>
 <p>Patching with AutoUpgrade is not implemented</p>
@@ -703,7 +717,7 @@ Please do not use this feature in production environments.</p>
 <a id="table1footnote"></a><sup>3</sup>
 </td>
 <td class="hdlist2">
-<p>Limited support. Not tested for Oracle Restart &amp; Grid-Infrastructure</p>
+<p>Limited support. Not tested for Oracle Restart and Grid Infrastructure.</p>
 </td>
 </tr>
 <tr>
@@ -768,7 +782,8 @@ Please do not use this feature in production environments.</p>
 <a id="table1footnote"></a><sup>11</sup>
 </td>
 <td class="hdlist2">
-<p>Supported for Single-Instance, Oracle Restart and Oracle Grid-Infrastructure.</p>
+<p>Supported for Single Instance databases without and with Oracle Restart.
+Not tested with Grid Infrastructure (cluster).</p>
 </td>
 </tr>
 <tr>
@@ -777,7 +792,7 @@ Please do not use this feature in production environments.</p>
 </td>
 <td class="hdlist2">
 <p>Source CDB (old release) and target CDB (new release) must run on the same host.
-See <a href="/docs/guides/patching/autoupgrade_upgrade/">Upgrade of PDBs with AutoUpgrade</a>.</p>
+See <a href="/docs/guides/autoupgrade_upgrade/">Upgrade of PDBs with AutoUpgrade</a>.</p>
 </td>
 </tr>
 <tr>
@@ -785,8 +800,8 @@ See <a href="/docs/guides/patching/autoupgrade_upgrade/">Upgrade of PDBs with Au
 <a id="table1footnote"></a><sup>13</sup>
 </td>
 <td class="hdlist2">
-<p>Single Instance databases without Grid Infrastructure / Oracle Restart only.
-Not supported for Oracle Restart, RAC and RAC One Node.</p>
+<p>Single Instance databases without Oracle Restart and without Grid Infrastructure only.
+Not supported for Oracle Restart, Grid Infrastructure (cluster), RAC and RAC One Node.</p>
 </td>
 </tr>
 <tr>
@@ -794,15 +809,34 @@ Not supported for Oracle Restart, RAC and RAC One Node.</p>
 <a id="table1footnote"></a><sup>14</sup>
 </td>
 <td class="hdlist2">
-<p>Single Instance primary databases without Grid Infrastructure and with Oracle Restart.
-Not supported for RAC and RAC One Node.</p>
+<p>Single Instance primary databases without and with Oracle Restart.
+Not supported for Grid Infrastructure (cluster), RAC and RAC One Node.</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<a id="table1footnote"></a><sup>15</sup>
+</td>
+<td class="hdlist2">
+<p>Oracle Restart only (<code>gridSetup.sh -switchGridHome</code>), inside the same release (e.g. 23.26.3 ⇒ 23.26.4).
+Not supported for 19c Oracle Restart and for Grid Infrastructure (cluster).</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<a id="table1footnote"></a><sup>16</sup>
+</td>
+<td class="hdlist2">
+<p>Tested with Grid Infrastructure 26ai on 2 nodes and a RAC database 26ai (molecule scenario <code>rac</code>),
+see <a href="/docs/guides/restart_rac/">Oracle Restart and Grid Infrastructure</a>.
+Grid Infrastructure 19c, RAC databases 19c and RAC One Node are not tested.</p>
 </td>
 </tr>
 </tbody></table>
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 12, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/768c10171be199e8f65ddd31acf5ae55287b7c07">ahf, ahf_fleet_insights: new roles for Oracle Autonomous Health Framework (experimental) (768c1017)</a>
+  Last modified November 13, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/40e0f6898a3c7cbfb80935f8ad22281031b63aff">doc: support of Grid Infrastructure 26ai, tested combinations, grid_base (40e0f689)</a>
 </div>
 
 </div>
