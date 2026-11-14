@@ -20,31 +20,31 @@
 
 <title>orahost_meta | ansible-oracle Project</title>
 <meta name="description" content="Meta role used by other roles to share variable defaults.
-Table of contents Requirements Default Variables asm_diskgroups asmadmin_group asmdba_group asmoper_group configure_host_disks dba_group device_persistence grid_user grid_user_home oper_group oracle_group oracle_inventory_loc oracle_nr_bg_processes oracle_rsp_stage oracle_script_env oracle_seclimits oracle_stage oracle_tmp_stage oracle_user oracle_user_home orahost_meta_cv_assume_distid orahost_meta_java_env orahost_meta_java_options orahost_meta_tmpdir orahost_min_swap_mb orahost_ssh_hostkeytypes orahost_ssh_key_size orahost_ssh_key_type orasw_meta_primary_node role_separation scripts_folder sysctl_kernel_sem_force Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables asm_diskgroups ASM Diskgroupdefinition for Oracle Restart/Grid-Infrastructure
+Table of contents Requirements Default Variables asm_diskgroups asmadmin_group asmdba_group asmoper_group configure_host_disks dba_group device_persistence grid_user grid_user_home oper_group oracle_group oracle_inventory_loc oracle_nr_bg_processes oracle_rsp_stage oracle_script_env oracle_seclimits oracle_stage oracle_tmp_stage oracle_user oracle_user_home orahost_meta_cv_assume_distid orahost_meta_java_env orahost_meta_java_options orahost_meta_tmp_stage_os_managed orahost_meta_tmpdir orahost_min_swap_mb orahost_ssh_hostkeytypes orahost_ssh_key_size orahost_ssh_key_type orasw_meta_primary_node role_separation scripts_folder sysctl_kernel_sem_force Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables asm_diskgroups ASM Diskgroupdefinition for Oracle Restart/Grid-Infrastructure
 Failure groups (optional) per disk in disk:">
 <meta property="og:url" content="https://www.ansible-oracle.eu/docs/roles/orahost_meta/">
 	<meta property="og:site_name" content="ansible-oracle Project">
 	<meta property="og:title" content="orahost_meta">
 	<meta property="og:description" content="Meta role used by other roles to share variable defaults.
-Table of contents Requirements Default Variables asm_diskgroups asmadmin_group asmdba_group asmoper_group configure_host_disks dba_group device_persistence grid_user grid_user_home oper_group oracle_group oracle_inventory_loc oracle_nr_bg_processes oracle_rsp_stage oracle_script_env oracle_seclimits oracle_stage oracle_tmp_stage oracle_user oracle_user_home orahost_meta_cv_assume_distid orahost_meta_java_env orahost_meta_java_options orahost_meta_tmpdir orahost_min_swap_mb orahost_ssh_hostkeytypes orahost_ssh_key_size orahost_ssh_key_type orasw_meta_primary_node role_separation scripts_folder sysctl_kernel_sem_force Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables asm_diskgroups ASM Diskgroupdefinition for Oracle Restart/Grid-Infrastructure
+Table of contents Requirements Default Variables asm_diskgroups asmadmin_group asmdba_group asmoper_group configure_host_disks dba_group device_persistence grid_user grid_user_home oper_group oracle_group oracle_inventory_loc oracle_nr_bg_processes oracle_rsp_stage oracle_script_env oracle_seclimits oracle_stage oracle_tmp_stage oracle_user oracle_user_home orahost_meta_cv_assume_distid orahost_meta_java_env orahost_meta_java_options orahost_meta_tmp_stage_os_managed orahost_meta_tmpdir orahost_min_swap_mb orahost_ssh_hostkeytypes orahost_ssh_key_size orahost_ssh_key_type orasw_meta_primary_node role_separation scripts_folder sysctl_kernel_sem_force Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables asm_diskgroups ASM Diskgroupdefinition for Oracle Restart/Grid-Infrastructure
 Failure groups (optional) per disk in disk:">
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-13T21:42:43+01:00">
-		<meta property="article:modified_time" content="2026-11-13T21:42:43+01:00">
+		<meta property="article:published_time" content="2026-11-14T14:42:54+01:00">
+		<meta property="article:modified_time" content="2026-11-14T14:42:54+01:00">
 
 	<meta itemprop="name" content="orahost_meta">
 	<meta itemprop="description" content="Meta role used by other roles to share variable defaults.
-Table of contents Requirements Default Variables asm_diskgroups asmadmin_group asmdba_group asmoper_group configure_host_disks dba_group device_persistence grid_user grid_user_home oper_group oracle_group oracle_inventory_loc oracle_nr_bg_processes oracle_rsp_stage oracle_script_env oracle_seclimits oracle_stage oracle_tmp_stage oracle_user oracle_user_home orahost_meta_cv_assume_distid orahost_meta_java_env orahost_meta_java_options orahost_meta_tmpdir orahost_min_swap_mb orahost_ssh_hostkeytypes orahost_ssh_key_size orahost_ssh_key_type orasw_meta_primary_node role_separation scripts_folder sysctl_kernel_sem_force Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables asm_diskgroups ASM Diskgroupdefinition for Oracle Restart/Grid-Infrastructure
+Table of contents Requirements Default Variables asm_diskgroups asmadmin_group asmdba_group asmoper_group configure_host_disks dba_group device_persistence grid_user grid_user_home oper_group oracle_group oracle_inventory_loc oracle_nr_bg_processes oracle_rsp_stage oracle_script_env oracle_seclimits oracle_stage oracle_tmp_stage oracle_user oracle_user_home orahost_meta_cv_assume_distid orahost_meta_java_env orahost_meta_java_options orahost_meta_tmp_stage_os_managed orahost_meta_tmpdir orahost_min_swap_mb orahost_ssh_hostkeytypes orahost_ssh_key_size orahost_ssh_key_type orasw_meta_primary_node role_separation scripts_folder sysctl_kernel_sem_force Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables asm_diskgroups ASM Diskgroupdefinition for Oracle Restart/Grid-Infrastructure
 Failure groups (optional) per disk in disk:">
-	<meta itemprop="datePublished" content="2026-11-13T21:42:43+01:00">
-	<meta itemprop="dateModified" content="2026-11-13T21:42:43+01:00">
-	<meta itemprop="wordCount" content="1190">
+	<meta itemprop="datePublished" content="2026-11-14T14:42:54+01:00">
+	<meta itemprop="dateModified" content="2026-11-14T14:42:54+01:00">
+	<meta itemprop="wordCount" content="1264">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="orahost_meta">
 	<meta name="twitter:description" content="Meta role used by other roles to share variable defaults.
-Table of contents Requirements Default Variables asm_diskgroups asmadmin_group asmdba_group asmoper_group configure_host_disks dba_group device_persistence grid_user grid_user_home oper_group oracle_group oracle_inventory_loc oracle_nr_bg_processes oracle_rsp_stage oracle_script_env oracle_seclimits oracle_stage oracle_tmp_stage oracle_user oracle_user_home orahost_meta_cv_assume_distid orahost_meta_java_env orahost_meta_java_options orahost_meta_tmpdir orahost_min_swap_mb orahost_ssh_hostkeytypes orahost_ssh_key_size orahost_ssh_key_type orasw_meta_primary_node role_separation scripts_folder sysctl_kernel_sem_force Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables asm_diskgroups ASM Diskgroupdefinition for Oracle Restart/Grid-Infrastructure
+Table of contents Requirements Default Variables asm_diskgroups asmadmin_group asmdba_group asmoper_group configure_host_disks dba_group device_persistence grid_user grid_user_home oper_group oracle_group oracle_inventory_loc oracle_nr_bg_processes oracle_rsp_stage oracle_script_env oracle_seclimits oracle_stage oracle_tmp_stage oracle_user oracle_user_home orahost_meta_cv_assume_distid orahost_meta_java_env orahost_meta_java_options orahost_meta_tmp_stage_os_managed orahost_meta_tmpdir orahost_min_swap_mb orahost_ssh_hostkeytypes orahost_ssh_key_size orahost_ssh_key_type orasw_meta_primary_node role_separation scripts_folder sysctl_kernel_sem_force Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables asm_diskgroups ASM Diskgroupdefinition for Oracle Restart/Grid-Infrastructure
 Failure groups (optional) per disk in disk:">
 <link href="/scss/main.css" rel="stylesheet">
 <script
@@ -156,14 +156,14 @@ Failure groups (optional) per disk in disk:">
     <ul class="ul-2 foldable">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
     <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesorahost_meta-li">
+    <a href="/docs/roles/orahost_meta/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="td-sidebar-nav-active-item">orahost_meta</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf-li">
     <a href="/docs/roles/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf"><span class="">ahf</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
     <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_redo-li">
     <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="">oradb_manage_redo</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesorahost_meta-li">
-    <a href="/docs/roles/orahost_meta/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="td-sidebar-nav-active-item">orahost_meta</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
     <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
@@ -399,49 +399,54 @@ Failure groups (optional) per disk in disk:">
             <li><a href="#default-value-22">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#orahost_meta_tmpdir">orahost_meta_tmpdir</a>
+        <li><a href="#orahost_meta_tmp_stage_os_managed">orahost_meta_tmp_stage_os_managed</a>
           <ul>
             <li><a href="#default-value-23">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#orahost_min_swap_mb">orahost_min_swap_mb</a>
+        <li><a href="#orahost_meta_tmpdir">orahost_meta_tmpdir</a>
           <ul>
             <li><a href="#default-value-24">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#orahost_ssh_hostkeytypes">orahost_ssh_hostkeytypes</a>
+        <li><a href="#orahost_min_swap_mb">orahost_min_swap_mb</a>
           <ul>
             <li><a href="#default-value-25">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#orahost_ssh_key_size">orahost_ssh_key_size</a>
+        <li><a href="#orahost_ssh_hostkeytypes">orahost_ssh_hostkeytypes</a>
           <ul>
             <li><a href="#default-value-26">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#orahost_ssh_key_type">orahost_ssh_key_type</a>
+        <li><a href="#orahost_ssh_key_size">orahost_ssh_key_size</a>
           <ul>
             <li><a href="#default-value-27">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#orasw_meta_primary_node">orasw_meta_primary_node</a>
+        <li><a href="#orahost_ssh_key_type">orahost_ssh_key_type</a>
           <ul>
             <li><a href="#default-value-28">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#role_separation">role_separation</a>
+        <li><a href="#orasw_meta_primary_node">orasw_meta_primary_node</a>
           <ul>
             <li><a href="#default-value-29">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#scripts_folder">scripts_folder</a>
+        <li><a href="#role_separation">role_separation</a>
           <ul>
             <li><a href="#default-value-30">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#sysctl_kernel_sem_force">sysctl_kernel_sem_force</a>
+        <li><a href="#scripts_folder">scripts_folder</a>
           <ul>
             <li><a href="#default-value-31">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#sysctl_kernel_sem_force">sysctl_kernel_sem_force</a>
+          <ul>
+            <li><a href="#default-value-32">Default value</a></li>
           </ul>
         </li>
       </ul>
@@ -504,6 +509,7 @@ Failure groups (optional) per disk in disk:">
 <li><a href="#orahost_meta_cv_assume_distid">orahost_meta_cv_assume_distid</a></li>
 <li><a href="#orahost_meta_java_env">orahost_meta_java_env</a></li>
 <li><a href="#orahost_meta_java_options">orahost_meta_java_options</a></li>
+<li><a href="#orahost_meta_tmp_stage_os_managed">orahost_meta_tmp_stage_os_managed</a></li>
 <li><a href="#orahost_meta_tmpdir">orahost_meta_tmpdir</a></li>
 <li><a href="#orahost_min_swap_mb">orahost_min_swap_mb</a></li>
 <li><a href="#orahost_ssh_hostkeytypes">orahost_ssh_hostkeytypes</a></li>
@@ -697,6 +703,8 @@ Usually passed to shell: or command: through &ldquo;environment:&rdquo; keyword<
 <p>Defines the temporary directory to be used by Oracle scripts.
 (on hardened systems, /tmp usually is noexec-flagged and thus not usable to execute scripts)</p>
 <p>There is usually no need to change this variable.</p>
+<p>Owner and permissions of <code>/tmp</code> and <code>/var/tmp</code> are defined by the operating system. They are never
+changed by the roles, see <code>orahost_meta_tmp_stage_os_managed</code>.</p>
 <h4 id="default-value-17">Default value</h4>
 <pre><code class="language-YAML">oracle_tmp_stage: &gt;-
   {% if ansible_fips | default(false) %}{{ oracle_stage }}{%- endif %}/tmp
@@ -756,8 +764,16 @@ to shell: or command: through &ldquo;environment:&rdquo; keyword</p>
   -Djava.io.tmpdir={{ oracle_tmp_stage -}}
   {% endif %}
 </code></pre>
-<h3 id="orahost_meta_tmpdir">orahost_meta_tmpdir</h3>
+<h3 id="orahost_meta_tmp_stage_os_managed">orahost_meta_tmp_stage_os_managed</h3>
+<p><code>true</code>, when <code>oracle_tmp_stage</code> is <code>/tmp</code> or <code>/var/tmp</code>.
+Owner and permissions of these directories are defined by the operating system (root:root, sticky bit).
+The roles do not change them.</p>
+<p>There is no need to change this variable.</p>
 <h4 id="default-value-23">Default value</h4>
+<pre><code class="language-YAML">orahost_meta_tmp_stage_os_managed: &quot;{{ (oracle_tmp_stage | trim | regex_replace('/+$', '')) in ['/tmp', '/var/tmp'] }}&quot;
+</code></pre>
+<h3 id="orahost_meta_tmpdir">orahost_meta_tmpdir</h3>
+<h4 id="default-value-24">Default value</h4>
 <pre><code class="language-YAML">orahost_meta_tmpdir: &gt;-
   {% if ansible_fips | default(false) %}{{ oracle_stage }}{%- endif %}/tmp
 </code></pre>
@@ -766,13 +782,13 @@ to shell: or command: through &ldquo;environment:&rdquo; keyword</p>
 Note: We observed ansible_memory_mb.swap.total is 1MB less than configured
 swap (e.g. 16383 instead of 16384 for 16GB)</p>
 <p><strong><em>Type:</em></strong> integer<br /></p>
-<h4 id="default-value-24">Default value</h4>
+<h4 id="default-value-25">Default value</h4>
 <pre><code class="language-YAML">orahost_min_swap_mb: 16383
 </code></pre>
 <h3 id="orahost_ssh_hostkeytypes">orahost_ssh_hostkeytypes</h3>
 <p>SSH host key types to collect/deploy among hosts
 Please note, ed25519 is not supported on FIPS enabled systems and though better not collected</p>
-<h4 id="default-value-25">Default value</h4>
+<h4 id="default-value-26">Default value</h4>
 <pre><code class="language-YAML">orahost_ssh_hostkeytypes:
   - dsa
   - rsa
@@ -780,12 +796,12 @@ Please note, ed25519 is not supported on FIPS enabled systems and though better 
 </code></pre>
 <h3 id="orahost_ssh_key_size">orahost_ssh_key_size</h3>
 <p>SSH key size of {{ orahost_ssh_key_type }} key</p>
-<h4 id="default-value-26">Default value</h4>
+<h4 id="default-value-27">Default value</h4>
 <pre><code class="language-YAML">orahost_ssh_key_size: 4096
 </code></pre>
 <h3 id="orahost_ssh_key_type">orahost_ssh_key_type</h3>
 <p>SSH key type for oracle and grid users&rsquo; SSH Keys</p>
-<h4 id="default-value-27">Default value</h4>
+<h4 id="default-value-28">Default value</h4>
 <pre><code class="language-YAML">orahost_ssh_key_type: rsa
 </code></pre>
 <h3 id="orasw_meta_primary_node">orasw_meta_primary_node</h3>
@@ -794,7 +810,7 @@ Single-Instance / Oracle Restart: true
 Cluster 1st node: true
 Cluster other nodes: false</p>
 <p><strong><em>Type:</em></strong> boolean<br /></p>
-<h4 id="default-value-28">Default value</h4>
+<h4 id="default-value-29">Default value</h4>
 <pre><code class="language-YAML">orasw_meta_primary_node: &gt;
   {%- if oracle_install_option_gi | default('') | upper != 'CRS_CONFIG' -%}
     {%- set _orasw_meta_primary_node = true -%}
@@ -808,18 +824,18 @@ Cluster other nodes: false</p>
 <h3 id="role_separation">role_separation</h3>
 <p>Should role separation be used for Oracle Restart/Grid-Infrastructure.
 See <code>grid_user</code> and <code>oracle_user</code> for Grid-Infrastructure user.</p>
-<h4 id="default-value-29">Default value</h4>
+<h4 id="default-value-30">Default value</h4>
 <pre><code class="language-YAML">role_separation: false
 </code></pre>
 <h3 id="scripts_folder">scripts_folder</h3>
 <p>Folder under Oracle user home dir to place scripts in</p>
-<h4 id="default-value-30">Default value</h4>
+<h4 id="default-value-31">Default value</h4>
 <pre><code class="language-YAML">scripts_folder: .Scripts
 </code></pre>
 <h3 id="sysctl_kernel_sem_force">sysctl_kernel_sem_force</h3>
 <p>Force setting kernel.sem depending on configured instances
 (collections: oracle_databases, oracle_asm_instance), even if calculated values are lower than current ones</p>
-<h4 id="default-value-31">Default value</h4>
+<h4 id="default-value-32">Default value</h4>
 <pre><code class="language-YAML">sysctl_kernel_sem_force: false
 </code></pre>
 <h2 id="discovered-tags">Discovered Tags</h2>
@@ -835,7 +851,7 @@ See <code>grid_user</code> and <code>oracle_user</code> for Grid-Infrastructure 
 <p>[Thorsten Bruhns]</p>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 13, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/f5b68dc0b39b8c117ad8db86c98b100cc6a521aa">orahost_meta: _JAVA_OPTIONS only when not empty (f5b68dc0)</a>
+  Last modified November 14, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/628ec97e26ede1c2957ee4abdb9b0831bfdb0af4">roles: never change owner and permissions of /tmp and /var/tmp (oracle_tmp_stage) (628ec97e)</a>
 </div>
 
 </div>

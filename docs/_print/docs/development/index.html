@@ -3030,6 +3030,20 @@ Without it, <code>asciidoctor</code> does not find its gem in the base image.
 </tr>
 </tbody></table>
 </div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Since hugo 0.170, the SCSS of Docsy is compiled with Dart Sass (<code>sass</code> in the base image), libsass was removed.
+<code>security.exec.allow</code> in <code>website/hugo.yaml</code> must contain <code>^sass$</code>.
+The deprecation warnings of Dart Sass come from Docsy and Bootstrap.
+</td>
+</tr>
+</tbody></table>
+</div>
 </div>
 </div>
 <div class="sect1">

@@ -29,7 +29,7 @@
     <lastmod>2026-10-28T21:52:27+01:00</lastmod>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/development/website/</loc>
-    <lastmod>2026-11-08T22:17:29+01:00</lastmod>
+    <lastmod>2026-11-14T15:33:26+01:00</lastmod>
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/guides/advanced/</loc>
@@ -81,6 +81,10 @@
     <lastmod>2026-11-13T21:42:43+01:00</lastmod>
     <priority>0</priority>
   </url><url>
+    <loc>https://www.ansible-oracle.eu/docs/roles/orahost_meta/</loc>
+    <lastmod>2026-11-14T14:42:54+01:00</lastmod>
+    <priority>0</priority>
+  </url><url>
     <loc>https://www.ansible-oracle.eu/docs/guides/standby_databases/</loc>
     <lastmod>2026-11-14T09:11:45+01:00</lastmod>
     <priority>0</priority>
@@ -98,10 +102,6 @@
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/roles/oradb_manage_redo/</loc>
-    <lastmod>2026-11-13T21:42:43+01:00</lastmod>
-    <priority>0</priority>
-  </url><url>
-    <loc>https://www.ansible-oracle.eu/docs/roles/orahost_meta/</loc>
     <lastmod>2026-11-13T21:42:43+01:00</lastmod>
     <priority>0</priority>
   </url><url>
