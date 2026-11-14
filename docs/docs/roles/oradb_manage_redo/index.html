@@ -20,35 +20,35 @@
 
 <title>oradb_manage_redo | ansible-oracle Project</title>
 <meta name="description" content="Manage redolog groups in Oracle
-Table of contents Requirements Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Discovered Tags redolog
-Open Tasks (bug): Redologs could not be managed in RAC environments. Dependencies orasw_meta License license (MIT)
+Table of contents Requirements Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Discovered Tags redolog
+Dependencies orasw_meta License license (MIT)
 Author Mikael Sandström Thorsten Bruhns">
 <meta property="og:url" content="https://www.ansible-oracle.eu/docs/roles/oradb_manage_redo/">
 	<meta property="og:site_name" content="ansible-oracle Project">
 	<meta property="og:title" content="oradb_manage_redo">
 	<meta property="og:description" content="Manage redolog groups in Oracle
-Table of contents Requirements Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Discovered Tags redolog
-Open Tasks (bug): Redologs could not be managed in RAC environments. Dependencies orasw_meta License license (MIT)
+Table of contents Requirements Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Discovered Tags redolog
+Dependencies orasw_meta License license (MIT)
 Author Mikael Sandström Thorsten Bruhns">
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-10-30T22:59:56+01:00">
-		<meta property="article:modified_time" content="2026-10-30T22:59:56+01:00">
+		<meta property="article:published_time" content="2026-11-13T21:42:43+01:00">
+		<meta property="article:modified_time" content="2026-11-13T21:42:43+01:00">
 
 	<meta itemprop="name" content="oradb_manage_redo">
 	<meta itemprop="description" content="Manage redolog groups in Oracle
-Table of contents Requirements Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Discovered Tags redolog
-Open Tasks (bug): Redologs could not be managed in RAC environments. Dependencies orasw_meta License license (MIT)
+Table of contents Requirements Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Discovered Tags redolog
+Dependencies orasw_meta License license (MIT)
 Author Mikael Sandström Thorsten Bruhns">
-	<meta itemprop="datePublished" content="2026-10-30T22:59:56+01:00">
-	<meta itemprop="dateModified" content="2026-10-30T22:59:56+01:00">
-	<meta itemprop="wordCount" content="45">
+	<meta itemprop="datePublished" content="2026-11-13T21:42:43+01:00">
+	<meta itemprop="dateModified" content="2026-11-13T21:42:43+01:00">
+	<meta itemprop="wordCount" content="32">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="oradb_manage_redo">
 	<meta name="twitter:description" content="Manage redolog groups in Oracle
-Table of contents Requirements Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Discovered Tags redolog
-Open Tasks (bug): Redologs could not be managed in RAC environments. Dependencies orasw_meta License license (MIT)
+Table of contents Requirements Discovered Tags Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Discovered Tags redolog
+Dependencies orasw_meta License license (MIT)
 Author Mikael Sandström Thorsten Bruhns">
 <link href="/scss/main.css" rel="stylesheet">
 <script
@@ -143,14 +143,14 @@ Author Mikael Sandström Thorsten Bruhns">
     <a href="/docs/guides/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesahf"><span class="">Oracle Autonomous Health Framework (AHF)</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
     <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
-    <a href="/docs/guides/restart_rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="">Setup of Oracle Restart and Grid Infrastructure</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
-    <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
-    <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_databases-li">
     <a href="/docs/guides/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="">Standby Databases</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
+    <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
+    <a href="/docs/guides/restart_rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="">Setup of Oracle Restart and Grid Infrastructure</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
+    <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
     <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li>
@@ -160,16 +160,18 @@ Author Mikael Sandström Thorsten Bruhns">
     <ul class="ul-2 foldable">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
     <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
-    <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
-    <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
-    <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
-    <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf-li">
     <a href="/docs/roles/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf"><span class="">ahf</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+    <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesoradb_manage_redo-li">
+    <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="td-sidebar-nav-active-item">oradb_manage_redo</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+    <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
+    <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+    <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf_fleet_insights-li">
     <a href="/docs/roles/ahf_fleet_insights/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf_fleet_insights"><span class="">ahf_fleet_insights</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
@@ -208,8 +210,6 @@ Author Mikael Sandström Thorsten Bruhns">
     <a href="/docs/roles/oradb_manage_pdb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_pdb"><span class="">oradb_manage_pdb</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_profiles-li">
     <a href="/docs/roles/oradb_manage_profiles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_profiles"><span class="">oradb_manage_profiles</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesoradb_manage_redo-li">
-    <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="td-sidebar-nav-active-item">oradb_manage_redo</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_roles-li">
     <a href="/docs/roles/oradb_manage_roles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_roles"><span class="">oradb_manage_roles</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_services-li">
@@ -285,7 +285,6 @@ Author Mikael Sandström Thorsten Bruhns">
     <li><a href="#table-of-contents">Table of contents</a></li>
     <li><a href="#requirements">Requirements</a></li>
     <li><a href="#discovered-tags">Discovered Tags</a></li>
-    <li><a href="#open-tasks">Open Tasks</a></li>
     <li><a href="#dependencies">Dependencies</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#author">Author</a></li>
@@ -319,7 +318,6 @@ Author Mikael Sandström Thorsten Bruhns">
 <ul>
 <li><a href="#requirements">Requirements</a></li>
 <li><a href="#discovered-tags">Discovered Tags</a></li>
-<li><a href="#open-tasks">Open Tasks</a></li>
 <li><a href="#dependencies">Dependencies</a></li>
 <li><a href="#license">License</a></li>
 <li><a href="#author">Author</a></li>
@@ -331,10 +329,6 @@ Author Mikael Sandström Thorsten Bruhns">
 </ul>
 <h2 id="discovered-tags">Discovered Tags</h2>
 <p><strong><em>redolog</em></strong></p>
-<h2 id="open-tasks">Open Tasks</h2>
-<ul>
-<li>(bug): Redologs could not be managed in RAC environments.</li>
-</ul>
 <h2 id="dependencies">Dependencies</h2>
 <ul>
 <li>orasw_meta</li>
@@ -348,7 +342,7 @@ Author Mikael Sandström Thorsten Bruhns">
 </ul>
 
 	<div class="td-page-meta__lastmod">
-  Last modified October 30, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/2bffd9a3b3f3ab736a0fbfd4b040838e4e026136">ansible-core 2.16 is the new minimal version of ansible-oracle (requires_ansible in meta/runtime.yml, min_ansible_version of all roles) (2bffd9a3)</a>
+  Last modified November 13, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/3385aa789b7e642789a8297a74881915f3887bf6">oracle_redo, oradb_manage_redo: redo log groups on RAC (3385aa78)</a>
 </div>
 
 </div>

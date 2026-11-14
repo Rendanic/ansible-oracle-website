@@ -31,16 +31,16 @@ The role installs AHF from the installation media in the software repository (AH
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-12T07:06:15+01:00">
-		<meta property="article:modified_time" content="2026-11-12T07:06:15+01:00">
+		<meta property="article:published_time" content="2026-11-14T06:33:36+01:00">
+		<meta property="article:modified_time" content="2026-11-14T06:33:36+01:00">
 
 	<meta itemprop="name" content="ahf">
 	<meta itemprop="description" content="Experimental: the role is under development. Breaking changes can happen at any time and are not always documented.
 Install and configure Oracle Autonomous Health Framework (AHF) on database servers.
 The role installs AHF from the installation media in the software repository (AHF-LINUX_v&lt;version&gt;.zip or patch 30166242 downloaded with AutoUpgrade), upgrades an existing installation when a newer version is found, activates or deactivates the components of AHF and registers the server as client of AHF Fleet Insights (role ahf_fleet_insights).">
-	<meta itemprop="datePublished" content="2026-11-12T07:06:15+01:00">
-	<meta itemprop="dateModified" content="2026-11-12T07:06:15+01:00">
-	<meta itemprop="wordCount" content="1611">
+	<meta itemprop="datePublished" content="2026-11-14T06:33:36+01:00">
+	<meta itemprop="dateModified" content="2026-11-14T06:33:36+01:00">
+	<meta itemprop="wordCount" content="1659">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="ahf">
 	<meta name="twitter:description" content="Experimental: the role is under development. Breaking changes can happen at any time and are not always documented.
@@ -139,14 +139,14 @@ The role installs AHF from the installation media in the software repository (AH
     <a href="/docs/guides/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesahf"><span class="">Oracle Autonomous Health Framework (AHF)</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
     <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
-    <a href="/docs/guides/restart_rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="">Setup of Oracle Restart and Grid Infrastructure</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
-    <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
-    <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_databases-li">
     <a href="/docs/guides/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="">Standby Databases</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
+    <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
+    <a href="/docs/guides/restart_rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="">Setup of Oracle Restart and Grid Infrastructure</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
+    <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
     <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li>
@@ -156,16 +156,18 @@ The role installs AHF from the installation media in the software repository (AH
     <ul class="ul-2 foldable">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
     <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
-    <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
-    <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
-    <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
-    <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesahf-li">
     <a href="/docs/roles/ahf/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf"><span class="td-sidebar-nav-active-item">ahf</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+    <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_redo-li">
+    <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="">oradb_manage_redo</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+    <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
+    <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+    <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf_fleet_insights-li">
     <a href="/docs/roles/ahf_fleet_insights/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf_fleet_insights"><span class="">ahf_fleet_insights</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
@@ -204,8 +206,6 @@ The role installs AHF from the installation media in the software repository (AH
     <a href="/docs/roles/oradb_manage_pdb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_pdb"><span class="">oradb_manage_pdb</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_profiles-li">
     <a href="/docs/roles/oradb_manage_profiles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_profiles"><span class="">oradb_manage_profiles</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_redo-li">
-    <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="">oradb_manage_redo</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_roles-li">
     <a href="/docs/roles/oradb_manage_roles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_roles"><span class="">oradb_manage_roles</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_services-li">
@@ -323,131 +323,136 @@ The role installs AHF from the installation media in the software repository (AH
             <li><a href="#default-value-7">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#ahf_fleet_insights_os_user">ahf_fleet_insights_os_user</a>
+        <li><a href="#ahf_fleet_insights_manage">ahf_fleet_insights_manage</a>
           <ul>
             <li><a href="#default-value-8">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#ahf_fleet_insights_password">ahf_fleet_insights_password</a>
+        <li><a href="#ahf_fleet_insights_os_user">ahf_fleet_insights_os_user</a>
           <ul>
             <li><a href="#default-value-9">Default value</a></li>
           </ul>
         </li>
-        <li><a href="#ahf_fleet_insights_public_cert">ahf_fleet_insights_public_cert</a>
+        <li><a href="#ahf_fleet_insights_password">ahf_fleet_insights_password</a>
           <ul>
             <li><a href="#default-value-10">Default value</a></li>
+          </ul>
+        </li>
+        <li><a href="#ahf_fleet_insights_public_cert">ahf_fleet_insights_public_cert</a>
+          <ul>
+            <li><a href="#default-value-11">Default value</a></li>
             <li><a href="#example-usage-1">Example usage</a></li>
           </ul>
         </li>
         <li><a href="#ahf_fleet_insights_url">ahf_fleet_insights_url</a>
           <ul>
-            <li><a href="#default-value-11">Default value</a></li>
+            <li><a href="#default-value-12">Default value</a></li>
             <li><a href="#example-usage-2">Example usage</a></li>
           </ul>
         </li>
         <li><a href="#ahf_fleet_insights_user">ahf_fleet_insights_user</a>
           <ul>
-            <li><a href="#default-value-12">Default value</a></li>
+            <li><a href="#default-value-13">Default value</a></li>
           </ul>
         </li>
         <li><a href="#ahf_install_mode">ahf_install_mode</a>
           <ul>
-            <li><a href="#default-value-13">Default value</a></li>
+            <li><a href="#default-value-14">Default value</a></li>
           </ul>
         </li>
         <li><a href="#ahf_installer_archive">ahf_installer_archive</a>
           <ul>
-            <li><a href="#default-value-14">Default value</a></li>
+            <li><a href="#default-value-15">Default value</a></li>
             <li><a href="#example-usage-3">Example usage</a></li>
           </ul>
         </li>
         <li><a href="#ahf_installer_patterns">ahf_installer_patterns</a>
           <ul>
-            <li><a href="#default-value-15">Default value</a></li>
+            <li><a href="#default-value-16">Default value</a></li>
           </ul>
         </li>
         <li><a href="#ahf_installer_version">ahf_installer_version</a>
           <ul>
-            <li><a href="#default-value-16">Default value</a></li>
+            <li><a href="#default-value-17">Default value</a></li>
           </ul>
         </li>
         <li><a href="#ahf_loc">ahf_loc</a>
           <ul>
-            <li><a href="#default-value-17">Default value</a></li>
+            <li><a href="#default-value-18">Default value</a></li>
           </ul>
         </li>
         <li><a href="#ahf_manage_packages">ahf_manage_packages</a>
           <ul>
-            <li><a href="#default-value-18">Default value</a></li>
+            <li><a href="#default-value-19">Default value</a></li>
           </ul>
         </li>
         <li><a href="#ahf_packages">ahf_packages</a>
           <ul>
-            <li><a href="#default-value-19">Default value</a></li>
+            <li><a href="#default-value-20">Default value</a></li>
           </ul>
         </li>
         <li><a href="#ahf_perl_home">ahf_perl_home</a>
           <ul>
-            <li><a href="#default-value-20">Default value</a></li>
+            <li><a href="#default-value-21">Default value</a></li>
           </ul>
         </li>
         <li><a href="#ahf_properties">ahf_properties</a>
           <ul>
-            <li><a href="#default-value-21">Default value</a></li>
+            <li><a href="#default-value-22">Default value</a></li>
             <li><a href="#example-usage-4">Example usage</a></li>
           </ul>
         </li>
         <li><a href="#ahf_settings_force">ahf_settings_force</a>
           <ul>
-            <li><a href="#default-value-22">Default value</a></li>
+            <li><a href="#default-value-23">Default value</a></li>
           </ul>
         </li>
         <li><a href="#ahf_setup_extra_args">ahf_setup_extra_args</a>
           <ul>
-            <li><a href="#default-value-23">Default value</a></li>
+            <li><a href="#default-value-24">Default value</a></li>
             <li><a href="#example-usage-5">Example usage</a></li>
           </ul>
         </li>
         <li><a href="#ahf_stage_dir">ahf_stage_dir</a>
           <ul>
-            <li><a href="#default-value-24">Default value</a></li>
+            <li><a href="#default-value-25">Default value</a></li>
           </ul>
         </li>
         <li><a href="#ahf_state">ahf_state</a>
           <ul>
-            <li><a href="#default-value-25">Default value</a></li>
+            <li><a href="#default-value-26">Default value</a></li>
           </ul>
         </li>
         <li><a href="#ahf_tfa_directories">ahf_tfa_directories</a>
           <ul>
-            <li><a href="#default-value-26">Default value</a></li>
+            <li><a href="#default-value-27">Default value</a></li>
             <li><a href="#example-usage-6">Example usage</a></li>
           </ul>
         </li>
         <li><a href="#ahf_tfa_enabled">ahf_tfa_enabled</a>
           <ul>
-            <li><a href="#default-value-27">Default value</a></li>
+            <li><a href="#default-value-28">Default value</a></li>
           </ul>
         </li>
         <li><a href="#ahf_tfa_settings">ahf_tfa_settings</a>
           <ul>
-            <li><a href="#default-value-28">Default value</a></li>
+            <li><a href="#default-value-29">Default value</a></li>
             <li><a href="#example-usage-7">Example usage</a></li>
           </ul>
         </li>
         <li><a href="#ahf_uninstall_delete_repo">ahf_uninstall_delete_repo</a>
           <ul>
-            <li><a href="#default-value-29">Default value</a></li>
+            <li><a href="#default-value-30">Default value</a></li>
           </ul>
         </li>
         <li><a href="#ahf_upgrade">ahf_upgrade</a>
           <ul>
-            <li><a href="#default-value-30">Default value</a></li>
+            <li><a href="#default-value-31">Default value</a></li>
           </ul>
         </li>
         <li><a href="#ahf_verify_signature">ahf_verify_signature</a>
           <ul>
-            <li><a href="#default-value-31">Default value</a></li>
+            <li><a href="#default-value-32">Default value</a></li>
           </ul>
         </li>
       </ul>
@@ -537,6 +542,7 @@ as client of AHF Fleet Insights (role <code>ahf_fleet_insights</code>).</p>
 <li><a href="#ahf_data_dir_min_free_mb">ahf_data_dir_min_free_mb</a></li>
 <li><a href="#ahf_fleet_insights_client">ahf_fleet_insights_client</a></li>
 <li><a href="#ahf_fleet_insights_force_register">ahf_fleet_insights_force_register</a></li>
+<li><a href="#ahf_fleet_insights_manage">ahf_fleet_insights_manage</a></li>
 <li><a href="#ahf_fleet_insights_os_user">ahf_fleet_insights_os_user</a></li>
 <li><a href="#ahf_fleet_insights_password">ahf_fleet_insights_password</a></li>
 <li><a href="#ahf_fleet_insights_public_cert">ahf_fleet_insights_public_cert</a></li>
@@ -670,17 +676,25 @@ Oracle documents the registration for clusters - check single instance environme
 <h4 id="default-value-7">Default value</h4>
 <pre><code class="language-YAML">ahf_fleet_insights_force_register: false
 </code></pre>
+<h3 id="ahf_fleet_insights_manage">ahf_fleet_insights_manage</h3>
+<p>Manage the registration in AHF Fleet Insights (<code>ahf_fleet_insights_client</code>).</p>
+<p><code>false</code>: the registration is not changed - no registration, no deregistration.
+The state file keeps the last registration. Useful, when Fleet Insights is not reachable,
+e.g. during a maintenance of the Fleet Insights server.</p>
+<h4 id="default-value-8">Default value</h4>
+<pre><code class="language-YAML">ahf_fleet_insights_manage: true
+</code></pre>
 <h3 id="ahf_fleet_insights_os_user">ahf_fleet_insights_os_user</h3>
 <p>OS user for the REST access of Fleet Insights (<code>ahf configuration set --os-user</code>).
 Without it the registration reports <code>AHF-02119: ... the REST Agent was not started</code>
 (no local AHF user with the role <code>rest-server</code>).
 Empty: <code>--os-user</code> is not used.</p>
-<h4 id="default-value-8">Default value</h4>
+<h4 id="default-value-9">Default value</h4>
 <pre><code class="language-YAML">ahf_fleet_insights_os_user: '{{ oracle_user }}'
 </code></pre>
 <h3 id="ahf_fleet_insights_password">ahf_fleet_insights_password</h3>
 <p>Password of <code>ahf_fleet_insights_user</code>. Use Ansible Vault.</p>
-<h4 id="default-value-9">Default value</h4>
+<h4 id="default-value-10">Default value</h4>
 <pre><code class="language-YAML">ahf_fleet_insights_password: ''
 </code></pre>
 <h3 id="ahf_fleet_insights_public_cert">ahf_fleet_insights_public_cert</h3>
@@ -689,7 +703,7 @@ Empty: <code>--os-user</code> is not used.</p>
 Needed for the self-signed certificate created by the installer of Fleet Insights,
 otherwise the registration fails with <code>CERTIFICATE_VERIFY_FAILED</code>.
 Role <code>ahf_fleet_insights</code> provides it as fact <code>ahf_fi_public_cert</code> or as file (<code>ahf_fi_public_cert_fetch</code>).</p>
-<h4 id="default-value-10">Default value</h4>
+<h4 id="default-value-11">Default value</h4>
 <pre><code class="language-YAML">ahf_fleet_insights_public_cert: ''
 </code></pre>
 <h4 id="example-usage-1">Example usage</h4>
@@ -698,7 +712,7 @@ Role <code>ahf_fleet_insights</code> provides it as fact <code>ahf_fi_public_cer
 <h3 id="ahf_fleet_insights_url">ahf_fleet_insights_url</h3>
 <p>Registration URL of AHF Fleet Insights.
 Shown by <code>ahffi info</code> on the Fleet Insights server - without <code>/ahfservice</code>.</p>
-<h4 id="default-value-11">Default value</h4>
+<h4 id="default-value-12">Default value</h4>
 <pre><code class="language-YAML">ahf_fleet_insights_url: ''
 </code></pre>
 <h4 id="example-usage-2">Example usage</h4>
@@ -706,7 +720,7 @@ Shown by <code>ahffi info</code> on the Fleet Insights server - without <code>/a
 </code></pre>
 <h3 id="ahf_fleet_insights_user">ahf_fleet_insights_user</h3>
 <p>Generic registration user of AHF Fleet Insights.</p>
-<h4 id="default-value-12">Default value</h4>
+<h4 id="default-value-13">Default value</h4>
 <pre><code class="language-YAML">ahf_fleet_insights_user: ''
 </code></pre>
 <h3 id="ahf_install_mode">ahf_install_mode</h3>
@@ -717,7 +731,7 @@ AHF Fleet Insights client. Recommended by Oracle.</p>
 No daemon, no automatic collections, only on-demand usage of
 <code>orachk</code> / <code>tfactl</code> as <code>oracle_user</code>. Settings for TFA and AHF Fleet Insights
 are ignored.</p>
-<h4 id="default-value-13">Default value</h4>
+<h4 id="default-value-14">Default value</h4>
 <pre><code class="language-YAML">ahf_install_mode: root
 </code></pre>
 <h3 id="ahf_installer_archive">ahf_installer_archive</h3>
@@ -727,7 +741,7 @@ is used from <code>oracle_sw_source_local</code> on the Ansible controller
 (<code>is_sw_source_local: true</code>, <code>oracle_sw_copy: true</code>) or from <code>oracle_stage_remote</code>
 on the target host (<code>oracle_sw_copy: false</code>).
 Must be set for <code>is_sw_source_local: false</code> (<code>oracle_sw_source_www</code>).</p>
-<h4 id="default-value-14">Default value</h4>
+<h4 id="default-value-15">Default value</h4>
 <pre><code class="language-YAML">ahf_installer_archive: ''
 </code></pre>
 <h4 id="example-usage-3">Example usage</h4>
@@ -738,7 +752,7 @@ Must be set for <code>is_sw_source_local: false</code> (<code>oracle_sw_source_w
 <p><code>AHF-LINUX_v*.zip</code> is the name of the media in My Oracle Support (Doc ID 2550798.1).
 <code>p30166242_*.zip</code> is the patch &ldquo;DOWNLOAD LATEST AHF&rdquo; - e.g. downloaded by
 AutoUpgrade with <code>AHF</code> in <code>autoupgrade_download_patches</code>.</p>
-<h4 id="default-value-15">Default value</h4>
+<h4 id="default-value-16">Default value</h4>
 <pre><code class="language-YAML">ahf_installer_patterns:
   - AHF-LINUX_v*.zip
   - p30166242_*.zip
@@ -747,7 +761,7 @@ AutoUpgrade with <code>AHF</code> in <code>autoupgrade_download_patches</code>.<
 <p>Version of the installation media, e.g. <code>26.10.0</code>.</p>
 <p>Normally the version is taken from the filename <code>AHF-LINUX_v&lt;version&gt;.zip</code>
 (also inside of patch 30166242). Set it, when the filename does not contain the version.</p>
-<h4 id="default-value-16">Default value</h4>
+<h4 id="default-value-17">Default value</h4>
 <pre><code class="language-YAML">ahf_installer_version: ''
 </code></pre>
 <h3 id="ahf_loc">ahf_loc</h3>
@@ -757,19 +771,19 @@ AutoUpgrade with <code>AHF</code> in <code>autoupgrade_download_patches</code>.<
 because the AHF binaries are executed by <code>root</code>. A directory below <code>oracle_base</code>
 is owned by <code>oracle_user</code>, who could replace the binaries.
 This is checked by the role.</p>
-<h4 id="default-value-17">Default value</h4>
+<h4 id="default-value-18">Default value</h4>
 <pre><code class="language-YAML">ahf_loc: &quot;{{ '/opt' if ahf_install_mode == 'root' else oracle_base }}&quot;
 </code></pre>
 <h3 id="ahf_manage_packages">ahf_manage_packages</h3>
 <p>Install <code>ahf_packages</code> (<code>ahf_install_mode: root</code> only).</p>
-<h4 id="default-value-18">Default value</h4>
+<h4 id="default-value-19">Default value</h4>
 <pre><code class="language-YAML">ahf_manage_packages: true
 </code></pre>
 <h3 id="ahf_packages">ahf_packages</h3>
 <p>Packages for AHF. The package <code>perl</code> contains all Perl modules required by AHF
 (e.g. <code>File::Copy</code>, <code>FindBin</code>, <code>Math::BigInt</code>, <code>Net::Ping</code>, <code>AHF-00074</code>).
 <code>perl-interpreter</code> alone is not enough.</p>
-<h4 id="default-value-19">Default value</h4>
+<h4 id="default-value-20">Default value</h4>
 <pre><code class="language-YAML">ahf_packages:
   - perl
   - openssl
@@ -781,7 +795,7 @@ This is checked by the role.</p>
 Without <code>-perlhome</code>, <code>ahf_setup</code> uses the Perl of the Grid Infrastructure home on hosts
 with Oracle Restart/RAC, which is owned by the GI owner =&gt; the default is the Perl of the OS.
 Empty: <code>ahf_setup</code> selects the Perl.</p>
-<h4 id="default-value-20">Default value</h4>
+<h4 id="default-value-21">Default value</h4>
 <pre><code class="language-YAML">ahf_perl_home: /usr
 </code></pre>
 <h3 id="ahf_properties">ahf_properties</h3>
@@ -825,7 +839,7 @@ with <code>ahf configuration get --property &lt;key&gt;</code>. Properties of AH
 			</tr>
 	</tbody>
 </table>
-<h4 id="default-value-21">Default value</h4>
+<h4 id="default-value-22">Default value</h4>
 <pre><code class="language-YAML">ahf_properties: {}
 </code></pre>
 <h4 id="example-usage-4">Example usage</h4>
@@ -836,14 +850,14 @@ with <code>ahf configuration get --property &lt;key&gt;</code>. Properties of AH
 <h3 id="ahf_settings_force">ahf_settings_force</h3>
 <p>Execute all settings and component states, even when they are unchanged
 since the last run of the role.</p>
-<h4 id="default-value-22">Default value</h4>
+<h4 id="default-value-23">Default value</h4>
 <pre><code class="language-YAML">ahf_settings_force: false
 </code></pre>
 <h3 id="ahf_setup_extra_args">ahf_setup_extra_args</h3>
 <p>Additional parameters for <code>ahf_setup</code>.</p>
 <p><code>-local</code> is always added for <code>ahf_install_mode: root</code>.
 AHF is installed on each host of the play. Use <code>tfactl syncnodes</code> for clusters.</p>
-<h4 id="default-value-23">Default value</h4>
+<h4 id="default-value-24">Default value</h4>
 <pre><code class="language-YAML">ahf_setup_extra_args: []
 </code></pre>
 <h4 id="example-usage-5">Example usage</h4>
@@ -854,13 +868,13 @@ AHF is installed on each host of the play. Use <code>tfactl syncnodes</code> for
 <h3 id="ahf_stage_dir">ahf_stage_dir</h3>
 <p>Directory on the target host for the extraction of the installation media.
 The directory is removed after the installation.</p>
-<h4 id="default-value-24">Default value</h4>
+<h4 id="default-value-25">Default value</h4>
 <pre><code class="language-YAML">ahf_stage_dir: '{{ oracle_stage }}/ahf'
 </code></pre>
 <h3 id="ahf_state">ahf_state</h3>
 <p><code>present</code>: install, upgrade and configure AHF.</p>
 <p><code>absent</code>: uninstall AHF (<code>ahfctl uninstall -silent</code>).</p>
-<h4 id="default-value-25">Default value</h4>
+<h4 id="default-value-26">Default value</h4>
 <pre><code class="language-YAML">ahf_state: present
 </code></pre>
 <h3 id="ahf_tfa_directories">ahf_tfa_directories</h3>
@@ -910,7 +924,7 @@ or a log directory of an application.</p>
 	</tbody>
 </table>
 <p>Directories added by the role are removed, when they are removed from the list.</p>
-<h4 id="default-value-26">Default value</h4>
+<h4 id="default-value-27">Default value</h4>
 <pre><code class="language-YAML">ahf_tfa_directories: []
 </code></pre>
 <h4 id="example-usage-6">Example usage</h4>
@@ -925,7 +939,7 @@ or a log directory of an application.</p>
 <p>Start and enable the TFA daemon (<code>ahf_install_mode: root</code> only).</p>
 <p><code>false</code> stops the daemon and disables the automatic start.
 The software stays installed and can be used on-demand.</p>
-<h4 id="default-value-27">Default value</h4>
+<h4 id="default-value-28">Default value</h4>
 <pre><code class="language-YAML">ahf_tfa_enabled: true
 </code></pre>
 <h3 id="ahf_tfa_settings">ahf_tfa_settings</h3>
@@ -934,7 +948,7 @@ The software stays installed and can be used on-demand.</p>
 <p>A setting is executed only, when it differs from the last run of the role.
 The applied settings are stored in <code>ahf_ansible_state_file</code>.
 Manual changes are not detected - use <code>ahf_settings_force: true</code>.</p>
-<h4 id="default-value-28">Default value</h4>
+<h4 id="default-value-29">Default value</h4>
 <pre><code class="language-YAML">ahf_tfa_settings: {}
 </code></pre>
 <h4 id="example-usage-7">Example usage</h4>
@@ -946,18 +960,18 @@ Manual changes are not detected - use <code>ahf_settings_force: true</code>.</p>
 </code></pre>
 <h3 id="ahf_uninstall_delete_repo">ahf_uninstall_delete_repo</h3>
 <p>Delete the repository in <code>ahf_data_dir</code> during the uninstall (<code>-deleterepo</code>).</p>
-<h4 id="default-value-29">Default value</h4>
+<h4 id="default-value-30">Default value</h4>
 <pre><code class="language-YAML">ahf_uninstall_delete_repo: false
 </code></pre>
 <h3 id="ahf_upgrade">ahf_upgrade</h3>
 <p>Upgrade an existing installation, when the installation media has a newer version.</p>
-<h4 id="default-value-30">Default value</h4>
+<h4 id="default-value-31">Default value</h4>
 <pre><code class="language-YAML">ahf_upgrade: true
 </code></pre>
 <h3 id="ahf_verify_signature">ahf_verify_signature</h3>
 <p>Verify the signature of <code>ahf_setup</code> with <code>openssl</code> and the public key
 from the installation media before the installation.</p>
-<h4 id="default-value-31">Default value</h4>
+<h4 id="default-value-32">Default value</h4>
 <pre><code class="language-YAML">ahf_verify_signature: true
 </code></pre>
 <h2 id="dependencies">Dependencies</h2>
@@ -971,7 +985,7 @@ from the installation media before the installation.</p>
 <p>[Thorsten Bruhns]</p>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 12, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/c7c57940fb876e38116b362625e9bbbf24c53124">ahf: ahf_properties, ahf_tfa_directories and data in AHF Fleet Insights (c7c57940)</a>
+  Last modified November 14, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/13224922e39f42c100cefa2bc1272efa9f7c6932">ahf: AHF Fleet Insights optional in molecule scenarios dbfs and has-ol9 (13224922)</a>
 </div>
 
 </div>

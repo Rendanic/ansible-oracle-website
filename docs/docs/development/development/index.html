@@ -129,8 +129,8 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-12T07:06:15+01:00">
-		<meta property="article:modified_time" content="2026-11-12T07:06:15+01:00">
+		<meta property="article:published_time" content="2026-11-14T09:21:08+01:00">
+		<meta property="article:modified_time" content="2026-11-14T09:21:08+01:00">
 
 	<meta itemprop="name" content="How to develop">
 	<meta itemprop="description" content="1. How to develop in ansible-oracle? Important This is an example how most of the development in ansible-oracle is done.
@@ -185,9 +185,9 @@ Each commit is locally checked against multiple rules, to prevent failures in gi
 This tool is recommended but not mandatory for contributing to ansible-oracle. Install the git hook once (cd into repository before) pre-commit install Important Do not forget to place change files in stage area of git before starting pre-commit.
 pre-commit works only on the data of the stage area! run outside git pre-commit run 1.3.2. ansible-doctor Start ansible-doctor with pre-commit pre-commit run ansible-doctor Start ansible-doctor to create new README.md file cd ansible-oracle # nix-shell .venv/ansible-doctor/bin/ansible-doctor -f -r roles # local Ansible-Controller ~/venv/ansible-doctor/bin/ansible-doctor -f -r roles 1.3.3. Start Playbook Important Don’t forget to set the working branch in requirements.yml.
 Remove/Disable devsec.hardening for faster installation of Ansible collection, when devsec should not be tested. Edit requirements.yml --- collections: # - name: devsec.hardening # version: 8.2.0 - name: https://github.com/Rendanic/ansible-oracle.git type: git version: devbranch Execute ansible-playbook ansible-galaxy collection install --force -r requirements.yml &amp;&amp; ansible-playbook -i inventory/hasfd -e hostgroup=&#39;all&#39; playbooks/single-instance-asm.yml --limit &#39;*19c*&#39;">
-	<meta itemprop="datePublished" content="2026-11-12T07:06:15+01:00">
-	<meta itemprop="dateModified" content="2026-11-12T07:06:15+01:00">
-	<meta itemprop="wordCount" content="8060">
+	<meta itemprop="datePublished" content="2026-11-14T09:21:08+01:00">
+	<meta itemprop="dateModified" content="2026-11-14T09:21:08+01:00">
+	<meta itemprop="wordCount" content="8442">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="How to develop">
 	<meta name="twitter:description" content="1. How to develop in ansible-oracle? Important This is an example how most of the development in ansible-oracle is done.
@@ -335,14 +335,14 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
     <a href="/docs/guides/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesahf"><span class="">Oracle Autonomous Health Framework (AHF)</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
     <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
-    <a href="/docs/guides/restart_rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="">Setup of Oracle Restart and Grid Infrastructure</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
-    <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
-    <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_databases-li">
     <a href="/docs/guides/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="">Standby Databases</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
+    <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
+    <a href="/docs/guides/restart_rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="">Setup of Oracle Restart and Grid Infrastructure</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
+    <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
     <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li>
@@ -352,16 +352,18 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
     <ul class="ul-2 foldable">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
     <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
-    <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
-    <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
-    <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
-    <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf-li">
     <a href="/docs/roles/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf"><span class="">ahf</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+    <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_redo-li">
+    <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="">oradb_manage_redo</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+    <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
+    <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+    <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf_fleet_insights-li">
     <a href="/docs/roles/ahf_fleet_insights/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf_fleet_insights"><span class="">ahf_fleet_insights</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
@@ -400,8 +402,6 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
     <a href="/docs/roles/oradb_manage_pdb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_pdb"><span class="">oradb_manage_pdb</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_profiles-li">
     <a href="/docs/roles/oradb_manage_profiles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_profiles"><span class="">oradb_manage_profiles</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_redo-li">
-    <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="">oradb_manage_redo</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_roles-li">
     <a href="/docs/roles/oradb_manage_roles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_roles"><span class="">oradb_manage_roles</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_services-li">
@@ -542,6 +542,7 @@ Remove/Disable devsec.hardening for faster installation of Ansible collection, w
         <li><a href="#_local_checks">4.1. Local checks</a>
           <ul>
             <li><a href="#renovate-ocenv">4.1.1. ocenv from oracle-scripts</a></li>
+            <li><a href="#renovate-oracle-ru">4.1.2. Oracle Release Updates for molecule</a></li>
           </ul>
         </li>
         <li><a href="#setup-gh">4.2. Setup gh for renovate</a></li>
@@ -1177,7 +1178,7 @@ Use <code>cp -r</code> instead of <code>ln -sfn</code> for an independent copy.
 <h4 id="_usage">2.2.2. Usage</h4>
 <div class="listingblock">
 <div class="content">
-<pre>/pr [draft] [base=&lt;branch&gt;] [milestone=&lt;name&gt;] [label=&lt;l1,l2,...&gt;] [notes on content]</pre>
+<pre>/pr [draft] [base=&lt;branch&gt;] [milestone=&lt;pattern&gt;] [label=&lt;p1,p2,...&gt;] [notes on content]</pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1201,12 +1202,12 @@ Use <code>cp -r</code> instead of <code>ln -sfn</code> for an independent copy.
 <td class="tableblock halign-left valign-top"><p class="tableblock">Target branch. Default: default branch of the target repository.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>milestone=&lt;name&gt;</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Milestone in the target repository, name or number (e.g. <code>milestone=4.17</code>).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>milestone=&lt;pattern&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Milestone in the target repository. The value is searched as case-insensitive regular expression in the titles of the open milestones (e.g. <code>milestone=5.0</code> or <code>milestone=5.0.*alpha</code>). A number is the number of the milestone.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>label=&lt;l1,l2,…​&gt;</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Comma-separated labels in the target repository (e.g. <code>label=bug</code>).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>label=&lt;p1,p2,…​&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Comma-separated labels in the target repository. Every entry is searched as case-insensitive regular expression in the label names (e.g. <code>label=enh,bug,break</code>).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">any text</p></td>
@@ -1218,7 +1219,7 @@ Use <code>cp -r</code> instead of <code>ln -sfn</code> for an independent copy.
 <div class="title">Examples</div>
 <div class="content">
 <pre>/pr milestone=4.17 label=bug
-/pr draft milestone=&#34;5.0.0 alpha&#34; label=enhancement,breaking_change</pre>
+/pr draft milestone=5.0.*alpha label=enh,break</pre>
 </div>
 </div>
 </div>
@@ -1236,7 +1237,9 @@ Use <code>cp -r</code> instead of <code>ln -sfn</code> for an independent copy.
 <p>A missing fragment in <code>changelogs/fragments</code> is created. The PR reference is added later with <code>tools/release/fix_fragments.py</code>.</p>
 </li>
 <li>
-<p>Labels and milestones are checked against the target repository before pushing. Unknown values stop the skill, nothing is created.
+<p>Labels and milestones are resolved against the target repository before pushing. Only open milestones are considered.
+An exact name wins, otherwise the value is searched as regular expression.
+The skill stops when a value matches nothing or more than one name (the matches are listed), nothing is created.
 Setting labels or milestones in <code>oravirt/ansible-oracle</code> needs the <code>triage</code> permission.</p>
 </li>
 <li>
@@ -1878,6 +1881,85 @@ The script downloads <code>ocenv</code> of the matching upstream commit, compare
 </ul>
 </div>
 </div>
+<div class="sect3">
+<h4 id="renovate-oracle-ru">4.1.2. Oracle Release Updates for molecule</h4>
+<div class="paragraph">
+<p>The molecule scenarios use the current Release Update (RU) and the previous one (RU-1) for the patch tests.
+Both are set in <code>extensions/molecule/shared_config/inventory/group_vars/all/oracle_ru.yml</code> and updated by renovate:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3333%;"/>
+<col style="width: 33.3334%;"/>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Example</th>
+<th class="tableblock halign-left valign-top">Custom datasource in <code>renovate.json</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>molecule_ru_19</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>19.33</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle-ru-19</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>molecule_ru_19_prev</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>19.32</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle-ru-19-prev</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>molecule_ru_26</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>23.26.4</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle-ru-26</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>molecule_ru_26_prev</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>23.26.3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>oracle-ru-26-prev</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="ulist">
+<ul>
+<li>
+<p>The versions are derived from the quarterly Critical Patch Updates in the Oracle Security Alerts feed.
+<code>*-prev</code> is the same calculation, shifted by one quarter.</p>
+</li>
+<li>
+<p>The RU of the database is used for Grid Infrastructure / Oracle Restart as well.</p>
+</li>
+<li>
+<p>Short forms for <code>ORACLE_HOME</code>, gold images and <code>oracle_home_name</code> are derived in <code>oracle_ru.yml</code>:
+<code>molecule_ru_19_nodot</code> (<code>1933</code>), <code>molecule_ru_26_short</code> (<code>26.04</code>), <code>molecule_ru_26_nodot</code> (<code>2604</code>),
+<code>molecule_ru_26_gi</code> (<code>26_04</code>, gold image of Grid Infrastructure) and the same for <code>*_prev</code>.
+Use the variables in the scenarios instead of fixed versions.</p>
+</li>
+<li>
+<p>The keys of <code>db_homes_config</code> are fixed, only the values (<code>oracle_home</code>, <code>imagename</code>, <code>oracle_home_name</code>) follow the RU:
+<code>db19curr-si-ee</code>, <code>db19prev-si-ee</code>, <code>db26curr-si-ee</code>, <code>db26prev-si-ee</code> in <code>group_vars/all/oracle_db.yml</code>.
+<code>db19-si-ee</code> (RU-1, patch tests) and <code>db26-si-ee</code> (current RU) are aliases for the scenarios without a specific RU.</p>
+</li>
+<li>
+<p>Out-of-Place Patching tests (<code>dbfs-sh</code>, <code>has-ol9</code>, <code>rac</code>) install RU-1 in the converge and switch to the current RU in <code>side_effect.yml</code>.</p>
+</li>
+<li>
+<p>All 4 variables are updated in one branch <code>pr/renovate/oracle-ru-molecule</code>.</p>
+</li>
+<li>
+<p>Manual steps after an update (listed in the Pull-Request as well):
+create the gold images for the new RUs and update the RU patches in <code>oracle_sw_patches</code>.
+renovate does not know patch ids and file names of the RUs.</p>
+</li>
+<li>
+<p>Keep the comment <code># renovate: datasource=…​ depName=…​</code> directly above the variable.</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="setup-gh">4.2. Setup gh for renovate</h3>
@@ -2407,7 +2489,9 @@ checks <code><a class="bare" href="https://ahf:5005/ahfservice">https://ahf:5005
 </li>
 <li>
 <p><code>ahf_client.yml</code>: role <code>ahf</code> and one TFA collection (<code>tfactl diagcollect -last 1h</code>) for the upload.
-Without a reachable Fleet Insights, AHF is installed without the registration (warning).</p>
+Fleet Insights is optional for <code>dbfs</code> and <code>has-ol9</code>: without the scenario <code>ahf</code>, AHF is installed and verified,
+the registration is not changed (<code>ahf_fleet_insights_manage: false</code>) and the Fleet Insights checks of verify are skipped
+(<code>extensions/molecule/shared_config/tasks/ahf_fleet_verify.yml</code>). Only the scenario <code>ahf</code> requires Fleet Insights.</p>
 </li>
 </ul>
 </div>
@@ -2687,12 +2771,16 @@ Test objects left behind are removed by the cleanup at the beginning of the next
 <div class="ulist">
 <ul>
 <li>
-<p><code>Summary per module</code>: a table with the number of checks per module and in total: <code>passed</code>, <code>failed</code>, <code>known</code> (known bug) and <code>not repr.</code> (known bug not reproduced)</p>
+<p><code>Summary per module</code>: a table with the number of checks per module and in total: <code>passed</code>, <code>failed</code>, <code>known</code> (known bug), <code>not repr.</code> (known bug not reproduced) and <code>time</code> (runtime of the tests of the module, also for an aborted module)</p>
 </li>
 <li>
 <p><code>Summary of module tests</code>: the result file and the lists of the failed checks, the known bugs and the known bugs not reproduced</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>The runtime per module is written into <code>&lt;scenario&gt;/module_tests_results/&lt;label&gt;.durations.json</code>
+(list of <code>module</code> and <code>duration_s</code>) - useful to find slow modules.</p>
 </div>
 <div class="paragraph">
 <p>Every check is written into <code>&lt;scenario&gt;/module_tests_results/&lt;label&gt;.json</code> on the controller (ignored by git), also after an abort:</p>
@@ -2959,8 +3047,12 @@ The playbook fails at the end with a list of all failed checks.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">result of the module tests (<code>MODULE_TESTS_LABEL=&lt;run-id&gt;</code>)</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>module_durations/&lt;scenario&gt;.json</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">runtime per module of the module tests</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>summary.md</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">report: scenario x step, module tests, changed tasks of idempotence, errors of failed steps</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">report: scenario x step, module tests, runtime per module (slowest first), changed tasks of idempotence, errors of failed steps</p></td>
 </tr>
 </tbody>
 </table>
@@ -3100,7 +3192,7 @@ docker pull container-registry.oracle.com/database/express:21.3.0-xe</pre>
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 12, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/3dece882e829629361bd3cf8ee4d5db6a280ee6f">ahf: troubleshooting, login and upload check for AHF Fleet Insights (3dece882)</a>
+  Last modified November 14, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/87498be70dca77cb3d3f48e2959fd06a9d7bfa30">tools: Claude Code skill /pr with regex search for milestone and labels (87498be7)</a>
 </div>
 
 </div>

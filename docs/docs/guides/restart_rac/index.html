@@ -289,8 +289,8 @@ Warning Only device_persistence: &#39;&#39; is tested by the molecule scenarios 
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-13T07:06:55+01:00">
-		<meta property="article:modified_time" content="2026-11-13T07:06:55+01:00">
+		<meta property="article:published_time" content="2026-11-13T21:42:43+01:00">
+		<meta property="article:modified_time" content="2026-11-13T21:42:43+01:00">
 
 	<meta itemprop="name" content="Setup of Oracle Restart and Grid Infrastructure">
 	<meta itemprop="description" content="1. Setup of Oracle Restart and Grid Infrastructure This guide describes the setup of the software of Grid Infrastructure with ansible-oracle in 2 independent parts:
@@ -425,9 +425,9 @@ partition_devices
 true
 Create 1 partition on every disk of asm_diskgroups with parted (GPT). asmlib uses &lt;device&gt;&lt;partition_suffix&gt;, asmfd uses &lt;device&gt;1. Set false when the disks must not be partitioned (e.g. device_persistence: &#39;&#39; with existing devices).
 Warning Only device_persistence: &#39;&#39; is tested by the molecule scenarios of ansible-oracle. asmlib, udev and asmfd are not tested with Oracle Linux 9 and 26ai.">
-	<meta itemprop="datePublished" content="2026-11-13T07:06:55+01:00">
-	<meta itemprop="dateModified" content="2026-11-13T07:06:55+01:00">
-	<meta itemprop="wordCount" content="4622">
+	<meta itemprop="datePublished" content="2026-11-13T21:42:43+01:00">
+	<meta itemprop="dateModified" content="2026-11-13T21:42:43+01:00">
+	<meta itemprop="wordCount" content="4737">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Setup of Oracle Restart and Grid Infrastructure">
 	<meta name="twitter:description" content="1. Setup of Oracle Restart and Grid Infrastructure This guide describes the setup of the software of Grid Infrastructure with ansible-oracle in 2 independent parts:
@@ -655,14 +655,14 @@ Warning Only device_persistence: &#39;&#39; is tested by the molecule scenarios 
     <a href="/docs/guides/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesahf"><span class="">Oracle Autonomous Health Framework (AHF)</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesout_of_place_patching-li">
     <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguidesrestart_rac-li">
-    <a href="/docs/guides/restart_rac/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="td-sidebar-nav-active-item">Setup of Oracle Restart and Grid Infrastructure</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
-    <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
-    <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_databases-li">
     <a href="/docs/guides/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="">Standby Databases</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
+    <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguidesrestart_rac-li">
+    <a href="/docs/guides/restart_rac/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="td-sidebar-nav-active-item">Setup of Oracle Restart and Grid Infrastructure</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
+    <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
     <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li>
@@ -672,16 +672,18 @@ Warning Only device_persistence: &#39;&#39; is tested by the molecule scenarios 
     <ul class="ul-2 foldable">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
     <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
-    <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
-    <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
-    <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
-    <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf-li">
     <a href="/docs/roles/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf"><span class="">ahf</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+    <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_redo-li">
+    <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="">oradb_manage_redo</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+    <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
+    <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+    <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf_fleet_insights-li">
     <a href="/docs/roles/ahf_fleet_insights/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf_fleet_insights"><span class="">ahf_fleet_insights</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
@@ -720,8 +722,6 @@ Warning Only device_persistence: &#39;&#39; is tested by the molecule scenarios 
     <a href="/docs/roles/oradb_manage_pdb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_pdb"><span class="">oradb_manage_pdb</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_profiles-li">
     <a href="/docs/roles/oradb_manage_profiles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_profiles"><span class="">oradb_manage_profiles</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_redo-li">
-    <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="">oradb_manage_redo</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_roles-li">
     <a href="/docs/roles/oradb_manage_roles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_roles"><span class="">oradb_manage_roles</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_services-li">
@@ -2605,9 +2605,10 @@ The default follows <code>gi_ignoreprereq</code>.</p></td>
 <div class="ulist">
 <ul>
 <li>
-<p>Out-of-Place Patching (switch into a new <code>oracle_home_gi</code>) is supported for Oracle Restart only.
-<code>oraswgi_install</code> stops with an assert, when <code>oracle_home_gi</code> differs from the running home of Grid Infrastructure.
-The switch of a RAC database into a new <code>ORACLE_HOME</code> is not supported either.</p>
+<p>Out-of-Place Patching of Grid Infrastructure 26ai (switch into a new <code>oracle_home_gi</code>) is supported, <code>root.sh</code> runs rolling,
+see <a href="/docs/guides/out_of_place_patching/">Out-of-Place Patching</a>.
+A switch back into a former home of Grid Infrastructure is not implemented (assert in <code>oraswgi_install</code>).
+The switch of a RAC database into a new <code>ORACLE_HOME</code> is not supported.</p>
 </li>
 <li>
 <p><code>oraswgi_install_remove_obsolete_homes</code> is supported for Oracle Restart only.</p>
@@ -2620,6 +2621,13 @@ The switch of a RAC database into a new <code>ORACLE_HOME</code> is not supporte
 </li>
 <li>
 <p>Grid Infrastructure 19c is not tested.</p>
+</li>
+<li>
+<p>Grid Infrastructure (cluster) on hosts with FIPS (<code>ansible_fips</code>) is not supported:
+<code>oracle_tmp_stage</code> is not <code>/tmp</code>, <code>_JAVA_OPTIONS</code> (<code>-Djava.io.tmpdir</code>) is passed to <code>root.sh</code>
+and java prints <code>Picked up _JAVA_OPTIONS: …​</code>.
+<code>rootcrs.pl</code> parses this line as output of <code>cluutil</code> and stops with <code>CLSRSC-732</code>.
+Oracle Restart is not affected.</p>
 </li>
 </ul>
 </div>
@@ -2642,18 +2650,25 @@ It is a test environment, not a template for production:</p>
 <li>
 <p>Container specific workarounds (<code>init.ohasd</code> with cgroup v2, <code>/run/nologin</code>, entries of Docker in <code>/etc/hosts</code>).</p>
 </li>
+<li>
+<p><code>converge.yml</code> starts only with at least 12 GB usable memory on the Docker host
+(<code>MemAvailable</code> + memory of running containers of the scenario), override with <code>MOLECULE_RAC_MIN_FREE_MB=&lt;MB&gt;</code>.</p>
+</li>
 </ul>
 </div>
 <div class="paragraph">
 <p>Inventory: <code>extensions/molecule/shared_config/inventory/group_vars/rac</code> (<code>gi.yml</code>, <code>db.yml</code>) and <code>host_vars/rac-*.yml</code>.<br/>
-<code>verify.yml</code> checks the cluster stack, SCAN, VIPs, ASM, voting files, OCR, disk groups and the open instances of the RAC databases.</p>
+<code>verify.yml</code> checks the cluster stack, SCAN, VIPs, ASM, voting files, OCR, disk groups and the open instances of the RAC databases.<br/>
+<code>verify.yml</code> uses the running home of Grid Infrastructure (<code>crs_home</code> in <code>/etc/oracle/olr.loc</code>).<br/>
+<code>side_effect.yml</code>: Out-of-Place Patching of Grid Infrastructure (gold image 23.26.3 ⇒ 23.26.4, <code>root.sh</code> rolling),
+PDB <code>ORCLPDB1</code>, <code>tnsnames.ora</code>, <code>sqlnet.ora</code>, wallet and the module tests (<code>module_tests.yml</code>) on the 1st node.</p>
 </div>
 </div>
 </div>
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 13, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/40e0f6898a3c7cbfb80935f8ad22281031b63aff">doc: support of Grid Infrastructure 26ai, tested combinations, grid_base (40e0f689)</a>
+  Last modified November 13, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/50fd1cb0d2191d08d9b3ae867152ec11f45a7475">molecule rac: side_effect with Out-of-Place Patching of Grid Infrastructure (50fd1cb0)</a>
 </div>
 
 </div>

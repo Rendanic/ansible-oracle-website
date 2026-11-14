@@ -20,38 +20,38 @@
 
 <title>Out-of-Place Patching - Switch ORACLE_HOME | ansible-oracle Project</title>
 <meta name="description" content="Important Out-of-Place Patching is supported for Single Instance primary databases without and with Oracle Restart.
-Grid Infrastructure for a Cluster, RAC and RAC One Node are not supported.
-The Grid Infrastructure home of Oracle Restart (26ai) can be switched as well, see Oracle Restart: switch of the Grid Infrastructure home.
+The switch of RAC and RAC One Node databases is not supported.
+The Grid Infrastructure home of Oracle Restart and of Grid Infrastructure (cluster) 26ai can be switched as well, see Switch of the Grid Infrastructure home (Oracle Restart and cluster).
 Terms (Oracle Restart, Grid Infrastructure, RAC): see Featurelist.
 The guide describes the concept, all dependencies and the gaps in the current implementation.">
 <meta property="og:url" content="https://www.ansible-oracle.eu/docs/guides/out_of_place_patching/">
 	<meta property="og:site_name" content="ansible-oracle Project">
 	<meta property="og:title" content="Out-of-Place Patching - Switch ORACLE_HOME">
 	<meta property="og:description" content="Important Out-of-Place Patching is supported for Single Instance primary databases without and with Oracle Restart.
-Grid Infrastructure for a Cluster, RAC and RAC One Node are not supported.
-The Grid Infrastructure home of Oracle Restart (26ai) can be switched as well, see Oracle Restart: switch of the Grid Infrastructure home.
+The switch of RAC and RAC One Node databases is not supported.
+The Grid Infrastructure home of Oracle Restart and of Grid Infrastructure (cluster) 26ai can be switched as well, see Switch of the Grid Infrastructure home (Oracle Restart and cluster).
 Terms (Oracle Restart, Grid Infrastructure, RAC): see Featurelist.
 The guide describes the concept, all dependencies and the gaps in the current implementation.">
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-12T19:03:32+01:00">
-		<meta property="article:modified_time" content="2026-11-12T19:03:32+01:00">
+		<meta property="article:published_time" content="2026-11-13T21:42:43+01:00">
+		<meta property="article:modified_time" content="2026-11-13T21:42:43+01:00">
 
 	<meta itemprop="name" content="Out-of-Place Patching - Switch ORACLE_HOME">
 	<meta itemprop="description" content="Important Out-of-Place Patching is supported for Single Instance primary databases without and with Oracle Restart.
-Grid Infrastructure for a Cluster, RAC and RAC One Node are not supported.
-The Grid Infrastructure home of Oracle Restart (26ai) can be switched as well, see Oracle Restart: switch of the Grid Infrastructure home.
+The switch of RAC and RAC One Node databases is not supported.
+The Grid Infrastructure home of Oracle Restart and of Grid Infrastructure (cluster) 26ai can be switched as well, see Switch of the Grid Infrastructure home (Oracle Restart and cluster).
 Terms (Oracle Restart, Grid Infrastructure, RAC): see Featurelist.
 The guide describes the concept, all dependencies and the gaps in the current implementation.">
-	<meta itemprop="datePublished" content="2026-11-12T19:03:32+01:00">
-	<meta itemprop="dateModified" content="2026-11-12T19:03:32+01:00">
-	<meta itemprop="wordCount" content="2917">
+	<meta itemprop="datePublished" content="2026-11-13T21:42:43+01:00">
+	<meta itemprop="dateModified" content="2026-11-13T21:42:43+01:00">
+	<meta itemprop="wordCount" content="3123">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Out-of-Place Patching - Switch ORACLE_HOME">
 	<meta name="twitter:description" content="Important Out-of-Place Patching is supported for Single Instance primary databases without and with Oracle Restart.
-Grid Infrastructure for a Cluster, RAC and RAC One Node are not supported.
-The Grid Infrastructure home of Oracle Restart (26ai) can be switched as well, see Oracle Restart: switch of the Grid Infrastructure home.
+The switch of RAC and RAC One Node databases is not supported.
+The Grid Infrastructure home of Oracle Restart and of Grid Infrastructure (cluster) 26ai can be switched as well, see Switch of the Grid Infrastructure home (Oracle Restart and cluster).
 Terms (Oracle Restart, Grid Infrastructure, RAC): see Featurelist.
 The guide describes the concept, all dependencies and the gaps in the current implementation.">
 <link href="/scss/main.css" rel="stylesheet">
@@ -147,14 +147,14 @@ The guide describes the concept, all dependencies and the gaps in the current im
     <a href="/docs/guides/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesahf"><span class="">Oracle Autonomous Health Framework (AHF)</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguidesout_of_place_patching-li">
     <a href="/docs/guides/out_of_place_patching/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguidesout_of_place_patching"><span class="td-sidebar-nav-active-item">Out-of-Place Patching - Switch ORACLE_HOME</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
-    <a href="/docs/guides/restart_rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="">Setup of Oracle Restart and Grid Infrastructure</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
-    <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
-    <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesstandby_databases-li">
     <a href="/docs/guides/standby_databases/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesstandby_databases"><span class="">Standby Databases</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesbreaking_changes-li">
+    <a href="/docs/guides/breaking_changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesbreaking_changes"><span class="">Breaking Changes - Upgrade Guide</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrestart_rac-li">
+    <a href="/docs/guides/restart_rac/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrestart_rac"><span class="">Setup of Oracle Restart and Grid Infrastructure</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesrman-li">
+    <a href="/docs/guides/rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesrman"><span class="">RMAN Backups with oradb_rman</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesdataguard-li">
     <a href="/docs/guides/dataguard/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesdataguard"><span class="">Data Guard Guide</span></a>
   </li>
@@ -164,16 +164,18 @@ The guide describes the concept, all dependencies and the gaps in the current im
     <ul class="ul-2 foldable">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
     <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
-    <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
-    <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
-    <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
-    <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf-li">
     <a href="/docs/roles/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf"><span class="">ahf</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+    <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_redo-li">
+    <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="">oradb_manage_redo</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
+    <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
+    <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+    <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf_fleet_insights-li">
     <a href="/docs/roles/ahf_fleet_insights/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf_fleet_insights"><span class="">ahf_fleet_insights</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
@@ -212,8 +214,6 @@ The guide describes the concept, all dependencies and the gaps in the current im
     <a href="/docs/roles/oradb_manage_pdb/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_pdb"><span class="">oradb_manage_pdb</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_profiles-li">
     <a href="/docs/roles/oradb_manage_profiles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_profiles"><span class="">oradb_manage_profiles</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_redo-li">
-    <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="">oradb_manage_redo</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_roles-li">
     <a href="/docs/roles/oradb_manage_roles/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_roles"><span class="">oradb_manage_roles</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_services-li">
@@ -314,7 +314,7 @@ The guide describes the concept, all dependencies and the gaps in the current im
         <li><a href="#_oracle_home_without_database">6.3. ORACLE_HOME without database</a></li>
       </ul>
     </li>
-    <li><a href="#oracle_restart_switch_gi_home">7. Oracle Restart: switch of the Grid Infrastructure home</a>
+    <li><a href="#oracle_restart_switch_gi_home">7. Switch of the Grid Infrastructure home (Oracle Restart and cluster)</a>
       <ul>
         <li><a href="#oracle_restart_remove_obsolete_gi_home">7.1. Removal of obsolete Grid Infrastructure homes</a></li>
       </ul>
@@ -355,8 +355,9 @@ The guide describes the concept, all dependencies and the gaps in the current im
 </td>
 <td class="content">
 Out-of-Place Patching is supported for Single Instance primary databases without and with Oracle Restart.<br/>
-Grid Infrastructure for a Cluster, RAC and RAC One Node are not supported.<br/>
-The Grid Infrastructure home of Oracle Restart (26ai) can be switched as well, see <a href="#oracle_restart_switch_gi_home">Oracle Restart: switch of the Grid Infrastructure home</a>.<br/>
+The switch of RAC and RAC One Node databases is not supported.<br/>
+The Grid Infrastructure home of Oracle Restart and of Grid Infrastructure (cluster) 26ai can be switched as well,
+see <a href="#oracle_restart_switch_gi_home">Switch of the Grid Infrastructure home (Oracle Restart and cluster)</a>.<br/>
 Terms (Oracle Restart, Grid Infrastructure, RAC): see <a href="/docs/features/featurelist/">Featurelist</a>.<br/>
 The guide describes the concept, all dependencies and the gaps in the current implementation.
 </td>
@@ -1100,7 +1101,7 @@ With Oracle Restart the entry <code>&lt;db_unique_name&gt;:&lt;ORACLE_HOME&gt;:N
 <td class="tableblock halign-left valign-top"><p class="tableblock">Switch Grid Infrastructure home of Oracle Restart</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>oraswgi_install</code> (<code>switch_home.yml</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Change of <code>oracle_home_gi</code>. Oracle Restart 26ai only.
-See <a href="#oracle_restart_switch_gi_home">Oracle Restart: switch of the Grid Infrastructure home</a>.</p></td>
+See <a href="#oracle_restart_switch_gi_home">Switch of the Grid Infrastructure home (Oracle Restart and cluster)</a>.</p></td>
 </tr>
 </tfoot>
 </table>
@@ -1157,10 +1158,11 @@ All roles and asserts must support an <code>ORACLE_HOME</code> without database.
 </div>
 </div>
 <div class="sect1">
-<h2 id="oracle_restart_switch_gi_home">7. Oracle Restart: switch of the Grid Infrastructure home</h2>
+<h2 id="oracle_restart_switch_gi_home">7. Switch of the Grid Infrastructure home (Oracle Restart and cluster)</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The Grid Infrastructure home of Oracle Restart is switched by <code>oraswgi_install</code>, when <code>oracle_home_gi</code> differs from <code>crs_home</code> in <code>/etc/oracle/olr.loc</code>.
+<p>The Grid Infrastructure home of Oracle Restart and of Grid Infrastructure (cluster) is switched by <code>oraswgi_install</code>,
+when <code>oracle_home_gi</code> differs from <code>crs_home</code> in <code>/etc/oracle/olr.loc</code>.
 The new home is created from <code>oracle_install_image_gi</code>, normally a gold image of the new Release Update.</p>
 </div>
 <div class="admonitionblock important">
@@ -1170,9 +1172,10 @@ The new home is created from <code>oracle_install_image_gi</code>, normally a go
 <div class="title">Important</div>
 </td>
 <td class="content">
-Supported for Oracle Restart 26ai inside the same release (e.g. 23.26.3 ⇒ 23.26.4).<br/>
-Not supported for 19c Oracle Restart: <code>-switchGridHome</code> is not supported by Oracle for Oracle Restart 19c (INS-45101, MOS 2764906.1).<br/>
-Not supported for Grid Infrastructure (cluster): <code>oraswgi_install</code> stops with an error when <code>oracle_home_gi</code> differs from the running home.
+Supported for Oracle Restart 26ai and Grid Infrastructure (cluster) 26ai inside the same release (e.g. 23.26.3 ⇒ 23.26.4).<br/>
+Not supported for 19c: <code>-switchGridHome</code> is not supported by Oracle for Oracle Restart 19c (INS-45101, MOS 2764906.1),
+19c Grid Infrastructure (cluster) is not implemented.<br/>
+Grid Infrastructure (cluster): tested with 2 nodes and a RAC database (molecule scenario <code>rac</code>, <code>side_effect.yml</code>).
 </td>
 </tr>
 </tbody></table>
@@ -1195,30 +1198,40 @@ Not supported for Grid Infrastructure (cluster): <code>oraswgi_install</code> st
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Extract <code>oracle_install_image_gi</code> into <code>oracle_home_gi</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">grid</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Without downtime.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Without downtime.<br/>
+Grid Infrastructure (cluster): on every node.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>gridSetup.sh -silent -setupHomeAs &lt;old home&gt;</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">grid</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Software only installation with Oracle base and groups of the old home. Registers the new home in the central inventory.<br/>
-Without it, <code>-switchGridHome</code> fails with <code>INS-45127</code>. Without downtime.</p></td>
+Without it, <code>-switchGridHome</code> fails with <code>INS-45127</code>. Without downtime.<br/>
+Grid Infrastructure (cluster): on every node, one after the other. <code>-setupHomeAs</code> works on the local node only,
+<code>-switchGridHome</code> needs the new home on all nodes (<code>INS-42016</code> otherwise).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>gridSetup.sh -silent -switchGridHome</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">grid</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Prepares the switch. Without downtime.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Prepares the switch. Without downtime.<br/>
+Grid Infrastructure (cluster): on the primary node (1st host of <code>orasw_meta_cluster_hostgroup</code>).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>root.sh</code> of the new home</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">root</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>roothas.pl -prepatch/-postpatch -dstcrshome &lt;new home&gt;</code>: stops the stack in the old home and starts it in the new home.<br/>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle Restart: <code>roothas.pl -prepatch/-postpatch -dstcrshome &lt;new home&gt;</code>: stops the stack in the old home and starts it in the new home.<br/>
 <strong>Downtime</strong> of ASM, the listeners in the Grid Infrastructure home and all databases managed by Oracle Restart.<br/>
-The databases are started with their start option. <code>oracle-ohasd.service</code> and the <code>+ASM</code> entry in <code>/etc/oratab</code> point to the new home.</p></td>
+The databases are started with their start option. <code>oracle-ohasd.service</code> and the <code>+ASM</code> entry in <code>/etc/oratab</code> point to the new home.<br/>
+Grid Infrastructure (cluster): <code>rootcrs.pl -prepatch/-postpatch -dstcrshome &lt;new home&gt;</code>, <strong>rolling</strong>:
+primary node first, then the other nodes one after the other (<code>throttle: 1</code>).
+Only the instances of the node in progress are stopped, the RAC databases stay available.
+<code>rootcrs.pl -prepatch</code> runs <code>cluvfy stage -pre patch</code>: <code>/etc/oraInst.loc</code> must be owned by <code>root</code> (<code>PRVG-2031</code>/<code>PRVG-2032</code>),
+<code>oraswgi_install</code> sets the owner before <code>root.sh</code>.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>runInstaller -updateNodeList</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">grid</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CRS=TRUE</code> for the new home, <code>CRS=FALSE</code> for the old home in the central inventory (not changed by <code>root.sh</code>).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CRS=TRUE</code> for the new home, <code>CRS=FALSE</code> for the old home in the central inventory (not changed by <code>root.sh</code>).<br/>
+Grid Infrastructure (cluster): in the central inventory of every node (<code>-local</code>).</p></td>
 </tr>
 </tbody>
 </table>
@@ -1230,8 +1243,25 @@ The databases are started with their start option. <code>oracle-ohasd.service</c
 Listeners and databases in database homes are not changed.</p>
 </div>
 <div class="paragraph">
-<p>The old Grid Infrastructure home is not removed by the switch.
-A switch back to the old home is done in the same way by setting <code>oracle_home_gi</code> to the old home.</p>
+<p>The old Grid Infrastructure home is not removed by the switch.</p>
+</div>
+<div class="paragraph">
+<p>Oracle Restart: a switch back to the old home is done in the same way by setting <code>oracle_home_gi</code> to the old home.</p>
+</div>
+<div class="paragraph">
+<p>Grid Infrastructure (cluster):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A switch back into a former home is not implemented: the former running home is locked by <code>root.sh</code>
+(e.g. <code>bin/crsctl.bin</code> owned by <code>root</code>), <code>oraswgi_install</code> stops with an assert. Use a new <code>oracle_home_gi</code>.</p>
+</li>
+<li>
+<p>When <code>root.sh</code> fails before the switch (e.g. the CVU check of <code>rootcrs.pl -prepatch</code>), the next run resumes with <code>root.sh</code>:
+<code>-switchGridHome</code> is skipped, when <code>rootconfig.sh</code> of the new home is already owned by <code>root</code>.</p>
+</li>
+</ul>
 </div>
 <div class="sect2">
 <h3 id="oracle_restart_remove_obsolete_gi_home">7.1. Removal of obsolete Grid Infrastructure homes</h3>
@@ -1437,7 +1467,7 @@ A new RAC <code>ORACLE_HOME</code> needs the cluster installation before the swi
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 12, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/ad42b38629f5ed4cac7a0c9ae520dd8634ae31de">oraswgi_install: remove obsolete Grid Infrastructure homes of Oracle Restart (ad42b386)</a>
+  Last modified November 13, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/c13a454cf843e8bcce994f0da23c4f0a92a21114">oraswgi_install: Out-of-Place Patching of Grid Infrastructure (cluster) (c13a454c)</a>
 </div>
 
 </div>

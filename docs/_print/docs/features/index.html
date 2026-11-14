@@ -447,7 +447,7 @@ Redhat Enterprise Linux</p></td>
 26ai</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/docs/guides/out_of_place_patching/#oracle_restart_switch_gi_home">Out-of-Place Patching of Oracle Restart</a>: switch of the Grid Infrastructure home <a href="#table1footnote"><sup>[15]</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="/docs/guides/out_of_place_patching/#oracle_restart_switch_gi_home">Out-of-Place Patching of Oracle Restart and Grid Infrastructure</a>: switch of the Grid Infrastructure home <a href="#table1footnote"><sup>[15]</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">26ai</p></td>
 </tr>
 <tr>
@@ -657,8 +657,9 @@ Not supported for Grid Infrastructure (cluster), RAC and RAC One Node.</p>
 <a id="table1footnote"></a><sup>15</sup>
 </td>
 <td class="hdlist2">
-<p>Oracle Restart only (<code>gridSetup.sh -switchGridHome</code>), inside the same release (e.g. 23.26.3 ⇒ 23.26.4).
-Not supported for 19c Oracle Restart and for Grid Infrastructure (cluster).</p>
+<p>Oracle Restart and Grid Infrastructure (cluster) 26ai (<code>gridSetup.sh -switchGridHome</code>, cluster: <code>root.sh</code> rolling),
+inside the same release (e.g. 23.26.3 ⇒ 23.26.4).
+Not supported for 19c. Grid Infrastructure (cluster): no switch back into a former home.</p>
 </td>
 </tr>
 <tr>
