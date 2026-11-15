@@ -353,7 +353,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>3.2: <a href="#pg-df389f0fd67da23712005b22d5d20abf">orahost_meta</a></li>
+<li>3.2: <a href="#pg-df389f0fd67da23712005b22d5d20abf">oraswgi_install</a></li>
 
 
     
@@ -361,7 +361,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>3.3: <a href="#pg-df389f0fd67da23712005b22d5d20abf">ahf</a></li>
+<li>3.3: <a href="#pg-df389f0fd67da23712005b22d5d20abf">oradb_manage_db</a></li>
 
 
     
@@ -369,7 +369,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>3.4: <a href="#pg-df389f0fd67da23712005b22d5d20abf">oradb_manage_db</a></li>
+<li>3.4: <a href="#pg-df389f0fd67da23712005b22d5d20abf">oradb_standby</a></li>
 
 
     
@@ -377,7 +377,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>3.5: <a href="#pg-df389f0fd67da23712005b22d5d20abf">oradb_manage_redo</a></li>
+<li>3.5: <a href="#pg-df389f0fd67da23712005b22d5d20abf">orahost_meta</a></li>
 
 
     
@@ -385,7 +385,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>3.6: <a href="#pg-df389f0fd67da23712005b22d5d20abf">orasw_meta</a></li>
+<li>3.6: <a href="#pg-df389f0fd67da23712005b22d5d20abf">ahf</a></li>
 
 
     
@@ -393,7 +393,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>3.7: <a href="#pg-df389f0fd67da23712005b22d5d20abf">oraswgi_install</a></li>
+<li>3.7: <a href="#pg-df389f0fd67da23712005b22d5d20abf">oradb_manage_redo</a></li>
 
 
     
@@ -401,7 +401,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>3.8: <a href="#pg-df389f0fd67da23712005b22d5d20abf">ahf_fleet_insights</a></li>
+<li>3.8: <a href="#pg-df389f0fd67da23712005b22d5d20abf">orasw_meta</a></li>
 
 
     
@@ -409,7 +409,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>3.9: <a href="#pg-df389f0fd67da23712005b22d5d20abf">orasw_meta_internal</a></li>
+<li>3.9: <a href="#pg-df389f0fd67da23712005b22d5d20abf">ahf_fleet_insights</a></li>
 
 
     
@@ -417,7 +417,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>3.10: <a href="#pg-df389f0fd67da23712005b22d5d20abf">oraswdb_install</a></li>
+<li>3.10: <a href="#pg-df389f0fd67da23712005b22d5d20abf">orasw_meta_internal</a></li>
 
 
     
@@ -425,7 +425,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>3.11: <a href="#pg-df389f0fd67da23712005b22d5d20abf">oradb_rman</a></li>
+<li>3.11: <a href="#pg-df389f0fd67da23712005b22d5d20abf">oraswdb_install</a></li>
 
 
     
@@ -433,7 +433,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>3.12: <a href="#pg-df389f0fd67da23712005b22d5d20abf">oradb_standby</a></li>
+<li>3.12: <a href="#pg-df389f0fd67da23712005b22d5d20abf">oradb_rman</a></li>
 
 
     
@@ -10444,7 +10444,9 @@ Listeners and databases in database homes are not changed.</p>
 <ul>
 <li>
 <p>A switch back into a former home is not implemented: the former running home is locked by <code>root.sh</code>
-(e.g. <code>bin/crsctl.bin</code> owned by <code>root</code>), <code>oraswgi_install</code> stops with an assert. Use a new <code>oracle_home_gi</code>.</p>
+(e.g. <code>bin/crsctl.bin</code> owned by <code>root</code>), <code>oraswgi_install</code> stops with an assert. Use a new <code>oracle_home_gi</code>.
+<code>gi_switch_back: allow</code> unlocks the former home on every node (<code>rootcrs.sh -unlock -crshome</code>) and switches back, <code>gi_switch_back: ignore</code>
+accepts the situation (no switch, no assert). Both are <strong>not tested</strong>.</p>
 </li>
 <li>
 <p>When <code>root.sh</code> fails before the switch (e.g. the CVU check of <code>rootcrs.pl -prepatch</code>), the next run resumes with <code>root.sh</code>:
@@ -11319,7 +11321,40 @@ the standby gets its own value with <code>SET</code> in RMAN <code>DUPLICATE</co
 </div>
 </div>
 <div class="sect1">
-<h2 id="_archivelog_deletion_policy">7. Archivelog deletion policy</h2>
+<h2 id="_flashback_database_of_the_standby_database">7. Flashback Database of the standby database</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>RMAN DUPLICATE …​ FOR STANDBY</code> creates the standby database with Flashback Database disabled,
+and <code>oradb_manage_db</code> changes <code>flashback</code> of <code>oracle_databases</code> on the primary database only.
+After a switchover the new primary database would have no Flashback Database.
+<code>oradb_standby</code> therefore sets <code>flashback</code> of <code>oracle_databases</code> on every physical standby database,
+for a new and for an existing one. Nothing is changed when the state already matches.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The task runs after the broker configuration was created: <code>ALTER DATABASE FLASHBACK ON</code> fails with
+ORA-38788 (<em>more standby database recovery is needed</em>), until the standby database has applied more redo
+than after <code>RMAN DUPLICATE</code>. The redo transport is configured by the broker.</p>
+</li>
+<li>
+<p><code>oradb_standby_flashback_retries</code> (default <code>20</code>) attempts, <code>oradb_standby_flashback_delay</code> (default <code>15</code>) seconds
+between two attempts. Redo Apply is running between the attempts.</p>
+</li>
+<li>
+<p>Redo Apply is stopped for the statement (ORA-01153) and started again in every case, also when the statement fails.
+With a broker configuration <code>APPLY-OFF</code> / <code>APPLY-ON</code> is used, otherwise the broker would start the stopped Redo Apply again.</p>
+</li>
+<li>
+<p>Not executed with <code>oradb_standby_broker_create: false</code>: <code>oradb_standby</code> does not create the broker configuration then
+and cannot know, when the redo transport is available. Set Flashback Database of the standby database yourself in this case.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_archivelog_deletion_policy">8. Archivelog deletion policy</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><code>archivelog_deletion_policy</code> is mandatory for <code>type: dataguard</code>:
@@ -11428,7 +11463,7 @@ e.g. the archive logs of a standby database are never eligible for deletion, whe
 </div>
 </div>
 <div class="sect1">
-<h2 id="_data_guard_broker_configuration_file">8. Data Guard Broker configuration file</h2>
+<h2 id="_data_guard_broker_configuration_file">9. Data Guard Broker configuration file</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><code>oradb_standby</code> creates a <code>dgmgrl</code> script for each database with <code>type: dataguard</code>:
@@ -11573,7 +11608,7 @@ A warning is shown, when the broker is not available (e.g. <code>dg_broker_start
 </div>
 </div>
 <div class="sect1">
-<h2 id="_role_transitions">9. Role transitions outside of ansible-oracle</h2>
+<h2 id="_role_transitions">10. Role transitions outside of ansible-oracle</h2>
 <div class="sectionbody">
 <div class="admonitionblock important">
 <table>
@@ -11624,7 +11659,7 @@ When the instance of the old primary is <strong>not</strong> running, its role i
 </ul>
 </div>
 <div class="sect2">
-<h3 id="_case_1_reinstate_automatic_not_destructive">9.1. Case 1: Reinstate (automatic, not destructive)</h3>
+<h3 id="_case_1_reinstate_automatic_not_destructive">10.1. Case 1: Reinstate (automatic, not destructive)</h3>
 <div class="paragraph">
 <p>The broker reports <code>ORA-16661</code> for a member ⇒ <code>REINSTATE DATABASE &#39;&lt;member&gt;&#39;</code> on the current primary.</p>
 </div>
@@ -11643,7 +11678,7 @@ When the instance of the old primary is <strong>not</strong> running, its role i
 </div>
 </div>
 <div class="sect2">
-<h3 id="_case_2_missing_member_automatic_not_destructive">9.2. Case 2: Missing member (automatic, not destructive)</h3>
+<h3 id="_case_2_missing_member_automatic_not_destructive">10.2. Case 2: Missing member (automatic, not destructive)</h3>
 <div class="paragraph">
 <p>The database of a member does not exist (e.g. a reinstalled server of the old primary)
 and another member is the <code>PRIMARY</code> (<code>oradb_facts</code>) ⇒ the member is created as standby database,
@@ -11661,7 +11696,7 @@ independent of <code>initial_role</code>. <code>initial_role</code> is only used
 </div>
 </div>
 <div class="sect2">
-<h3 id="_case_3_rebuild_of_an_existing_standby_database_on_request_only_destructive">9.3. Case 3: Rebuild of an existing standby database (on request only, destructive)</h3>
+<h3 id="_case_3_rebuild_of_an_existing_standby_database_on_request_only_destructive">10.3. Case 3: Rebuild of an existing standby database (on request only, destructive)</h3>
 <div class="paragraph">
 <p>Most frequent case in practice: a reinstatement is not possible (no Flashback Database) or the standby database is damaged.</p>
 </div>
@@ -11725,7 +11760,7 @@ never in the inventory (otherwise every run would rebuild the standby database):
 </div>
 </div>
 <div class="sect1">
-<h2 id="_validation">10. Validation</h2>
+<h2 id="_validation">11. Validation</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The rules are checked by the role <code>orasw_meta</code> (<code>roles/orasw_meta/tasks/assert_standby.yml</code>).
@@ -11831,7 +11866,7 @@ Both default to <code>oracle_db_name</code>.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_example_data_guard_with_2_hosts">11. Example: Data Guard with 2 hosts</h2>
+<h2 id="_example_data_guard_with_2_hosts">12. Example: Data Guard with 2 hosts</h2>
 <div class="sectionbody">
 <div class="admonitionblock tip">
 <table>
@@ -11950,10 +11985,10 @@ The static entry is needed for RMAN duplicate, because the auxiliary instance is
 </div>
 </div>
 <div class="sect1">
-<h2 id="_open_points">12. Open Points and TODOs</h2>
+<h2 id="_open_points">13. Open Points and TODOs</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_open_points_2">12.1. Open Points</h3>
+<h3 id="_open_points_2">13.1. Open Points</h3>
 <div class="paragraph">
 <p>The following points are not decided yet:</p>
 </div>
@@ -11981,7 +12016,7 @@ The static entry is needed for RMAN duplicate, because the auxiliary instance is
 </table>
 </div>
 <div class="sect2">
-<h3 id="_todo">12.2. TODO</h3>
+<h3 id="_todo">13.2. TODO</h3>
 <div class="ulist checklist">
 <ul class="checklist">
 <li>
@@ -18699,7 +18734,479 @@ See <a class="bare" href="https://python-oracledb.readthedocs.io/">https://pytho
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.2 - orahost_meta</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.2 - oraswgi_install</h1>
+    
+	<p>Install Grid Infrastructure / ORacle Restart software.</p>
+<p>This role has a dependency to <code>orahost_meta</code> and <code>orasw_meta</code> for default parameter.</p>
+<p>Known Issues from Oracle:</p>
+<ul>
+<li>TOP Note: Solutions for Typical Grid Infrastructure/RAC Database runInstaller/DBCA for RAC Issues (Doc ID 1056713.1)</li>
+<li>INS-06006 GI RunInstaller Fails If OpenSSH Is Upgraded to 8.x (Doc ID 2555697.1)</li>
+</ul>
+<h2 id="table-of-contents">Table of contents</h2>
+<ul>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#default-variables">Default Variables</a>
+<ul>
+<li><a href="#cvuqdisk_rpm">cvuqdisk_rpm</a></li>
+<li><a href="#default_dbpass">default_dbpass</a></li>
+<li><a href="#default_gipass">default_gipass</a></li>
+<li><a href="#endoracle_scan_port">endoracle_scan_port</a></li>
+<li><a href="#gi_ignoreprereq">gi_ignoreprereq</a></li>
+<li><a href="#gi_switch_back">gi_switch_back</a></li>
+<li><a href="#oracle_asm_init_dg">oracle_asm_init_dg</a></li>
+<li><a href="#oracle_asm_storage_option">oracle_asm_storage_option</a></li>
+<li><a href="#oracle_cluster_mgmdb">oracle_cluster_mgmdb</a></li>
+<li><a href="#oracle_cluster_name">oracle_cluster_name</a></li>
+<li><a href="#oracle_gi_cluster_type">oracle_gi_cluster_type</a></li>
+<li><a href="#oracle_gi_gns_subdomain">oracle_gi_gns_subdomain</a></li>
+<li><a href="#oracle_gi_gns_vip">oracle_gi_gns_vip</a></li>
+<li><a href="#oracle_gi_nic_priv">oracle_gi_nic_priv</a></li>
+<li><a href="#oracle_gi_nic_pub">oracle_gi_nic_pub</a></li>
+<li><a href="#oracle_ic_net">oracle_ic_net</a></li>
+<li><a href="#oracle_scan">oracle_scan</a></li>
+<li><a href="#oracle_scan_port">oracle_scan_port</a></li>
+<li><a href="#oracle_sw_image_gi">oracle_sw_image_gi</a></li>
+<li><a href="#oracle_vip">oracle_vip</a></li>
+<li><a href="#oraswgi_install_remove_obsolete_homes">oraswgi_install_remove_obsolete_homes</a></li>
+<li><a href="#run_configtoolallcommand">run_configtoolallcommand</a></li>
+</ul>
+</li>
+<li><a href="#discovered-tags">Discovered Tags</a></li>
+<li><a href="#open-tasks">Open Tasks</a></li>
+<li><a href="#dependencies">Dependencies</a></li>
+<li><a href="#license">License</a></li>
+<li><a href="#author">Author</a></li>
+</ul>
+<hr>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>Minimum Ansible version: <code>2.16.0</code></li>
+</ul>
+<h2 id="default-variables">Default Variables</h2>
+<h3 id="cvuqdisk_rpm">cvuqdisk_rpm</h3>
+<p>Name of RPM for cvuqdisk.</p>
+<p>RPM is installed from {{ oracle_home_gi }}/cv/rpm/</p>
+<h4 id="default-value">Default value</h4>
+<pre><code class="language-YAML">cvuqdisk_rpm: cvuqdisk-1.0.10-1.rpm
+</code></pre>
+<h3 id="default_dbpass">default_dbpass</h3>
+<h4 id="default-value-1">Default value</h4>
+<pre><code class="language-YAML">default_dbpass: '{% if item.0.oracle_db_passwd is defined %}{{ item.0.oracle_db_passwd }}{% else %}Oracle123{% endif %}'
+</code></pre>
+<h3 id="default_gipass">default_gipass</h3>
+<p>Default password for Grid-Infrastructure and ASM-Users.</p>
+<p>Important</p>
+<p>It is mandatory to set this variable in your inventory!</p>
+<h4 id="default-value-2">Default value</h4>
+<pre><code class="language-YAML">default_gipass: ''
+</code></pre>
+<h3 id="endoracle_scan_port">endoracle_scan_port</h3>
+<p>Port for SCAN-Listener</p>
+<h3 id="gi_ignoreprereq">gi_ignoreprereq</h3>
+<p>false =&gt; Do not ignore failed runcluvfy.sh
+true =&gt; Ignore failed runcluvfy.sh</p>
+<h4 id="default-value-3">Default value</h4>
+<pre><code class="language-YAML">gi_ignoreprereq: false
+</code></pre>
+<h3 id="gi_switch_back">gi_switch_back</h3>
+<p>Grid Infrastructure (cluster): <code>oracle_home_gi</code> is a former running home, the stack runs from another
+home (<code>/etc/oracle/olr.loc</code>). The former home is locked by <code>root.sh</code>/<code>rootcrs.pl -postpatch</code>
+(<code>bin/crsctl.bin</code> owned by <code>root</code>). What to do (a switch back is not part of the tested features):</p>
+<ul>
+<li><code>deny</code> =&gt; <code>oraswgi_install</code> stops with an assert.</li>
+<li><code>allow</code> =&gt; Switch back: <code>rootcrs.sh -unlock -crshome &lt;oracle_home_gi&gt;</code> on every node, then like
+a switch into a new home (<code>-switchGridHome</code>, <code>root.sh</code> rolling). Not tested.</li>
+<li><code>ignore</code> =&gt; The situation is accepted: no switch and no assert, the stack keeps running from the current home.
+The run continues with <code>oracle_home_gi</code>, e.g. a run after the molecule module tests.</li>
+</ul>
+<p>Oracle Restart is not affected: a switch back is supported and the former home is unlocked.</p>
+<h4 id="default-value-4">Default value</h4>
+<pre><code class="language-YAML">gi_switch_back: deny
+</code></pre>
+<h3 id="oracle_asm_init_dg">oracle_asm_init_dg</h3>
+<p>1st Diskgroup where ASM SPFile is placed.</p>
+<h4 id="default-value-5">Default value</h4>
+<pre><code class="language-YAML">oracle_asm_init_dg: crs
+</code></pre>
+<h3 id="oracle_asm_storage_option">oracle_asm_storage_option</h3>
+<h4 id="default-value-6">Default value</h4>
+<pre><code class="language-YAML">oracle_asm_storage_option: &quot;{% if oracle_install_version_gi is version('12.2', '&gt;=') %}FLEX_ASM_STORAGE{% else %}LOCAL_ASM_STORAGE{% endif %}&quot;
+</code></pre>
+<h3 id="oracle_cluster_mgmdb">oracle_cluster_mgmdb</h3>
+<p>Create _MGMTBD on cluster.</p>
+<h4 id="default-value-7">Default value</h4>
+<pre><code class="language-YAML">oracle_cluster_mgmdb: false
+</code></pre>
+<h3 id="oracle_cluster_name">oracle_cluster_name</h3>
+<p>Name of Grid-Infrastructure Cluster.</p>
+<p>The maximum length allowed for clustername is 63 characters. The name can be
+any combination of lower and uppercase alphabets (A - Z), (0 - 9) and hyphens (-).</p>
+<p>Only set this variable, when <code>orasw_meta_cluster_hostgroup</code> contains a &lsquo;_&rsquo;.</p>
+<p>Important! Ansible hostgrouds could not contain a &lsquo;-&rsquo; in name!</p>
+<h4 id="default-value-8">Default value</h4>
+<pre><code class="language-YAML">oracle_cluster_name: '{{ orasw_meta_cluster_hostgroup }}'
+</code></pre>
+<h3 id="oracle_gi_cluster_type">oracle_gi_cluster_type</h3>
+<p>Define clusterware type.</p>
+<h4 id="default-value-9">Default value</h4>
+<pre><code class="language-YAML">oracle_gi_cluster_type: STANDARD
+</code></pre>
+<h3 id="oracle_gi_gns_subdomain">oracle_gi_gns_subdomain</h3>
+<p>Define ths GNS subdomain for Cluster</p>
+<h3 id="oracle_gi_gns_vip">oracle_gi_gns_vip</h3>
+<p>Define GNS VIP for Clusterware.</p>
+<h4 id="default-value-10">Default value</h4>
+<pre><code class="language-YAML">oracle_gi_gns_vip:
+</code></pre>
+<h3 id="oracle_gi_nic_priv">oracle_gi_nic_priv</h3>
+<p>Name of private network interface.</p>
+<h4 id="default-value-11">Default value</h4>
+<pre><code class="language-YAML">oracle_gi_nic_priv: eth1
+</code></pre>
+<h3 id="oracle_gi_nic_pub">oracle_gi_nic_pub</h3>
+<p>Name of public network interface.</p>
+<h4 id="default-value-12">Default value</h4>
+<pre><code class="language-YAML">oracle_gi_nic_pub: eth0
+</code></pre>
+<h3 id="oracle_ic_net">oracle_ic_net</h3>
+<p>Defines the network for the interconnect.</p>
+<p>Important!</p>
+<p>Only used, when <code>configure_interconnect=true</code> and <code>ansible_os_family='RedHat'</code> during cluster installations.</p>
+<h4 id="default-value-13">Default value</h4>
+<pre><code class="language-YAML">oracle_ic_net: 3.3.3.{{ ansible_all_ipv4_addresses[0].split(&quot;.&quot;)[-1] }}
+</code></pre>
+<h3 id="oracle_scan">oracle_scan</h3>
+<p>SCAN DNS-Name</p>
+<h3 id="oracle_scan_port">oracle_scan_port</h3>
+<h4 id="default-value-14">Default value</h4>
+<pre><code class="language-YAML">oracle_scan_port: 1521
+</code></pre>
+<h3 id="oracle_sw_image_gi">oracle_sw_image_gi</h3>
+<p>List of version sepcific GI installation images</p>
+<p>NOTE: Image files are expected to be found by their <code>filename</code> under <code>oracle_sw_source_local</code>, or <code>oracle_sw_source_www</code> respectively,
+unless a <code>filesource</code> dict element provides a full path / complete URL to the image file.</p>
+<h4 id="default-value-15">Default value</h4>
+<pre><code class="language-YAML">oracle_sw_image_gi:
+  - {filename: LINUX.X64_2326100_grid_home.zip, version: 26.1.0.0, creates: install/.img.bin}
+  - {filename: LINUX.X64_213000_grid_home.zip, version: 21.3.0.0, creates: install/.img.bin}
+  - {filename: LINUX.X64_193000_grid_home.zip, version: 19.3.0.0, creates: install/.img.bin}
+  - {filename: LINUX.X64_180000_grid_home.zip, version: 18.3.0.0, creates: install/.img.bin}
+  - {filename: linuxx64_12201_grid_home.zip, version: 12.2.0.1, creates: xdk/mesg/lsxja.msb}
+  - {filename: linuxamd64_12102_grid_1of2.zip, version: 12.1.0.2, creates: grid/stage/sizes/oracle.crs.12.1.0.2.0.sizes.properties}
+  - {filename: linuxamd64_12102_grid_2of2.zip, version: 12.1.0.2, creates: grid/install/.oui}
+  - {filename: linuxamd64_12c_grid_1of2.zip, version: 12.1.0.1}
+  - {filename: linuxamd64_12c_grid_2of2.zip, version: 12.1.0.1}
+</code></pre>
+<h4 id="example-usage">Example usage</h4>
+<pre><code class="language-YAML">oracle_sw_image_gi:
+  # LINUX.X64_213000_grid_home.zip located under `oracle_sw_source_local`
+  - {filename: LINUX.X64_213000_grid_home.zip, version: 21.3.0.0, creates: 'install/.img.bin'}
+  # LINUX.X64_193000_grid_home.zip located under /mnt/images
+  - {filename: LINUX.X64_193000_grid_home.zip, filesource: /mnt/images/LINUX.X64_193000_grid_home.zip, version: 19.3.0.0, creates: 'install/.img.bin'}
+  # LINUX.X64_180000_grid_home.zip download
+  - {filename: LINUX.X64_180000_grid_home.zip, filesource: https://downloadserver/images?id=180000_grid_home, version: 18.3.0.0, creates: 'install/.img.bin'}
+</code></pre>
+<h3 id="oracle_vip">oracle_vip</h3>
+<p>suffix added to hostnames for VIPs.</p>
+<p>{{ ansible_hostname }}{{ oracle_vip }}</p>
+<p>Important!</p>
+<p><code>oracle_node_vip</code> defines a fixed hostname for the VIP.</p>
+<p>That replaces the logic from <code>oracle_vip</code> for the VIP!</p>
+<h4 id="default-value-16">Default value</h4>
+<pre><code class="language-YAML">oracle_vip: -vip
+</code></pre>
+<h3 id="oraswgi_install_remove_obsolete_homes">oraswgi_install_remove_obsolete_homes</h3>
+<p>Remove obsolete Grid Infrastructure homes of Oracle Restart with <code>deinstall</code>.</p>
+<p>Obsolete homes are all Grid Infrastructure homes in the central inventory
+except <code>crs_home</code> in <code>/etc/oracle/olr.loc</code> and <code>oracle_home_gi</code>,
+e.g. the old home after an Out-of-Place Patching.</p>
+<p>The removal is done only, when Oracle Restart runs from <code>oracle_home_gi</code> and
+<code>deinstall -checkonly</code> reports the home as not configured.</p>
+<p>Homes, which are not registered in the central inventory, are not touched.</p>
+<h4 id="default-value-17">Default value</h4>
+<pre><code class="language-YAML">oraswgi_install_remove_obsolete_homes: false
+</code></pre>
+<h3 id="run_configtoolallcommand">run_configtoolallcommand</h3>
+<p>Run configtoolcommand during installation.</p>
+<p>Do not disable this!</p>
+<h4 id="default-value-18">Default value</h4>
+<pre><code class="language-YAML">run_configtoolallcommand: true
+</code></pre>
+<h2 id="discovered-tags">Discovered Tags</h2>
+<p><strong><em>always</em></strong></p>
+<p><strong><em>asmfd</em></strong></p>
+<p><strong><em>crsctl</em></strong></p>
+<p><strong><em>cvuqdisk</em></strong></p>
+<p><strong><em>directories</em></strong></p>
+<p><strong><em>dsset</em></strong></p>
+<p><strong><em>glogingi</em></strong></p>
+<p><strong><em>nfsmountdb</em></strong></p>
+<p><strong><em>nfsumountdb</em></strong></p>
+<p><strong><em>opatchls</em></strong></p>
+<p><strong><em>oragridinstall</em></strong></p>
+<p><strong><em>oragridsw</em></strong></p>
+<p><strong><em>oragridswunpack</em></strong></p>
+<p><strong><em>responsefileconfigtool</em></strong></p>
+<p><strong><em>responsefilegi</em></strong></p>
+<p><strong><em>runcluvfy</em></strong></p>
+<p><strong><em>runconfigtool</em></strong></p>
+<p><strong><em>runroot</em></strong></p>
+<p><strong><em>updatenodelist</em></strong></p>
+<h2 id="open-tasks">Open Tasks</h2>
+<ul>
+<li>(bug): ConfigTools should not depend on olr.loc&hellip;</li>
+<li>(bug): ConfigTools should not depend on olr.loc&hellip;</li>
+<li>(bug): ConfigTools should not depend on olr.loc&hellip;</li>
+<li>(information): add selectattr to asm_diskgroups</li>
+<li>(information): Check if path for patches is ok with patch_id/patch_id</li>
+<li>(information): add selectattr to asm_diskgroups</li>
+<li>(information): Check if path for patches is ok with patch_id/patch_id</li>
+<li>(information): add selectattr to asm_diskgroups</li>
+<li>(information): Check if path for patches is ok with patch_id/patch_id</li>
+</ul>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li>orahost_meta</li>
+<li>orasw_meta</li>
+<li>oraswgi_meta</li>
+</ul>
+<h2 id="license">License</h2>
+<p>license (MIT)</p>
+<h2 id="author">Author</h2>
+<p>Mikael Sandström, Thorsten Bruhns</p>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.3 - oradb_manage_db</h1>
+    
+	<p>Create, modify and remove Oracle Databases</p>
+<h2 id="table-of-contents">Table of contents</h2>
+<ul>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#default-variables">Default Variables</a>
+<ul>
+<li><a href="#dbca_templatename">dbca_templatename</a></li>
+<li><a href="#hostgroup_hub">hostgroup_hub</a></li>
+<li><a href="#listener_name">listener_name</a></li>
+<li><a href="#oracle_gi_cluster_type">oracle_gi_cluster_type</a></li>
+<li><a href="#oradb_manage_db_dbca_ignore_prereq_failure">oradb_manage_db_dbca_ignore_prereq_failure</a></li>
+</ul>
+</li>
+<li><a href="#discovered-tags">Discovered Tags</a></li>
+<li><a href="#open-tasks">Open Tasks</a></li>
+<li><a href="#dependencies">Dependencies</a></li>
+<li><a href="#license">License</a></li>
+<li><a href="#author">Author</a></li>
+</ul>
+<hr>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>Minimum Ansible version: <code>2.16.0</code></li>
+</ul>
+<h2 id="default-variables">Default Variables</h2>
+<h3 id="dbca_templatename">dbca_templatename</h3>
+<p>Default template name used by DBCA during execution.</p>
+<h4 id="default-value">Default value</h4>
+<pre><code class="language-YAML">dbca_templatename: General_Purpose.dbc
+</code></pre>
+<h3 id="hostgroup_hub">hostgroup_hub</h3>
+<h4 id="default-value-1">Default value</h4>
+<pre><code class="language-YAML">hostgroup_hub: '{{ hostgroup }}-hub'
+</code></pre>
+<h3 id="listener_name">listener_name</h3>
+<p>Default name for LISTENER</p>
+<h4 id="default-value-2">Default value</h4>
+<pre><code class="language-YAML">listener_name: LISTENER
+</code></pre>
+<h3 id="oracle_gi_cluster_type">oracle_gi_cluster_type</h3>
+<h4 id="default-value-3">Default value</h4>
+<pre><code class="language-YAML">oracle_gi_cluster_type: STANDARD
+</code></pre>
+<h3 id="oradb_manage_db_dbca_ignore_prereq_failure">oradb_manage_db_dbca_ignore_prereq_failure</h3>
+<p>Create databases with <code>dbca -ignorePrereqFailure</code>:
+dbca executes the prerequisite checks, but failures do not stop the creation
+of the database (e.g. a SCAN without DNS for RAC databases).</p>
+<p>The default follows <code>gi_ignoreprereq</code> (prerequisite checks of Grid Infrastructure).</p>
+<h4 id="default-value-4">Default value</h4>
+<pre><code class="language-YAML">oradb_manage_db_dbca_ignore_prereq_failure: '{{ gi_ignoreprereq | default(false) }}'
+</code></pre>
+<h2 id="discovered-tags">Discovered Tags</h2>
+<p><strong><em>always</em></strong></p>
+<p><strong><em>autostartup_service</em></strong></p>
+<p><strong><em>create_cdb,dotprofile_db</em></strong></p>
+<p><strong><em>create_db</em></strong></p>
+<p><strong><em>create_db,dbca,customdbcatemplate,dotprofile_db,listener2</em></strong></p>
+<p><strong><em>create_db,dotprofile_db</em></strong></p>
+<p><strong><em>customdbcatemplate</em></strong></p>
+<p><strong><em>dbca</em></strong></p>
+<p><strong><em>dbcatemplate</em></strong></p>
+<p><strong><em>dotprofile_db</em></strong></p>
+<p><strong><em>listener</em></strong></p>
+<p><strong><em>listener2</em></strong></p>
+<p><strong><em>listener_install</em></strong></p>
+<p><strong><em>manage_db</em></strong></p>
+<p><strong><em>molecule-idempotence-notest</em></strong></p>
+<p><strong><em>odb_assert</em></strong></p>
+<p><strong><em>psout</em></strong></p>
+<p><strong><em>remove_db,dbca</em></strong></p>
+<p><strong><em>responsefile_netca, listener_install</em></strong></p>
+<p><strong><em>set_fact</em></strong></p>
+<p><strong><em>sql_script</em></strong></p>
+<p><strong><em>sqlnet</em></strong></p>
+<p><strong><em>sqlnet2</em></strong></p>
+<p><strong><em>switch_home</em></strong></p>
+<p><strong><em>tnsnames</em></strong></p>
+<p><strong><em>tnsnames2</em></strong></p>
+<p><strong><em>tnsnames2,create_db,dbca</em></strong></p>
+<p><strong><em>update_oratab</em></strong></p>
+<h2 id="open-tasks">Open Tasks</h2>
+<ul>
+<li>(bug): replace netca with new listener_details tasks</li>
+</ul>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li>orahost_meta</li>
+<li>orasw_meta</li>
+</ul>
+<h2 id="license">License</h2>
+<p>license (MIT)</p>
+<h2 id="author">Author</h2>
+<p>[Mikael Sandström]</p>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.4 - oradb_standby</h1>
+    
+	<p>Creates standby databases for the standby configurations in <code>db_standby_config</code>.</p>
+<p>The method for the creation is selected with <code>create_method</code> in <code>db_standby_config</code>:</p>
+<ul>
+<li><code>rman_duplicate_active</code>: RMAN <code>DUPLICATE ... FOR STANDBY FROM ACTIVE DATABASE</code> (default)</li>
+<li><code>external</code>: the standby database is created outside of <code>ansible-oracle</code></li>
+<li><code>custom</code>: tasks file from <code>create_tasks_file</code></li>
+</ul>
+<p>The inventory structure is described in <code>doc/guides/standby_databases.adoc</code>.</p>
+<h2 id="table-of-contents">Table of contents</h2>
+<ul>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#default-variables">Default Variables</a>
+<ul>
+<li><a href="#oradb_standby_broker_create">oradb_standby_broker_create</a></li>
+<li><a href="#oradb_standby_flashback_delay">oradb_standby_flashback_delay</a></li>
+<li><a href="#oradb_standby_flashback_retries">oradb_standby_flashback_retries</a></li>
+<li><a href="#oradb_standby_rman_compressed">oradb_standby_rman_compressed</a></li>
+<li><a href="#oradb_standby_rman_logdir">oradb_standby_rman_logdir</a></li>
+<li><a href="#oradb_standby_rman_parallel">oradb_standby_rman_parallel</a></li>
+<li><a href="#oradb_standby_start_apply">oradb_standby_start_apply</a></li>
+</ul>
+</li>
+<li><a href="#discovered-tags">Discovered Tags</a></li>
+<li><a href="#dependencies">Dependencies</a></li>
+<li><a href="#license">License</a></li>
+<li><a href="#author">Author</a></li>
+</ul>
+<hr>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>Minimum Ansible version: <code>2.16.0</code></li>
+</ul>
+<h2 id="default-variables">Default Variables</h2>
+<h3 id="oradb_standby_broker_create">oradb_standby_broker_create</h3>
+<p>Create the Data Guard Broker configuration with <code>dgmgrl.cfg</code> on the host of the primary database,
+when no broker configuration exists and all other members are physical standby databases.</p>
+<p><code>false</code>: <code>dgmgrl.cfg</code> is created on all members, but not executed.</p>
+<h4 id="default-value">Default value</h4>
+<pre><code class="language-YAML">oradb_standby_broker_create: true
+</code></pre>
+<h3 id="oradb_standby_flashback_delay">oradb_standby_flashback_delay</h3>
+<p>Seconds between two attempts to enable Flashback Database on a physical standby database,
+Redo Apply is running meanwhile.</p>
+<h4 id="default-value-1">Default value</h4>
+<pre><code class="language-YAML">oradb_standby_flashback_delay: 15
+</code></pre>
+<h3 id="oradb_standby_flashback_retries">oradb_standby_flashback_retries</h3>
+<p>Attempts to enable Flashback Database on a physical standby database.</p>
+<p><code>ALTER DATABASE FLASHBACK ON</code> fails with ORA-38788 until the standby database has applied more redo
+than after <code>RMAN DUPLICATE</code>. The task retries after <code>oradb_standby_flashback_delay</code> seconds.</p>
+<h4 id="default-value-2">Default value</h4>
+<pre><code class="language-YAML">oradb_standby_flashback_retries: 20
+</code></pre>
+<h3 id="oradb_standby_rman_compressed">oradb_standby_rman_compressed</h3>
+<p>Use <code>USING COMPRESSED BACKUPSET</code> for <code>DUPLICATE ... FROM ACTIVE DATABASE</code>.
+<code>false</code> uses <code>USING BACKUPSET</code>.</p>
+<h4 id="default-value-3">Default value</h4>
+<pre><code class="language-YAML">oradb_standby_rman_compressed: true
+</code></pre>
+<h3 id="oradb_standby_rman_logdir">oradb_standby_rman_logdir</h3>
+<p>Directory for the logfiles of RMAN <code>DUPLICATE</code>.</p>
+<h4 id="default-value-4">Default value</h4>
+<pre><code class="language-YAML">oradb_standby_rman_logdir: '{{ oracle_base }}/cfgtoollogs/oradb_standby'
+</code></pre>
+<h3 id="oradb_standby_rman_parallel">oradb_standby_rman_parallel</h3>
+<p>Number of RMAN channels on the primary and on the standby database
+for <code>create_method: rman_duplicate_active</code>.</p>
+<h4 id="default-value-5">Default value</h4>
+<pre><code class="language-YAML">oradb_standby_rman_parallel: 2
+</code></pre>
+<h3 id="oradb_standby_start_apply">oradb_standby_start_apply</h3>
+<p>Start Redo Apply (<code>RECOVER MANAGED STANDBY DATABASE DISCONNECT</code>) after the creation
+of the standby database.</p>
+<h4 id="default-value-6">Default value</h4>
+<pre><code class="language-YAML">oradb_standby_start_apply: true
+</code></pre>
+<h2 id="discovered-tags">Discovered Tags</h2>
+<p><strong><em>oradb_standby</em></strong></p>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li>orasw_meta</li>
+<li>oradb_facts</li>
+</ul>
+<h2 id="license">License</h2>
+<p>license (MIT)</p>
+<h2 id="author">Author</h2>
+<ul>
+<li>Thorsten Bruhns</li>
+</ul>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.5 - orahost_meta</h1>
     
 	<p>Meta role used by other roles to share variable defaults.</p>
 <h2 id="table-of-contents">Table of contents</h2>
@@ -19085,7 +19592,7 @@ See <code>grid_user</code> and <code>oracle_user</code> for Grid-Infrastructure 
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.3 - ahf</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.6 - ahf</h1>
     
 	<p><em>Experimental</em>: the role is under development. Breaking changes can happen at any time
 and are not always documented.</p>
@@ -19600,116 +20107,7 @@ from the installation media before the installation.</p>
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.4 - oradb_manage_db</h1>
-    
-	<p>Create, modify and remove Oracle Databases</p>
-<h2 id="table-of-contents">Table of contents</h2>
-<ul>
-<li><a href="#requirements">Requirements</a></li>
-<li><a href="#default-variables">Default Variables</a>
-<ul>
-<li><a href="#dbca_templatename">dbca_templatename</a></li>
-<li><a href="#hostgroup_hub">hostgroup_hub</a></li>
-<li><a href="#listener_name">listener_name</a></li>
-<li><a href="#oracle_gi_cluster_type">oracle_gi_cluster_type</a></li>
-<li><a href="#oradb_manage_db_dbca_ignore_prereq_failure">oradb_manage_db_dbca_ignore_prereq_failure</a></li>
-</ul>
-</li>
-<li><a href="#discovered-tags">Discovered Tags</a></li>
-<li><a href="#open-tasks">Open Tasks</a></li>
-<li><a href="#dependencies">Dependencies</a></li>
-<li><a href="#license">License</a></li>
-<li><a href="#author">Author</a></li>
-</ul>
-<hr>
-<h2 id="requirements">Requirements</h2>
-<ul>
-<li>Minimum Ansible version: <code>2.16.0</code></li>
-</ul>
-<h2 id="default-variables">Default Variables</h2>
-<h3 id="dbca_templatename">dbca_templatename</h3>
-<p>Default template name used by DBCA during execution.</p>
-<h4 id="default-value">Default value</h4>
-<pre><code class="language-YAML">dbca_templatename: General_Purpose.dbc
-</code></pre>
-<h3 id="hostgroup_hub">hostgroup_hub</h3>
-<h4 id="default-value-1">Default value</h4>
-<pre><code class="language-YAML">hostgroup_hub: '{{ hostgroup }}-hub'
-</code></pre>
-<h3 id="listener_name">listener_name</h3>
-<p>Default name for LISTENER</p>
-<h4 id="default-value-2">Default value</h4>
-<pre><code class="language-YAML">listener_name: LISTENER
-</code></pre>
-<h3 id="oracle_gi_cluster_type">oracle_gi_cluster_type</h3>
-<h4 id="default-value-3">Default value</h4>
-<pre><code class="language-YAML">oracle_gi_cluster_type: STANDARD
-</code></pre>
-<h3 id="oradb_manage_db_dbca_ignore_prereq_failure">oradb_manage_db_dbca_ignore_prereq_failure</h3>
-<p>Create databases with <code>dbca -ignorePrereqFailure</code>:
-dbca executes the prerequisite checks, but failures do not stop the creation
-of the database (e.g. a SCAN without DNS for RAC databases).</p>
-<p>The default follows <code>gi_ignoreprereq</code> (prerequisite checks of Grid Infrastructure).</p>
-<h4 id="default-value-4">Default value</h4>
-<pre><code class="language-YAML">oradb_manage_db_dbca_ignore_prereq_failure: '{{ gi_ignoreprereq | default(false) }}'
-</code></pre>
-<h2 id="discovered-tags">Discovered Tags</h2>
-<p><strong><em>always</em></strong></p>
-<p><strong><em>autostartup_service</em></strong></p>
-<p><strong><em>create_cdb,dotprofile_db</em></strong></p>
-<p><strong><em>create_db</em></strong></p>
-<p><strong><em>create_db,dbca,customdbcatemplate,dotprofile_db,listener2</em></strong></p>
-<p><strong><em>create_db,dotprofile_db</em></strong></p>
-<p><strong><em>customdbcatemplate</em></strong></p>
-<p><strong><em>dbca</em></strong></p>
-<p><strong><em>dbcatemplate</em></strong></p>
-<p><strong><em>dotprofile_db</em></strong></p>
-<p><strong><em>listener</em></strong></p>
-<p><strong><em>listener2</em></strong></p>
-<p><strong><em>listener_install</em></strong></p>
-<p><strong><em>manage_db</em></strong></p>
-<p><strong><em>molecule-idempotence-notest</em></strong></p>
-<p><strong><em>odb_assert</em></strong></p>
-<p><strong><em>psout</em></strong></p>
-<p><strong><em>remove_db,dbca</em></strong></p>
-<p><strong><em>responsefile_netca, listener_install</em></strong></p>
-<p><strong><em>set_fact</em></strong></p>
-<p><strong><em>sql_script</em></strong></p>
-<p><strong><em>sqlnet</em></strong></p>
-<p><strong><em>sqlnet2</em></strong></p>
-<p><strong><em>switch_home</em></strong></p>
-<p><strong><em>tnsnames</em></strong></p>
-<p><strong><em>tnsnames2</em></strong></p>
-<p><strong><em>update_oratab</em></strong></p>
-<h2 id="open-tasks">Open Tasks</h2>
-<ul>
-<li>(bug): replace netca with new listener_details tasks</li>
-</ul>
-<h2 id="dependencies">Dependencies</h2>
-<ul>
-<li>orahost_meta</li>
-<li>orasw_meta</li>
-</ul>
-<h2 id="license">License</h2>
-<p>license (MIT)</p>
-<h2 id="author">Author</h2>
-<p>[Mikael Sandström]</p>
-
-</div>
-
-
-
-    
-	
-  
-    
-    
-	
-    
-
-<div class="td-content" style="page-break-before: always">
-    
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.5 - oradb_manage_redo</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.7 - oradb_manage_redo</h1>
     
 	<p>Manage redolog groups in Oracle</p>
 <h2 id="table-of-contents">Table of contents</h2>
@@ -19753,7 +20151,7 @@ of the database (e.g. a SCAN without DNS for RAC databases).</p>
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.6 - orasw_meta</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.8 - orasw_meta</h1>
     
 	<p><em>Important</em></p>
 <p>The description for variables is work in progress.!</p>
@@ -20932,247 +21330,7 @@ Usually no need to change it.</p>
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.7 - oraswgi_install</h1>
-    
-	<p>Install Grid Infrastructure / ORacle Restart software.</p>
-<p>This role has a dependency to <code>orahost_meta</code> and <code>orasw_meta</code> for default parameter.</p>
-<p>Known Issues from Oracle:</p>
-<ul>
-<li>TOP Note: Solutions for Typical Grid Infrastructure/RAC Database runInstaller/DBCA for RAC Issues (Doc ID 1056713.1)</li>
-<li>INS-06006 GI RunInstaller Fails If OpenSSH Is Upgraded to 8.x (Doc ID 2555697.1)</li>
-</ul>
-<h2 id="table-of-contents">Table of contents</h2>
-<ul>
-<li><a href="#requirements">Requirements</a></li>
-<li><a href="#default-variables">Default Variables</a>
-<ul>
-<li><a href="#cvuqdisk_rpm">cvuqdisk_rpm</a></li>
-<li><a href="#default_dbpass">default_dbpass</a></li>
-<li><a href="#default_gipass">default_gipass</a></li>
-<li><a href="#endoracle_scan_port">endoracle_scan_port</a></li>
-<li><a href="#gi_ignoreprereq">gi_ignoreprereq</a></li>
-<li><a href="#oracle_asm_init_dg">oracle_asm_init_dg</a></li>
-<li><a href="#oracle_asm_storage_option">oracle_asm_storage_option</a></li>
-<li><a href="#oracle_cluster_mgmdb">oracle_cluster_mgmdb</a></li>
-<li><a href="#oracle_cluster_name">oracle_cluster_name</a></li>
-<li><a href="#oracle_gi_cluster_type">oracle_gi_cluster_type</a></li>
-<li><a href="#oracle_gi_gns_subdomain">oracle_gi_gns_subdomain</a></li>
-<li><a href="#oracle_gi_gns_vip">oracle_gi_gns_vip</a></li>
-<li><a href="#oracle_gi_nic_priv">oracle_gi_nic_priv</a></li>
-<li><a href="#oracle_gi_nic_pub">oracle_gi_nic_pub</a></li>
-<li><a href="#oracle_ic_net">oracle_ic_net</a></li>
-<li><a href="#oracle_scan">oracle_scan</a></li>
-<li><a href="#oracle_scan_port">oracle_scan_port</a></li>
-<li><a href="#oracle_sw_image_gi">oracle_sw_image_gi</a></li>
-<li><a href="#oracle_vip">oracle_vip</a></li>
-<li><a href="#oraswgi_install_remove_obsolete_homes">oraswgi_install_remove_obsolete_homes</a></li>
-<li><a href="#run_configtoolallcommand">run_configtoolallcommand</a></li>
-</ul>
-</li>
-<li><a href="#discovered-tags">Discovered Tags</a></li>
-<li><a href="#open-tasks">Open Tasks</a></li>
-<li><a href="#dependencies">Dependencies</a></li>
-<li><a href="#license">License</a></li>
-<li><a href="#author">Author</a></li>
-</ul>
-<hr>
-<h2 id="requirements">Requirements</h2>
-<ul>
-<li>Minimum Ansible version: <code>2.16.0</code></li>
-</ul>
-<h2 id="default-variables">Default Variables</h2>
-<h3 id="cvuqdisk_rpm">cvuqdisk_rpm</h3>
-<p>Name of RPM for cvuqdisk.</p>
-<p>RPM is installed from {{ oracle_home_gi }}/cv/rpm/</p>
-<h4 id="default-value">Default value</h4>
-<pre><code class="language-YAML">cvuqdisk_rpm: cvuqdisk-1.0.10-1.rpm
-</code></pre>
-<h3 id="default_dbpass">default_dbpass</h3>
-<h4 id="default-value-1">Default value</h4>
-<pre><code class="language-YAML">default_dbpass: '{% if item.0.oracle_db_passwd is defined %}{{ item.0.oracle_db_passwd }}{% else %}Oracle123{% endif %}'
-</code></pre>
-<h3 id="default_gipass">default_gipass</h3>
-<p>Default password for Grid-Infrastructure and ASM-Users.</p>
-<p>Important</p>
-<p>It is mandatory to set this variable in your inventory!</p>
-<h4 id="default-value-2">Default value</h4>
-<pre><code class="language-YAML">default_gipass: ''
-</code></pre>
-<h3 id="endoracle_scan_port">endoracle_scan_port</h3>
-<p>Port for SCAN-Listener</p>
-<h3 id="gi_ignoreprereq">gi_ignoreprereq</h3>
-<p>false =&gt; Do not ignore failed runcluvfy.sh
-true =&gt; Ignore failed runcluvfy.sh</p>
-<h4 id="default-value-3">Default value</h4>
-<pre><code class="language-YAML">gi_ignoreprereq: false
-</code></pre>
-<h3 id="oracle_asm_init_dg">oracle_asm_init_dg</h3>
-<p>1st Diskgroup where ASM SPFile is placed.</p>
-<h4 id="default-value-4">Default value</h4>
-<pre><code class="language-YAML">oracle_asm_init_dg: crs
-</code></pre>
-<h3 id="oracle_asm_storage_option">oracle_asm_storage_option</h3>
-<h4 id="default-value-5">Default value</h4>
-<pre><code class="language-YAML">oracle_asm_storage_option: &quot;{% if oracle_install_version_gi is version('12.2', '&gt;=') %}FLEX_ASM_STORAGE{% else %}LOCAL_ASM_STORAGE{% endif %}&quot;
-</code></pre>
-<h3 id="oracle_cluster_mgmdb">oracle_cluster_mgmdb</h3>
-<p>Create _MGMTBD on cluster.</p>
-<h4 id="default-value-6">Default value</h4>
-<pre><code class="language-YAML">oracle_cluster_mgmdb: false
-</code></pre>
-<h3 id="oracle_cluster_name">oracle_cluster_name</h3>
-<p>Name of Grid-Infrastructure Cluster.</p>
-<p>The maximum length allowed for clustername is 63 characters. The name can be
-any combination of lower and uppercase alphabets (A - Z), (0 - 9) and hyphens (-).</p>
-<p>Only set this variable, when <code>orasw_meta_cluster_hostgroup</code> contains a &lsquo;_&rsquo;.</p>
-<p>Important! Ansible hostgrouds could not contain a &lsquo;-&rsquo; in name!</p>
-<h4 id="default-value-7">Default value</h4>
-<pre><code class="language-YAML">oracle_cluster_name: '{{ orasw_meta_cluster_hostgroup }}'
-</code></pre>
-<h3 id="oracle_gi_cluster_type">oracle_gi_cluster_type</h3>
-<p>Define clusterware type.</p>
-<h4 id="default-value-8">Default value</h4>
-<pre><code class="language-YAML">oracle_gi_cluster_type: STANDARD
-</code></pre>
-<h3 id="oracle_gi_gns_subdomain">oracle_gi_gns_subdomain</h3>
-<p>Define ths GNS subdomain for Cluster</p>
-<h3 id="oracle_gi_gns_vip">oracle_gi_gns_vip</h3>
-<p>Define GNS VIP for Clusterware.</p>
-<h4 id="default-value-9">Default value</h4>
-<pre><code class="language-YAML">oracle_gi_gns_vip:
-</code></pre>
-<h3 id="oracle_gi_nic_priv">oracle_gi_nic_priv</h3>
-<p>Name of private network interface.</p>
-<h4 id="default-value-10">Default value</h4>
-<pre><code class="language-YAML">oracle_gi_nic_priv: eth1
-</code></pre>
-<h3 id="oracle_gi_nic_pub">oracle_gi_nic_pub</h3>
-<p>Name of public network interface.</p>
-<h4 id="default-value-11">Default value</h4>
-<pre><code class="language-YAML">oracle_gi_nic_pub: eth0
-</code></pre>
-<h3 id="oracle_ic_net">oracle_ic_net</h3>
-<p>Defines the network for the interconnect.</p>
-<p>Important!</p>
-<p>Only used, when <code>configure_interconnect=true</code> and <code>ansible_os_family='RedHat'</code> during cluster installations.</p>
-<h4 id="default-value-12">Default value</h4>
-<pre><code class="language-YAML">oracle_ic_net: 3.3.3.{{ ansible_all_ipv4_addresses[0].split(&quot;.&quot;)[-1] }}
-</code></pre>
-<h3 id="oracle_scan">oracle_scan</h3>
-<p>SCAN DNS-Name</p>
-<h3 id="oracle_scan_port">oracle_scan_port</h3>
-<h4 id="default-value-13">Default value</h4>
-<pre><code class="language-YAML">oracle_scan_port: 1521
-</code></pre>
-<h3 id="oracle_sw_image_gi">oracle_sw_image_gi</h3>
-<p>List of version sepcific GI installation images</p>
-<p>NOTE: Image files are expected to be found by their <code>filename</code> under <code>oracle_sw_source_local</code>, or <code>oracle_sw_source_www</code> respectively,
-unless a <code>filesource</code> dict element provides a full path / complete URL to the image file.</p>
-<h4 id="default-value-14">Default value</h4>
-<pre><code class="language-YAML">oracle_sw_image_gi:
-  - {filename: LINUX.X64_2326100_grid_home.zip, version: 26.1.0.0, creates: install/.img.bin}
-  - {filename: LINUX.X64_213000_grid_home.zip, version: 21.3.0.0, creates: install/.img.bin}
-  - {filename: LINUX.X64_193000_grid_home.zip, version: 19.3.0.0, creates: install/.img.bin}
-  - {filename: LINUX.X64_180000_grid_home.zip, version: 18.3.0.0, creates: install/.img.bin}
-  - {filename: linuxx64_12201_grid_home.zip, version: 12.2.0.1, creates: xdk/mesg/lsxja.msb}
-  - {filename: linuxamd64_12102_grid_1of2.zip, version: 12.1.0.2, creates: grid/stage/sizes/oracle.crs.12.1.0.2.0.sizes.properties}
-  - {filename: linuxamd64_12102_grid_2of2.zip, version: 12.1.0.2, creates: grid/install/.oui}
-  - {filename: linuxamd64_12c_grid_1of2.zip, version: 12.1.0.1}
-  - {filename: linuxamd64_12c_grid_2of2.zip, version: 12.1.0.1}
-</code></pre>
-<h4 id="example-usage">Example usage</h4>
-<pre><code class="language-YAML">oracle_sw_image_gi:
-  # LINUX.X64_213000_grid_home.zip located under `oracle_sw_source_local`
-  - {filename: LINUX.X64_213000_grid_home.zip, version: 21.3.0.0, creates: 'install/.img.bin'}
-  # LINUX.X64_193000_grid_home.zip located under /mnt/images
-  - {filename: LINUX.X64_193000_grid_home.zip, filesource: /mnt/images/LINUX.X64_193000_grid_home.zip, version: 19.3.0.0, creates: 'install/.img.bin'}
-  # LINUX.X64_180000_grid_home.zip download
-  - {filename: LINUX.X64_180000_grid_home.zip, filesource: https://downloadserver/images?id=180000_grid_home, version: 18.3.0.0, creates: 'install/.img.bin'}
-</code></pre>
-<h3 id="oracle_vip">oracle_vip</h3>
-<p>suffix added to hostnames for VIPs.</p>
-<p>{{ ansible_hostname }}{{ oracle_vip }}</p>
-<p>Important!</p>
-<p><code>oracle_node_vip</code> defines a fixed hostname for the VIP.</p>
-<p>That replaces the logic from <code>oracle_vip</code> for the VIP!</p>
-<h4 id="default-value-15">Default value</h4>
-<pre><code class="language-YAML">oracle_vip: -vip
-</code></pre>
-<h3 id="oraswgi_install_remove_obsolete_homes">oraswgi_install_remove_obsolete_homes</h3>
-<p>Remove obsolete Grid Infrastructure homes of Oracle Restart with <code>deinstall</code>.</p>
-<p>Obsolete homes are all Grid Infrastructure homes in the central inventory
-except <code>crs_home</code> in <code>/etc/oracle/olr.loc</code> and <code>oracle_home_gi</code>,
-e.g. the old home after an Out-of-Place Patching.</p>
-<p>The removal is done only, when Oracle Restart runs from <code>oracle_home_gi</code> and
-<code>deinstall -checkonly</code> reports the home as not configured.</p>
-<p>Homes, which are not registered in the central inventory, are not touched.</p>
-<h4 id="default-value-16">Default value</h4>
-<pre><code class="language-YAML">oraswgi_install_remove_obsolete_homes: false
-</code></pre>
-<h3 id="run_configtoolallcommand">run_configtoolallcommand</h3>
-<p>Run configtoolcommand during installation.</p>
-<p>Do not disable this!</p>
-<h4 id="default-value-17">Default value</h4>
-<pre><code class="language-YAML">run_configtoolallcommand: true
-</code></pre>
-<h2 id="discovered-tags">Discovered Tags</h2>
-<p><strong><em>always</em></strong></p>
-<p><strong><em>asmfd</em></strong></p>
-<p><strong><em>crsctl</em></strong></p>
-<p><strong><em>cvuqdisk</em></strong></p>
-<p><strong><em>directories</em></strong></p>
-<p><strong><em>dsset</em></strong></p>
-<p><strong><em>glogingi</em></strong></p>
-<p><strong><em>nfsmountdb</em></strong></p>
-<p><strong><em>nfsumountdb</em></strong></p>
-<p><strong><em>opatchls</em></strong></p>
-<p><strong><em>oragridinstall</em></strong></p>
-<p><strong><em>oragridsw</em></strong></p>
-<p><strong><em>oragridswunpack</em></strong></p>
-<p><strong><em>responsefileconfigtool</em></strong></p>
-<p><strong><em>responsefilegi</em></strong></p>
-<p><strong><em>runcluvfy</em></strong></p>
-<p><strong><em>runconfigtool</em></strong></p>
-<p><strong><em>runroot</em></strong></p>
-<p><strong><em>updatenodelist</em></strong></p>
-<h2 id="open-tasks">Open Tasks</h2>
-<ul>
-<li>(bug): ConfigTools should not depend on olr.loc&hellip;</li>
-<li>(bug): ConfigTools should not depend on olr.loc&hellip;</li>
-<li>(bug): ConfigTools should not depend on olr.loc&hellip;</li>
-<li>(information): add selectattr to asm_diskgroups</li>
-<li>(information): Check if path for patches is ok with patch_id/patch_id</li>
-<li>(information): add selectattr to asm_diskgroups</li>
-<li>(information): Check if path for patches is ok with patch_id/patch_id</li>
-<li>(information): add selectattr to asm_diskgroups</li>
-<li>(information): Check if path for patches is ok with patch_id/patch_id</li>
-</ul>
-<h2 id="dependencies">Dependencies</h2>
-<ul>
-<li>orahost_meta</li>
-<li>orasw_meta</li>
-<li>oraswgi_meta</li>
-</ul>
-<h2 id="license">License</h2>
-<p>license (MIT)</p>
-<h2 id="author">Author</h2>
-<p>Mikael Sandström, Thorsten Bruhns</p>
-
-</div>
-
-
-
-    
-	
-  
-    
-    
-	
-    
-
-<div class="td-content" style="page-break-before: always">
-    
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.8 - ahf_fleet_insights</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.9 - ahf_fleet_insights</h1>
     
 	<p><em>Experimental</em>: the role is under development. Breaking changes can happen at any time
 and are not always documented.</p>
@@ -21451,7 +21609,7 @@ The role starts Fleet Insights (<code>ahffi start</code>), when <code>ahffi stat
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.9 - orasw_meta_internal</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.10 - orasw_meta_internal</h1>
     
 	<p>Meta role used to store internal variables from <code>ansible-oracle</code>.</p>
 <p>Do not use any of the variables in your inventory!</p>
@@ -21913,7 +22071,7 @@ Same as the options in <code>$ORACLE_HOME/bin/chopt.ini</code>.
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.10 - oraswdb_install</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.11 - oraswdb_install</h1>
     
 	<p>Install Oracle Database Software</p>
 <h2 id="table-of-contents">Table of contents</h2>
@@ -22107,7 +22265,7 @@ unless a <code>filesource</code> dict element provides a full path / complete UR
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.11 - oradb_rman</h1>
+	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.12 - oradb_rman</h1>
     
 	<p>Oracle RMAN Backup for ansible-oracle</p>
 <p>Please use only <code>oradb_rman_</code> variables from role <code>oradb_rman</code>.</p>
@@ -22253,97 +22411,6 @@ This is needed for RMAN-Catalogconnections.</p>
 <p>license (MIT)</p>
 <h2 id="author">Author</h2>
 <p>[Thorsten Bruhns]</p>
-
-</div>
-
-
-
-    
-	
-  
-    
-    
-	
-    
-
-<div class="td-content" style="page-break-before: always">
-    
-	<h1 id="pg-df389f0fd67da23712005b22d5d20abf">3.12 - oradb_standby</h1>
-    
-	<p>Creates standby databases for the standby configurations in <code>db_standby_config</code>.</p>
-<p>The method for the creation is selected with <code>create_method</code> in <code>db_standby_config</code>:</p>
-<ul>
-<li><code>rman_duplicate_active</code>: RMAN <code>DUPLICATE ... FOR STANDBY FROM ACTIVE DATABASE</code> (default)</li>
-<li><code>external</code>: the standby database is created outside of <code>ansible-oracle</code></li>
-<li><code>custom</code>: tasks file from <code>create_tasks_file</code></li>
-</ul>
-<p>The inventory structure is described in <code>doc/guides/standby_databases.adoc</code>.</p>
-<h2 id="table-of-contents">Table of contents</h2>
-<ul>
-<li><a href="#requirements">Requirements</a></li>
-<li><a href="#default-variables">Default Variables</a>
-<ul>
-<li><a href="#oradb_standby_broker_create">oradb_standby_broker_create</a></li>
-<li><a href="#oradb_standby_rman_compressed">oradb_standby_rman_compressed</a></li>
-<li><a href="#oradb_standby_rman_logdir">oradb_standby_rman_logdir</a></li>
-<li><a href="#oradb_standby_rman_parallel">oradb_standby_rman_parallel</a></li>
-<li><a href="#oradb_standby_start_apply">oradb_standby_start_apply</a></li>
-</ul>
-</li>
-<li><a href="#discovered-tags">Discovered Tags</a></li>
-<li><a href="#dependencies">Dependencies</a></li>
-<li><a href="#license">License</a></li>
-<li><a href="#author">Author</a></li>
-</ul>
-<hr>
-<h2 id="requirements">Requirements</h2>
-<ul>
-<li>Minimum Ansible version: <code>2.16.0</code></li>
-</ul>
-<h2 id="default-variables">Default Variables</h2>
-<h3 id="oradb_standby_broker_create">oradb_standby_broker_create</h3>
-<p>Create the Data Guard Broker configuration with <code>dgmgrl.cfg</code> on the host of the primary database,
-when no broker configuration exists and all other members are physical standby databases.</p>
-<p><code>false</code>: <code>dgmgrl.cfg</code> is created on all members, but not executed.</p>
-<h4 id="default-value">Default value</h4>
-<pre><code class="language-YAML">oradb_standby_broker_create: true
-</code></pre>
-<h3 id="oradb_standby_rman_compressed">oradb_standby_rman_compressed</h3>
-<p>Use <code>USING COMPRESSED BACKUPSET</code> for <code>DUPLICATE ... FROM ACTIVE DATABASE</code>.
-<code>false</code> uses <code>USING BACKUPSET</code>.</p>
-<h4 id="default-value-1">Default value</h4>
-<pre><code class="language-YAML">oradb_standby_rman_compressed: true
-</code></pre>
-<h3 id="oradb_standby_rman_logdir">oradb_standby_rman_logdir</h3>
-<p>Directory for the logfiles of RMAN <code>DUPLICATE</code>.</p>
-<h4 id="default-value-2">Default value</h4>
-<pre><code class="language-YAML">oradb_standby_rman_logdir: '{{ oracle_base }}/cfgtoollogs/oradb_standby'
-</code></pre>
-<h3 id="oradb_standby_rman_parallel">oradb_standby_rman_parallel</h3>
-<p>Number of RMAN channels on the primary and on the standby database
-for <code>create_method: rman_duplicate_active</code>.</p>
-<h4 id="default-value-3">Default value</h4>
-<pre><code class="language-YAML">oradb_standby_rman_parallel: 2
-</code></pre>
-<h3 id="oradb_standby_start_apply">oradb_standby_start_apply</h3>
-<p>Start Redo Apply (<code>RECOVER MANAGED STANDBY DATABASE DISCONNECT</code>) after the creation
-of the standby database.</p>
-<h4 id="default-value-4">Default value</h4>
-<pre><code class="language-YAML">oradb_standby_start_apply: true
-</code></pre>
-<h2 id="discovered-tags">Discovered Tags</h2>
-<p><strong><em>oradb_standby</em></strong></p>
-<h2 id="dependencies">Dependencies</h2>
-<ul>
-<li>orasw_meta</li>
-<li>oradb_facts</li>
-</ul>
-<h2 id="license">License</h2>
-<p>license (MIT)</p>
-<h2 id="author">Author</h2>
-<ul>
-<li>Thorsten Bruhns</li>
-</ul>
 
 </div>
 

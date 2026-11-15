@@ -9327,7 +9327,9 @@ Listeners and databases in database homes are not changed.</p>
 <ul>
 <li>
 <p>A switch back into a former home is not implemented: the former running home is locked by <code>root.sh</code>
-(e.g. <code>bin/crsctl.bin</code> owned by <code>root</code>), <code>oraswgi_install</code> stops with an assert. Use a new <code>oracle_home_gi</code>.</p>
+(e.g. <code>bin/crsctl.bin</code> owned by <code>root</code>), <code>oraswgi_install</code> stops with an assert. Use a new <code>oracle_home_gi</code>.
+<code>gi_switch_back: allow</code> unlocks the former home on every node (<code>rootcrs.sh -unlock -crshome</code>) and switches back, <code>gi_switch_back: ignore</code>
+accepts the situation (no switch, no assert). Both are <strong>not tested</strong>.</p>
 </li>
 <li>
 <p>When <code>root.sh</code> fails before the switch (e.g. the CVU check of <code>rootcrs.pl -prepatch</code>), the next run resumes with <code>root.sh</code>:
@@ -10202,7 +10204,40 @@ the standby gets its own value with <code>SET</code> in RMAN <code>DUPLICATE</co
 </div>
 </div>
 <div class="sect1">
-<h2 id="_archivelog_deletion_policy">7. Archivelog deletion policy</h2>
+<h2 id="_flashback_database_of_the_standby_database">7. Flashback Database of the standby database</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>RMAN DUPLICATE …​ FOR STANDBY</code> creates the standby database with Flashback Database disabled,
+and <code>oradb_manage_db</code> changes <code>flashback</code> of <code>oracle_databases</code> on the primary database only.
+After a switchover the new primary database would have no Flashback Database.
+<code>oradb_standby</code> therefore sets <code>flashback</code> of <code>oracle_databases</code> on every physical standby database,
+for a new and for an existing one. Nothing is changed when the state already matches.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The task runs after the broker configuration was created: <code>ALTER DATABASE FLASHBACK ON</code> fails with
+ORA-38788 (<em>more standby database recovery is needed</em>), until the standby database has applied more redo
+than after <code>RMAN DUPLICATE</code>. The redo transport is configured by the broker.</p>
+</li>
+<li>
+<p><code>oradb_standby_flashback_retries</code> (default <code>20</code>) attempts, <code>oradb_standby_flashback_delay</code> (default <code>15</code>) seconds
+between two attempts. Redo Apply is running between the attempts.</p>
+</li>
+<li>
+<p>Redo Apply is stopped for the statement (ORA-01153) and started again in every case, also when the statement fails.
+With a broker configuration <code>APPLY-OFF</code> / <code>APPLY-ON</code> is used, otherwise the broker would start the stopped Redo Apply again.</p>
+</li>
+<li>
+<p>Not executed with <code>oradb_standby_broker_create: false</code>: <code>oradb_standby</code> does not create the broker configuration then
+and cannot know, when the redo transport is available. Set Flashback Database of the standby database yourself in this case.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_archivelog_deletion_policy">8. Archivelog deletion policy</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><code>archivelog_deletion_policy</code> is mandatory for <code>type: dataguard</code>:
@@ -10311,7 +10346,7 @@ e.g. the archive logs of a standby database are never eligible for deletion, whe
 </div>
 </div>
 <div class="sect1">
-<h2 id="_data_guard_broker_configuration_file">8. Data Guard Broker configuration file</h2>
+<h2 id="_data_guard_broker_configuration_file">9. Data Guard Broker configuration file</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><code>oradb_standby</code> creates a <code>dgmgrl</code> script for each database with <code>type: dataguard</code>:
@@ -10456,7 +10491,7 @@ A warning is shown, when the broker is not available (e.g. <code>dg_broker_start
 </div>
 </div>
 <div class="sect1">
-<h2 id="_role_transitions">9. Role transitions outside of ansible-oracle</h2>
+<h2 id="_role_transitions">10. Role transitions outside of ansible-oracle</h2>
 <div class="sectionbody">
 <div class="admonitionblock important">
 <table>
@@ -10507,7 +10542,7 @@ When the instance of the old primary is <strong>not</strong> running, its role i
 </ul>
 </div>
 <div class="sect2">
-<h3 id="_case_1_reinstate_automatic_not_destructive">9.1. Case 1: Reinstate (automatic, not destructive)</h3>
+<h3 id="_case_1_reinstate_automatic_not_destructive">10.1. Case 1: Reinstate (automatic, not destructive)</h3>
 <div class="paragraph">
 <p>The broker reports <code>ORA-16661</code> for a member ⇒ <code>REINSTATE DATABASE &#39;&lt;member&gt;&#39;</code> on the current primary.</p>
 </div>
@@ -10526,7 +10561,7 @@ When the instance of the old primary is <strong>not</strong> running, its role i
 </div>
 </div>
 <div class="sect2">
-<h3 id="_case_2_missing_member_automatic_not_destructive">9.2. Case 2: Missing member (automatic, not destructive)</h3>
+<h3 id="_case_2_missing_member_automatic_not_destructive">10.2. Case 2: Missing member (automatic, not destructive)</h3>
 <div class="paragraph">
 <p>The database of a member does not exist (e.g. a reinstalled server of the old primary)
 and another member is the <code>PRIMARY</code> (<code>oradb_facts</code>) ⇒ the member is created as standby database,
@@ -10544,7 +10579,7 @@ independent of <code>initial_role</code>. <code>initial_role</code> is only used
 </div>
 </div>
 <div class="sect2">
-<h3 id="_case_3_rebuild_of_an_existing_standby_database_on_request_only_destructive">9.3. Case 3: Rebuild of an existing standby database (on request only, destructive)</h3>
+<h3 id="_case_3_rebuild_of_an_existing_standby_database_on_request_only_destructive">10.3. Case 3: Rebuild of an existing standby database (on request only, destructive)</h3>
 <div class="paragraph">
 <p>Most frequent case in practice: a reinstatement is not possible (no Flashback Database) or the standby database is damaged.</p>
 </div>
@@ -10608,7 +10643,7 @@ never in the inventory (otherwise every run would rebuild the standby database):
 </div>
 </div>
 <div class="sect1">
-<h2 id="_validation">10. Validation</h2>
+<h2 id="_validation">11. Validation</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The rules are checked by the role <code>orasw_meta</code> (<code>roles/orasw_meta/tasks/assert_standby.yml</code>).
@@ -10714,7 +10749,7 @@ Both default to <code>oracle_db_name</code>.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_example_data_guard_with_2_hosts">11. Example: Data Guard with 2 hosts</h2>
+<h2 id="_example_data_guard_with_2_hosts">12. Example: Data Guard with 2 hosts</h2>
 <div class="sectionbody">
 <div class="admonitionblock tip">
 <table>
@@ -10833,10 +10868,10 @@ The static entry is needed for RMAN duplicate, because the auxiliary instance is
 </div>
 </div>
 <div class="sect1">
-<h2 id="_open_points">12. Open Points and TODOs</h2>
+<h2 id="_open_points">13. Open Points and TODOs</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_open_points_2">12.1. Open Points</h3>
+<h3 id="_open_points_2">13.1. Open Points</h3>
 <div class="paragraph">
 <p>The following points are not decided yet:</p>
 </div>
@@ -10864,7 +10899,7 @@ The static entry is needed for RMAN duplicate, because the auxiliary instance is
 </table>
 </div>
 <div class="sect2">
-<h3 id="_todo">12.2. TODO</h3>
+<h3 id="_todo">13.2. TODO</h3>
 <div class="ulist checklist">
 <ul class="checklist">
 <li>

@@ -33,17 +33,17 @@ Default value listener_name: LISTENER oracle_gi_cluster_type Default value oracl
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-13T21:42:43+01:00">
-		<meta property="article:modified_time" content="2026-11-13T21:42:43+01:00">
+		<meta property="article:published_time" content="2026-11-15T00:00:00+01:00">
+		<meta property="article:modified_time" content="2026-11-15T00:00:00+01:00">
 
 	<meta itemprop="name" content="oradb_manage_db">
 	<meta itemprop="description" content="Create, modify and remove Oracle Databases
 Table of contents Requirements Default Variables dbca_templatename hostgroup_hub listener_name oracle_gi_cluster_type oradb_manage_db_dbca_ignore_prereq_failure Discovered Tags Open Tasks Dependencies License Author Requirements Minimum Ansible version: 2.16.0 Default Variables dbca_templatename Default template name used by DBCA during execution.
 Default value dbca_templatename: General_Purpose.dbc hostgroup_hub Default value hostgroup_hub: &#39;{{ hostgroup }}-hub&#39; listener_name Default name for LISTENER
 Default value listener_name: LISTENER oracle_gi_cluster_type Default value oracle_gi_cluster_type: STANDARD oradb_manage_db_dbca_ignore_prereq_failure Create databases with dbca -ignorePrereqFailure: dbca executes the prerequisite checks, but failures do not stop the creation of the database (e.g. a SCAN without DNS for RAC databases).">
-	<meta itemprop="datePublished" content="2026-11-13T21:42:43+01:00">
-	<meta itemprop="dateModified" content="2026-11-13T21:42:43+01:00">
-	<meta itemprop="wordCount" content="159">
+	<meta itemprop="datePublished" content="2026-11-15T00:00:00+01:00">
+	<meta itemprop="dateModified" content="2026-11-15T00:00:00+01:00">
+	<meta itemprop="wordCount" content="160">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="oradb_manage_db">
 	<meta name="twitter:description" content="Create, modify and remove Oracle Databases
@@ -160,18 +160,20 @@ Default value listener_name: LISTENER oracle_gi_cluster_type Default value oracl
     <ul class="ul-2 foldable">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
     <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+    <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesoradb_manage_db-li">
+    <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="td-sidebar-nav-active-item">oradb_manage_db</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
+    <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
     <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf-li">
     <a href="/docs/roles/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf"><span class="">ahf</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsrolesoradb_manage_db-li">
-    <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="td-sidebar-nav-active-item">oradb_manage_db</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_redo-li">
     <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="">oradb_manage_redo</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
     <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
-    <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf_fleet_insights-li">
     <a href="/docs/roles/ahf_fleet_insights/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf_fleet_insights"><span class="">ahf_fleet_insights</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
@@ -180,8 +182,6 @@ Default value listener_name: LISTENER oracle_gi_cluster_type Default value oracl
     <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
     <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
-    <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
     <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolespyoracledb-li">
@@ -421,6 +421,7 @@ of the database (e.g. a SCAN without DNS for RAC databases).</p>
 <p><strong><em>switch_home</em></strong></p>
 <p><strong><em>tnsnames</em></strong></p>
 <p><strong><em>tnsnames2</em></strong></p>
+<p><strong><em>tnsnames2,create_db,dbca</em></strong></p>
 <p><strong><em>update_oratab</em></strong></p>
 <h2 id="open-tasks">Open Tasks</h2>
 <ul>
@@ -437,7 +438,7 @@ of the database (e.g. a SCAN without DNS for RAC databases).</p>
 <p>[Mikael Sandström]</p>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 13, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/fc858f24aa311a65a20e77c59bb19647745df03e">oracle_db, oradb_manage_db: dbca -ignorePrereqFailure (fc858f24)</a>
+  Last modified November 15, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/210ed473c564d5e9a0489d8459705270acddfeaa">oradb_manage_db: IFILE entry in tnsnames.ora after the creation of the databases (210ed473)</a>
 </div>
 
 </div>

@@ -35,8 +35,8 @@ The guide describes the concept, all dependencies and the gaps in the current im
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-13T21:42:43+01:00">
-		<meta property="article:modified_time" content="2026-11-13T21:42:43+01:00">
+		<meta property="article:published_time" content="2026-11-15T11:06:20+01:00">
+		<meta property="article:modified_time" content="2026-11-15T11:06:20+01:00">
 
 	<meta itemprop="name" content="Out-of-Place Patching - Switch ORACLE_HOME">
 	<meta itemprop="description" content="Important Out-of-Place Patching is supported for Single Instance primary databases without and with Oracle Restart.
@@ -44,9 +44,9 @@ The switch of RAC and RAC One Node databases is not supported.
 The Grid Infrastructure home of Oracle Restart and of Grid Infrastructure (cluster) 26ai can be switched as well, see Switch of the Grid Infrastructure home (Oracle Restart and cluster).
 Terms (Oracle Restart, Grid Infrastructure, RAC): see Featurelist.
 The guide describes the concept, all dependencies and the gaps in the current implementation.">
-	<meta itemprop="datePublished" content="2026-11-13T21:42:43+01:00">
-	<meta itemprop="dateModified" content="2026-11-13T21:42:43+01:00">
-	<meta itemprop="wordCount" content="3123">
+	<meta itemprop="datePublished" content="2026-11-15T11:06:20+01:00">
+	<meta itemprop="dateModified" content="2026-11-15T11:06:20+01:00">
+	<meta itemprop="wordCount" content="3151">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Out-of-Place Patching - Switch ORACLE_HOME">
 	<meta name="twitter:description" content="Important Out-of-Place Patching is supported for Single Instance primary databases without and with Oracle Restart.
@@ -164,18 +164,20 @@ The guide describes the concept, all dependencies and the gaps in the current im
     <ul class="ul-2 foldable">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoverview-li">
     <a href="/docs/roles/overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoverview"><span class="">Overview</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
+    <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
+    <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
+  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
+    <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorahost_meta-li">
     <a href="/docs/roles/orahost_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorahost_meta"><span class="">orahost_meta</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf-li">
     <a href="/docs/roles/ahf/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf"><span class="">ahf</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_db-li">
-    <a href="/docs/roles/oradb_manage_db/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_db"><span class="">oradb_manage_db</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_manage_redo-li">
     <a href="/docs/roles/oradb_manage_redo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_manage_redo"><span class="">oradb_manage_redo</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta-li">
     <a href="/docs/roles/orasw_meta/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesorasw_meta"><span class="">orasw_meta</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoraswgi_install-li">
-    <a href="/docs/roles/oraswgi_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswgi_install"><span class="">oraswgi_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesahf_fleet_insights-li">
     <a href="/docs/roles/ahf_fleet_insights/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesahf_fleet_insights"><span class="">ahf_fleet_insights</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesorasw_meta_internal-li">
@@ -184,8 +186,6 @@ The guide describes the concept, all dependencies and the gaps in the current im
     <a href="/docs/roles/oraswdb_install/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoraswdb_install"><span class="">oraswdb_install</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_rman-li">
     <a href="/docs/roles/oradb_rman/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_rman"><span class="">oradb_rman</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolesoradb_standby-li">
-    <a href="/docs/roles/oradb_standby/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolesoradb_standby"><span class="">oradb_standby</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolescommon-li">
     <a href="/docs/roles/common/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsrolescommon"><span class="">common</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsrolespyoracledb-li">
@@ -1255,7 +1255,9 @@ Listeners and databases in database homes are not changed.</p>
 <ul>
 <li>
 <p>A switch back into a former home is not implemented: the former running home is locked by <code>root.sh</code>
-(e.g. <code>bin/crsctl.bin</code> owned by <code>root</code>), <code>oraswgi_install</code> stops with an assert. Use a new <code>oracle_home_gi</code>.</p>
+(e.g. <code>bin/crsctl.bin</code> owned by <code>root</code>), <code>oraswgi_install</code> stops with an assert. Use a new <code>oracle_home_gi</code>.
+<code>gi_switch_back: allow</code> unlocks the former home on every node (<code>rootcrs.sh -unlock -crshome</code>) and switches back, <code>gi_switch_back: ignore</code>
+accepts the situation (no switch, no assert). Both are <strong>not tested</strong>.</p>
 </li>
 <li>
 <p>When <code>root.sh</code> fails before the switch (e.g. the CVU check of <code>rootcrs.pl -prepatch</code>), the next run resumes with <code>root.sh</code>:
@@ -1467,7 +1469,7 @@ A new RAC <code>ORACLE_HOME</code> needs the cluster installation before the swi
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 13, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/c13a454cf843e8bcce994f0da23c4f0a92a21114">oraswgi_install: Out-of-Place Patching of Grid Infrastructure (cluster) (c13a454c)</a>
+  Last modified November 15, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/f92b40fd50e11f86d677153511fc734b42853c1a">oraswgi_install: gi_switch_back for a switch back of Grid Infrastructure (cluster) (f92b40fd)</a>
 </div>
 
 </div>
