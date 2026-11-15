@@ -10,7 +10,7 @@
     <lastmod>2026-11-12T07:50:00+01:00</lastmod>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/legacy/example-beginner/</loc>
-    <lastmod>2026-11-11T07:09:32+01:00</lastmod>
+    <lastmod>2026-11-15T19:38:30+01:00</lastmod>
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/development/development/</loc>
@@ -41,11 +41,15 @@
     <lastmod>2026-10-28T21:52:27+01:00</lastmod>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/examples/beginner_patching/</loc>
-    <lastmod>2026-11-12T07:06:15+01:00</lastmod>
+    <lastmod>2026-11-15T19:38:30+01:00</lastmod>
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/development/website/</loc>
-    <lastmod>2026-11-15T17:04:57+01:00</lastmod>
+    <lastmod>2026-11-15T17:14:56+01:00</lastmod>
+    <priority>0</priority>
+  </url><url>
+    <loc>https://www.ansible-oracle.eu/docs/examples/dataguard/</loc>
+    <lastmod>2026-11-15T16:48:08+01:00</lastmod>
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/guides/rman-standby/standby_databases/</loc>
@@ -54,10 +58,6 @@
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/features/breaking_changes/</loc>
     <lastmod>2026-11-13T21:42:43+01:00</lastmod>
-    <priority>0</priority>
-  </url><url>
-    <loc>https://www.ansible-oracle.eu/docs/examples/dataguard/</loc>
-    <lastmod>2026-11-11T07:09:32+01:00</lastmod>
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/legacy/advanced/</loc>
@@ -93,12 +93,12 @@
     <loc>https://www.ansible-oracle.eu/docs/development/</loc>
     <lastmod>2026-11-12T07:50:00+01:00</lastmod>
   </url><url>
-    <loc>https://www.ansible-oracle.eu/docs/guides/patching/out_of_place_patching/</loc>
-    <lastmod>2026-11-15T11:06:20+01:00</lastmod>
+    <loc>https://www.ansible-oracle.eu/docs/legacy/example-rac/</loc>
+    <lastmod>2026-11-15T19:38:30+01:00</lastmod>
     <priority>0</priority>
   </url><url>
-    <loc>https://www.ansible-oracle.eu/docs/legacy/example-rac/</loc>
-    <lastmod>2026-11-12T07:06:15+01:00</lastmod>
+    <loc>https://www.ansible-oracle.eu/docs/guides/patching/out_of_place_patching/</loc>
+    <lastmod>2026-11-15T11:06:20+01:00</lastmod>
     <priority>0</priority>
   </url><url>
     <loc>https://www.ansible-oracle.eu/docs/legacy/local-install-howto/</loc>

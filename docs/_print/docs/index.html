@@ -17503,7 +17503,7 @@ all:
 <pre><code class="language-yaml">---
 collections:
   - name: opitzconsulting.ansible_oracle
-    version: 4.17.0
+    version: 5.0.0
 
   # following entry is for development only!
   # - name: opitzconsulting.ansible_oracle
@@ -17660,13 +17660,10 @@ autoupgrade_jar_filesource: /u01/stage/autoupgrade.jar
 
 autoupgrade_download_patches:
   # - target_version: 19
-  #   # renovate: datasource=custom.oracle-ru-19 depName=oracle-db-ru-19
-  #   patch: RU:19.33,OPATCH,OJVM,DPBP
+  #   patch: &quot;RU:{{ example_ru_19 }},OPATCH,OJVM,DPBP&quot;
   #   gold_image: &quot;ALL&quot;
   - target_version: 26
-    # renovate: datasource=custom.oracle-ru-26 depName=oracle-db-ru-26
-    patch: RU:23.26.4,AHF,CVU
-    # patch: RECOMMENDED
+    patch: &quot;RU:{{ example_ru_26 }},AHF,CVU&quot;
     gold_image: &quot;ALL&quot;
     platform: LINUX.X64
 </code></pre>
@@ -17764,6 +17761,44 @@ mos_password: &quot;{{ lookup('ansible.builtin.env', 'MOS_PASSWORD', default=Und
 # Keystore password for AutoUpgrade (16 characters), derived from mos_password:
 # fixed prefix for digit, special, lower and upper case + first 12 characters of sha256(mos_password)
 autoupgrade_keystore_password: &quot;1_aA{{ (mos_password | hash('sha256'))[:12] }}&quot;
+</code></pre>
+<h3 id="ansibleinventorygroup_varsalloracle_ruyml">ansible/inventory/group_vars/all/oracle_ru.yml</h3>
+<pre><code class="language-yaml">---
+# Oracle Release Updates for this example, updated by renovate
+# (custom datasources oracle-ru-* in renovate.json).
+#
+# example_ru_*:      current Release Update
+# example_ru_*_prev: previous Release Update (RU-1)
+#
+# Used for autoupgrade_download_patches (autoupgrade.yml) and the Gold Images
+# in db_homes_config (db-homes.yml). Gold Images renamed by autoupgrade
+# (autoupgrade_download_gold_image_rename: true) are named
+# db_home_{{ example_ru_19 }}.zip / db_home_{{ example_ru_26_short }}.zip.
+#
+# Do not change the format: renovate needs the comment directly above the variable.
+
+# renovate: datasource=custom.oracle-ru-19 depName=oracle-ru-19
+example_ru_19: &quot;19.33&quot;
+# renovate: datasource=custom.oracle-ru-19-prev depName=oracle-ru-19-prev
+example_ru_19_prev: &quot;19.32&quot;
+
+# renovate: datasource=custom.oracle-ru-26 depName=oracle-ru-26
+example_ru_26: &quot;23.26.4&quot;
+# renovate: datasource=custom.oracle-ru-26-prev depName=oracle-ru-26-prev
+example_ru_26_prev: &quot;23.26.3&quot;
+
+# Short forms for ORACLE_HOME, gold images and oracle_home_name
+# 19c:  19.33    =&gt; 1933
+# 26ai: 23.26.4  =&gt; 26.04 (_short) / 2604 (_nodot) / 26_04 (_gi)
+example_ru_19_nodot: &quot;{{ example_ru_19 | replace('.', '') }}&quot;
+example_ru_19_prev_nodot: &quot;{{ example_ru_19_prev | replace('.', '') }}&quot;
+example_ru_26_short: &quot;26.{{ '%02d' | format(example_ru_26.split('.')[2] | int) }}&quot;
+example_ru_26_prev_short: &quot;26.{{ '%02d' | format(example_ru_26_prev.split('.')[2] | int) }}&quot;
+example_ru_26_nodot: &quot;{{ example_ru_26_short | replace('.', '') }}&quot;
+example_ru_26_prev_nodot: &quot;{{ example_ru_26_prev_short | replace('.', '') }}&quot;
+# Gold images of Grid Infrastructure: gi_goldimage_26_04.zip
+example_ru_26_gi: &quot;{{ example_ru_26_short | replace('.', '_') }}&quot;
+example_ru_26_prev_gi: &quot;{{ example_ru_26_prev_short | replace('.', '_') }}&quot;
 </code></pre>
 <h3 id="ansibleinventorygroup_varsallpasswordyml">ansible/inventory/group_vars/all/password.yml</h3>
 <pre><code class="language-yaml">---
@@ -29704,11 +29739,10 @@ autoupgrade_jar_filesource: /u01/stage/autoupgrade.jar
 
 autoupgrade_download_patches:
   # - target_version: 19
-  #   # renovate: datasource=custom.oracle-ru-19 depName=oracle-db-ru-19
-  #   patch: RU:19.33,OPATCH,OJVM,DPBP
+  #   patch: &quot;RU:{{ example_ru_19 }},OPATCH,OJVM,DPBP&quot;
   #   gold_image: &quot;ALL&quot;
   - target_version: 26
-    patch: RECOMMENDED
+    patch: &quot;RU:{{ example_ru_26 }},AHF,CVU&quot;
     gold_image: &quot;ALL&quot;
     platform: LINUX.X64
 </code></pre>
@@ -29725,21 +29759,20 @@ db_homes_config:
     opatch_minversion: 12.2.0.1.36
     state: present
 
-  db1932_si_ee: &amp;db1932_si_se2
+  # current Release Update of 19c from oracle_ru.yml (example_ru_19)
+  db19curr_si_ee: &amp;db19curr_si_ee
     version: 19.3.0.0
-    oracle_home: /u01/app/oracle/product/19/db1932-si-ee
-    oracle_home_name: db1932_si_se2
-    imagename: db_home_19.32.zip
+    oracle_home: &quot;/u01/app/oracle/product/19/db{{ example_ru_19_nodot }}-si-ee&quot;
+    oracle_home_name: &quot;db{{ example_ru_19_nodot }}_si_ee&quot;
+    imagename: &quot;db_home_{{ example_ru_19 }}.zip&quot;
     edition: EE
 
   db19_si_se2:
-    &lt;&lt;: *db1932_si_se2
-    imagename: db_home_19.32.zip
+    &lt;&lt;: *db19curr_si_ee
     readonly_home: true
 
   db19_si_ee:
-    &lt;&lt;: *db1932_si_se2
-    # imagename: db_home_19.32.zip
+    &lt;&lt;: *db19curr_si_ee
     oracle_home: /u01/app/oracle/product/19/db1
     oracle_home_name: db19_si_ee
     readonly_home: true
@@ -29804,6 +29837,44 @@ mos_password: &quot;{{ lookup('ansible.builtin.env', 'MOS_PASSWORD', default=Und
 # Keystore password for AutoUpgrade (16 characters), derived from mos_password:
 # fixed prefix for digit, special, lower and upper case + first 12 characters of sha256(mos_password)
 autoupgrade_keystore_password: &quot;1_aA{{ (mos_password | hash('sha256'))[:12] }}&quot;
+</code></pre>
+<h3 id="ansibleinventorygroup_varsalloracle_ruyml">ansible/inventory/group_vars/all/oracle_ru.yml</h3>
+<pre><code class="language-yaml">---
+# Oracle Release Updates for this example, updated by renovate
+# (custom datasources oracle-ru-* in renovate.json).
+#
+# example_ru_*:      current Release Update
+# example_ru_*_prev: previous Release Update (RU-1)
+#
+# Used for autoupgrade_download_patches (autoupgrade.yml) and the Gold Images
+# in db_homes_config (db-homes.yml). Gold Images renamed by autoupgrade
+# (autoupgrade_download_gold_image_rename: true) are named
+# db_home_{{ example_ru_19 }}.zip / db_home_{{ example_ru_26_short }}.zip.
+#
+# Do not change the format: renovate needs the comment directly above the variable.
+
+# renovate: datasource=custom.oracle-ru-19 depName=oracle-ru-19
+example_ru_19: &quot;19.33&quot;
+# renovate: datasource=custom.oracle-ru-19-prev depName=oracle-ru-19-prev
+example_ru_19_prev: &quot;19.32&quot;
+
+# renovate: datasource=custom.oracle-ru-26 depName=oracle-ru-26
+example_ru_26: &quot;23.26.4&quot;
+# renovate: datasource=custom.oracle-ru-26-prev depName=oracle-ru-26-prev
+example_ru_26_prev: &quot;23.26.3&quot;
+
+# Short forms for ORACLE_HOME, gold images and oracle_home_name
+# 19c:  19.33    =&gt; 1933
+# 26ai: 23.26.4  =&gt; 26.04 (_short) / 2604 (_nodot) / 26_04 (_gi)
+example_ru_19_nodot: &quot;{{ example_ru_19 | replace('.', '') }}&quot;
+example_ru_19_prev_nodot: &quot;{{ example_ru_19_prev | replace('.', '') }}&quot;
+example_ru_26_short: &quot;26.{{ '%02d' | format(example_ru_26.split('.')[2] | int) }}&quot;
+example_ru_26_prev_short: &quot;26.{{ '%02d' | format(example_ru_26_prev.split('.')[2] | int) }}&quot;
+example_ru_26_nodot: &quot;{{ example_ru_26_short | replace('.', '') }}&quot;
+example_ru_26_prev_nodot: &quot;{{ example_ru_26_prev_short | replace('.', '') }}&quot;
+# Gold images of Grid Infrastructure: gi_goldimage_26_04.zip
+example_ru_26_gi: &quot;{{ example_ru_26_short | replace('.', '_') }}&quot;
+example_ru_26_prev_gi: &quot;{{ example_ru_26_prev_short | replace('.', '_') }}&quot;
 </code></pre>
 <h3 id="ansibleinventorygroup_varsallpasswordyml">ansible/inventory/group_vars/all/password.yml</h3>
 <pre><code class="language-yaml">---
@@ -30017,8 +30088,9 @@ all:
 <h3 id="ansiblerequirementsyml">ansible/requirements.yml</h3>
 <pre><code class="language-yaml">---
 collections:
+  # Data Guard (role oradb_standby) needs ansible-oracle 5.0.0 or newer
   - name: opitzconsulting.ansible_oracle
-    version: 4.17.0
+    version: 5.0.0
 
   # following entry is for development only!
   # - name: opitzconsulting.ansible_oracle
@@ -31420,7 +31492,7 @@ all:
 <pre><code class="language-yaml">---
 collections:
   - name: opitzconsulting.ansible_oracle
-    version: 4.17.0
+    version: 5.0.0
 
   # following entry is for development only!
   # - name: opitzconsulting.ansible_oracle
