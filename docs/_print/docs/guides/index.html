@@ -9737,6 +9737,12 @@ It is a test environment, not a template for production:</p>
 <p><code>converge.yml</code> starts only with at least 12 GB usable memory on the Docker host
 (<code>MemAvailable</code> + memory of running containers of the scenario), override with <code>MOLECULE_RAC_MIN_FREE_MB=&lt;MB&gt;</code>.</p>
 </li>
+<li>
+<p>After a restart of WSL/Docker the Clusterware stack does not start: the loop devices of the ASM disks
+(devices of the kernel) and the device nodes in the containers are gone, the ASM data is still in the Docker volume.
+<code>task start S=rac</code> (<code>tools/start.sh</code>) starts the stopped containers, <code>start.yml</code> attaches the loop devices again,
+restarts the Clusterware stack node by node and waits for the RAC databases.</p>
+</li>
 </ul>
 </div>
 <div class="paragraph">

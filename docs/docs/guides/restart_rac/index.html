@@ -289,8 +289,8 @@ Warning Only device_persistence: &#39;&#39; is tested by the molecule scenarios 
 	<meta property="og:locale" content="en_us">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="docs">
-		<meta property="article:published_time" content="2026-11-13T21:42:43+01:00">
-		<meta property="article:modified_time" content="2026-11-13T21:42:43+01:00">
+		<meta property="article:published_time" content="2026-11-18T19:31:48+01:00">
+		<meta property="article:modified_time" content="2026-11-18T19:31:48+01:00">
 
 	<meta itemprop="name" content="Setup of Oracle Restart and Grid Infrastructure">
 	<meta itemprop="description" content="1. Setup of Oracle Restart and Grid Infrastructure This guide describes the setup of the software of Grid Infrastructure with ansible-oracle in 2 independent parts:
@@ -425,9 +425,9 @@ partition_devices
 true
 Create 1 partition on every disk of asm_diskgroups with parted (GPT). asmlib uses &lt;device&gt;&lt;partition_suffix&gt;, asmfd uses &lt;device&gt;1. Set false when the disks must not be partitioned (e.g. device_persistence: &#39;&#39; with existing devices).
 Warning Only device_persistence: &#39;&#39; is tested by the molecule scenarios of ansible-oracle. asmlib, udev and asmfd are not tested with Oracle Linux 9 and 26ai.">
-	<meta itemprop="datePublished" content="2026-11-13T21:42:43+01:00">
-	<meta itemprop="dateModified" content="2026-11-13T21:42:43+01:00">
-	<meta itemprop="wordCount" content="4737">
+	<meta itemprop="datePublished" content="2026-11-18T19:31:48+01:00">
+	<meta itemprop="dateModified" content="2026-11-18T19:31:48+01:00">
+	<meta itemprop="wordCount" content="4804">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Setup of Oracle Restart and Grid Infrastructure">
 	<meta name="twitter:description" content="1. Setup of Oracle Restart and Grid Infrastructure This guide describes the setup of the software of Grid Infrastructure with ansible-oracle in 2 independent parts:
@@ -2682,6 +2682,12 @@ It is a test environment, not a template for production:</p>
 <p><code>converge.yml</code> starts only with at least 12 GB usable memory on the Docker host
 (<code>MemAvailable</code> + memory of running containers of the scenario), override with <code>MOLECULE_RAC_MIN_FREE_MB=&lt;MB&gt;</code>.</p>
 </li>
+<li>
+<p>After a restart of WSL/Docker the Clusterware stack does not start: the loop devices of the ASM disks
+(devices of the kernel) and the device nodes in the containers are gone, the ASM data is still in the Docker volume.
+<code>task start S=rac</code> (<code>tools/start.sh</code>) starts the stopped containers, <code>start.yml</code> attaches the loop devices again,
+restarts the Clusterware stack node by node and waits for the RAC databases.</p>
+</li>
 </ul>
 </div>
 <div class="paragraph">
@@ -2696,7 +2702,7 @@ PDB <code>ORCLPDB1</code>, <code>tnsnames.ora</code>, <code>sqlnet.ora</code>, w
 </div>
 
 	<div class="td-page-meta__lastmod">
-  Last modified November 13, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/50fd1cb0d2191d08d9b3ae867152ec11f45a7475">molecule rac: side_effect with Out-of-Place Patching of Grid Infrastructure (50fd1cb0)</a>
+  Last modified November 18, 2026: <a href="https://github.com/oravirt/ansible-oracle/commit/ec0387c12cdf7919130181e40a98a631773c2974">molecule rac: task start after a restart of WSL/docker (ec0387c1)</a>
 </div>
 
 </div>
